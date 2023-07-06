@@ -1,14 +1,22 @@
 package vn.aptech.componentmanagementapp;
 
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
-public class ComponentManagementController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ComponentManagementController implements Initializable {
     @FXML
-    private Label welcomeText;
+    private AnchorPane iconUser;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private MFXTextField txtEmail;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     }
 }

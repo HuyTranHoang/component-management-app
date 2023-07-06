@@ -1,0 +1,19 @@
+.main-background-color {
+    -fx-background-color: #4A55A2;
+}
+
+#textfield-custom {
+    -fx-padding: 0 20px 0 10px;
+}
+
+#textfield-custom .mfx-icon-wrapper {
+    visibility: hidden;
+}
+
+#button-custom {
+    -fx-background-color: #7895CB;
+    -fx-text-fill: white;
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 800;
+    -fx-font-size: 16px;
+}
