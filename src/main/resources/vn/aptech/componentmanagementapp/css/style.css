@@ -3,12 +3,12 @@
 }
 
 #textfield-custom {
-    -fx-padding: 0 20px 0 10px;
+    -fx-padding: 0 40px 0 10px;
 }
 
-#textfield-custom .mfx-icon-wrapper {
-    visibility: hidden;
-}
+/*#textfield-custom .mfx-icon-wrapper {*/
+/*    visibility: hidden;*/
+/*}*/
 
 #button-custom {
     -fx-background-color: #7895CB;
