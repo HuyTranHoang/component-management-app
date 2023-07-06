@@ -5,13 +5,14 @@ import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO{
 
     private Connection connection = DatabaseConnection.getConnection();
 
     @Override
-    public ArrayList<Customer> getAllCustomer() {
+    public List<Customer> getAll() {
         Statement statement = null;
         ResultSet resultSet = null;
         ArrayList<Customer> list = new ArrayList<>();
@@ -42,7 +43,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
 
     @Override
-    public Customer getCustomerById(int customerId) {
+    public Customer getById(int customerId) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Customer customer = null;
@@ -73,7 +74,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
 
     @Override
-    public void addCustomer(Customer customer) {
+    public void add(Customer customer) {
         PreparedStatement statement = null;
         try {
             String query = "INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)";
@@ -93,7 +94,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
 
     @Override
-    public void updateCustomer(Customer customer) {
+    public void update(Customer customer) {
         PreparedStatement statement = null;
         try {
             String query = "UPDATE customers SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?";
@@ -113,7 +114,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
 
     @Override
-    public void deleteCustomer(int customerId) {
+    public void delete(int customerId) {
         PreparedStatement statement = null;
         try {
             String query = "DELETE FROM customers WHERE id = ?";

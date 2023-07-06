@@ -4,10 +4,6 @@ import vn.aptech.componentmanagementapp.model.Customer;
 
 import java.util.ArrayList;
 
-public interface CustomerDAO {
-    ArrayList<Customer> getAllCustomer();
-    Customer getCustomerById(int customerId);
-    void addCustomer(Customer customer);
-    void updateCustomer(Customer customer);
-    void deleteCustomer(int customerId);
+public interface CustomerDAO extends BaseDAO<Customer>{
+    // Các phương thức cụ thể cho CustomerDAO ( Sort, search .. )
 }
