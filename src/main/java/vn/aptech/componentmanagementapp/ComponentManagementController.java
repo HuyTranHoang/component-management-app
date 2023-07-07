@@ -4,8 +4,10 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -20,6 +22,7 @@ import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -91,6 +94,13 @@ public class ComponentManagementController implements Initializable {
     private final Validator loginValidator = new Validator();
     private final Validator forgotValidator = new Validator();
     private final Validator resetValidator = new Validator();
+
+//    Variable
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     //    Init function
     @Override
@@ -237,8 +247,14 @@ public class ComponentManagementController implements Initializable {
                     .anyMatch(loginInfo -> loginInfo.getEmail().equals(email) && loginInfo.getPassword().equals(password));
 
             if (isLoginValid) {
-//                TODO: Đổi sang scene chương trình chính
-                System.out.println("Login successfully!");
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load());
+                    stage.setScene(scene);
+                    stage.centerOnScreen();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
                 lbl_login_passwordError.setText("Wrong email or password!");
                 lbl_login_passwordError.setVisible(true);
@@ -353,14 +369,12 @@ public class ComponentManagementController implements Initializable {
 
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             DatabaseConnection.closeConnection(DatabaseConnection.getConnection());
-            Stage stage = (Stage) anchor_rightPanel_Login.getScene().getWindow();
             stage.close();
         }
     }
 
     @FXML
     void minimizeButtonOnClick() {
-        Stage stage = (Stage) anchor_rightPanel_Login.getScene().getWindow();
         stage.setIconified(true);
     }
 }

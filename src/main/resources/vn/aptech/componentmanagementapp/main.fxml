@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="900.0" prefWidth="350.0" styleClass="main-background-color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox layoutX="100.0" layoutY="76.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="36.0">
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@images/Gura.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" style="-fx-padding: 20px 0 0 0;" text="Hello, Gawr Gura" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" text="July 06, 2023" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="330.0" prefHeight="380.0" prefWidth="350.0" AnchorPane.leftAnchor="0.0">
+               <children>
+                  <MFXButton id="button-custom" fx:id="btn_login_login" prefHeight="48.0" prefWidth="300.0" style="-fx-padding: 0 0 0 15px;" text="PRODUCT LIST">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </MFXButton>
+                  <MFXButton id="button-custom" fx:id="btn_login_login1" prefHeight="48.0" prefWidth="300.0" text="CUSTOMER LIST">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </MFXButton>
+                  <MFXButton id="button-custom" fx:id="btn_login_login11" prefHeight="48.0" prefWidth="300.0" text="ORDER LIST">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+               </children>
+            </VBox>
+            <MFXButton id="button-custom" fx:id="btn_login_login111" layoutX="25.0" layoutY="786.0" prefHeight="48.0" prefWidth="300.0" text="EXIT" AnchorPane.bottomAnchor="38.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

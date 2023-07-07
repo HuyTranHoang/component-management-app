@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/images/Gura.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +23,8 @@
       <list>
         <option value="CSS File" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -65,7 +69,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Aptech/Java2/Project/component-management-app&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Aptech/Java2/Project/component-management-app/src/main/resources/vn/aptech/componentmanagementapp/images&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -81,11 +85,16 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\login" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\fxml" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="vn.aptech.componentmanagementapp" />
     </key>
   </component>
   <component name="RunManager">
@@ -125,7 +134,8 @@
       <workItem from="1688722843907" duration="2091000" />
       <workItem from="1688735863170" duration="1417000" />
       <workItem from="1688747614819" duration="555000" />
-      <workItem from="1688750559706" duration="15663000" />
+      <workItem from="1688750559706" duration="20705000" />
+      <workItem from="1688771530093" duration="534000" />
     </task>
     <servers />
   </component>
