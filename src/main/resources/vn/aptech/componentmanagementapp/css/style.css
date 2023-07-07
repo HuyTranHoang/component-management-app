@@ -6,6 +6,11 @@
     -fx-padding: 0 40px 0 10px;
 }
 
+.no-border-radius {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
 /*#textfield-custom .mfx-icon-wrapper {*/
 /*    visibility: hidden;*/
 /*}*/

@@ -6,15 +6,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
+import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -54,6 +58,12 @@ public class ComponentManagementController implements Initializable {
 
     @FXML
     private Label lbl_reset_confirmNewPasswordError;
+
+    @FXML
+    private Label lbl_login_resetSuccess;
+
+    @FXML
+    private Label lbl_login_resetSuccess2;
 
     @FXML
     private MFXTextField txt_forgot_citizen;
@@ -304,6 +314,9 @@ public class ComponentManagementController implements Initializable {
                 loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
                 currentID = -1;
                 backToLoginOnClick();
+//                Set thông báo thành công cập nhật password
+                lbl_login_resetSuccess.setVisible(true);
+                lbl_login_resetSuccess2.setVisible(true);
             } else {
                 System.out.println("something is wrong");
             }
@@ -315,6 +328,8 @@ public class ComponentManagementController implements Initializable {
         txt_login_password.setText("");
         lbl_login_emailError.setVisible(false);
         lbl_login_passwordError.setVisible(false);
+        lbl_login_resetSuccess.setVisible(false);
+        lbl_login_resetSuccess2.setVisible(false);
     }
 
     private void clearForgot() {
@@ -327,5 +342,19 @@ public class ComponentManagementController implements Initializable {
         txt_reset_newPasswordConfirm.setText("");
         lbl_reset_newPasswordError.setVisible(false);
         lbl_reset_confirmNewPasswordError.setVisible(false);
+    }
+
+    @FXML
+    void exitButtonClick() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Are you sure want to exit?");
+
+        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+            DatabaseConnection.closeConnection(DatabaseConnection.getConnection());
+            Stage stage = (Stage) anchor_rightPanel_Login.getScene().getWindow();
+            stage.close();
+        }
     }
 }
