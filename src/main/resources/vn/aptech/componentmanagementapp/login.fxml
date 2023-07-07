@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.ComponentManagementController">
+   <children>
+      <AnchorPane fx:id="anchor_leftPanel_login" layoutY="-1.0" prefHeight="700.0" prefWidth="525.0">
+         <children>
+            <ImageView fitHeight="700.0" fitWidth="741.0" layoutX="-118.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/login/login.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchor_leftPanel_forgot" layoutX="10.0" layoutY="9.0" prefHeight="700.0" prefWidth="525.0" visible="false">
+         <children>
+            <ImageView fitHeight="700.0" fitWidth="741.0" layoutX="-112.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/login/forgotpassword.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchor_rightPanel_Login" layoutX="525.0" prefHeight="700.0" prefWidth="475.0" styleClass="main-background-color">
+         <children>
+            <Label layoutX="70.0" layoutY="62.0" text="Welcome!" textFill="WHITE" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="83.0">
+               <font>
+                  <Font name="Inter Black" size="40.0" />
+               </font></Label>
+            <Label layoutX="64.0" layoutY="200.0" text="Email" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="16.0" />
+               </font>
+            </Label>
+            <MFXTextField id="textfield-custom" fx:id="txt_login_email" floatMode="DISABLED" layoutX="64.0" layoutY="225.0" prefHeight="48.0" prefWidth="350.0" promptText="Email">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXTextField>
+            <Label layoutX="63.0" layoutY="300.0" text="Password" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="16.0" />
+               </font>
+            </Label>
+            <MFXPasswordField id="textfield-custom" fx:id="txt_login_password" floatMode="DISABLED" hideCharacter="*" layoutX="64.0" layoutY="321.0" prefHeight="49.0" prefWidth="350.0" promptText="Password">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXPasswordField>
+            <MFXButton id="button-custom" fx:id="btn_login_login" layoutX="64.0" layoutY="441.0" onAction="#loginButtonOnClick" prefHeight="48.0" prefWidth="350.0" text="L O G I N">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></MFXButton>
+            <Label fx:id="btn_login_forgotPassword" layoutX="178.0" layoutY="640.0" onMouseClicked="#forgotPasswordOnclick" text="Forgot password?" textFill="WHITE">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Line endX="100.0" layoutX="239.0" layoutY="671.0" startX="-100.0" stroke="WHITE" />
+            <FontIcon fill="#4a55a2" iconLiteral="fas-user" iconSize="16" layoutX="390.0" layoutY="255.0" text="" AnchorPane.rightAnchor="75.0" />
+            <FontIcon fill="#4a55a2" iconLiteral="fas-lock" iconSize="16" layoutX="388.0" layoutY="352.0" text="" AnchorPane.rightAnchor="75.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchor_rightPanel_forgot" layoutX="525.0" prefHeight="700.0" prefWidth="475.0" styleClass="main-background-color" visible="false">
+         <children>
+            <Label layoutX="70.0" layoutY="62.0" text="Forgot" textFill="WHITE" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="83.0">
+               <font>
+                  <Font name="Inter Black" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="70.0" layoutY="138.0" text="Password?" textFill="WHITE">
+               <font>
+                  <Font name="Inter Black" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="64.0" layoutY="200.0" text="enter your citizen identification to reset it!!" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </Label>
+            <MFXButton id="button-custom" fx:id="txt_forgot_reset" layoutX="64.0" layoutY="441.0" onAction="#resetButtonOnClick" prefHeight="48.0" prefWidth="350.0" text="R E S E T">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></MFXButton>
+            <Label fx:id="btn_forgot_backToLogin" layoutX="195.0" layoutY="640.0" onMouseClicked="#backToLoginOnClick" text="Back to login" textFill="WHITE">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Line endX="100.0" layoutX="239.0" layoutY="671.0" startX="-100.0" stroke="WHITE" />
+            <Label layoutX="64.0" layoutY="268.0" text="Citizen Identification" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="16.0" />
+               </font>
+            </Label>
+            <MFXTextField id="textfield-custom" fx:id="txt_forgot_citizen" floatMode="DISABLED" layoutX="64.0" layoutY="293.0" prefHeight="48.0" prefWidth="350.0" promptText="Citizen Identification">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXTextField>
+            <FontIcon fill="#4a55a2" iconLiteral="fas-id-card" iconSize="16" layoutX="382.0" layoutY="324.0" AnchorPane.rightAnchor="75.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchor_rightPanel_reset" layoutX="525.0" prefHeight="700.0" prefWidth="475.0" styleClass="main-background-color" visible="false">
+         <children>
+            <Label layoutX="70.0" layoutY="62.0" text="One more" textFill="WHITE" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="83.0">
+               <font>
+                  <Font name="Inter Black" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="70.0" layoutY="138.0" text="step!" textFill="WHITE">
+               <font>
+                  <Font name="Inter Black" size="40.0" />
+               </font>
+            </Label>
+            <Label layoutX="64.0" layoutY="200.0" text="set up your new password here" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </Label>
+            <MFXButton id="button-custom" fx:id="btn_reset_confirm" layoutX="64.0" layoutY="441.0" onAction="#confirmButtonOnClick" prefHeight="48.0" prefWidth="350.0" text="C O F I R M">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></MFXButton>
+            <Label fx:id="btn_reset_backToLogin" layoutX="195.0" layoutY="640.0" onMouseClicked="#backToLoginOnClick" text="Back to login" textFill="WHITE">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Line endX="100.0" layoutX="239.0" layoutY="671.0" startX="-100.0" stroke="WHITE" />
+            <Label layoutX="64.0" layoutY="253.0" text="New password" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="16.0" />
+               </font>
+            </Label>
+            <MFXPasswordField id="textfield-custom" fx:id="txt_reset_newPassword" floatMode="DISABLED" hideCharacter="*" layoutX="64.0" layoutY="274.0" prefHeight="49.0" prefWidth="350.0" promptText="New password">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXPasswordField>
+            <Label layoutX="64.0" layoutY="338.0" text="Re-enter new password" textFill="#c5dff8">
+               <font>
+                  <Font name="Inter Regular" size="16.0" />
+               </font>
+            </Label>
+            <MFXPasswordField id="textfield-custom" fx:id="txt_reset_newPasswordConfirm" floatMode="DISABLED" hideCharacter="*" layoutX="64.0" layoutY="359.0" prefHeight="49.0" prefWidth="350.0" promptText="Re-enter new password">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </MFXPasswordField>
+            <FontIcon fill="#4a55a2" iconLiteral="fas-lock" iconSize="16" layoutX="388.0" layoutY="303.0" text="" AnchorPane.rightAnchor="75.0" />
+            <FontIcon fill="#4a55a2" iconLiteral="fas-lock" iconSize="16" layoutX="388.0" layoutY="389.0" text="" AnchorPane.rightAnchor="75.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

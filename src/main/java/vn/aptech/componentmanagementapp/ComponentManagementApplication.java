@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ComponentManagementApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("component-management.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         MFXThemeManager.addOn(scene, Themes.DEFAULT, Themes.LEGACY);
         stage.setTitle("Component Management Application");
