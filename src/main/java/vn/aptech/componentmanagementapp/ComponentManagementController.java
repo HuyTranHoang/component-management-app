@@ -7,11 +7,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.model.LoginInfo;
+import vn.aptech.componentmanagementapp.service.EmployeeService;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ComponentManagementController implements Initializable {
@@ -63,8 +67,17 @@ public class ComponentManagementController implements Initializable {
     @FXML
     private MFXPasswordField txt_reset_newPasswordConfirm;
 
+//    Service
+    private EmployeeService employeeService;
+
+//    List
+    ArrayList<LoginInfo> loginInfos;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        employeeService = new EmployeeService();
+        loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
+
     }
 
     /**
@@ -94,14 +107,19 @@ public class ComponentManagementController implements Initializable {
 
     @FXML
     void loginButtonOnClick() {
-        // TODO Validate dữ liệu trước khi get.
-        // TODO Lấy dữ liệu từ database để đăng nhập.
+        // TODO Validate dữ liệu trước khi get từ textfield
+        // TODO Hiển thị thông báo ra ngoài nều sai thông tin đăng nhập
 
         String email = txt_login_email.getText();
-        String password = hashSHA256(txt_login_password.getText()); // 123@abc
+        String password = hashSHA256(txt_login_password.getText());
 
-        if (email.equals("admin") && password.equals("9425c3ae8cf81e1475108c7ca9acf70b5df3feab935c1910dd0e618fb431dda0")) {
-            System.out.println("Đăng nhập thành công!");
+        boolean isLoginValid = loginInfos.stream()
+                .anyMatch(loginInfo -> loginInfo.getEmail().equals(email) && loginInfo.getPassword().equals(password));
+
+        if (isLoginValid) {
+            System.out.println("Login successfully!");
+        } else {
+            System.out.println("Wrong email or password!");
         }
 
     }

@@ -1,11 +1,12 @@
 package vn.aptech.componentmanagementapp.dao;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface BaseDAO<T> {
-    T getById(int id);
+    T getById(long id);
     List<T> getAll();
     void add(T entity);
     void update(T entity);
-    void delete(int id);
+    void delete(long id);
 }
