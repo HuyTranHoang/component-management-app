@@ -241,9 +241,9 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button fx:id="btnExit" layoutX="964.0" layoutY="-1.0" mnemonicParsing="false" onAction="#exitButtonClick" prefWidth="40.0" style="-fx-background-color: #4A55A2;" styleClass="no-border-radius" textFill="#ee3b3b" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
+      <Button fx:id="btnExit" layoutX="964.0" layoutY="-1.0" mnemonicParsing="false" onAction="#exitButtonOnClick" prefWidth="40.0" styleClass="no-border-radius" textFill="#ee3b3b" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
          <graphic>
-            <FontIcon iconColor="#d05656" iconLiteral="fas-times" iconSize="16" onDragDetected="#exitButtonClick" text="">
+            <FontIcon iconColor="#d05656" iconLiteral="fas-times" iconSize="16" text="">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></FontIcon>
@@ -252,7 +252,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnMinimize" layoutX="974.0" layoutY="9.0" mnemonicParsing="false" prefWidth="40.0" style="-fx-background-color: #4A55A2;" styleClass="no-border-radius" textFill="#ee3b3b" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="4.0">
+      <Button fx:id="btnMinimize" layoutX="974.0" layoutY="9.0" mnemonicParsing="false" onAction="#minimizeButtonOnClick" prefWidth="40.0" styleClass="no-border-radius" textFill="#ee3b3b" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="4.0">
          <graphic>
             <FontIcon iconColor="#7895cb" iconLiteral="fas-minus" iconSize="16" text="">
                <cursor>

@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" afterDir="false" />
@@ -126,7 +125,7 @@
       <workItem from="1688722843907" duration="2091000" />
       <workItem from="1688735863170" duration="1417000" />
       <workItem from="1688747614819" duration="555000" />
-      <workItem from="1688750559706" duration="14490000" />
+      <workItem from="1688750559706" duration="15663000" />
     </task>
     <servers />
   </component>

@@ -9,6 +9,11 @@
 .no-border-radius {
     -fx-background-radius: 0;
     -fx-border-radius: 0;
+    -fx-background-color: #4A55A2;
+}
+
+.no-border-radius:hover {
+    -fx-background-color: #fff;
 }
 
 /*#textfield-custom .mfx-icon-wrapper {*/

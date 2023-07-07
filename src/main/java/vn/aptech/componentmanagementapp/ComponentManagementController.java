@@ -345,7 +345,7 @@ public class ComponentManagementController implements Initializable {
     }
 
     @FXML
-    void exitButtonClick() {
+    void exitButtonOnClick() {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
@@ -356,5 +356,11 @@ public class ComponentManagementController implements Initializable {
             Stage stage = (Stage) anchor_rightPanel_Login.getScene().getWindow();
             stage.close();
         }
+    }
+
+    @FXML
+    void minimizeButtonOnClick() {
+        Stage stage = (Stage) anchor_rightPanel_Login.getScene().getWindow();
+        stage.setIconified(true);
     }
 }
