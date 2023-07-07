@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp;
+package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ComponentManagementController implements Initializable {
+public class LoginController implements Initializable {
     @FXML
     private AnchorPane anchor_leftPanel_forgot;
 

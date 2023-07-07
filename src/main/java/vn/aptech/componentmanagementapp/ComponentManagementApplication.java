@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import vn.aptech.componentmanagementapp.controller.LoginController;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ public class ComponentManagementApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        ComponentManagementController controller = fxmlLoader.getController();
+        LoginController controller = fxmlLoader.getController();
         controller.setStage(stage);
 
         scene.setOnMousePressed(event -> {

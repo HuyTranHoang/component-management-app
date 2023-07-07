@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/images/Gura.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ManagementController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +90,8 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\controller" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\controller" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\fxml" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -103,7 +104,7 @@
       <module name="component-management-app" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="vn.aptech.componentmanagementapp.*" />
+          <option name="PATTERN" value="vn.aptech.componentmanagementapp.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -135,7 +136,7 @@
       <workItem from="1688735863170" duration="1417000" />
       <workItem from="1688747614819" duration="555000" />
       <workItem from="1688750559706" duration="20705000" />
-      <workItem from="1688771530093" duration="534000" />
+      <workItem from="1688771530093" duration="1643000" />
     </task>
     <servers />
   </component>
