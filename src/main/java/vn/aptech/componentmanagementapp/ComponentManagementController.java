@@ -1,13 +1,18 @@
 package vn.aptech.componentmanagementapp;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import vn.aptech.componentmanagementapp.model.Employee;
+import net.synedra.validatorfx.Decoration;
+import net.synedra.validatorfx.ValidationMessage;
+import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 
@@ -16,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ComponentManagementController implements Initializable {
@@ -35,25 +41,22 @@ public class ComponentManagementController implements Initializable {
     private AnchorPane anchor_rightPanel_reset;
 
     @FXML
-    private Label btn_forgot_backToLogin;
+    private Label lbl_login_emailError;
 
     @FXML
-    private Label btn_login_forgotPassword;
+    private Label lbl_login_passwordError;
 
     @FXML
-    private MFXButton btn_login_login;
+    private Label lbl_forgot_citizenError;
 
     @FXML
-    private Label btn_reset_backToLogin;
+    private Label lbl_reset_newPasswordError;
 
     @FXML
-    private MFXButton btn_reset_confirm;
+    private Label lbl_reset_confirmNewPasswordError;
 
     @FXML
     private MFXTextField txt_forgot_citizen;
-
-    @FXML
-    private MFXButton txt_forgot_reset;
 
     @FXML
     private MFXTextField txt_login_email;
@@ -67,17 +70,127 @@ public class ComponentManagementController implements Initializable {
     @FXML
     private MFXPasswordField txt_reset_newPasswordConfirm;
 
-//    Service
-    private EmployeeService employeeService;
+    //    Service
+    private final EmployeeService employeeService = new EmployeeService();
 
-//    List
-    ArrayList<LoginInfo> loginInfos;
+    //    List
+    private ArrayList<LoginInfo> loginInfos;
+    private long currentID = -1;
 
+    //    Validator
+    private final Validator loginValidator = new Validator();
+    private final Validator forgotValidator = new Validator();
+    private final Validator resetValidator = new Validator();
+
+    //    Init function
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        employeeService = new EmployeeService();
-        loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
+        initLoginValidator();
+        initForgotValidator();
+        initResetValidator();
 
+        initEnterKeyPressing();
+
+        loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> loginEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                loginButtonOnClick();
+            }
+        };
+        EventHandler<KeyEvent> passwordConfirmEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                confirmButtonOnClick();
+            }
+        };
+
+        txt_login_email.setOnKeyPressed(loginEventHandler);
+        txt_login_password.setOnKeyPressed(loginEventHandler);
+
+        txt_forgot_citizen.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                resetButtonOnClick();
+            }
+        });
+
+        txt_reset_newPassword.setOnKeyPressed(passwordConfirmEventHandler);
+        txt_reset_newPasswordConfirm.setOnKeyPressed(passwordConfirmEventHandler);
+    }
+
+    //    Validator section
+    private void initLoginValidator() {
+        loginValidator.createCheck()
+                .dependsOn("email", txt_login_email.textProperty())
+                .withMethod(context -> {
+                    String email = context.get("email");
+                    if (email.isEmpty()) {
+                        context.error("Email can't be empty");
+                    } else if (!email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                        context.error("Incorrect email format");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_login_emailError);
+    }
+
+    private void initForgotValidator() {
+        forgotValidator.createCheck()
+                .dependsOn("citizen_id", txt_forgot_citizen.textProperty())
+                .withMethod(context -> {
+                    String citizenID = context.get("citizen_id");
+                    if (citizenID.isEmpty()) {
+                        context.error("Citizen ID can't be empty");
+                    } else if (!citizenID.matches("^\\d{12}$")) {
+                        context.error("Citizen ID must have 12 numbers");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_forgot_citizenError);
+    }
+
+    private void initResetValidator() {
+        resetValidator.createCheck()
+                .dependsOn("new_password", txt_reset_newPassword.textProperty())
+                .dependsOn("confirm_new_password", txt_reset_newPasswordConfirm.textProperty())
+                .withMethod(context -> {
+                    String newPassword = context.get("new_password");
+                    String confirmPassword = context.get("confirm_new_password");
+                    if (!newPassword.equals(confirmPassword) && newPassword.length() > 8) {
+                        context.error("Confirm password does not match");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_reset_confirmNewPasswordError);
+
+        resetValidator.createCheck()
+                .dependsOn("new_password", txt_reset_newPassword.textProperty())
+                .withMethod(context -> {
+                    String newPassword = context.get("new_password");
+                    if (newPassword.isEmpty()) {
+                        context.error("New password can't be empty");
+                    } else if (!newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+                        context.error("Must have at least 8 characters, contain letters and numbers");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_reset_newPasswordError);
+    }
+
+    private Decoration labelDecorator(ValidationMessage message) {
+        return new Decoration() {
+            @Override
+            public void add(Node target) {
+                ((Label) target).setText(message.getText());
+                target.setVisible(true);
+            }
+
+            @Override
+            public void remove(Node target) {
+                target.setVisible(false);
+            }
+        };
     }
 
     /**
@@ -107,60 +220,112 @@ public class ComponentManagementController implements Initializable {
 
     @FXML
     void loginButtonOnClick() {
-        // TODO Validate dữ liệu trước khi get từ textfield
-        // TODO Hiển thị thông báo ra ngoài nều sai thông tin đăng nhập
+        if (loginValidator.validate()) {
+            String email = txt_login_email.getText();
+            String password = hashSHA256(txt_login_password.getText());
+            boolean isLoginValid = loginInfos.stream()
+                    .anyMatch(loginInfo -> loginInfo.getEmail().equals(email) && loginInfo.getPassword().equals(password));
 
-        String email = txt_login_email.getText();
-        String password = hashSHA256(txt_login_password.getText());
-
-        boolean isLoginValid = loginInfos.stream()
-                .anyMatch(loginInfo -> loginInfo.getEmail().equals(email) && loginInfo.getPassword().equals(password));
-
-        if (isLoginValid) {
-            System.out.println("Login successfully!");
-        } else {
-            System.out.println("Wrong email or password!");
+            if (isLoginValid) {
+//                TODO: Đổi sang scene chương trình chính
+                System.out.println("Login successfully!");
+            } else {
+                lbl_login_passwordError.setText("Wrong email or password!");
+                lbl_login_passwordError.setVisible(true);
+            }
         }
 
     }
+
     @FXML
     void forgotPasswordOnclick() {
+        clearForgot();
+
         anchor_leftPanel_login.setVisible(false);
         anchor_leftPanel_forgot.setVisible(true);
 
         anchor_rightPanel_Login.setVisible(false);
         anchor_rightPanel_forgot.setVisible(true);
         anchor_rightPanel_reset.setVisible(false);
+
+        txt_forgot_citizen.requestFocus();
     }
 
     @FXML
     void backToLoginOnClick() {
-        // TODO Kiểm tra xem có trong database hay không, nếu có chuyển sang màn hình chính
-        // TODO Kiểm tra xem có nhập đúng kiểu email trên trường email không
+        clearLogin();
+
         anchor_leftPanel_login.setVisible(true);
         anchor_leftPanel_forgot.setVisible(false);
 
         anchor_rightPanel_Login.setVisible(true);
         anchor_rightPanel_forgot.setVisible(false);
         anchor_rightPanel_reset.setVisible(false);
+
+        txt_login_email.requestFocus();
     }
 
     @FXML
     void resetButtonOnClick() {
-        // TODO Kiểm tra xem trong database có tồn tại thẻ căn cước công dân này hay không
-        // TODO Kiểm tra xem có nhập đúng kiểu căn cước hay không ( 12 số )
-        anchor_leftPanel_login.setVisible(true);
-        anchor_leftPanel_forgot.setVisible(false);
+        if (forgotValidator.validate()) {
+            String citizen_id = txt_forgot_citizen.getText();
+            Optional<String> optionalId = loginInfos.stream()
+                    .filter(loginInfo -> loginInfo.getCitizen_id().equals(citizen_id))
+                    .map(LoginInfo::getId)
+                    .findFirst();
 
-        anchor_rightPanel_Login.setVisible(false);
-        anchor_rightPanel_forgot.setVisible(false);
-        anchor_rightPanel_reset.setVisible(true);
+            if (optionalId.isPresent()) {
+                currentID = Long.parseLong(optionalId.get());
+                clearReset();
+
+                anchor_leftPanel_login.setVisible(true);
+                anchor_leftPanel_forgot.setVisible(false);
+
+                anchor_rightPanel_Login.setVisible(false);
+                anchor_rightPanel_forgot.setVisible(false);
+                anchor_rightPanel_reset.setVisible(true);
+
+                txt_reset_newPassword.requestFocus();
+            } else {
+                lbl_forgot_citizenError.setText("This citizen ID don't belong to any employee");
+                lbl_forgot_citizenError.setVisible(true);
+            }
+        }
     }
 
     @FXML
     void confirmButtonOnClick() {
-        // TODO Kiểm tra newPassword và newPasswordConfirm có trùng nhau không
-        // TODO Kiểm tra độ mạnh mật khẩu ( > 8 ký tự, có chứa số, ký tự đặc biệt )
-        backToLoginOnClick();
+        if (resetValidator.validate()) {
+            if (currentID != -1) {
+                long id = currentID;
+                String password = hashSHA256(txt_reset_newPassword.getText());
+                employeeService.updateEmployeePassword(id, password);
+//                Cập nhật lại list login sau khi update
+                loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
+                currentID = -1;
+                backToLoginOnClick();
+            } else {
+                System.out.println("something is wrong");
+            }
+        }
+    }
+
+    private void clearLogin() {
+        txt_login_email.setText("");
+        txt_login_password.setText("");
+        lbl_login_emailError.setVisible(false);
+        lbl_login_passwordError.setVisible(false);
+    }
+
+    private void clearForgot() {
+        txt_forgot_citizen.setText("");
+        lbl_forgot_citizenError.setVisible(false);
+    }
+
+    private void clearReset() {
+        txt_reset_newPassword.setText("");
+        txt_reset_newPasswordConfirm.setText("");
+        lbl_reset_newPasswordError.setVisible(false);
+        lbl_reset_confirmNewPasswordError.setVisible(false);
     }
 }

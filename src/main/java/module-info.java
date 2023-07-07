@@ -13,7 +13,4 @@ module vn.aptech.componentmanagementapp {
 
     opens vn.aptech.componentmanagementapp to javafx.fxml;
     exports vn.aptech.componentmanagementapp;
-    exports vn.aptech.componentmanagementapp.dao;
-    exports vn.aptech.componentmanagementapp.model;
-    exports vn.aptech.componentmanagementapp.service;
 }

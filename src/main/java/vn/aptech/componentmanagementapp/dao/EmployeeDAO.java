@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface EmployeeDAO extends BaseDAO<Employee> {
     List<LoginInfo> getAllLoginInfo();
+    void updatePassword(long id, String password);
 }
