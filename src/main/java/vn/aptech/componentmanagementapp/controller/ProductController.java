@@ -13,8 +13,6 @@ import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
 
-    @FXML
-    private GridPane product_gridPanel;
 
     @FXML
     private HBox pageButtonContainer;
@@ -35,7 +33,7 @@ public class ProductController implements Initializable {
     }
 
     private void showPage(int pageIndex) {
-        product_gridPanel.getChildren().clear();
+//        product_gridPanel.getChildren().clear();
 
         int startIndex = pageIndex * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, items.size());
@@ -50,7 +48,7 @@ public class ProductController implements Initializable {
             itemButton.setMinWidth(80);
             itemButton.setOnAction(e -> System.out.println(item)); // Example action
 
-            product_gridPanel.add(itemButton, currentColumn, currentRow);
+//            product_gridPanel.add(itemButton, currentColumn, currentRow);
 
             currentColumn++;
 
