@@ -22,7 +22,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     customer = new Customer();
-                    customer.setId(resultSet.getInt("id"));
+                    customer.setId(resultSet.getLong("id"));
                     customer.setName(resultSet.getString("name"));
                     customer.setAddress(resultSet.getString("address"));
                     customer.setPhone(resultSet.getString("phone"));

@@ -1,6 +1,6 @@
 package vn.aptech.componentmanagementapp.model;
 
-public class Department {
+public class Category {
     private long id;
     private String name;
     private String description;
@@ -31,7 +31,7 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department{" +
+        return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

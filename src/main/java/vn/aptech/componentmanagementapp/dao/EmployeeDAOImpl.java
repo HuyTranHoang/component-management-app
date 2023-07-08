@@ -4,7 +4,6 @@ import vn.aptech.componentmanagementapp.model.*;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id"));
+                employee.setId(resultSet.getLong("id"));
                 employee.setName(resultSet.getString("name"));
                 employee.setAddress(resultSet.getString("address"));
                 employee.setPhone(resultSet.getString("phone"));
@@ -113,8 +112,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
                 loginInfo.setId(resultSet.getString("id"));
                 loginInfo.setEmail(resultSet.getString("email"));
                 loginInfo.setPassword(resultSet.getString("password"));
-                loginInfo.setCitizen_id(resultSet.getString("citizen_identification"));
-                loginInfo.setDepartment_id(resultSet.getLong("department_id"));
+                loginInfo.setCitizenId(resultSet.getString("citizen_identification"));
+                loginInfo.setDepartmentId(resultSet.getLong("department_id"));
                 loginInfos.add(loginInfo);
             }
         } catch (SQLException e) {

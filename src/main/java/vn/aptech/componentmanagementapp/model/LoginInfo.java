@@ -4,8 +4,8 @@ public class LoginInfo {
     private String id;
     private String email;
     private String password;
-    private String citizen_id;
-    private long department_id;
+    private String citizenId;
+    private long departmentId;
 
     public String getId() {
         return id;
@@ -31,20 +31,20 @@ public class LoginInfo {
         this.password = password;
     }
 
-    public String getCitizen_id() {
-        return citizen_id;
+    public String getCitizenId() {
+        return citizenId;
     }
 
-    public void setCitizen_id(String citizen_id) {
-        this.citizen_id = citizen_id;
+    public void setCitizenId(String citizenId) {
+        this.citizenId = citizenId;
     }
 
-    public long getDepartment_id() {
-        return department_id;
+    public long getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartment_id(long department_id) {
-        this.department_id = department_id;
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class LoginInfo {
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", citizen_id='" + citizen_id + '\'' +
-                ", department_id=" + department_id +
+                ", citizen_id='" + citizenId + '\'' +
+                ", department_id=" + departmentId +
                 '}';
     }
 }

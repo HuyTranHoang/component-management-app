@@ -44,7 +44,7 @@ public class PositionDAOImpl implements PositionDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Position position = new Position();
-                position.setId(resultSet.getInt("id"));
+                position.setId(resultSet.getLong("id"));
                 position.setName(resultSet.getString("name"));
                 position.setDescription(resultSet.getString("description"));
                 positions.add(position);

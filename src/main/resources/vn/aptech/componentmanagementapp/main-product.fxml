@@ -2,9 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -30,25 +28,5 @@
       </MFXButton>
       <FontIcon iconLiteral="far-user-circle" iconSize="25" layoutX="1132.0" layoutY="36.0" AnchorPane.rightAnchor="87.0" AnchorPane.topAnchor="17.0" />
       <FontIcon iconLiteral="far-bell" iconSize="25" layoutX="1174.0" layoutY="42.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="17.0" />
-      <HBox fx:id="paginationControls" alignment="CENTER" layoutX="404.0" layoutY="843.0" prefHeight="35.0" prefWidth="443.0" spacing="10.0">
-         <children>
-            <Button fx:id="btn_product_firstPage" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
-               <graphic>
-                  <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" text="" />
-               </graphic></Button>
-            <Button fx:id="btn_product_prevPage" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
-               <graphic>
-                  <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" text="" />
-               </graphic></Button>
-            <HBox fx:id="pageButtonContainer" alignment="CENTER" prefHeight="100.0" spacing="5.0" />
-            <Button fx:id="btn_product_nextPage" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
-               <graphic>
-                  <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" text="" />
-               </graphic></Button>
-            <Button fx:id="btn_product_lastPage" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
-               <graphic>
-                  <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" text="" />
-               </graphic></Button>
-         </children></HBox>
    </children>
 </AnchorPane>

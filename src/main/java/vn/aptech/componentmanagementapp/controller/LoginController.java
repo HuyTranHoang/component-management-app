@@ -21,6 +21,7 @@ import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
+import vn.aptech.componentmanagementapp.service.SupplierService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.io.IOException;
@@ -99,6 +100,9 @@ public class    LoginController implements Initializable {
     //    Variable
     private Stage stage;
 
+    private double x;
+    private double y;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -111,6 +115,10 @@ public class    LoginController implements Initializable {
         initResetValidator();
 
         initEnterKeyPressing();
+
+        SupplierService service = new SupplierService();
+
+        System.out.println(service.getAllSupplier());
 
         loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
     }
@@ -251,6 +259,21 @@ public class    LoginController implements Initializable {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
+
+                    scene.setOnMousePressed(event -> {
+                        x = event.getSceneX();
+                        y = event.getSceneY();
+                    });
+
+                    scene.setOnMouseDragged(event -> {
+                        stage.setX(event.getScreenX() - x);
+                        stage.setY(event.getScreenY() - y);
+                        stage.setOpacity(.9);
+                    });
+
+                    scene.setOnMouseReleased(event -> stage.setOpacity(1));
+
+
                     ManagementController controller = fxmlLoader.getController();
                     controller.setStage(stage);
                     stage.setScene(scene);
@@ -299,7 +322,7 @@ public class    LoginController implements Initializable {
         if (forgotValidator.validate()) {
             String citizen_id = txt_forgot_citizen.getText();
             Optional<String> optionalId = loginInfos.stream()
-                    .filter(loginInfo -> loginInfo.getCitizen_id().equals(citizen_id))
+                    .filter(loginInfo -> loginInfo.getCitizenId().equals(citizen_id))
                     .map(LoginInfo::getId)
                     .findFirst();
 

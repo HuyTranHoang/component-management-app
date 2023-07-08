@@ -23,7 +23,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     department = new Department();
-                    department.setId(resultSet.getInt("id"));
+                    department.setId(resultSet.getLong("id"));
                     department.setName(resultSet.getString("name"));
                     department.setDescription(resultSet.getString("description"));
                 }
