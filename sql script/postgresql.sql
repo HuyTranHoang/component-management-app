@@ -207,7 +207,8 @@ VALUES ('ASUS', 'asus@gmail.com', 'https://www.asus.com/'),
        ('KINGSTON', 'kingston@gmail.com', 'https://www.kingston.com/'),
        ('MSI', 'msi@gmail.com', 'https://www.msi.com/'),
        ('SAMSUNG', 'samsung@gmail.com', 'https://www.samsung.com/'),
-       ('Western Digital', 'wd@gmail.com', 'https://www.wd.com/');
+       ('Western Digital', 'wd@gmail.com', 'https://www.wd.com/'),
+       ('AMD''amd@gmail.com', 'https://www.amd.com/');
 
 -- Product
 -- CPU
@@ -220,7 +221,27 @@ VALUES ('Ci512400', 'CPU INTEL Core i5-12400 (6C/12T, 2.50 GHz - 4.40 GHz, 18MB'
        ('Ci912900K', 'CPU INTEL Core i9-12900K (16C/24T, 3.20 GHz - 5.20 GHz, 30MB) - 1700', 11499000, 10499000, 0, 24,
         'note', 'description', 5, 1),
        ('Ci712700', 'CPU INTEL Core i7-12700 (12C/20T, 4.90 GHz, 25MB) - 1700', 8399000, 7399000, 0, 24, 'note',
-        'description', 5, 1);
+        'description', 5, 1),
+       ('R53600', 'CPU AMD Ryzen 5 3600 (6C/12T, 3.6 GHz - 4.2 GHz, 35MB)', 3699000, 3199000, 0, 12, 'note',
+        'description', 10, 1),
+       ('R93900X', 'CPU AMD Ryzen 9 3900X (12C/24T, 3.8 GHz - 4.6 GHz, 70MB)', 12999000, 11999000, 0, 24, 'note',
+        'description', 10, 1),
+       ('R72600X', 'CPU AMD Ryzen 7 2600X (6C/12T, 3.6 GHz - 4.2 GHz, 19MB)', 5799000, 5299000, 0, 24, 'note',
+        'description', 10, 1),
+       ('R73700X', 'CPU AMD Ryzen 7 3700X (8C/16T, 3.6 GHz - 4.4 GHz, 36MB)', 7799000, 7299000, 0, 24, 'note',
+        'description', 10, 1),
+       ('R91900X', 'CPU AMD Ryzen 9 1900X (8C/16T, 3.8 GHz - 4.2 GHz, 20MB)', 9399000, 8899000, 0, 24, 'note',
+        'description', 10, 1),
+       ('RA53500X', 'CPU AMD Ryzen Threadripper 5350X (16C/32T, 3.0 GHz - 4.2 GHz, 144MB)', 26999000, 24999000, 0, 24, 'note',
+        'description', 10, 1),
+       ('R73600X', 'CPU AMD Ryzen 7 3600X (6C/12T, 3.8 GHz - 4.4 GHz, 35MB)', 6799000, 6299000, 0, 24, 'note',
+        'description', 10, 1),
+       ('R51600', 'CPU AMD Ryzen 5 1600 (6C/12T, 3.2 GHz - 3.6 GHz, 16MB)', 3299000, 2799000, 0, 12, 'note',
+        'description', 10, 1),
+       ('R73700', 'CPU AMD Ryzen 7 3700 (8C/16T, 3.6 GHz - 4.4 GHz, 36MB)', 7399000, 6899000, 0, 24, 'note',
+        'description', 10, 1),
+       ('RA72500X', 'CPU AMD Ryzen Threadripper 7250X (24C/48T, 3.2 GHz - 4.2 GHz, 144MB)', 48999000, 46999000, 0, 24, 'note',
+        'description', 10, 1);
 
 -- SSD/HDD
 INSERT INTO products (product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, description,
@@ -229,10 +250,27 @@ VALUES ('SNV2', 'Ổ cứng gắn trong/ SSD Kingston NV2 1000GB M.2 2280 PCIe G
         'description', 6, 2),
        ('SA400', 'Ổ cứng SSD Kingston A400 480GB Sata 3 (SA400S37/480G)', 749000, 649000, 0, 12, 'note', 'description',
         6, 2),
+       ('SA2000', 'Ổ cứng SSD Kingston A2000 500GB M.2 NVMe', 1499000, 1399000, 0, 12, 'note',
+        'description', 6, 2),
+       ('SUV500', 'Ổ cứng SSD Kingston UV500 1TB Sata 3', 2999000, 2799000, 0, 24, 'note', 'description',
+        6, 2),
+       ('SKC600', 'Ổ cứng HDD Kingston KC600 2TB 2.5" SATA 3', 2799000, 2599000, 0, 36, 'note',
+        'description', 6, 2),
        ('SSS870', 'Ổ cứng SSD Samsung 870 EVO 4TB SATA III 2.5 inch (MZ-77E4T0BW)', 9999000, 8999000, 0, 24, 'note',
         'description', 8, 2),
-       ('SWDB1', 'Ổ cứng HDD Western Digital Blue 1TB 3.5" SATA 3 - WD10EZEX', 955000, 755000, 0, 24, 'note',
-        'description', 9, 2);
+       ('SSS970', 'Ổ cứng SSD Samsung 970 EVO Plus 500GB M.2 NVMe', 1599000, 1399000, 0, 12, 'note',
+        'description', 8, 2),
+       ('SSS860', 'Ổ cứng SSD Samsung 860 EVO 1TB Sata 3', 2899000, 2699000, 0, 36, 'note', 'description',
+        8, 2),
+       ('SSS980', 'Ổ cứng SSD Samsung 980 Pro 2TB M.2 NVMe PCIe 4.0', 6999000, 6799000, 0, 24, 'note',
+        'description', 8, 2),
+       ('WDB001', 'Ổ cứng HDD Western Digital Blue 1TB 3.5" SATA 3 - WD10EZEX', 955000, 755000, 0, 24, 'note',
+        'description', 9, 2),
+       ('SSN550', 'Ổ cứng SSD Western Digital WD Blue SN550 1TB M.2 NVMe', 1999000, 1799000, 0, 12, 'note', 'description',
+        9, 2),
+       ('SUBWAY', 'Ổ cứng di động Western Digital My Passport 2TB USB 3.0', 1599000, 1399000, 0, 24, 'note',
+        'description', 9, 4);
+
 
 -- Case
 INSERT INTO products (product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, description,
@@ -241,7 +279,19 @@ VALUES ('MB520', 'Thùng máy/ Case CM MasterBox MB520 ARGB', 1999000, 1599000, 
        ('MB05W', 'Case máy tính Cooler Master MasterBox 5 White', 1539000, 1139000, 0, 12, 'note', 'description', 3, 3),
        ('M100A', 'Thùng máy/ Case MSI MAG FORCE M100A (4 Fan RGB)', 829000, 729000, 0, 24, 'note', 'description', 7, 3),
        ('M110R', 'Thùng máy/ Case MSI MPG GUNGNIR 110R WHITE (306-7G10W21-W57)', 2630000, 2330000, 0, 24, 'note',
-        'description', 7, 3);
+        'description', 7, 3),
+       ('GC300', 'Thùng máy/ Case GIGABYTE C300 Glass RGB (ATX/mATX/Mini-ITX)', 2399000, 2199000, 0, 12, 'note',
+        'description', 4, 3),
+       ('AORUSAC300G', 'Thùng máy/ Case GIGABYTE AORUS AC300G (ATX/mATX/Mini-ITX)', 2999000, 2799000, 0, 24, 'note',
+        'description', 4, 3),
+       ('C200G', 'Thùng máy/ Case GIGABYTE C200G (ATX/mATX/Mini-ITX)', 1799000, 1599000, 0, 12, 'note', 'description',
+        4, 3),
+       ('ASU100', 'Thùng máy/ Case ASUS TUF Gaming GT301 (ATX/mATX/Mini-ITX)', 1999000, 1799000, 0, 12, 'note',
+        'description', 1, 3),
+       ('ASU200', 'Thùng máy/ Case ASUS ROG Strix Helios (ATX/EATX)', 8999000, 8499000, 0, 24, 'note', 'description',
+        1, 3),
+       ('ASU300', 'Thùng máy/ Case ASUS ROG Strix Helios GX601 (ATX/EATX)', 10999000, 9999000, 0, 24, 'note',
+        'description', 1, 3);
 
 -- RAM
 INSERT INTO products (product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, description,
@@ -253,15 +303,35 @@ VALUES ('RCMK235', 'RAM desktop CORSAIR Vengeance LPX Black Heat spreader (1 x 1
        ('RKFB432', 'RAM desktop KINGSTON Fury Beast RGB 16GB (2 x 8GB) DDR4 3200MHz (KF432C16BBAK2/16)', 1699000,
         1499000, 0, 24, 'note', 'description', 6, 4),
        ('RS16G33', 'RAM desktop GIGABYTE Aorus RGB 16GB DDR4-3333 (2 x 8GB) DDR4 2666MHz', 2950000, 2650000, 0, 24,
-        'note', 'description', 4, 4);
+        'note', 'description', 4, 4),
+       ('SAM16G3200', 'RAM desktop Samsung DDR4 16GB (1x16GB) 3200MHz', 1399000, 1299000, 0, 12, 'note',
+        'description', 8, 4),
+       ('SAM32G3600', 'RAM desktop Samsung DDR4 32GB (2x16GB) 3600MHz', 2999000, 2799000, 0, 24, 'note', 'description',
+        8, 4),
+       ('SAM8G2400', 'RAM desktop Samsung DDR4 8GB (1x8GB) 2400MHz', 699000, 599000, 0, 12, 'note', 'description',
+        8, 4),
+       ('CORS8G2666', 'RAM desktop Corsair Vengeance LPX 8GB (1x8GB) DDR4 2666MHz', 799000, 699000, 0, 12, 'note',
+        'description', 2, 4),
+       ('CORS16G3200', 'RAM desktop Corsair Vengeance RGB Pro 16GB (2x8GB) DDR4 3200MHz', 2499000, 2299000, 0, 12,
+        'note', 'description', 2, 4),
+       ('CORS32G3600', 'RAM desktop Corsair Dominator Platinum RGB 32GB (2x16GB) DDR4 3600MHz', 5599000, 5299000, 0, 24,
+        'note', 'description', 2, 4);
 
 -- Mainboard
 INSERT INTO products (product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, description,
                       supplier_id, category_id)
 VALUES ('H510MK', 'Mainboard ASUS PRIME H510M-K', 1689000, 1489000, 0, 12, 'note', 'description', 1, 5),
+       ('PRMH510', 'Mainboard ASUS PRIME H510M', 1899000, 1699000, 0, 12, 'note', 'description', 1, 5),
+       ('TUFZ590', 'Mainboard ASUS TUF GAMING Z590-PLUS (WI-FI 6)', 6599000, 6399000, 0, 24, 'note', 'description', 1, 5),
+       ('ROGX570', 'Mainboard ASUS ROG CROSSHAIR VIII FORMULA', 13399000, 13199000, 0, 24, 'note', 'description', 1, 5),
        ('H510MH', 'Mainboard GIGABYTE H510M-H', 1749000, 1549000, 0, 12, 'note', 'description', 4, 5),
+       ('BMH410', 'Mainboard GIGABYTE B450M H', 2499000, 2299000, 0, 12, 'note', 'description', 4, 5),
+       ('AZ490', 'Mainboard GIGABYTE AORUS Z490 MASTER', 10999000, 9999000, 0, 24, 'note', 'description', 4, 5),
+       ('X570G', 'Mainboard GIGABYTE X570 AORUS ELITE WIFI', 6499000, 6299000, 0, 24, 'note', 'description', 4, 5),
        ('B660MA', 'Mainboard MSI PRO B660M-A WIFI DDR4', 3390000, 3090000, 0, 24, 'note', 'description', 7, 5),
-       ('X670E', 'Mainboard ASUS ROG CROSSHAIR X670E EXTREME', 26690000, 24690000, 0, 24, 'note', 'description', 1, 5);
+       ('BMAGB460', 'Mainboard MSI MAG B460 TOMAHAWK', 3799000, 3599000, 0, 12, 'note', 'description', 7, 5),
+       ('MPGB550', 'Mainboard MSI MPG B550 GAMING CARBON WIFI', 5699000, 5499000, 0, 24, 'note', 'description', 7, 5),
+       ('X570MG', 'Mainboard MSI MEG X570 GODLIKE', 24999000, 23999000, 0, 24, 'note', 'description', 7, 5);
 
 -- PSU
 INSERT INTO products (product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, description,
