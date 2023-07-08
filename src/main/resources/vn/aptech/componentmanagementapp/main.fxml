@@ -35,7 +35,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="330.0" prefHeight="380.0" prefWidth="350.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <MFXButton id="button-custom" fx:id="btn_login_login" prefHeight="48.0" prefWidth="300.0" style="-fx-padding: 0 0 0 15px;" text="PRODUCT LIST">
+                  <MFXButton id="button-custom" fx:id="btn_leftPanel_productList" prefHeight="48.0" prefWidth="300.0" style="-fx-padding: 0 0 0 15px;" text="PRODUCT LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -43,7 +43,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_login_login1" prefHeight="48.0" prefWidth="300.0" text="CUSTOMER LIST">
+                  <MFXButton id="button-custom" fx:id="btn_leftPanel_customerList" prefHeight="48.0" prefWidth="300.0" text="CUSTOMER LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -51,19 +51,20 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_login_login11" prefHeight="48.0" prefWidth="300.0" text="ORDER LIST">
+                  <MFXButton id="button-custom" fx:id="btn_leftPanel_OrderList" prefHeight="48.0" prefWidth="300.0" text="ORDER LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
                </children>
             </VBox>
-            <MFXButton id="button-custom" fx:id="btn_login_login111" layoutX="25.0" layoutY="786.0" prefHeight="48.0" prefWidth="300.0" text="EXIT" AnchorPane.bottomAnchor="38.0">
+            <MFXButton id="button-custom" fx:id="btn_leftPanel_Exit" layoutX="25.0" layoutY="786.0" onAction="#exitButtonOnClick" prefHeight="48.0" prefWidth="300.0" text="EXIT" AnchorPane.bottomAnchor="38.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MFXButton>
          </children>
       </AnchorPane>
+      <AnchorPane fx:id="anchor_main_rightPanel" layoutX="350.0" prefHeight="900.0" prefWidth="1250.0" />
    </children>
 </AnchorPane>

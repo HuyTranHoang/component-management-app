@@ -96,7 +96,7 @@ public class LoginController implements Initializable {
     private final Validator forgotValidator = new Validator();
     private final Validator resetValidator = new Validator();
 
-//    Variable
+    //    Variable
     private Stage stage;
 
     public void setStage(Stage stage) {
@@ -251,6 +251,8 @@ public class LoginController implements Initializable {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
+                    ManagementController controller = fxmlLoader.getController();
+                    controller.setStage(stage);
                     stage.setScene(scene);
                     stage.centerOnScreen();
                 } catch (IOException e) {

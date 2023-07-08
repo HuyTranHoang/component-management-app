@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ManagementController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/images/3080ti.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main-product.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ManagementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ManagementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -84,6 +85,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\login" />
@@ -136,7 +138,8 @@
       <workItem from="1688735863170" duration="1417000" />
       <workItem from="1688747614819" duration="555000" />
       <workItem from="1688750559706" duration="20705000" />
-      <workItem from="1688771530093" duration="1643000" />
+      <workItem from="1688771530093" duration="1730000" />
+      <workItem from="1688794575394" duration="12633000" />
     </task>
     <servers />
   </component>
