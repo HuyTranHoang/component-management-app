@@ -790,7 +790,11 @@ false Z
 false Zulu
 </TimeZones>
     </root>
-    <database id="2" parent="1" name="QLLK">
+    <database id="2" parent="1" name="QLHN">
+      <ObjectId>16459</ObjectId>
+      <OwnerName>postgres</OwnerName>
+    </database>
+    <database id="3" parent="1" name="QLLK">
       <Current>1</Current>
       <Grants>11||10|C|G
 11||-9223372036854775808|U|G

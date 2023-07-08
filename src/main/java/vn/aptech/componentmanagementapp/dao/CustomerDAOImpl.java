@@ -66,7 +66,6 @@ public class CustomerDAOImpl implements CustomerDAO{
             statement.setString(2, customer.getAddress());
             statement.setString(3, customer.getPhone());
             statement.setString(4, customer.getEmail());
-
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +81,6 @@ public class CustomerDAOImpl implements CustomerDAO{
             statement.setString(3, customer.getPhone());
             statement.setString(4, customer.getEmail());
             statement.setLong(5, customer.getId());
-
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

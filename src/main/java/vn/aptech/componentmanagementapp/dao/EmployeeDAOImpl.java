@@ -49,18 +49,57 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public void add(Employee entity) {
-
+    public void add(Employee employee) {
+        String query = "INSERT INTO employees VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, employee.getId());
+            statement.setString(2,employee.getName());
+            statement.setString(3, employee.getAddress());
+            statement.setString(4, employee.getPhone());
+            statement.setString(5, employee.getEmail());
+            statement.setDouble(6,employee.getSalary());
+            statement.setString(7,employee.getImage());
+            statement.setString(8, employee.getCitizenID());
+            statement.setObject(9,employee.getDateOfBirth());
+            statement.setObject(10,employee.getDateOfHire());
+            statement.setLong(11,employee.getDepartmentId());
+            statement.setLong(12,employee.getPositionId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(Employee entity) {
-
+    public void update(Employee employee) {
+        String query = "UPDATE employees SET name = ?, address = ?, phone = ?, email = ?, salary = ?, image = ?, citizen_identification = ?, date_of_birth = ?, date_of_hire = ?, department_id = ?, position_id = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1,employee.getName());
+            statement.setString(2, employee.getAddress());
+            statement.setString(3, employee.getPhone());
+            statement.setString(4, employee.getEmail());
+            statement.setDouble(5,employee.getSalary());
+            statement.setString(6,employee.getImage());
+            statement.setString(7, employee.getCitizenID());
+            statement.setObject(8,employee.getDateOfBirth());
+            statement.setObject(9,employee.getDateOfHire());
+            statement.setLong(10,employee.getDepartmentId());
+            statement.setLong(11,employee.getPositionId());
+            statement.setLong(12, employee.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
     @Override
-    public void delete(long id) {
-
+    public void delete(long employeeId) {
+        String query = "DELETE FROM employees WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,employeeId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -91,7 +130,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, password);
             statement.setLong(2, id);
-
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
