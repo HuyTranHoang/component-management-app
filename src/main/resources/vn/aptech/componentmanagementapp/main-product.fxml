@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -29,6 +32,44 @@
       </MFXButton>
       <FontIcon iconLiteral="far-user-circle" iconSize="25" layoutX="1132.0" layoutY="36.0" AnchorPane.rightAnchor="87.0" AnchorPane.topAnchor="17.0" />
       <FontIcon iconLiteral="far-bell" iconSize="25" layoutX="1174.0" layoutY="42.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="17.0" />
-      <MFXPaginatedTableView fx:id="product_pagin_tableView" footerVisible="false" layoutX="29.0" layoutY="88.0" pagesToShow="5" prefHeight="792.0" prefWidth="1205.0" rowsPerPage="20" />
+      <AnchorPane fx:id="anchor_product_view" layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+              <columns>
+                <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="tbc_productCode" prefWidth="100.0" text="Product Code" />
+                  <TableColumn fx:id="tbc_name" prefWidth="235.0" text="Name" />
+                  <TableColumn fx:id="tbc_price" prefWidth="140.0" text="Price" />
+                  <TableColumn fx:id="tbc_minimumPrice" prefWidth="110.0" text="Minimum Price" />
+                  <TableColumn fx:id="tbc_quantity" prefWidth="75.0" text="Quantity" />
+                  <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" text="Month of warranty" />
+                  <TableColumn fx:id="tbc_note" prefWidth="100.0" text="Note" />
+                  <TableColumn fx:id="tbc_description" prefWidth="100.0" text="Description" />
+                  <TableColumn fx:id="tbc_suppliderId" prefWidth="85.0" text="SuppliderId" />
+                  <TableColumn fx:id="tbc_categoryId" prefWidth="85.0" text="CategoryId" />
+              </columns>
+            </TableView>
+            <HBox fx:id="paginationControls" alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="1210.0" spacing="10.0">
+               <children>
+                  <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
+                     </graphic></Button>
+                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
+                     </graphic></Button>
+                  <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
+                  <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
+                     </graphic></Button>
+                  <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
+                     </graphic></Button>
+               </children></HBox>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

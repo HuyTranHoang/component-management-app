@@ -86,7 +86,3 @@
     -fx-border-color: #696060;
     -fx-border-radius: 5px;
 }
-
-.mfx-table-view .default-footer .mfx-icon-wrapper .mfx-font-icon {
-    visibility: false;
-}

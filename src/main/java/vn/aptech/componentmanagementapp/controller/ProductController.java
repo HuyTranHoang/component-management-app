@@ -1,74 +1,211 @@
 package vn.aptech.componentmanagementapp.controller;
 
-import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
-import io.github.palexdev.materialfx.controls.MFXTableColumn;
-import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
-import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
 
+//    Product
+    private static ObservableList<Product> products;
+    private ProductService productService = new ProductService();
+
+//  Pagination
+    @FXML
+    private Button firstPageButton;
 
     @FXML
-    private MFXPaginatedTableView<Product> product_pagin_tableView;
+    private Button lastPageButton;
 
-    private ArrayList<Product> products;
+    @FXML
+    private Button nextButton;
 
-    private ProductService productService = new ProductService();
+    @FXML
+    private HBox pageButtonContainer;
+
+    @FXML
+    private Button previousButton;
+
+    private static final int ITEMS_PER_PAGE = 28;
+    private int currentPageIndex = 0;
+
+//    TableView
+    @FXML
+    private TableView<Product> tableView;
+
+    @FXML
+    private TableColumn<Product, Long> tbc_categoryId;
+
+    @FXML
+    private TableColumn<Product, String> tbc_description;
+
+    @FXML
+    private TableColumn<Product, Long> tbc_id;
+
+    @FXML
+    private TableColumn<Product, Double> tbc_minimumPrice;
+
+    @FXML
+    private TableColumn<Product, Integer> tbc_monthOfWarranty;
+
+    @FXML
+    private TableColumn<Product, String> tbc_name;
+
+    @FXML
+    private TableColumn<Product, String> tbc_note;
+
+    @FXML
+    private TableColumn<Product, Double> tbc_price;
+
+    @FXML
+    private TableColumn<Product, String> tbc_productCode;
+
+    @FXML
+    private TableColumn<Product, Integer> tbc_quantity;
+
+    @FXML
+    private TableColumn<Product, Long> tbc_suppliderId;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        products = (ArrayList<Product>) productService.getAllProduct();
-        setupPaginated();
+
+        ArrayList<Product> list = (ArrayList<Product>) productService.getAllProduct();
+        products = FXCollections.observableArrayList(list);
+
+        initTableView();
+        showPage(currentPageIndex);
+        updatePageButtons();
     }
 
-    private void setupPaginated() {
-        MFXTableColumn<Product> idColumn = new MFXTableColumn<>("Id", false, null);
-        MFXTableColumn<Product> productCodeColumn = new MFXTableColumn<>("Product Code", false, null);
-        MFXTableColumn<Product> nameColumn = new MFXTableColumn<>("Name", false, null);
-        MFXTableColumn<Product> priceColumn = new MFXTableColumn<>("Price", false, null);
-        MFXTableColumn<Product> minimumPriceColumn = new MFXTableColumn<>("Minimum price", false, null);
-        MFXTableColumn<Product> stockQuanttiyColumn = new MFXTableColumn<>("Stock quantity", false, null);
-        MFXTableColumn<Product> monthOfWarrantyColumn = new MFXTableColumn<>("Month of warranty", false, null);
-        MFXTableColumn<Product> noteColumn = new MFXTableColumn<>("Note", false, null);
-        MFXTableColumn<Product> descriptionColumn = new MFXTableColumn<>("Description", false, null);
-        MFXTableColumn<Product> supplierIdColumn = new MFXTableColumn<>("SupplierId", false, null);
-        MFXTableColumn<Product> categoryIdColumn = new MFXTableColumn<>("CategoryId", false, null);
-
-
-        idColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getId));
-        productCodeColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getProductCode));
-        nameColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getName));
-        priceColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getPrice));
-        minimumPriceColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getMinimumPrice));
-        stockQuanttiyColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getStockQuantity));
-        monthOfWarrantyColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getMonthOfWarranty));
-        noteColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getNote));
-        descriptionColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getDescription));
-        supplierIdColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getSupplierId));
-        categoryIdColumn.setRowCellFactory(product -> new MFXTableRowCell<>(Product::getSupplierId));
-
-
-        product_pagin_tableView.getTableColumns().addAll(idColumn, productCodeColumn, nameColumn, priceColumn,
-                minimumPriceColumn, stockQuanttiyColumn, monthOfWarrantyColumn, noteColumn, descriptionColumn,
-                supplierIdColumn, categoryIdColumn);
-
-        product_pagin_tableView.setItems(FXCollections.observableArrayList(products));
+    private void initTableView() {
+        tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
+        tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tbc_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        tbc_minimumPrice.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
+        tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
+        tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
+        tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
+        tbc_description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
+        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
     }
 
+    private void showPage(int pageIndex) {
+        int startIndex = pageIndex * ITEMS_PER_PAGE;
+        int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, products.size());
+
+        ObservableList<Product> pageItems = FXCollections.observableArrayList(products.subList(startIndex, endIndex));
+        tableView.setItems(pageItems);
+    }
+
+    @FXML
+    void showPreviousPage() {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            showPage(currentPageIndex);
+            updatePageButtons();
+        }
+    }
+    @FXML
+    void showNextPage() {
+        int maxPageIndex = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1;
+        if (currentPageIndex < maxPageIndex) {
+            currentPageIndex++;
+            showPage(currentPageIndex);
+            updatePageButtons();
+        }
+    }
+    @FXML
+    void showFirstPage() {
+        currentPageIndex = 0;
+        showPage(currentPageIndex);
+        updatePageButtons();
+    }
+    @FXML
+    void showLastPage() {
+        int maxPageIndex = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1;
+        currentPageIndex = maxPageIndex;
+        showPage(currentPageIndex);
+        updatePageButtons();
+    }
+
+    private void updatePageButtons() {
+        int pageCount = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE);
+        int maxVisibleButtons = 5; // Maximum number of visible page buttons
+
+        int startIndex;
+        int endIndex;
+
+        if (pageCount <= maxVisibleButtons) {
+            startIndex = 0;
+            endIndex = pageCount;
+        } else {
+            startIndex = Math.max(currentPageIndex - 2, 0);
+            endIndex = Math.min(startIndex + maxVisibleButtons, pageCount);
+
+            if (endIndex - startIndex < maxVisibleButtons) {
+                startIndex = Math.max(endIndex - maxVisibleButtons, 0);
+            }
+        }
+
+        pageButtonContainer.getChildren().clear();
+
+        firstPageButton.setDisable(currentPageIndex == 0);
+        previousButton.setDisable(currentPageIndex == 0);
+        lastPageButton.setDisable(currentPageIndex == pageCount - 1);
+        nextButton.setDisable(currentPageIndex == pageCount -1);
+        if (startIndex > 0) {
+            Button ellipsisButtonStart = new Button("...");
+            ellipsisButtonStart.setMinWidth(30);
+            ellipsisButtonStart.getStyleClass().add("pagination-button");
+            ellipsisButtonStart.setDisable(true);
+            pageButtonContainer.getChildren().add(ellipsisButtonStart);
+        }
+
+        for (int i = startIndex; i < endIndex; i++) {
+            Button pageButton = new Button(Integer.toString(i + 1));
+            pageButton.setMinWidth(30);
+            pageButton.getStyleClass().add("pagination-button");
+            int pageIndex = i;
+            pageButton.setOnAction(e -> showPageByIndex(pageIndex));
+            pageButtonContainer.getChildren().add(pageButton);
+
+            // Highlight the selected page button
+            if (pageIndex == currentPageIndex) {
+                pageButton.getStyleClass().add("pagination-button-selected");
+            }
+        }
+
+        if (endIndex < pageCount) {
+            Button ellipsisButtonEnd = new Button("...");
+            ellipsisButtonEnd.setMinWidth(30);
+            ellipsisButtonEnd.getStyleClass().add("pagination-button");
+            ellipsisButtonEnd.setDisable(true);
+            pageButtonContainer.getChildren().add(ellipsisButtonEnd);
+        }
+    }
+
+    private void showPageByIndex(int pageIndex) {
+        if (pageIndex >= 0 && pageIndex <= (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1) {
+            currentPageIndex = pageIndex;
+            showPage(currentPageIndex);
+            updatePageButtons();
+        }
+    }
 }
