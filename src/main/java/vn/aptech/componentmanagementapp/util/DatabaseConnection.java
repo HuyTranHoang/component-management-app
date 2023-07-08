@@ -9,7 +9,7 @@ public class DatabaseConnection {
     private static final String NAME = "QLLK";
     private static final String URL = "jdbc:postgresql://" + HOST +":" + PORT + "/" + NAME;
     private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "25091995";
+    private static final String PASSWORD = "Huynhbao2606";
     private static Connection connection;
 
     private DatabaseConnection() {
