@@ -8,4 +8,5 @@ import java.util.List;
 public interface EmployeeDAO extends BaseDAO<Employee> {
     Employee getById(long id);
     List<LoginInfo> getAllLoginInfo();
+    void updatePassword(long id, String password);
 }

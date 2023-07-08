@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAO.java" afterDir="false" />
@@ -12,6 +13,15 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/EmployeeDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/PositionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/PositionDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/DatabaseConnection.java" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/sql script/postgresql.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAOImpl.java" afterDir="false" />
+>>>>>>> 85c3db8ae863c5de0869fd0e73d6c287a01ab2af
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +31,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="CSS File" />
         <option value="Interface" />
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -66,6 +76,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
@@ -81,6 +92,23 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Aptech/Java2/Project/component-management-app/src/main/resources/vn/aptech/componentmanagementapp/images&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+>>>>>>> 85c3db8ae863c5de0869fd0e73d6c287a01ab2af
   },
   "keyToStringList": {
     "DatabaseDriversLRU": [
@@ -90,11 +118,19 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\login" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\controller" />
+      <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\controller" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\fxml" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="vn.aptech.componentmanagementapp" />
     </key>
   </component>
   <component name="RunManager">
@@ -103,7 +139,7 @@
       <module name="component-management-app" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="vn.aptech.componentmanagementapp.*" />
+          <option name="PATTERN" value="vn.aptech.componentmanagementapp.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -111,11 +147,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.ComponentManagementApplication" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -131,9 +162,18 @@
       <workItem from="1688662971076" duration="483000" />
       <workItem from="1688674770479" duration="5191000" />
       <workItem from="1688710193959" duration="11424000" />
+<<<<<<< HEAD
       <workItem from="1688722843907" duration="1470000" />
       <workItem from="1688756098385" duration="512000" />
       <workItem from="1688756803179" duration="3729000" />
+=======
+      <workItem from="1688722843907" duration="2091000" />
+      <workItem from="1688735863170" duration="1417000" />
+      <workItem from="1688747614819" duration="555000" />
+      <workItem from="1688750559706" duration="20705000" />
+      <workItem from="1688771530093" duration="1730000" />
+      <workItem from="1688794575394" duration="16850000" />
+>>>>>>> 85c3db8ae863c5de0869fd0e73d6c287a01ab2af
     </task>
     <servers />
   </component>

@@ -57,17 +57,40 @@ public class DepartmentDAOImpl implements DepartmentDAO{
     }
 
     @Override
-    public void add(Department entity) {
-
+    public void add(Department department) {
+        String query = "INSERT INTO departments (id,name,description) VALUES (?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,department.getId());
+            statement.setString(2, department.getName());
+            statement.setString(3, department.getDescription());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(Department entity) {
-
+    public void update(Department department) {
+        String query = "UPDATE departments SET id = ?, name = ?, description = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,department.getId());
+            statement.setString(2, department.getName());
+            statement.setString(3, department.getDescription());
+            statement.setLong(4,department.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void delete(long id) {
-
+    public void delete(long departmentId) {
+        String query = "DELETE FROM departments WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, departmentId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

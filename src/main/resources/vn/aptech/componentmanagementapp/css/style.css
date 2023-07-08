@@ -6,6 +6,16 @@
     -fx-padding: 0 40px 0 10px;
 }
 
+.no-border-radius {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-background-color: #4A55A2;
+}
+
+.no-border-radius:hover {
+    -fx-background-color: #fff;
+}
+
 /*#textfield-custom .mfx-icon-wrapper {*/
 /*    visibility: hidden;*/
 /*}*/
@@ -16,4 +26,28 @@
     -fx-font-family: 'Inter';
     -fx-font-weight: 800;
     -fx-font-size: 16px;
+}
+
+.search-bar {
+    -fx-background-color: #CFCFCF;
+    -fx-padding: 0 0 0 25px;
+}
+
+.vbox-item {
+    -fx-background-color: #A0BFE0;
+    -fx-border-width: 1px;
+    -fx-border-color: #7895CB;
+}
+
+.pagination-button {
+    -fx-background-color: #A0BFE0;
+    -fx-text-fill: #4A55A2;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-cursor: hand;
+}
+
+.pagination-button-selected {
+    -fx-background-color: #4A55A2;
+    -fx-text-fill: #fff;
 }
