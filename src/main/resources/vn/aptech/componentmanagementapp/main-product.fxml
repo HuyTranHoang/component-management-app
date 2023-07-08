@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
@@ -28,5 +29,6 @@
       </MFXButton>
       <FontIcon iconLiteral="far-user-circle" iconSize="25" layoutX="1132.0" layoutY="36.0" AnchorPane.rightAnchor="87.0" AnchorPane.topAnchor="17.0" />
       <FontIcon iconLiteral="far-bell" iconSize="25" layoutX="1174.0" layoutY="42.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="17.0" />
+      <MFXPaginatedTableView fx:id="product_pagin_tableView" footerVisible="false" layoutX="29.0" layoutY="88.0" pagesToShow="5" prefHeight="792.0" prefWidth="1205.0" rowsPerPage="20" />
    </children>
 </AnchorPane>

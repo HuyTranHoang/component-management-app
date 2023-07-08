@@ -116,10 +116,6 @@ public class    LoginController implements Initializable {
 
         initEnterKeyPressing();
 
-        SupplierService service = new SupplierService();
-
-        System.out.println(service.getAllSupplier());
-
         loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
     }
 
