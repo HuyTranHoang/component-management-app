@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/sql script/postgresql.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql script/postgresql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql script/postgresql.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +69,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -135,6 +130,9 @@
       <workItem from="1688750559706" duration="20705000" />
       <workItem from="1688771530093" duration="1730000" />
       <workItem from="1688794575394" duration="16850000" />
+      <workItem from="1688821496986" duration="1116000" />
+      <workItem from="1688822961470" duration="51000" />
+      <workItem from="1688823028350" duration="710000" />
     </task>
     <servers />
   </component>
