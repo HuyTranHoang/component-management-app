@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductController">
+   <children>
+      <AnchorPane layoutX="-1.0" layoutY="14.0" prefHeight="180.0" prefWidth="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="66.0" layoutY="38.0" text="Category" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Inter SemiBold" size="24.0" />
+               </font>
+            </Label>
+            <FlowPane hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="123.0" prefWidth="925.0">
+               <children>
+                  <ToggleButton mnemonicParsing="false" text="CPU - Bộ vi xử lý" />
+                  <ToggleButton mnemonicParsing="false" text="SSD/HHD - Ổ cứng" />
+               </children>
+            </FlowPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="184.0" prefHeight="180.0" prefWidth="1000.0">
+         <children>
+            <Label layoutX="66.0" layoutY="38.0" text="Brand" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Inter SemiBold" size="24.0" />
+               </font>
+            </Label>
+            <FlowPane hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="123.0" prefWidth="925.0">
+               <children>
+                  <ToggleButton mnemonicParsing="false" text="GIGABYTE" />
+                  <ToggleButton mnemonicParsing="false" text="Samsung" />
+               </children>
+            </FlowPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="368.0" prefHeight="330.0" prefWidth="305.0">
+         <children>
+            <Label layoutX="66.0" layoutY="38.0" text="Price" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Inter SemiBold" size="24.0" />
+               </font>
+            </Label>
+            <MFXRadioButton layoutX="48.0" layoutY="65.0" text="Below 2,000,000" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </MFXRadioButton>
+            <MFXRadioButton layoutX="48.0" layoutY="95.0" text="2,000,0000 - 5,000,000" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </MFXRadioButton>
+            <MFXRadioButton layoutX="48.0" layoutY="125.0" text="5,000,0000 - 10,000,000" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </MFXRadioButton>
+            <MFXRadioButton layoutX="48.0" layoutY="155.0" text="10,000,000 - 20,000,000" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </MFXRadioButton>
+            <MFXRadioButton layoutX="48.0" layoutY="185.0" text="Above 20,000,000" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+            </MFXRadioButton>
+            <Label layoutX="114.0" layoutY="30.0" text="(vnd)" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="305.0" layoutY="428.0" prefHeight="184.0" prefWidth="679.0">
+         <children>
+            <FlowPane hgap="20.0" layoutX="25.0" layoutY="61.0" prefHeight="184.0" prefWidth="679.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER" styleClass="filter-border-box">
+                     <children>
+                        <Label text="Category: ">
+                           <font>
+                              <Font name="Inter SemiBold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label text="SSD - HDD " textFill="#4a55a2">
+                           <font>
+                              <Font name="Inter SemiBold" size="16.0" />
+                           </font>
+                        </Label>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-times-circle" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </FlowPane>
+         </children>
+      </AnchorPane>
+      <Label layoutX="305.0" layoutY="393.0" text="Selected filters:">
+         <font>
+            <Font name="Inter Bold" size="16.0" />
+         </font>
+      </Label>
+      <MFXButton id="button-custom" layoutX="764.0" layoutY="631.0" prefHeight="48.0" prefWidth="210.0" text="VIEW RESULT">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <MFXButton id="button-clear-filter" layoutX="540.0" layoutY="631.0" prefHeight="48.0" prefWidth="210.0" text="CLEAR FILTER">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+   </children>
+</AnchorPane>
