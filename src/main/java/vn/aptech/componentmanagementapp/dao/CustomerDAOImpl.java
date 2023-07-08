@@ -60,10 +60,8 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public void add(Customer customer) {
-        PreparedStatement statement = null;
-        try {
-            String query = "INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)";
-            statement = connection.prepareStatement(query);
+        String query = "INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, customer.getName());
             statement.setString(2, customer.getAddress());
             statement.setString(3, customer.getPhone());
@@ -72,18 +70,13 @@ public class CustomerDAOImpl implements CustomerDAO{
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeStatement(statement);
         }
-
     }
 
     @Override
     public void update(Customer customer) {
-        PreparedStatement statement = null;
-        try {
-            String query = "UPDATE customers SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?";
-            statement = connection.prepareStatement(query);
+        String query = "UPDATE customers SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, customer.getName());
             statement.setString(2, customer.getAddress());
             statement.setString(3, customer.getPhone());
@@ -93,25 +86,18 @@ public class CustomerDAOImpl implements CustomerDAO{
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeStatement(statement);
         }
     }
 
     @Override
     public void delete(long customerId) {
-        PreparedStatement statement = null;
-        try {
-            String query = "DELETE FROM customers WHERE id = ?";
-            statement = connection.prepareStatement(query);
+        String query = "DELETE FROM customers WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, customerId);
 
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeStatement(statement);
         }
-
     }
 }
