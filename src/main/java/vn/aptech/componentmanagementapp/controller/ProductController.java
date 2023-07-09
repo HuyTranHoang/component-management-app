@@ -20,7 +20,6 @@ import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
@@ -77,9 +76,7 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        ArrayList<Product> list = (ArrayList<Product>) productService.getAllProduct();
-        products = FXCollections.observableArrayList(list);
+        products = FXCollections.observableArrayList(productService.getAllProduct());
 
         initTableView();
         showPage(currentPageIndex);

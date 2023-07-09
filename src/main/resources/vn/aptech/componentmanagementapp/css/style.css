@@ -87,6 +87,16 @@
     -fx-border-radius: 5px;
 }
 
+.filter-label-selected {
+    -fx-font-family: "Inter SemiBold";
+    -fx-font-size: 14px;
+    -fx-text-fill: #4a55a2;
+    -fx-background-color: #C5DFF8;
+    -fx-padding: 5px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
 /*Table View*/
 .table-view {
     -fx-background-color: transparent;
