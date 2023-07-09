@@ -25,8 +25,8 @@
             </Label>
             <FlowPane hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="123.0" prefWidth="925.0">
                <children>
-                  <ToggleButton mnemonicParsing="false" text="CPU - Bộ vi xử lý" />
-                  <ToggleButton mnemonicParsing="false" text="SSD/HHD - Ổ cứng" />
+                  <ToggleButton mnemonicParsing="false" styleClass="filter-toggle-button" text="CPU - Bộ vi xử lý" />
+                  <ToggleButton mnemonicParsing="false" styleClass="filter-toggle-button" text="SSD/HHD - Ổ cứng" />
                </children>
             </FlowPane>
          </children>
@@ -40,8 +40,8 @@
             </Label>
             <FlowPane hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="123.0" prefWidth="925.0">
                <children>
-                  <ToggleButton mnemonicParsing="false" text="GIGABYTE" />
-                  <ToggleButton mnemonicParsing="false" text="Samsung" />
+                  <ToggleButton mnemonicParsing="false" styleClass="filter-toggle-button" text="GIGABYTE" />
+                  <ToggleButton mnemonicParsing="false" styleClass="filter-toggle-button" text="Samsung" />
                </children>
             </FlowPane>
          </children>
@@ -120,7 +120,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXButton id="button-clear-filter" layoutX="540.0" layoutY="631.0" prefHeight="48.0" prefWidth="210.0" text="CLEAR FILTER">
+      <MFXButton id="filter-clear-button" layoutX="540.0" layoutY="631.0" prefHeight="48.0" prefWidth="210.0" text="CLEAR FILTER">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

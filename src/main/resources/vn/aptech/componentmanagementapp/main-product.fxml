@@ -42,8 +42,8 @@
               <columns>
                 <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
                 <TableColumn fx:id="tbc_productCode" prefWidth="100.0" text="Product Code" />
-                  <TableColumn fx:id="tbc_name" prefWidth="400.0" text="Name" />
-                  <TableColumn fx:id="tbc_price" prefWidth="150.0" text="Price" />
+                  <TableColumn fx:id="tbc_name" prefWidth="400.0" style="-fx-alignment: center-left;" text="Name" />
+                  <TableColumn fx:id="tbc_price" prefWidth="150.0" text="Price " />
                   <TableColumn fx:id="tbc_minimumPrice" prefWidth="110.0" text="Minimum Price" visible="false" />
                   <TableColumn fx:id="tbc_quantity" prefWidth="75.0" text="Quantity" />
                   <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" text="Month of warranty" />

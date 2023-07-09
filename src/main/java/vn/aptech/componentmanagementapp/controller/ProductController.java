@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
+import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,7 +45,7 @@ public class ProductController implements Initializable {
     @FXML
     private Button previousButton;
 
-    private static final int ITEMS_PER_PAGE = 28;
+    private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
 
 //    TableView
@@ -88,7 +90,10 @@ public class ProductController implements Initializable {
         tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tbc_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
+        tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
+
         tbc_minimumPrice.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
@@ -97,6 +102,7 @@ public class ProductController implements Initializable {
         tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
         tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
     }
+
 
     /*
      * Begin of Pagination
