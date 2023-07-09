@@ -88,7 +88,7 @@
 }
 
 .filter-label-selected {
-    -fx-font-family: "Inter SemiBold";
+    -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 14px;
     -fx-text-fill: #4a55a2;
     -fx-background-color: #C5DFF8;

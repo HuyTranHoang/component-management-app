@@ -10,29 +10,29 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductFilterController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #fff;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductFilterController">
    <children>
-      <AnchorPane layoutX="-1.0" layoutY="14.0" prefHeight="180.0" prefWidth="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane layoutX="-1.0" layoutY="14.0" prefHeight="130.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="66.0" layoutY="38.0" text="Category" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
                <font>
                   <Font name="Inter SemiBold" size="24.0" />
                </font>
             </Label>
-            <FlowPane fx:id="flowPanel_category" hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="123.0" prefWidth="925.0" vgap="5.0" />
+            <FlowPane fx:id="flowPanel_category" hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="100.0" prefWidth="1120.0" vgap="10.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="184.0" prefHeight="180.0" prefWidth="1000.0">
+      <AnchorPane layoutY="184.0" prefHeight="128.0" prefWidth="1200.0">
          <children>
             <Label layoutX="66.0" layoutY="38.0" text="Supplier" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
                <font>
                   <Font name="Inter SemiBold" size="24.0" />
                </font>
             </Label>
-            <FlowPane fx:id="flowPanel_supplier" hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="123.0" prefWidth="925.0" vgap="5.0" />
+            <FlowPane fx:id="flowPanel_supplier" hgap="10.0" layoutX="50.0" layoutY="61.0" prefHeight="100.0" prefWidth="1120.0" vgap="10.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="368.0" prefHeight="184.0" prefWidth="305.0">
+      <AnchorPane layoutY="350.0" prefHeight="184.0" prefWidth="305.0">
          <children>
             <Label layoutX="50.0" layoutY="1.0" text="Price" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="1.0">
                <font>
@@ -70,27 +70,27 @@
             <Label layoutX="114.0" layoutY="7.0" text="(vnd)" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="305.0" layoutY="428.0" prefHeight="184.0" prefWidth="679.0">
+      <AnchorPane layoutX="305.0" layoutY="385.0" prefHeight="228.0" prefWidth="894.0">
          <children>
-            <FlowPane fx:id="flowPanel_selectedFilter" hgap="20.0" layoutX="25.0" layoutY="61.0" prefHeight="184.0" prefWidth="679.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <FlowPane fx:id="flowPanel_selectedFilter" hgap="20.0" layoutX="25.0" layoutY="61.0" prefHeight="184.0" prefWidth="888.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="305.0" layoutY="393.0" text="Selected filters:">
+      <Label layoutX="305.0" layoutY="356.0" text="Selected filters:">
          <font>
             <Font name="Inter Bold" size="16.0" />
          </font>
       </Label>
-      <MFXButton id="button-custom" layoutX="764.0" layoutY="631.0" onAction="#viewResultButtonOnClick" prefHeight="48.0" prefWidth="210.0" text="VIEW RESULT">
+      <MFXButton id="button-custom" layoutX="976.0" layoutY="631.0" onAction="#viewResultButtonOnClick" prefHeight="48.0" prefWidth="210.0" text="VIEW RESULT">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXButton id="filter-clear-button" layoutX="540.0" layoutY="631.0" prefHeight="48.0" prefWidth="210.0" text="CLEAR FILTER">
+      <MFXButton id="filter-clear-button" layoutX="752.0" layoutY="631.0" onAction="#clearFilterButtonOnClick" prefHeight="48.0" prefWidth="210.0" text="CLEAR FILTER">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <AnchorPane layoutY="554.0" prefHeight="140.0" prefWidth="305.0">
+      <AnchorPane layoutY="534.0" prefHeight="161.0" prefWidth="305.0">
          <children>
             <Label layoutX="50.0" layoutY="7.0" text="Visible column" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="7.0">
                <font>

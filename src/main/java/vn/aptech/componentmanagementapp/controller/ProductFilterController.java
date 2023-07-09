@@ -5,14 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.model.Category;
@@ -45,12 +40,6 @@ public class ProductFilterController implements Initializable {
     private FlowPane flowPanel_supplier;
     @FXML
     private FlowPane flowPanel_selectedFilter;
-
-    //  Chứa box và label hiển thị trong selected Filter
-    @FXML
-    private HBox hbox_selectedFilter_categoryGroup;
-    @FXML
-    private Text lbl_selectedFilter_category;
 
     //  Chứa data được lấy từ database
     private ObservableList<Category> categories;
@@ -118,10 +107,7 @@ public class ProductFilterController implements Initializable {
         initCategoryFilter();
         initSupplierFilter();
 
-        flowPanel_selectedFilter.getChildren().remove(hbox_selectedFilter_categoryGroup);
-
-//        TODO: Hiển thị selected filter cho Supplier, Price
-//        TODO: Lấy giá trị filter để filter tableview
+        initEventForRadioGroup();
     }
 
     private void initCategoryFilter() {
@@ -149,13 +135,30 @@ public class ProductFilterController implements Initializable {
     private void updateSelectedButtonsLabel() {
         flowPanel_selectedFilter.getChildren().clear(); // Clear the existing labels
 
-        for (ToggleButton toggleButton : categorySelectedToggleButtons) {
-            Label label = createLabel(toggleButton.getText(), toggleButton);
+        addLabelsForSelectedToggleButtons(categorySelectedToggleButtons);
+        addLabelsForSelectedToggleButtons(supplierSelectedToggleButtons);
+        addLabelsForSelectedToggleButtons(getSelectedRadioButton(tggPrice));
+    }
+
+    private List<ToggleButton> getSelectedRadioButton(ToggleGroup toggleGroup) {
+        List<ToggleButton> selectedToggleButtons = new ArrayList<>();
+
+        if (toggleGroup.getSelectedToggle() != null) {
+            RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
+            selectedToggleButtons.add(selectedRadioButton);
+        }
+
+        return selectedToggleButtons;
+    }
+
+    private void addLabelsForSelectedToggleButtons(List<ToggleButton> selectedToggleButtons) {
+        for (ToggleButton toggleButton : selectedToggleButtons) {
+            Label label = createLabel(toggleButton.getText(), toggleButton, selectedToggleButtons);
             flowPanel_selectedFilter.getChildren().add(label);
         }
     }
 
-    private Label createLabel(String text, ToggleButton toggleButton) {
+    private Label createLabel(String text, ToggleButton toggleButton, List<ToggleButton> selectedToggleButtons) {
         Label label = new Label(text);
 
         FontIcon fontIcon = new FontIcon();
@@ -167,7 +170,8 @@ public class ProductFilterController implements Initializable {
         label.setOnMouseClicked(event -> {
             flowPanel_selectedFilter.getChildren().remove(label);
             toggleButton.setSelected(false);
-            categorySelectedToggleButtons.remove(toggleButton);
+            selectedToggleButtons.remove(toggleButton);
+//            supplierSelectedToggleButtons.remove(toggleButton);
         });
         return label;
     }
@@ -189,19 +193,49 @@ public class ProductFilterController implements Initializable {
                 } else {
                     supplierSelectedToggleButtons.remove(toggleButton);
                 }
+
+                updateSelectedButtonsLabel();
             });
         });
+    }
 
+    private void initEventForRadioGroup() {
+        tggPrice.selectedToggleProperty().addListener((observable, oldToggle, newToggle) -> {
+            if (newToggle != null) {
+                updateSelectedButtonsLabel();
+            }
+        });
     }
 
     @FXML
     void viewResultButtonOnClick() {
+//        TODO: Lấy giá trị filter để filter tableview
         tbc_description.setVisible(checkbox_Description.isSelected());
         tbc_note.setVisible(checkbox_note.isSelected());
         tbc_minimumPrice.setVisible(checkbox_minimumPrice.isSelected());
 
-        System.out.println(categorySelectedToggleButtons.size());
+        System.out.println(categorySelectedToggleButtons.size()); // Dùng để xem size debug
 
         stage.close();
     }
+
+    @FXML
+    void clearFilterButtonOnClick() {
+        supplierSelectedToggleButtons.forEach(toggleButton -> toggleButton.setSelected(false));
+        supplierSelectedToggleButtons.clear();
+
+        categorySelectedToggleButtons.forEach(toggleButton -> toggleButton.setSelected(false));
+        categorySelectedToggleButtons.clear();
+
+        if (tggPrice.getSelectedToggle() != null)
+            tggPrice.getSelectedToggle().setSelected(false);
+
+        updateSelectedButtonsLabel();
+
+        System.out.println(categorySelectedToggleButtons.size()); // Dùng để xem size debug
+
+        stage.close();
+    }
+
+
 }
