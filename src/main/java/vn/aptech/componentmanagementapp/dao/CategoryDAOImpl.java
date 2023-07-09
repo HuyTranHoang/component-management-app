@@ -1,8 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Category;
-import vn.aptech.componentmanagementapp.model.Customer;
-import vn.aptech.componentmanagementapp.model.Position;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.Connection;

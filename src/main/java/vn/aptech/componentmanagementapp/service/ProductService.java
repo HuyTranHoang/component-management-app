@@ -2,7 +2,6 @@ package vn.aptech.componentmanagementapp.service;
 
 import vn.aptech.componentmanagementapp.dao.ProductDAO;
 import vn.aptech.componentmanagementapp.dao.ProductDAOImpl;
-import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
 
 import java.util.List;

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #fff;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductFilterController">
    <children>
       <AnchorPane layoutX="-1.0" layoutY="14.0" prefHeight="180.0" prefWidth="1000.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -45,39 +46,42 @@
             </FlowPane>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="368.0" prefHeight="330.0" prefWidth="305.0">
+      <AnchorPane layoutY="368.0" prefHeight="184.0" prefWidth="305.0">
          <children>
-            <Label layoutX="66.0" layoutY="38.0" text="Price" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+            <Label layoutX="50.0" layoutY="1.0" text="Price" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="1.0">
                <font>
                   <Font name="Inter SemiBold" size="24.0" />
                </font>
             </Label>
-            <MFXRadioButton layoutX="48.0" layoutY="65.0" text="Below 2,000,000" AnchorPane.leftAnchor="50.0">
+            <MFXRadioButton layoutX="50.0" layoutY="39.0" text="Below 2,000,000" AnchorPane.leftAnchor="50.0">
+               <font>
+                  <Font name="Inter Regular" size="14.0" />
+               </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="tggPrice" />
+               </toggleGroup>
+            </MFXRadioButton>
+            <MFXRadioButton layoutX="50.0" layoutY="69.0" text="2,000,0000 - 5,000,000" toggleGroup="$tggPrice" AnchorPane.leftAnchor="50.0">
                <font>
                   <Font name="Inter Regular" size="14.0" />
                </font>
             </MFXRadioButton>
-            <MFXRadioButton layoutX="48.0" layoutY="95.0" text="2,000,0000 - 5,000,000" AnchorPane.leftAnchor="50.0">
+            <MFXRadioButton layoutX="50.0" layoutY="99.0" text="5,000,0000 - 10,000,000" toggleGroup="$tggPrice" AnchorPane.leftAnchor="50.0">
                <font>
                   <Font name="Inter Regular" size="14.0" />
                </font>
             </MFXRadioButton>
-            <MFXRadioButton layoutX="48.0" layoutY="125.0" text="5,000,0000 - 10,000,000" AnchorPane.leftAnchor="50.0">
+            <MFXRadioButton layoutX="50.0" layoutY="129.0" text="10,000,000 - 20,000,000" toggleGroup="$tggPrice" AnchorPane.leftAnchor="50.0">
                <font>
                   <Font name="Inter Regular" size="14.0" />
                </font>
             </MFXRadioButton>
-            <MFXRadioButton layoutX="48.0" layoutY="155.0" text="10,000,000 - 20,000,000" AnchorPane.leftAnchor="50.0">
+            <MFXRadioButton layoutX="50.0" layoutY="159.0" text="Above 20,000,000" toggleGroup="$tggPrice" AnchorPane.leftAnchor="50.0">
                <font>
                   <Font name="Inter Regular" size="14.0" />
                </font>
             </MFXRadioButton>
-            <MFXRadioButton layoutX="48.0" layoutY="185.0" text="Above 20,000,000" AnchorPane.leftAnchor="50.0">
-               <font>
-                  <Font name="Inter Regular" size="14.0" />
-               </font>
-            </MFXRadioButton>
-            <Label layoutX="114.0" layoutY="30.0" text="(vnd)" />
+            <Label layoutX="114.0" layoutY="7.0" text="(vnd)" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="305.0" layoutY="428.0" prefHeight="184.0" prefWidth="679.0">
@@ -111,7 +115,7 @@
             <Font name="Inter Bold" size="16.0" />
          </font>
       </Label>
-      <MFXButton id="button-custom" layoutX="764.0" layoutY="631.0" prefHeight="48.0" prefWidth="210.0" text="VIEW RESULT">
+      <MFXButton id="button-custom" layoutX="764.0" layoutY="631.0" onAction="#viewResultButtonOnClick" prefHeight="48.0" prefWidth="210.0" text="VIEW RESULT">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -121,5 +125,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
+      <AnchorPane layoutY="554.0" prefHeight="140.0" prefWidth="305.0">
+         <children>
+            <Label layoutX="50.0" layoutY="7.0" text="Visible column" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="7.0">
+               <font>
+                  <Font name="Inter SemiBold" size="24.0" />
+               </font>
+            </Label>
+            <MFXCheckbox fx:id="checkbox_minimumPrice" layoutX="50.0" layoutY="43.0" text="Minimum Price" />
+            <MFXCheckbox fx:id="checkbox_note" layoutX="183.0" layoutY="43.0" text="Note" />
+            <MFXCheckbox fx:id="checkbox_Description" layoutX="50.0" layoutY="70.0" text="Description" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

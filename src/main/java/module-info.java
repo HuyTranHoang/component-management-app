@@ -19,4 +19,5 @@ module vn.aptech.componentmanagementapp {
 
     // Open the package to javafx.base
     opens vn.aptech.componentmanagementapp.model to javafx.base;
+    exports vn.aptech.componentmanagementapp.model;
 }

@@ -1,42 +1,45 @@
 package vn.aptech.componentmanagementapp.controller;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
 
-//    Product
+//    Product Panel
     private static ObservableList<Product> products;
     private ProductService productService = new ProductService();
+
+//    Filter Panel
+    private Scene filterScene;
+    private Stage filterStage;
 
 //  Pagination
     @FXML
     private Button firstPageButton;
-
     @FXML
     private Button lastPageButton;
-
     @FXML
     private Button nextButton;
-
     @FXML
     private HBox pageButtonContainer;
-
     @FXML
     private Button previousButton;
 
@@ -46,39 +49,28 @@ public class ProductController implements Initializable {
 //    TableView
     @FXML
     private TableView<Product> tableView;
-
-    @FXML
-    private TableColumn<Product, Long> tbc_categoryId;
-
-    @FXML
-    private TableColumn<Product, String> tbc_description;
-
     @FXML
     private TableColumn<Product, Long> tbc_id;
-
-    @FXML
-    private TableColumn<Product, Double> tbc_minimumPrice;
-
-    @FXML
-    private TableColumn<Product, Integer> tbc_monthOfWarranty;
-
-    @FXML
-    private TableColumn<Product, String> tbc_name;
-
-    @FXML
-    private TableColumn<Product, String> tbc_note;
-
-    @FXML
-    private TableColumn<Product, Double> tbc_price;
-
     @FXML
     private TableColumn<Product, String> tbc_productCode;
-
+    @FXML
+    private TableColumn<Product, String> tbc_name;
+    @FXML
+    private TableColumn<Product, Double> tbc_price;
+    @FXML
+    private TableColumn<Product, Double> tbc_minimumPrice;
     @FXML
     private TableColumn<Product, Integer> tbc_quantity;
-
+    @FXML
+    private TableColumn<Product, Integer> tbc_monthOfWarranty;
+    @FXML
+    private TableColumn<Product, String> tbc_note;
+    @FXML
+    private TableColumn<Product, String> tbc_description;
     @FXML
     private TableColumn<Product, Long> tbc_suppliderId;
+    @FXML
+    private TableColumn<Product, Long> tbc_categoryId;
 
 
     @Override
@@ -106,6 +98,9 @@ public class ProductController implements Initializable {
         tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
     }
 
+    /*
+     * Begin of Pagination
+     */
     private void showPage(int pageIndex) {
         int startIndex = pageIndex * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, products.size());
@@ -113,7 +108,6 @@ public class ProductController implements Initializable {
         ObservableList<Product> pageItems = FXCollections.observableArrayList(products.subList(startIndex, endIndex));
         tableView.setItems(pageItems);
     }
-
     @FXML
     void showPreviousPage() {
         if (currentPageIndex > 0) {
@@ -208,4 +202,32 @@ public class ProductController implements Initializable {
             updatePageButtons();
         }
     }
+
+    /*
+     * End of pagination
+     */
+
+    @FXML
+    void filterButtonOnClick() {
+        try {
+            if (filterScene == null && filterStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product-filter.fxml"));
+                filterScene = new Scene(fxmlLoader.load());
+                filterStage = new Stage();
+
+                ProductFilterController controller = fxmlLoader.getController();
+                controller.setStage(filterStage);
+                controller.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
+                        tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_description, tbc_suppliderId, tbc_categoryId);
+
+                filterStage.setScene(filterScene);
+                filterStage.setResizable(false);
+            }
+
+            filterStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
