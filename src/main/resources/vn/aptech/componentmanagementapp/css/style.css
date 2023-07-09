@@ -1,5 +1,9 @@
+* {
+    -hbd-primary-color: #4A55A2;
+}
+
 .main-background-color {
-    -fx-background-color: #4A55A2;
+    -fx-background-color: -hbd-primary-color;
 }
 
 /*Textfield padding right for icon*/
@@ -11,7 +15,7 @@
 .no-border-radius {
     -fx-background-radius: 0;
     -fx-border-radius: 0;
-    -fx-background-color: #4A55A2;
+    -fx-background-color: -hbd-primary-color;
 }
 
 .no-border-radius:hover {
@@ -40,14 +44,14 @@
 /*Pagination*/
 .pagination-button {
     -fx-background-color: #A0BFE0;
-    -fx-text-fill: #4A55A2;
+    -fx-text-fill: -hbd-primary-color;
     -fx-font-size: 14px;
     -fx-font-weight: 800;
     -fx-cursor: hand;
 }
 
 .pagination-button-selected {
-    -fx-background-color: #4A55A2;
+    -fx-background-color: -hbd-primary-color;
     -fx-text-fill: #fff;
 }
 
@@ -76,8 +80,8 @@
 }
 
 .filter-toggle-button:selected {
-    -fx-text-fill: #4A55A2;
-    -fx-border-color: #4A55A2;
+    -fx-text-fill: -hbd-primary-color;
+    -fx-border-color: -hbd-primary-color;
 }
 
 .filter-border-box {
@@ -90,17 +94,21 @@
 .filter-label-selected {
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 14px;
-    -fx-text-fill: #4a55a2;
+    -fx-text-fill: -hbd-primary-color;
     -fx-background-color: #C5DFF8;
     -fx-padding: 5px;
     -fx-background-radius: 8px;
     -fx-cursor: hand;
 }
 
+#customRadio {
+    -mfx-main: -hbd-primary-color;
+}
+
 /*Table View*/
 .table-view {
     -fx-background-color: transparent;
-    -fx-border-color: linear-gradient(from 0.0% 0.0% to 99.5% 70.5%, reflect, #4A55A2 0.0%, #7895CB 100.0%);
+    -fx-border-color: linear-gradient(from 0.0% 0.0% to 99.5% 70.5%, reflect, -hbd-primary-color 0.0%, #7895CB 100.0%);
     -fx-border-radius: 10px 10px 0 0;
     -fx-padding: 0;
 
@@ -114,7 +122,7 @@
 }
 
 .table-view .column-header-background {
-    -fx-background-color: linear-gradient(from 0.0% 0.0% to 99.5% 70.5%, reflect, #4A55A2 0.0%, #7895CB 100.0%);
+    -fx-background-color: linear-gradient(from 0.0% 0.0% to 99.5% 70.5%, reflect, -hbd-primary-color 0.0%, #7895CB 100.0%);
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 8px;
 }
@@ -139,5 +147,5 @@
 }
 
 .thumb {
-    -fx-background-color: #4A55A2; /* Thumb color */
+    -fx-background-color: -hbd-primary-color; /* Thumb color */
 }
