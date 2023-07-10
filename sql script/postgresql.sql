@@ -208,7 +208,7 @@ VALUES ('ASUS', 'asus@gmail.com', 'https://www.asus.com/'),
        ('MSI', 'msi@gmail.com', 'https://www.msi.com/'),
        ('SAMSUNG', 'samsung@gmail.com', 'https://www.samsung.com/'),
        ('Western Digital', 'wd@gmail.com', 'https://www.wd.com/'),
-       ('AMD''amd@gmail.com', 'https://www.amd.com/');
+       ('AMD','amd@gmail.com', 'https://www.amd.com/');
 
 -- Product
 -- CPU
