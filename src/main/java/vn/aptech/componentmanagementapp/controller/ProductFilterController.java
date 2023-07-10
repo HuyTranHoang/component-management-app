@@ -340,6 +340,10 @@ public class ProductFilterController implements Initializable {
 
     @FXML
     void clearFilterButtonOnClick() {
+        checkbox_minimumPrice.setSelected(false);
+        checkbox_note.setSelected(false);
+        checkbox_Description.setSelected(false);
+
         supplierSelectedToggleButtons.forEach(toggleButton -> toggleButton.setSelected(false));
         supplierSelectedToggleButtons.clear();
 

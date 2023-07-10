@@ -3,10 +3,8 @@ package vn.aptech.componentmanagementapp.dao;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,17 +40,41 @@ public class SupplierDAOImpl implements SupplierDAO{
     }
 
     @Override
-    public void add(Supplier entity) {
-
+    public void add(Supplier supplier) {
+        String query = "INSERT INTO suppliers (name, email, website) " +
+                "VALUES (?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1,supplier.getName());
+            statement.setString(2, supplier.getEmail());
+            statement.setString(3, supplier.getWebsite());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(Supplier entity) {
-
+    public void update(Supplier supplier) {
+        String query = "UPDATE suppliers SET name = ?, email = ?, website = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1,supplier.getName());
+            statement.setString(2, supplier.getEmail());
+            statement.setString(3, supplier.getWebsite());
+            statement.setLong(4, supplier.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void delete(long id) {
-
+    public void delete(long supplierId) {
+        String query = "DELETE FROM suppliers WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,supplierId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

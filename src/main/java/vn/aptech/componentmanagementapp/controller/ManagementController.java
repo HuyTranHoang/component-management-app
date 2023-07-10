@@ -61,4 +61,42 @@ public class ManagementController implements Initializable {
             stage.close();
         }
     }
+    @FXML
+    void productListButtonOnClick() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product.fxml"));
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            btn_leftPanel_productList.setId("button-custom-selected");
+            btn_leftPanel_customerList.setId("button-custom");
+            btn_leftPanel_OrderList.setId("button-custom");
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(anchorPane);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void customerListButtonOnClick() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-customer.fxml"));
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            btn_leftPanel_productList.setId("button-custom");
+            btn_leftPanel_customerList.setId("button-custom-selected");
+            btn_leftPanel_OrderList.setId("button-custom");
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(anchorPane);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void orderListButtonOnClick() {
+        System.out.println("789");
+    }
 }
