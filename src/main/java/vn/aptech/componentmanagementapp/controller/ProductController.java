@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
@@ -26,7 +27,12 @@ public class ProductController implements Initializable {
 
 //    Product Panel
     private static ObservableList<Product> products;
+
+    private ObservableList<Product> pageItems;
     private ProductService productService = new ProductService();
+
+    @FXML
+    private FontIcon resetFilterIcon; // Truyền vào filter panel để gán on click
 
 //    Filter Panel
     private Scene filterScene;
@@ -108,7 +114,7 @@ public class ProductController implements Initializable {
         int startIndex = pageIndex * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, products.size());
 
-        ObservableList<Product> pageItems = FXCollections.observableArrayList(products.subList(startIndex, endIndex));
+        pageItems = FXCollections.observableArrayList(products.subList(startIndex, endIndex));
         tableView.setItems(pageItems);
     }
     @FXML
@@ -220,6 +226,10 @@ public class ProductController implements Initializable {
 
                 ProductFilterController controller = fxmlLoader.getController();
                 controller.setStage(filterStage);
+                controller.setProducts(products);
+                controller.setPageItems(pageItems);
+                controller.setResetFilterIcon(resetFilterIcon);
+                controller.setPaginationButton(firstPageButton, previousButton, nextButton, lastPageButton, pageButtonContainer);
                 controller.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
                         tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_description, tbc_suppliderId, tbc_categoryId);
 

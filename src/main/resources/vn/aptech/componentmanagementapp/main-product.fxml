@@ -25,7 +25,10 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></FontIcon>
-      <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0" />
+      <FontIcon fx:id="resetFilterIcon" iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></FontIcon>
       <MFXButton layoutX="694.0" layoutY="19.0" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD PRODUCT" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="14.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
