@@ -52,7 +52,7 @@
                   <Font name="Segoe UI" size="16.0" />
                </font>
             </MFXPasswordField>
-            <MFXButton id="button-custom" fx:id="btn_login_login" layoutX="64.0" layoutY="510.0" onAction="#loginButtonOnClick" prefHeight="48.0" prefWidth="350.0" text="L O G I N">
+            <MFXButton id="button-custom" fx:id="btn_login_login" buttonType="RAISED" computeRadiusMultiplier="false" layoutX="64.0" layoutY="510.0" onAction="#loginButtonOnClick" prefHeight="48.0" prefWidth="350.0" rippleAnimateBackground="false" text="L O G I N">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></MFXButton>

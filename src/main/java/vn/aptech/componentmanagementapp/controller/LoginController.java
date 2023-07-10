@@ -20,6 +20,7 @@ import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
+import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -113,6 +114,9 @@ public class LoginController implements Initializable {
         initForgotValidator();
         initResetValidator();
         initEnterKeyPressing();
+
+        CustomerService customerService = new CustomerService();
+        System.out.println(customerService.getAllCustomer());
 
         loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
     }
