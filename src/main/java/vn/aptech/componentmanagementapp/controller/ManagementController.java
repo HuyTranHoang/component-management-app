@@ -61,7 +61,6 @@ public class ManagementController implements Initializable {
             stage.close();
         }
     }
-
     @FXML
     void productListButtonOnClick() {
         try {
