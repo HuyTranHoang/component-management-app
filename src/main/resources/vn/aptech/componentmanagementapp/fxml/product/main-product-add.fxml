@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
       <MFXButton layoutX="694.0" layoutY="19.0" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="LIST PRODUCT" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="14.0">
@@ -26,12 +26,12 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Product Code" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
+                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Code" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Name" floatingTextGap="3.0" graphicTextGap="5.0" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name" floatingTextGap="3.0" graphicTextGap="5.0" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -41,7 +41,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Minimum Price" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Minimum Price" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -56,18 +56,18 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Stock quantity" layoutX="56.0" layoutY="515.0" prefHeight="48.0" prefWidth="380.0" promptText="Stock quantity">
+                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Stock quantity" layoutX="56.0" layoutY="515.0" prefHeight="48.0" prefWidth="380.0" promptText="Stock quantity">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Month of warranty" layoutX="529.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Month of warranty">
+                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Month of warranty" layoutX="529.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Month of warranty">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
                   <TextArea layoutX="521.0" layoutY="315.0" prefHeight="110.0" prefWidth="380.0" />
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Note" layoutX="529.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Note">
+                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="529.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Note">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>

@@ -1,5 +1,9 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInLeft;
+import animatefx.animation.FadeInUpBig;
+import animatefx.animation.LightSpeedIn;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +24,9 @@ public class ManagementController implements Initializable {
     private AnchorPane anchor_main_rightPanel;
 
     @FXML
+    private AnchorPane anchor_mainPanel;
+
+    @FXML
     private MFXButton btn_leftPanel_Exit;
 
     @FXML
@@ -31,6 +38,11 @@ public class ManagementController implements Initializable {
     @FXML
     private MFXButton btn_leftPanel_productList;
 
+    // Cached views
+    private AnchorPane productView;
+    private AnchorPane customerView;
+
+
     //    Variable
     private Stage stage;
 
@@ -41,7 +53,7 @@ public class ManagementController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
             AnchorPane anchorPane = fxmlLoader.load();
             anchor_main_rightPanel.getChildren().add(anchorPane);
         } catch (IOException e) {
@@ -63,37 +75,42 @@ public class ManagementController implements Initializable {
     }
     @FXML
     void productListButtonOnClick() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product.fxml"));
-            AnchorPane anchorPane = fxmlLoader.load();
-
-            btn_leftPanel_productList.setId("button-custom-selected");
-            btn_leftPanel_customerList.setId("button-custom");
-            btn_leftPanel_OrderList.setId("button-custom");
-
-            anchor_main_rightPanel.getChildren().clear();
-            anchor_main_rightPanel.getChildren().add(anchorPane);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (productView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
+                productView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        btn_leftPanel_productList.setId("button-custom-selected");
+        btn_leftPanel_customerList.setId("button-custom");
+        btn_leftPanel_OrderList.setId("button-custom");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(productView);
     }
 
     @FXML
     void customerListButtonOnClick() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-customer.fxml"));
-            AnchorPane anchorPane = fxmlLoader.load();
-
-            btn_leftPanel_productList.setId("button-custom");
-            btn_leftPanel_customerList.setId("button-custom-selected");
-            btn_leftPanel_OrderList.setId("button-custom");
-
-            anchor_main_rightPanel.getChildren().clear();
-            anchor_main_rightPanel.getChildren().add(anchorPane);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (customerView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/customer/main-customer.fxml"));
+                customerView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        btn_leftPanel_productList.setId("button-custom");
+        btn_leftPanel_customerList.setId("button-custom-selected");
+        btn_leftPanel_OrderList.setId("button-custom");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(customerView);
     }
+
 
     @FXML
     void orderListButtonOnClick() {

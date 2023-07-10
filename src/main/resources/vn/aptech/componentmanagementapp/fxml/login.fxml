@@ -14,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.LoginController">
    <children>
       <AnchorPane fx:id="anchor_leftPanel_login" layoutY="-1.0" prefHeight="700.0" prefWidth="525.0">
          <children>
             <ImageView fitHeight="700.0" fitWidth="741.0" layoutX="-118.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/login/login.jpg" />
+                  <Image url="@../images/login/login.jpg" />
                </image>
             </ImageView>
          </children>
@@ -29,7 +29,7 @@
          <children>
             <ImageView fitHeight="700.0" fitWidth="741.0" layoutX="-112.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/login/forgotpassword.jpg" />
+                  <Image url="@../images/login/forgotpassword.jpg" />
                </image>
             </ImageView>
          </children>

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ManagementController">
+<AnchorPane fx:id="anchor_mainPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ManagementController">
    <children>
       <AnchorPane prefHeight="900.0" prefWidth="350.0" styleClass="main-background-color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -18,7 +18,7 @@
                <children>
                   <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true">
                      <image>
-                        <Image url="@images/Gura.jpg" />
+                        <Image url="@../images/Gura.jpg" />
                      </image>
                   </ImageView>
                   <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" style="-fx-padding: 20px 0 0 0;" text="Hello, Gawr Gura" textFill="WHITE">

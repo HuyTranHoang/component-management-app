@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.controller;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,11 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
@@ -240,7 +237,7 @@ public class ProductController implements Initializable, ProductFilterController
     private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product-filter.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-filter.fxml"));
                 filterScene = new Scene(fxmlLoader.load());
                 filterStage = new Stage();
 

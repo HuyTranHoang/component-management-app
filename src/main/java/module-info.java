@@ -2,7 +2,7 @@ module vn.aptech.componentmanagementapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires dotenv.java;
+    requires io.github.cdimascio.dotenv.java;
 
     requires MaterialFX;
 
@@ -11,6 +11,8 @@ module vn.aptech.componentmanagementapp {
     requires org.kordamp.ikonli.core;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome5;
+
+    requires AnimateFX;
 
     opens vn.aptech.componentmanagementapp to javafx.fxml;
     exports vn.aptech.componentmanagementapp;

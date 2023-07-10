@@ -20,7 +20,6 @@ import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
-import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -252,7 +251,7 @@ public class LoginController implements Initializable {
 
             if (isLoginValid) {
                 try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/main.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
 
                     scene.setOnMousePressed(event -> {
@@ -267,8 +266,6 @@ public class LoginController implements Initializable {
                     });
 
                     scene.setOnMouseReleased(event -> stage.setOpacity(1));
-
-
                     ManagementController controller = fxmlLoader.getController();
                     controller.setStage(stage);
                     stage.setScene(scene);

@@ -15,7 +15,7 @@ public class ComponentManagementApplication extends Application {
     private double y;
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         LoginController controller = fxmlLoader.getController();
         controller.setStage(stage);
