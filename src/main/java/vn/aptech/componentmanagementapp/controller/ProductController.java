@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 public class ProductController implements Initializable, ProductFilterController.FilterCallback {
 
@@ -36,24 +38,11 @@ public class ProductController implements Initializable, ProductFilterController
     private ObservableList<Product> pageItems;
     private ProductService productService = new ProductService();
     @FXML
-    private FontIcon resetFilterIcon; // Truyền vào ProductController để gán on click
-    @FXML
     private Label filter_noti_label; // Truyền vào ProductController để set visiable và text
     @FXML
     private Circle filter_noti_shape;
     @FXML
     private MFXTextField txt_product_search;
-
-    @FXML
-    private AnchorPane anchor_product_addProduct;
-
-    @FXML
-    private AnchorPane anchor_product_view;
-
-    private int addMode = 0;
-
-    @FXML
-    private MFXButton btn_addProduct;
 
 //    Filter Panel
     private Scene filterScene;
@@ -102,20 +91,19 @@ public class ProductController implements Initializable, ProductFilterController
 //    Controller to call clear filter function in this
     private ProductFilterController filterController;
 
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        products = FXCollections.observableArrayList(productService.getAllProduct());
-
-
-        initTableView();
-        showPage(currentPageIndex);
-        updatePageButtons();
-
-        initFilterStage();
-        filterController.initSearchListen();
+        CompletableFuture.supplyAsync(() -> productService.getAllProduct())
+                .thenAcceptAsync(productList -> {
+                    products = FXCollections.observableArrayList(productList);
+                    Platform.runLater(() -> {
+                        initTableView();
+                        showPage(currentPageIndex);
+                        updatePageButtons();
+                        initFilterStage();
+                        filterController.initSearchListen();
+                    });
+                });
     }
 
     private void initTableView() {
@@ -295,17 +283,7 @@ public class ProductController implements Initializable, ProductFilterController
 
     @FXML
     void addProductButtonOnClick() {
-        if (addMode == 0) {
-            addMode = 1;
-            anchor_product_view.setVisible(false);
-            anchor_product_addProduct.setVisible(true);
-            btn_addProduct.setText("Product List");
-        } else {
-            addMode = 0;
-            anchor_product_view.setVisible(true);
-            anchor_product_addProduct.setVisible(false);
-            btn_addProduct.setText("Add List");
-        }
+        System.out.println("1234");
     }
 
 }
