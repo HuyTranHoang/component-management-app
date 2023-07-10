@@ -1,9 +1,11 @@
 package vn.aptech.componentmanagementapp.controller;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,6 +59,21 @@ public class CustomerController implements Initializable {
     @FXML
     private TableColumn<Customer, String> tbc_phone;
 
+    @FXML
+    private MFXTextField txt_address;
+
+    @FXML
+    private MFXTextField txt_email;
+
+    @FXML
+    private MFXTextField txt_name;
+
+    @FXML
+    private MFXTextField txt_phone;
+
+    @FXML
+    private MFXTextField txt_product_search;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,11 +83,6 @@ public class CustomerController implements Initializable {
         updatePageButtons();
     }
 
-
-    /*
-     * Begin of Pagination
-     */
-
     private void initTableView() {
         tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -78,6 +90,18 @@ public class CustomerController implements Initializable {
         tbc_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
+    @FXML
+    void clearButton(){
+        txt_name.setText("");
+        txt_address.setText("");
+        txt_phone.setText("");
+        txt_email.setText("");
+        txt_name.requestFocus();
+    }
+
+    /*
+     * Begin of Pagination
+     */
 
     private void showPage(int pageIndex) {
         int startIndex = pageIndex * ITEMS_PER_PAGE;
@@ -86,6 +110,7 @@ public class CustomerController implements Initializable {
         pageItems = FXCollections.observableArrayList(customers.subList(startIndex, endIndex));
         tableView.setItems(pageItems);
     }
+
     @FXML
     void showPreviousPage() {
         if (currentPageIndex > 0) {
