@@ -112,7 +112,6 @@ public class ProductController implements Initializable, ProductFilterController
 
         tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
-
         tbc_minimumPrice.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
