@@ -3,6 +3,7 @@ package vn.aptech.componentmanagementapp.dao;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +72,6 @@ public class CategoryDAOImpl implements CategoryDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 }

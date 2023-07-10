@@ -45,7 +45,9 @@
                   <Font name="Inter Regular" size="16.0" />
                </font>
             </Label>
-            <MFXTextField id="textfield-custom" fx:id="txt_login_email" floatMode="DISABLED" layoutX="64.0" layoutY="274.0" prefHeight="48.0" prefWidth="350.0" promptText="Email">
+
+            <MFXTextField id="textfield-custom" fx:id="txt_login_email" floatMode="DISABLED" layoutX="64.0" layoutY="274.0" prefHeight="48.0" prefWidth="350.0" promptText="Email" text="thaibao@gmail.com">
+
                <font>
                   <Font name="Segoe UI" size="16.0" />
                </font>
@@ -55,7 +57,7 @@
                   <Font name="Inter Regular" size="16.0" />
                </font>
             </Label>
-            <MFXPasswordField id="textfield-custom" fx:id="txt_login_password" floatMode="DISABLED" hideCharacter="•" layoutX="64.0" layoutY="375.0" prefHeight="49.0" prefWidth="350.0" promptText="Password">
+            <MFXPasswordField id="textfield-custom" fx:id="txt_login_password" floatMode="DISABLED" hideCharacter="•" layoutX="64.0" layoutY="375.0" prefHeight="49.0" prefWidth="350.0" promptText="Password" text="1234@abc">
                <font>
                   <Font name="Segoe UI" size="16.0" />
                </font>

@@ -19,14 +19,8 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.dao.EmployeeDAOImpl;
-import vn.aptech.componentmanagementapp.model.Category;
-import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
-import vn.aptech.componentmanagementapp.model.Supplier;
-import vn.aptech.componentmanagementapp.service.CategoryService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
-import vn.aptech.componentmanagementapp.service.SupplierService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.io.IOException;
@@ -34,7 +28,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -119,14 +112,6 @@ public class LoginController implements Initializable {
         initLoginValidator();
         initForgotValidator();
         initResetValidator();
-
-        Category category = new Category();
-        category.setName("Tom");
-        category.setDescription("tom");
-
-        CategoryService service = new CategoryService();
-        service.addCategory(category);
-        System.out.println(service);
 
 
         initEnterKeyPressing();

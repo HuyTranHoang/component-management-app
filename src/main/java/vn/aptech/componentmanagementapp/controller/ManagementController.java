@@ -61,4 +61,35 @@ public class ManagementController implements Initializable {
             stage.close();
         }
     }
+    @FXML
+    void productListButtonOnClick() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product.fxml"));
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(anchorPane);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void customerListButtonOnClick() {
+        System.out.println("11");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-customer.fxml"));
+            AnchorPane anchorPane = fxmlLoader.load();
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(anchorPane);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void orderListButtonOnClick() {
+        System.out.println("789");
+    }
 }

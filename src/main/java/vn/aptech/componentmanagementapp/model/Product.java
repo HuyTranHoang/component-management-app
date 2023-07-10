@@ -124,5 +124,22 @@ public class Product {
         }
         return category;
     }
-
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productCode='" + productCode + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", minimumPrice=" + minimumPrice +
+                ", stockQuantity=" + stockQuantity +
+                ", monthOfWarranty=" + monthOfWarranty +
+                ", note='" + note + '\'' +
+                ", description='" + description + '\'' +
+                ", supplierId=" + supplierId +
+                ", categoryId=" + categoryId +
+                ", supplier=" + supplier +
+                ", category=" + category +
+                '}';
+    }n
 }

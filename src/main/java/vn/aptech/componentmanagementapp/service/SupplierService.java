@@ -17,6 +17,6 @@ public class SupplierService {
     public List<Supplier> getAllSupplier() {
         return supplierDAO.getAll();
     }
-
     public void addSupplier(Supplier supplier){supplierDAO.add(supplier);}
+
 }
