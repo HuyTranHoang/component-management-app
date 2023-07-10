@@ -35,7 +35,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="330.0" prefHeight="380.0" prefWidth="350.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <MFXButton id="button-custom" fx:id="btn_leftPanel_productList" prefHeight="48.0" prefWidth="300.0" style="-fx-padding: 0 0 0 15px;" text="PRODUCT LIST">
+                  <MFXButton id="button-custom" fx:id="btn_leftPanel_productList" onAction="#productListButtonOnClick" prefHeight="48.0" prefWidth="300.0" style="-fx-padding: 0 0 0 15px;" text="PRODUCT LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -43,7 +43,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_leftPanel_customerList" prefHeight="48.0" prefWidth="300.0" text="CUSTOMER LIST">
+                  <MFXButton id="button-custom" fx:id="btn_leftPanel_customerList" onAction="#customerListButtonOnClick" prefHeight="48.0" prefWidth="300.0" text="CUSTOMER LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -51,7 +51,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_leftPanel_OrderList" prefHeight="48.0" prefWidth="300.0" text="ORDER LIST">
+                  <MFXButton id="button-custom" fx:id="btn_leftPanel_OrderList" onAction="#orderListButtonOnClick" prefHeight="48.0" prefWidth="300.0" text="ORDER LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
