@@ -141,5 +141,5 @@ public class Product {
                 ", supplier=" + supplier +
                 ", category=" + category +
                 '}';
-    }n
+    }
 }
