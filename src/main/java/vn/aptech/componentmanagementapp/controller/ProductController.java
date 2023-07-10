@@ -96,7 +96,6 @@ public class ProductController implements Initializable, ProductFilterController
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         products = FXCollections.observableArrayList(productService.getAllProduct());
-
         initTableView();
         showPage(currentPageIndex);
         updatePageButtons();
@@ -113,7 +112,9 @@ public class ProductController implements Initializable, ProductFilterController
         tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
 
-        tbc_minimumPrice.setCellValueFactory(new PropertyValueFactory<>("minimumPrice"));
+        tbc_minimumPrice.setCellFactory(column -> new FormattedDoubleTableCell<>());
+        tbc_minimumPrice.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
+
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
