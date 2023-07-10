@@ -57,32 +57,32 @@
                </children></HBox>
             <AnchorPane layoutX="743.0" prefHeight="720.0" prefWidth="491.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" borderGap="0.0" floatMode="ABOVE" floatingText="Name" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField id="textfield-padding" fx:id="txt_name" borderGap="0.0" floatMode="ABOVE" floatingText="Name" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" borderGap="0.0" floatMode="ABOVE" floatingText="Address" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
+                  <MFXTextField id="textfield-padding" fx:id="txt_address" borderGap="0.0" floatMode="ABOVE" floatingText="Address" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" borderGap="0.0" floatMode="ABOVE" floatingText="Phone" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                  <MFXTextField id="textfield-padding" fx:id="txt_phone" borderGap="0.0" floatMode="ABOVE" floatingText="Phone" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
+                  <MFXTextField id="textfield-padding" fx:id="txt_email" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXButton id="button-custom" layoutX="290.0" layoutY="598.0" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                  <MFXButton id="button-custom" fx:id="btn_store" layoutX="290.0" layoutY="598.0" prefHeight="48.0" prefWidth="150.0" text="STORE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton id="filter-clear-button" layoutX="127.0" layoutY="598.0" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                  <MFXButton id="filter-clear-button" fx:id="btn_clear" layoutX="127.0" layoutY="598.0" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
