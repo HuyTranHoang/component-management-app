@@ -1,11 +1,12 @@
 package vn.aptech.componentmanagementapp.model;
 
 public abstract class User {
-    private long id;
-    private String name;
-    private String address;
-    private String phone;
-    private String email;
+    protected long id;
+
+    protected String name;
+    protected String address;
+    protected String phone;
+    protected String email;
 
     public long getId() {
         return id;

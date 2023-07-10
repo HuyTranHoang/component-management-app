@@ -49,18 +49,20 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public void add(Employee employee) {
-        String query = "INSERT INTO employees VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO employees(name, address, phone, email, password, salary, image, " +
+                "citizen_identification, date_of_birth, date_of_hire, department_id, position_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, employee.getId());
-            statement.setString(2,employee.getName());
-            statement.setString(3, employee.getAddress());
-            statement.setString(4, employee.getPhone());
-            statement.setString(5, employee.getEmail());
+            statement.setString(1,employee.getName());
+            statement.setString(2, employee.getAddress());
+            statement.setString(3, employee.getPhone());
+            statement.setString(4, employee.getEmail());
+            statement.setString(5,employee.getPassword());
             statement.setDouble(6,employee.getSalary());
             statement.setString(7,employee.getImage());
             statement.setString(8, employee.getCitizenID());
-            statement.setObject(9,employee.getDateOfBirth());
-            statement.setObject(10,employee.getDateOfHire());
+            statement.setDate(9, Date.valueOf(employee.getDateOfBirth()));
+            statement.setDate(10,Date.valueOf(employee.getDateOfHire()));
             statement.setLong(11,employee.getDepartmentId());
             statement.setLong(12,employee.getPositionId());
             statement.executeUpdate();
