@@ -1,9 +1,10 @@
 package vn.aptech.componentmanagementapp.model;
 
-public class Department {
+public class Supplier {
     private long id;
     private String name;
-    private String description;
+    private String email;
+    private String website;
 
     public long getId() {
         return id;
@@ -21,20 +22,29 @@ public class Department {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     @Override
     public String toString() {
-        return "Department{" +
+        return "Supplier{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
+                ", website='" + website + '\'' +
                 '}';
     }
 }

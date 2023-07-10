@@ -5,13 +5,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0be88b8b-c113-4b35-95db-14a64e0fef21" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql script/postgresql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ManagementController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ProductController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/controller/ProductFilterController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CategoryDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CategoryDAOImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/ProductDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/ProductDAOImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/SupplierDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/SupplierDAOImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Supplier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/service/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/service/ProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/service/SupplierService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/FormattedDoubleTableCell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/Pagination.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/images/Gura.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main-product-filter.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main-product.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/main.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a01c76d-2b31-46c4-a9f2-ba4f232f156d/storage_v2/_src_/database/QLLK.2vglAA/schema/public.abK9xQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/ComponentManagementController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/CustomerDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/DepartmentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/DepartmentDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/DepartmentDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/DepartmentDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/EmployeeDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/EmployeeDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/PositionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/PositionDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/PositionDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/dao/PositionDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/LoginInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/LoginInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/service/EmployeeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/DatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vn/aptech/componentmanagementapp/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +109,9 @@
       </RecentBranches>
     </option>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/vn/aptech/componentmanagementapp/util/DatabaseConnection.java" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -67,36 +123,40 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2SCMpQvYP3yXMVllGBFB5Pg0iRJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/TranPhatDat/FinalTestJava/component-management-app",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/TranPhatDat/FinalTestJava/component-management-app&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\TranPhatDat\FinalTestJava\component-management-app" />
       <recent name="D:\Aptech\Java2\Project\component-management-app\src\main\resources\vn\aptech\componentmanagementapp\images\login" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -140,7 +200,8 @@
       <workItem from="1688710193959" duration="11424000" />
       <workItem from="1688722843907" duration="1470000" />
       <workItem from="1688735226474" duration="5953000" />
-      <workItem from="1688993568305" duration="2578000" />
+      <workItem from="1688993568305" duration="4691000" />
+      <workItem from="1688998303650" duration="2053000" />
     </task>
     <servers />
   </component>

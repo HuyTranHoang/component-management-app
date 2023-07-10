@@ -2,6 +2,7 @@ module vn.aptech.componentmanagementapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires dotenv.java;
 
     requires MaterialFX;
 
@@ -13,7 +14,10 @@ module vn.aptech.componentmanagementapp {
 
     opens vn.aptech.componentmanagementapp to javafx.fxml;
     exports vn.aptech.componentmanagementapp;
-    exports vn.aptech.componentmanagementapp.dao;
+    opens vn.aptech.componentmanagementapp.controller to javafx.fxml;
+    exports vn.aptech.componentmanagementapp.controller;
+
+    // Open the package to javafx.base
+    opens vn.aptech.componentmanagementapp.model to javafx.base;
     exports vn.aptech.componentmanagementapp.model;
-    exports vn.aptech.componentmanagementapp.service;
 }

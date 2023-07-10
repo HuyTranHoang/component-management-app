@@ -22,4 +22,11 @@ public class EmployeeService {
     public List<LoginInfo> getAllLoginInfo() {
         return employeeDAO.getAllLoginInfo();
     }
+
+    public void updateEmployeePassword(long id, String password) {
+        employeeDAO.updatePassword(id, password);
+    }
+    public void add(Employee employee){
+        employeeDAO.add(employee);
+    }
 }

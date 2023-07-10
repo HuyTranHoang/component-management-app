@@ -44,7 +44,7 @@ public class PositionDAOImpl implements PositionDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Position position = new Position();
-                position.setId(resultSet.getInt("id"));
+                position.setId(resultSet.getLong("id"));
                 position.setName(resultSet.getString("name"));
                 position.setDescription(resultSet.getString("description"));
                 positions.add(position);
@@ -57,17 +57,40 @@ public class PositionDAOImpl implements PositionDAO{
     }
 
     @Override
-    public void add(Position entity) {
-
+    public void add(Position position) {
+        String query = "INSERT INTO positions (id,name,description) VALUES (?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,position.getId());
+            statement.setString(2, position.getName());
+            statement.setString(3, position.getDescription());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(Position entity) {
-
+    public void update(Position position) {
+        String query = "UPDATE positions SET id = ?, name = ?, description = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,position.getId());
+            statement.setString(2, position.getName());
+            statement.setString(3, position.getDescription());
+            statement.setLong(4,position.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void delete(long id) {
-
+    public void delete(long positionId) {
+        String query = "DELETE FROM employees WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,positionId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

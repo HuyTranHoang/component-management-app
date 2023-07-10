@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.util;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.*;
 
 public class DatabaseConnection {
@@ -13,8 +15,10 @@ public class DatabaseConnection {
     private static Connection connection;
 
     private DatabaseConnection() {
+
+        Dotenv dotenv = Dotenv.load();
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(URL, dotenv.get("DB_USERNAME"), dotenv.get("DB_PASSWORD"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,19 +1,151 @@
-.main-background-color {
-    -fx-background-color: #4A55A2;
+* {
+    -hbd-primary-color: #4A55A2;
 }
 
+.main-background-color {
+    -fx-background-color: -hbd-primary-color;
+}
+
+/*Textfield padding right for icon*/
 #textfield-custom {
     -fx-padding: 0 40px 0 10px;
+}
+
+/*Close and mimimize button*/
+.no-border-radius {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-background-color: -hbd-primary-color;
+}
+
+.no-border-radius:hover {
+    -fx-background-color: #fff;
 }
 
 /*#textfield-custom .mfx-icon-wrapper {*/
 /*    visibility: hidden;*/
 /*}*/
 
+/*Button*/
 #button-custom {
     -fx-background-color: #7895CB;
     -fx-text-fill: white;
     -fx-font-family: 'Inter';
     -fx-font-weight: 800;
     -fx-font-size: 16px;
+    -fx-border-radius: 5px;
+}
+
+.search-bar {
+    -fx-background-color: #CFCFCF;
+    -fx-padding: 0 0 0 25px;
+}
+
+/*Pagination*/
+.pagination-button {
+    -fx-background-color: #A0BFE0;
+    -fx-text-fill: -hbd-primary-color;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-cursor: hand;
+}
+
+.pagination-button-selected {
+    -fx-background-color: -hbd-primary-color;
+    -fx-text-fill: #fff;
+}
+
+/*Filter*/
+#filter-clear-button {
+    -fx-background-color: #fff;
+    -fx-text-fill: #EE3B3B;
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 800;
+    -fx-font-size: 16px;
+    -fx-border-color: #EE3B3B;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.filter-toggle-button {
+    -fx-background-color: #fff;
+    -fx-border-width: 3px;
+    -fx-border-color: #696060;
+    -fx-border-radius: 5px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Inter Semi Bold";
+    -fx-text-fill: #696060;
+    -fx-font-weight: 800;
+    -fx-cursor: hand;
+}
+
+.filter-toggle-button:selected {
+    -fx-text-fill: -hbd-primary-color;
+    -fx-border-color: -hbd-primary-color;
+}
+
+.filter-border-box {
+    -fx-background-color: #fff;
+    -fx-border-width: 1px;
+    -fx-border-color: #696060;
+    -fx-border-radius: 5px;
+}
+
+.filter-label-selected {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 14px;
+    -fx-text-fill: -hbd-primary-color;
+    -fx-background-color: #C5DFF8;
+    -fx-padding: 5px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+#customRadio {
+    -mfx-main: -hbd-primary-color;
+}
+
+/*Table View*/
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: linear-gradient(from 0.0% 0.0% to 99.5% 70.5%, reflect, -hbd-primary-color 0.0%, #7895CB 100.0%);
+    -fx-border-radius: 10px 10px 0 0;
+    -fx-padding: 0;
+
+    -fx-selection-bar: #A0BFE0;
+    -fx-selection-bar-non-focused: #C5DFF8;
+}
+
+.table-view .table-column {
+    -fx-alignment: center;
+    -fx-font-family: "Arial";
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(from 0.0% 0.0% to 99.5% 70.5%, reflect, -hbd-primary-color 0.0%, #7895CB 100.0%);
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 8px;
+}
+
+.table-view .column-header,
+.filler {
+    -fx-background-color: transparent;
+    -fx-size: 30px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #fff;
+    -fx-font-family: "Arial";
+}
+
+.scroll-bar {
+    -fx-background-color: #f2f2f2; /* Scroll bar background color */
+}
+
+.track {
+    -fx-background-color: #f2f2f2; /* Track color */
+}
+
+.thumb {
+    -fx-background-color: -hbd-primary-color; /* Thumb color */
 }
