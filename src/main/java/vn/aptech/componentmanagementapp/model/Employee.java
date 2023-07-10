@@ -8,6 +8,8 @@ import vn.aptech.componentmanagementapp.dao.PositionDAOImpl;
 import java.time.LocalDate;
 
 public class Employee extends User{
+    private String password;
+
     private double salary;
     private String image;
     private String citizenID;
@@ -19,6 +21,13 @@ public class Employee extends User{
     // Lazy-loaded Department and Position objects
     private Department department;
     private Position position;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public double getSalary() {
         return salary;
@@ -97,6 +106,7 @@ public class Employee extends User{
     @Override
     public String toString() {
         return "Employee{" +
+                "name=" + name +
                 "salary=" + salary +
                 ", image='" + image + '\'' +
                 ", citizenID='" + citizenID + '\'' +
