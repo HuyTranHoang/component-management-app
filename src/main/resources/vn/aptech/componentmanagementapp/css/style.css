@@ -11,6 +11,12 @@
     -fx-padding: 0 40px 0 10px;
 }
 
+
+.mfx-text-field .floating-text {
+    -fx-background-color: -hbd-primary-color;
+    -fx-text-fill: #fff;
+}
+
 /*Close and mimimize button*/
 .no-border-radius {
     -fx-background-radius: 0;
@@ -30,6 +36,16 @@
 #button-custom {
     -fx-background-color: #7895CB;
     -fx-text-fill: white;
+    -fx-font-family: 'Inter';
+    -fx-font-weight: 800;
+    -fx-font-size: 16px;
+    -fx-border-radius: 5px;
+}
+
+#button-custom:hover,
+#button-custom-selected {
+    -fx-background-color: #C5DFF8;
+    -fx-text-fill: #4A55A2;
     -fx-font-family: 'Inter';
     -fx-font-weight: 800;
     -fx-font-size: 16px;
@@ -149,3 +165,4 @@
 .thumb {
     -fx-background-color: -hbd-primary-color; /* Thumb color */
 }
+

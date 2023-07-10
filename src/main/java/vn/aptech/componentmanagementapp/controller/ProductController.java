@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -96,6 +95,8 @@ public class ProductController implements Initializable, ProductFilterController
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         products = FXCollections.observableArrayList(productService.getAllProduct());
+
+
         initTableView();
         showPage(currentPageIndex);
         updatePageButtons();
@@ -112,8 +113,10 @@ public class ProductController implements Initializable, ProductFilterController
         tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
 
+
         tbc_minimumPrice.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_minimumPrice.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
+
 
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));

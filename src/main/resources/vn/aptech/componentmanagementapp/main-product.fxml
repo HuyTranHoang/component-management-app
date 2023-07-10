@@ -41,7 +41,9 @@
       </MFXButton>
       <FontIcon iconLiteral="far-user-circle" iconSize="25" layoutX="1132.0" layoutY="36.0" AnchorPane.rightAnchor="87.0" AnchorPane.topAnchor="17.0" />
       <FontIcon iconLiteral="far-bell" iconSize="25" layoutX="1174.0" layoutY="42.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="17.0" />
-      <AnchorPane fx:id="anchor_product_view" layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="361.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
+      <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
+      <AnchorPane fx:id="anchor_product_view" layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
               <columns>
@@ -80,7 +82,68 @@
                </children></HBox>
          </children>
       </AnchorPane>
-      <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="361.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
-      <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
+      <AnchorPane fx:id="anchor_product_view1" layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
+               <children>
+                  <Label layoutX="58.0" layoutY="90.0" text="Product Code" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <MFXTextField floatMode="DISABLED" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
+                     <font>
+                        <Font name="Segoe UI" size="16.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label layoutX="58.0" layoutY="190.0" text="Name" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <MFXTextField caretVisible="false" floatMode="DISABLED" floatingText="Name" floatingTextGap="3.0" graphicTextGap="5.0" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
+                     <font>
+                        <Font name="Segoe UI" size="16.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label layoutX="58.0" layoutY="290.0" text="Phone" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <MFXTextField floatMode="DISABLED" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                     <font>
+                        <Font name="Segoe UI" size="16.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label layoutX="56.0" layoutY="390.0" text="Email" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <MFXTextField floatMode="DISABLED" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                     <font>
+                        <Font name="Segoe UI" size="16.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXButton id="button-custom" layoutX="1003.0" layoutY="646.0" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <MFXButton id="filter-clear-button" layoutX="834.0" layoutY="646.0" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <Label layoutX="174.0" layoutY="43.0" text="ADD PRODUCT" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

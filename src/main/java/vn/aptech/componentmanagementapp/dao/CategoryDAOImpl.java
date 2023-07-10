@@ -3,10 +3,8 @@ package vn.aptech.componentmanagementapp.dao;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,17 +38,40 @@ public class CategoryDAOImpl implements CategoryDAO{
     }
 
     @Override
-    public void add(Category entity) {
-
+    public void add(Category category) {
+        String query = "INSERT INTO categories (name, description) " +
+                "VALUES (?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1,category.getName());
+            statement.setString(2, category.getDescription());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void update(Category entity) {
-
+    public void update(Category category) {
+        String query = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1,category.getName());
+            statement.setString(2, category.getDescription());;
+            statement.setLong(3, category.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(long categoryId) {
+        String query = "DELETE FROM categories WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1,categoryId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

@@ -4,6 +4,7 @@ import vn.aptech.componentmanagementapp.dao.CategoryDAO;
 import vn.aptech.componentmanagementapp.dao.CategoryDAOImpl;
 import vn.aptech.componentmanagementapp.model.Category;
 
+
 import java.util.List;
 
 public class CategoryService {
@@ -17,6 +18,7 @@ public class CategoryService {
 
         return categoryDAO.getAll();
     }
+  
     public Category getCategoryById(int categoryId) {
         return categoryDAO.getById(categoryId);
     }
@@ -35,4 +37,5 @@ public class CategoryService {
 
         categoryDAO.delete(categoryId);
     }
+
 }
