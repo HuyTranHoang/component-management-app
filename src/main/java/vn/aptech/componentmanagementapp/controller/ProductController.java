@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -23,22 +25,23 @@ import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class ProductController implements Initializable {
+public class ProductController implements Initializable, ProductFilterController.FilterCallback {
 
 //    Product Panel
     private static ObservableList<Product> products;
-
     private ObservableList<Product> pageItems;
     private ProductService productService = new ProductService();
-
     @FXML
     private FontIcon resetFilterIcon; // Truyền vào ProductController để gán on click
     @FXML
     private Label filter_noti_label; // Truyền vào ProductController để set visiable và text
     @FXML
     private Circle filter_noti_shape;
+    @FXML
+    private MFXTextField txt_product_search;
 
 //    Filter Panel
     private Scene filterScene;
@@ -55,7 +58,6 @@ public class ProductController implements Initializable {
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
-
     private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
 
@@ -85,6 +87,11 @@ public class ProductController implements Initializable {
     @FXML
     private TableColumn<Product, Long> tbc_categoryId;
 
+//    Controller to call clear filter function in this
+    private ProductFilterController filterController;
+
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,6 +100,9 @@ public class ProductController implements Initializable {
         initTableView();
         showPage(currentPageIndex);
         updatePageButtons();
+
+        initFilterStage();
+        filterController.initSearchListen();
     }
 
     private void initTableView() {
@@ -222,31 +232,47 @@ public class ProductController implements Initializable {
      * End of pagination
      */
 
-    @FXML
-    void filterButtonOnClick() {
+    private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("main-product-filter.fxml"));
                 filterScene = new Scene(fxmlLoader.load());
                 filterStage = new Stage();
 
-                ProductFilterController controller = fxmlLoader.getController();
-                controller.setStage(filterStage);
-                controller.setProducts(products);
-                controller.setPageItems(pageItems);
-                controller.setResetFilterIcon(resetFilterIcon);
-                controller.setFilter_noti(filter_noti_shape, filter_noti_label);
-                controller.setPaginationButton(firstPageButton, previousButton, nextButton, lastPageButton, pageButtonContainer);
-                controller.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
+                filterController = fxmlLoader.getController();
+                filterController.setFilterCallback(this);
+                filterController.setStage(filterStage);
+                filterController.setTxt_product_search(txt_product_search);
+                filterController.setProducts(products);
+                filterController.setFilter_noti(filter_noti_shape, filter_noti_label);
+                filterController.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
                         tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_description, tbc_suppliderId, tbc_categoryId);
 
                 filterStage.setScene(filterScene);
                 filterStage.setResizable(false);
             }
-
-            filterStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void filterButtonOnClick() {
+        filterStage.show();
+    }
+
+    @Override
+    public void onFilterApplied(List<Product> filteredProducts) {
+        // Update the table view with the filtered products
+        products = FXCollections.observableArrayList(filteredProducts);
+        showFirstPage();
+        updatePageButtons();
+    }
+
+    @FXML
+    void resetFilterIconClicked() {
+        if (filterController != null) {
+            filterController.clearFilterButtonOnClick();
         }
     }
 

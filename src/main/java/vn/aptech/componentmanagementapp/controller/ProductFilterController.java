@@ -1,13 +1,15 @@
 package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -19,13 +21,19 @@ import vn.aptech.componentmanagementapp.service.CategoryService;
 import vn.aptech.componentmanagementapp.service.SupplierService;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductFilterController implements Initializable {
 
+    // Callback dùng để truyền list product đã được filter ra ProductController
+    public interface FilterCallback {
+        void onFilterApplied(List<Product> filteredProducts);
+    }
+    private FilterCallback filterCallback;
+    public void setFilterCallback(FilterCallback filterCallback) {
+        this.filterCallback = filterCallback;
+    }
     //    Dùng để filter những cột nào hiển thị trên table
     @FXML
     private ToggleGroup tggPrice;
@@ -82,26 +90,17 @@ public class ProductFilterController implements Initializable {
 //    List product từ product controller
     private static ObservableList<Product> products;
     private List<Product> filteredProducts = null;
-    private ObservableList<Product> pageItems;
-    @FXML
-    private Button firstPageButton;
-    @FXML
-    private Button lastPageButton;
-    @FXML
-    private Button nextButton;
-    @FXML
-    private HBox pageButtonContainer;
-    @FXML
-    private Button previousButton;
 
-//    Pagination
-    private static final int ITEMS_PER_PAGE = 26;
-    private int currentPageIndex = 0;
-    private Stage stage;
+//    Debound for search text field
+    private Timer debounceTimer;
+    private boolean isInputPending = false;
+    private final long DEBOUNCE_DELAY = 1000; // Delay in milliseconds
+
 
 //    Dùng để gán action - Được truyền vào từ ProductController
+    private Stage stage;
     @FXML
-    private FontIcon resetFilterIcon;
+    private MFXTextField txt_product_search;
     @FXML
     private Label filter_noti_label; // Truyền vào ProductController để set visiable và text
     @FXML
@@ -113,18 +112,12 @@ public class ProductFilterController implements Initializable {
         this.stage = stage;
     }
 
+    public void setTxt_product_search(MFXTextField txt_product_search) {
+        this.txt_product_search = txt_product_search;
+    }
+
     public void setProducts(ObservableList<Product> products) {
         ProductFilterController.products = products;
-    }
-
-    public void setPageItems(ObservableList<Product> pageItems) {
-        this.pageItems = pageItems;
-    }
-
-    public void setResetFilterIcon(FontIcon resetFilterIcon) {
-        this.resetFilterIcon = resetFilterIcon;
-
-        this.resetFilterIcon.setOnMouseClicked(event -> clearFilterButtonOnClick());
     }
 
     public void setFilter_noti(Circle filter_noti_shape, Label filter_noti_label) {
@@ -149,14 +142,6 @@ public class ProductFilterController implements Initializable {
         this.tbc_description = tbc_description;
         this.tbc_suppliderId = tbc_suppliderId;
         this.tbc_categoryId = tbc_categoryId;
-    }
-
-    public void setPaginationButton(Button firstPageButton, Button previousButton, Button nextButton, Button lastPageButton, HBox pageButtonContainer) {
-        this.firstPageButton = firstPageButton;
-        this.previousButton = previousButton;
-        this.nextButton = nextButton;
-        this.lastPageButton = lastPageButton;
-        this.pageButtonContainer = pageButtonContainer;
     }
 
     @Override
@@ -327,8 +312,15 @@ public class ProductFilterController implements Initializable {
             countFilter = countFilter + selectedSupplierIds.size();
         }
 
-        showFirstPage();
-        updatePageButtons();
+        // Search
+        String searchText = txt_product_search.getText().trim();
+        if (!searchText.isEmpty()) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(product ->
+                            product.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                                    product.getProductCode().toLowerCase().contains(searchText.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
 
         if (countFilter != 0) {
             filter_noti_shape.setVisible(true);
@@ -337,6 +329,10 @@ public class ProductFilterController implements Initializable {
         } else {
             filter_noti_shape.setVisible(false);
             filter_noti_label.setVisible(false);
+        }
+
+        if (filterCallback != null) {
+            filterCallback.onFilterApplied(filteredProducts);
         }
 
         stage.close();
@@ -355,119 +351,50 @@ public class ProductFilterController implements Initializable {
 
         updateSelectedButtonsLabel(); // Clear the existing labels
 
+        txt_product_search.clear(); // Clear search text
+
         viewResultButtonOnClick();
 
         stage.close();
     }
 
-    /*
-     * Begin of Pagination
-     */
-    private void showPage(int pageIndex) {
-        int startIndex = pageIndex * ITEMS_PER_PAGE;
-        int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredProducts.size());
+    void initSearchListen() {
 
-        pageItems = FXCollections.observableArrayList(filteredProducts.subList(startIndex, endIndex));
-        tableView.setItems(pageItems);
-    }
-    @FXML
-    void showPreviousPage() {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
-    }
-    @FXML
-    void showNextPage() {
-        int maxPageIndex = (int) Math.ceil((double) filteredProducts.size() / ITEMS_PER_PAGE) - 1;
-        if (currentPageIndex < maxPageIndex) {
-            currentPageIndex++;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
-    }
-    @FXML
-    void showFirstPage() {
-        currentPageIndex = 0;
-        showPage(currentPageIndex);
-        updatePageButtons();
-    }
-    @FXML
-    void showLastPage() {
-        int maxPageIndex = (int) Math.ceil((double) filteredProducts.size() / ITEMS_PER_PAGE) - 1;
-        currentPageIndex = maxPageIndex;
-        showPage(currentPageIndex);
-        updatePageButtons();
-    }
-
-    private void updatePageButtons() {
-        int pageCount = (int) Math.ceil((double) filteredProducts.size() / ITEMS_PER_PAGE);
-        int maxVisibleButtons = 5; // Maximum number of visible page buttons
-
-        int startIndex;
-        int endIndex;
-
-        if (pageCount <= maxVisibleButtons) {
-            startIndex = 0;
-            endIndex = pageCount;
-        } else {
-            startIndex = Math.max(currentPageIndex - 2, 0);
-            endIndex = Math.min(startIndex + maxVisibleButtons, pageCount);
-
-            if (endIndex - startIndex < maxVisibleButtons) {
-                startIndex = Math.max(endIndex - maxVisibleButtons, 0);
+        txt_product_search.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                viewResultButtonOnClick();
+            else if (event.getCode() == KeyCode.ESCAPE) {
+                txt_product_search.clear();
+                viewResultButtonOnClick();
             }
-        }
+        });
 
-        pageButtonContainer.getChildren().clear();
-
-        firstPageButton.setDisable(currentPageIndex == 0);
-        previousButton.setDisable(currentPageIndex == 0);
-        lastPageButton.setDisable(currentPageIndex == pageCount - 1);
-        nextButton.setDisable(currentPageIndex == pageCount -1);
-        if (startIndex > 0) {
-            Button ellipsisButtonStart = new Button("...");
-            ellipsisButtonStart.setMinWidth(30);
-            ellipsisButtonStart.getStyleClass().add("pagination-button");
-            ellipsisButtonStart.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonStart);
-        }
-
-        for (int i = startIndex; i < endIndex; i++) {
-            Button pageButton = new Button(Integer.toString(i + 1));
-            pageButton.setMinWidth(30);
-            pageButton.getStyleClass().add("pagination-button");
-            int pageIndex = i;
-            pageButton.setOnAction(e -> showPageByIndex(pageIndex));
-            pageButtonContainer.getChildren().add(pageButton);
-
-            // Highlight the selected page button
-            if (pageIndex == currentPageIndex) {
-                pageButton.getStyleClass().add("pagination-button-selected");
+        txt_product_search.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Clear the previous timer if it exists
+            if (debounceTimer != null) {
+                debounceTimer.cancel();
             }
-        }
 
-        if (endIndex < pageCount) {
-            Button ellipsisButtonEnd = new Button("...");
-            ellipsisButtonEnd.setMinWidth(30);
-            ellipsisButtonEnd.getStyleClass().add("pagination-button");
-            ellipsisButtonEnd.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonEnd);
-        }
+            // Set the input pending flag to true
+            isInputPending = true;
+
+            // Create a new timer
+            debounceTimer = new Timer();
+            debounceTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // Check if there is a pending input
+                    if (isInputPending) {
+                        Platform.runLater(() -> {
+                            // Call the viewResultButtonOnClick method
+                            viewResultButtonOnClick();
+                            // Set the input pending flag to false
+                            isInputPending = false;
+                        });
+                    }
+                }
+            }, DEBOUNCE_DELAY);
+        });
     }
-
-    private void showPageByIndex(int pageIndex) {
-        if (pageIndex >= 0 && pageIndex <= (int) Math.ceil((double) filteredProducts.size() / ITEMS_PER_PAGE) - 1) {
-            currentPageIndex = pageIndex;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
-    }
-
-    /*
-     * End of pagination
-     */
-
 
 }

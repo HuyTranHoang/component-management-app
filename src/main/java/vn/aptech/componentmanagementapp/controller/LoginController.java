@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class    LoginController implements Initializable {
+public class LoginController implements Initializable {
     @FXML
     private AnchorPane anchor_leftPanel_forgot;
 
