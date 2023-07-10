@@ -8,10 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
@@ -32,7 +34,11 @@ public class ProductController implements Initializable {
     private ProductService productService = new ProductService();
 
     @FXML
-    private FontIcon resetFilterIcon; // Truyền vào filter panel để gán on click
+    private FontIcon resetFilterIcon; // Truyền vào ProductController để gán on click
+    @FXML
+    private Label filter_noti_label; // Truyền vào ProductController để set visiable và text
+    @FXML
+    private Circle filter_noti_shape;
 
 //    Filter Panel
     private Scene filterScene;
@@ -229,6 +235,7 @@ public class ProductController implements Initializable {
                 controller.setProducts(products);
                 controller.setPageItems(pageItems);
                 controller.setResetFilterIcon(resetFilterIcon);
+                controller.setFilter_noti(filter_noti_shape, filter_noti_label);
                 controller.setPaginationButton(firstPageButton, previousButton, nextButton, lastPageButton, pageButtonContainer);
                 controller.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
                         tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_description, tbc_suppliderId, tbc_categoryId);

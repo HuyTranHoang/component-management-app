@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.model.Category;
@@ -98,9 +99,13 @@ public class ProductFilterController implements Initializable {
     private int currentPageIndex = 0;
     private Stage stage;
 
-//    Dùng để gán action
+//    Dùng để gán action - Được truyền vào từ ProductController
     @FXML
     private FontIcon resetFilterIcon;
+    @FXML
+    private Label filter_noti_label; // Truyền vào ProductController để set visiable và text
+    @FXML
+    private Circle filter_noti_shape;
 
 //    Hàm set
 
@@ -122,6 +127,10 @@ public class ProductFilterController implements Initializable {
         this.resetFilterIcon.setOnMouseClicked(event -> clearFilterButtonOnClick());
     }
 
+    public void setFilter_noti(Circle filter_noti_shape, Label filter_noti_label) {
+        this.filter_noti_shape = filter_noti_shape;
+        this.filter_noti_label = filter_noti_label;
+    }
     public void setProductTable(TableView<Product> tableView, TableColumn<Product, Long> tbc_id,
                                 TableColumn<Product, String> tbc_productCode, TableColumn<Product, String> tbc_name,
                                 TableColumn<Product, Double> tbc_price, TableColumn<Product, Double> tbc_minimumPrice,
@@ -257,7 +266,11 @@ public class ProductFilterController implements Initializable {
 
     @FXML
     void viewResultButtonOnClick() {
+        int countFilter = 0; // Dùng để đếm số lượng filter xong gán thành text cho noti
+
         // Checkbox
+//        TODO: thêm những cột khác có thể hiện/ ẩn
+//        TODO: Sửa category id v supplier id thành tên trong table view
         tbc_description.setVisible(checkbox_Description.isSelected());
         tbc_note.setVisible(checkbox_note.isSelected());
         tbc_minimumPrice.setVisible(checkbox_minimumPrice.isSelected());
@@ -284,6 +297,8 @@ public class ProductFilterController implements Initializable {
                         .filter(product -> product.getPrice() > 20000000)
                         .collect(Collectors.toList());
             };
+
+            countFilter++;
         } else {
             filteredProducts = new ArrayList<>(products); // Original list
         }
@@ -297,6 +312,7 @@ public class ProductFilterController implements Initializable {
             filteredProducts = filteredProducts.stream()
                     .filter(product -> selectedCategoryIds.contains(product.getCategoryId()))
                     .collect(Collectors.toList());
+            countFilter = countFilter + selectedCategoryIds.size();
         }
 
         // Supplier
@@ -308,10 +324,20 @@ public class ProductFilterController implements Initializable {
             filteredProducts = filteredProducts.stream()
                     .filter(product -> selectedSupplierIds.contains(product.getSupplierId()))
                     .collect(Collectors.toList());
+            countFilter = countFilter + selectedSupplierIds.size();
         }
 
         showFirstPage();
         updatePageButtons();
+
+        if (countFilter != 0) {
+            filter_noti_shape.setVisible(true);
+            filter_noti_label.setText(String.valueOf(countFilter));
+            filter_noti_label.setVisible(true);
+        } else {
+            filter_noti_shape.setVisible(false);
+            filter_noti_label.setVisible(false);
+        }
 
         stage.close();
     }
