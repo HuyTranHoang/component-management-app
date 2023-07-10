@@ -57,42 +57,22 @@
                </children></HBox>
             <AnchorPane layoutX="743.0" prefHeight="720.0" prefWidth="491.0" styleClass="main-background-color">
                <children>
-                  <Label layoutX="58.0" layoutY="90.0" text="Name" textFill="WHITE">
-                     <font>
-                        <Font name="Inter Regular" size="14.0" />
-                     </font>
-                  </Label>
-                  <MFXTextField floatMode="DISABLED" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField borderGap="0.0" floatMode="ABOVE" floatingText="Name" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </MFXTextField>
-                  <Label layoutX="58.0" layoutY="190.0" text="Address" textFill="WHITE">
-                     <font>
-                        <Font name="Inter Regular" size="14.0" />
-                     </font>
-                  </Label>
-                  <MFXTextField floatMode="DISABLED" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField borderGap="0.0" floatMode="ABOVE" floatingText="Address" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </MFXTextField>
-                  <Label layoutX="58.0" layoutY="290.0" text="Phone" textFill="WHITE">
-                     <font>
-                        <Font name="Inter Regular" size="14.0" />
-                     </font>
-                  </Label>
-                  <MFXTextField floatMode="DISABLED" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField borderGap="0.0" floatMode="ABOVE" floatingText="Phone" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
                   </MFXTextField>
-                  <Label layoutX="56.0" layoutY="390.0" text="Email" textFill="WHITE">
-                     <font>
-                        <Font name="Inter Regular" size="14.0" />
-                     </font>
-                  </Label>
-                  <MFXTextField floatMode="DISABLED" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>

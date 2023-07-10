@@ -40,24 +40,14 @@
                <font>
                   <Font name="Inter Black" size="40.0" />
                </font></Label>
-            <Label layoutX="64.0" layoutY="247.0" text="Email" textFill="#c5dff8">
-               <font>
-                  <Font name="Inter Regular" size="16.0" />
-               </font>
-            </Label>
 
-            <MFXTextField id="textfield-custom" fx:id="txt_login_email" floatMode="DISABLED" layoutX="64.0" layoutY="274.0" prefHeight="48.0" prefWidth="350.0" promptText="Email" text="thaibao@gmail.com">
+            <MFXTextField id="textfield-custom" fx:id="txt_login_email" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="64.0" layoutY="274.0" prefHeight="48.0" prefWidth="350.0" text="thaibao@gmail.com">
 
                <font>
                   <Font name="Segoe UI" size="16.0" />
                </font>
             </MFXTextField>
-            <Label layoutX="64.0" layoutY="354.0" text="Password" textFill="#c5dff8">
-               <font>
-                  <Font name="Inter Regular" size="16.0" />
-               </font>
-            </Label>
-            <MFXPasswordField id="textfield-custom" fx:id="txt_login_password" floatMode="DISABLED" hideCharacter="•" layoutX="64.0" layoutY="375.0" prefHeight="49.0" prefWidth="350.0" promptText="Password" text="1234@abc">
+            <MFXPasswordField id="textfield-custom" fx:id="txt_login_password" borderGap="0.0" floatMode="ABOVE" floatingText="Password" hideCharacter="•" layoutX="64.0" layoutY="375.0" prefHeight="49.0" prefWidth="350.0" promptText="Password" text="1234@abc">
                <font>
                   <Font name="Segoe UI" size="16.0" />
                </font>
