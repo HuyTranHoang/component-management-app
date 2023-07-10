@@ -115,9 +115,6 @@ public class LoginController implements Initializable {
         initResetValidator();
         initEnterKeyPressing();
 
-        CustomerService customerService = new CustomerService();
-        System.out.println(customerService.getAllCustomer());
-
         loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
     }
 
