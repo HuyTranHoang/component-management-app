@@ -26,7 +26,22 @@ public class EmployeeService {
     public void updateEmployeePassword(long id, String password) {
         employeeDAO.updatePassword(id, password);
     }
-    public void add(Employee employee){
+    public Employee getEmployeeById(int employeeId) {
+        return employeeDAO.getById(employeeId);
+    }
+
+    public void addEmployee(Employee employee) {
+
         employeeDAO.add(employee);
+    }
+
+    public void updateEmployee(Employee employee) {
+
+        employeeDAO.update(employee);
+    }
+
+    public void deleteEmployee(int employeeId) {
+
+        employeeDAO.delete(employeeId);
     }
 }
