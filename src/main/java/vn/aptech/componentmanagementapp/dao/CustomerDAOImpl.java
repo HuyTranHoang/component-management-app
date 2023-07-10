@@ -40,11 +40,12 @@ public class CustomerDAOImpl implements CustomerDAO{
     public List<Customer> getAll() {
         String query = "SELECT * FROM customers";
         ArrayList<Customer> customers = new ArrayList<>();
+
         try(Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query)) {
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 Customer customer = new Customer();
-                customer.setId(resultSet.getInt("id"));
+                customer.setId(resultSet.getLong("id"));
                 customer.setName(resultSet.getString("name"));
                 customer.setAddress(resultSet.getString("address"));
                 customer.setPhone(resultSet.getString("phone"));
@@ -54,7 +55,6 @@ public class CustomerDAOImpl implements CustomerDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return customers;
     }
 
