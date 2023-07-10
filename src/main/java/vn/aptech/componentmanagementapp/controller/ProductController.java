@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -41,6 +43,17 @@ public class ProductController implements Initializable, ProductFilterController
     private Circle filter_noti_shape;
     @FXML
     private MFXTextField txt_product_search;
+
+    @FXML
+    private AnchorPane anchor_product_addProduct;
+
+    @FXML
+    private AnchorPane anchor_product_view;
+
+    private int addMode = 0;
+
+    @FXML
+    private MFXButton btn_addProduct;
 
 //    Filter Panel
     private Scene filterScene;
@@ -277,6 +290,21 @@ public class ProductController implements Initializable, ProductFilterController
     void resetFilterIconClicked() {
         if (filterController != null) {
             filterController.clearFilterButtonOnClick();
+        }
+    }
+
+    @FXML
+    void addProductButtonOnClick() {
+        if (addMode == 0) {
+            addMode = 1;
+            anchor_product_view.setVisible(false);
+            anchor_product_addProduct.setVisible(true);
+            btn_addProduct.setText("Product List");
+        } else {
+            addMode = 0;
+            anchor_product_view.setVisible(true);
+            anchor_product_addProduct.setVisible(false);
+            btn_addProduct.setText("Add List");
         }
     }
 

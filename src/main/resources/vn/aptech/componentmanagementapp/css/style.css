@@ -11,6 +11,10 @@
     -fx-padding: 0 40px 0 10px;
 }
 
+#textfield-padding {
+    -fx-padding: 0 10px 0 10px;
+}
+
 
 .mfx-text-field .floating-text {
     -fx-background-color: -hbd-primary-color;
