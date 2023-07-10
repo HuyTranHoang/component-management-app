@@ -28,11 +28,11 @@
          <children>
             <TableView fx:id="tableView" prefHeight="720.0" prefWidth="700.0" AnchorPane.leftAnchor="10.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Id" />
-                  <TableColumn prefWidth="200.0" text="Name" />
-                  <TableColumn prefWidth="140.0" text="Address" />
-                  <TableColumn prefWidth="140.0" text="Phone" />
-                  <TableColumn prefWidth="140.0" text="Email" />
+                <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
+                  <TableColumn fx:id="tbc_name" prefWidth="200.0" text="Name" />
+                  <TableColumn fx:id="tbc_address" prefWidth="140.0" text="Address" />
+                  <TableColumn fx:id="tbc_phone" prefWidth="140.0" text="Phone" />
+                  <TableColumn fx:id="tbc_email" prefWidth="140.0" text="Email" />
               </columns>
             </TableView>
             <HBox fx:id="paginationControls" alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="689.0" spacing="10.0">

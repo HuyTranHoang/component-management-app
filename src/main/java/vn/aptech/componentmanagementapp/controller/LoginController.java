@@ -112,8 +112,6 @@ public class LoginController implements Initializable {
         initLoginValidator();
         initForgotValidator();
         initResetValidator();
-
-
         initEnterKeyPressing();
 
         loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();

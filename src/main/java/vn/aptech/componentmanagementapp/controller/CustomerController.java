@@ -1,14 +1,18 @@
 package vn.aptech.componentmanagementapp.controller;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.CustomerService;
+import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,16 +42,43 @@ public class CustomerController implements Initializable {
     // Customer Panel
     @FXML
     private TableView<Customer> tableView;
+    @FXML
+    private TableColumn<Customer, String> tbc_address;
+
+    @FXML
+    private TableColumn<Customer, String> tbc_email;
+
+    @FXML
+    private TableColumn<Customer, Long> tbc_id;
+
+    @FXML
+    private TableColumn<Customer, String> tbc_name;
+
+    @FXML
+    private TableColumn<Customer, String> tbc_phone;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         customers = FXCollections.observableArrayList(customerService.getAllCustomer());
+        initTableView();
+        showPage(currentPageIndex);
+        updatePageButtons();
     }
 
 
     /*
      * Begin of Pagination
      */
+
+    private void initTableView() {
+        tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tbc_address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        tbc_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+    }
+
     private void showPage(int pageIndex) {
         int startIndex = pageIndex * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, customers.size());
@@ -153,4 +184,7 @@ public class CustomerController implements Initializable {
     /*
      * End of pagination
      */
+
+
+
 }
