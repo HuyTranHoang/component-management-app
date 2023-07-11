@@ -80,7 +80,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_clear" layoutX="127.0" layoutY="598.0" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                  <MFXButton id="button-custom-clear" fx:id="btn_clear" layoutX="127.0" layoutY="598.0" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

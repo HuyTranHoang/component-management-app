@@ -28,42 +28,42 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" fx:id="txt_productCode" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Code" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
+                  <MFXTextField id="textfield-padding" fx:id="txt_productCode" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Code (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name" floatingTextGap="3.0" graphicTextGap="5.0" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" floatingTextGap="3.0" graphicTextGap="5.0" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_price" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Price" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                  <MFXTextField id="textfield-padding" fx:id="txt_price" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Price (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_stockQuantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Stock quantity" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Stock quantity">
+                  <MFXTextField id="textfield-padding" fx:id="txt_stockQuantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Stock quantity (*)" layoutX="56.0" layoutY="445.0" prefHeight="48.0" prefWidth="380.0" promptText="Stock quantity">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_monthOfWarranty" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Month of warranty" layoutX="529.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Month of warranty">
+                  <MFXTextField id="textfield-padding" fx:id="txt_monthOfWarranty" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Month of warranty (*)" layoutX="529.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Month of warranty">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="529.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Note">
+                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="529.0" layoutY="225.0" prefHeight="48.0" prefWidth="380.0" promptText="Note">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXFilterComboBox fx:id="cbb_supplier" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Category" layoutX="526.0" layoutY="319.0" prefHeight="40.0" prefWidth="380.0">
+                  <MFXFilterComboBox fx:id="cbb_supplier" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Category (*)" layoutX="526.0" layoutY="335.0" prefHeight="40.0" prefWidth="380.0">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXFilterComboBox>
-                  <MFXFilterComboBox fx:id="cbb_category" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Supplier" layoutX="526.0" layoutY="419.0" prefHeight="40.0" prefWidth="380.0">
+                  <MFXFilterComboBox fx:id="cbb_category" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Supplier (*)" layoutX="526.0" layoutY="445.0" prefHeight="40.0" prefWidth="380.0">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -81,7 +81,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton id="button-custom" layoutX="569.0" layoutY="643.0" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                  <MFXButton id="button-custom-clear" layoutX="569.0" layoutY="643.0" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -94,7 +94,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_name" layoutX="58.0" layoutY="275.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_name" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -102,7 +102,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_price" layoutX="58.0" layoutY="375.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_price" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -110,7 +110,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_stockQuantity" layoutX="58.0" layoutY="475.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_stockQuantity" layoutX="58.0" layoutY="505.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -126,7 +126,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_note" layoutX="529.0" layoutY="275.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_note" layoutX="529.0" layoutY="285.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>

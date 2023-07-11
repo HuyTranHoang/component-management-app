@@ -129,6 +129,8 @@ public class ProductAddController implements Initializable {
                     String productCode = context.get("productCode");
                     if (productCode.isEmpty())
                         context.error("Product code can't be empty");
+                    else if (!productCode.matches("([A-Z])\\w+"))
+                        context.error("Product code can't have whitespace");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_productCode);
@@ -149,6 +151,10 @@ public class ProductAddController implements Initializable {
                     String price = context.get("price");
                     if (price.isEmpty())
                         context.error("Price can't be empty");
+                    else if (!price.matches("\\d+"))
+                        context.error("Price can only contain number");
+                    else if (Double.parseDouble(price) < 0)
+                        context.error("Price need to be greater than 0");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_price);
@@ -159,6 +165,8 @@ public class ProductAddController implements Initializable {
                     String stockQuantity = context.get("stockQuantity");
                     if (stockQuantity.isEmpty())
                         context.error("Stock quantity can't be empty");
+                    else if (!stockQuantity.matches("\\d+"))
+                        context.error("Stock quantity can only contain number");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_stockQuantity);
@@ -169,19 +177,21 @@ public class ProductAddController implements Initializable {
                     String monthOfWarranty = context.get("monthOfWarranty");
                     if (monthOfWarranty.isEmpty())
                         context.error("Month of warranty can't be empty");
+                    else if (!monthOfWarranty.matches("\\d+"))
+                        context.error("Stock quantity can only contain number");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_monthOfWarranty);
 
-        productValidator.createCheck()
-                .dependsOn("note", txt_note.textProperty())
-                .withMethod(context -> {
-                    String note = context.get("note");
-                    if (note.isEmpty())
-                        context.error("Note can't be empty");
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_note);
+//        productValidator.createCheck()
+//                .dependsOn("note", txt_note.textProperty())
+//                .withMethod(context -> {
+//                    String note = context.get("note");
+//                    if (note.isEmpty())
+//                        context.error("Note can't be empty");
+//                })
+//                .decoratingWith(this::labelDecorator)
+//                .decorates(lbl_error_note);
     }
 
     private Decoration labelDecorator(ValidationMessage message) {
@@ -209,6 +219,7 @@ public class ProductAddController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
+        clearValidateError();
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(productView);
     }
@@ -252,6 +263,28 @@ public class ProductAddController implements Initializable {
             }));
             timeline.play();
         }
+    }
+
+    @FXML
+    void clearInput() {
+        txt_productCode.clear();
+        txt_name.clear();
+        txt_price.clear();
+        txt_stockQuantity.clear();
+        txt_monthOfWarranty.clear();
+        txt_note.clear();
+        cbb_supplier.selectFirst();
+        cbb_category.selectFirst();
+
+        clearValidateError();
+    }
+
+    private void clearValidateError() {
+        lbl_error_productCode.setVisible(false);
+        lbl_error_name.setVisible(false);
+        lbl_error_price.setVisible(false);
+        lbl_error_stockQuantity.setVisible(false);
+        lbl_error_monthOfWarranty.setVisible(false);
     }
 
 
