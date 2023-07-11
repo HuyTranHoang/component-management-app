@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Customer;
+import vn.aptech.componentmanagementapp.model.Department;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
@@ -62,10 +63,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     public void add(Customer customer) {
         String query = "INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getAddress());
-            statement.setString(3, customer.getPhone());
-            statement.setString(4, customer.getEmail());
+            statementInsertUpdate(customer, statement);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,15 +74,19 @@ public class CustomerDAOImpl implements CustomerDAO{
     public void update(Customer customer) {
         String query = "UPDATE customers SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getAddress());
-            statement.setString(3, customer.getPhone());
-            statement.setString(4, customer.getEmail());
+            statementInsertUpdate(customer, statement);
             statement.setLong(5, customer.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Customer customer, PreparedStatement statement) throws SQLException {
+        statement.setString(1, customer.getName());
+        statement.setString(2, customer.getAddress());
+        statement.setString(3, customer.getPhone());
+        statement.setString(4, customer.getEmail());
     }
 
     @Override

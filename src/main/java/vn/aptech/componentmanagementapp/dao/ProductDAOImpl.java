@@ -28,7 +28,6 @@ public class ProductDAOImpl implements ProductDAO{
                 product.setProductCode(resultSet.getString("product_code"));
                 product.setName(resultSet.getString("name"));
                 product.setPrice(resultSet.getDouble("price"));
-                product.setMinimumPrice(resultSet.getDouble("minimum_price"));
                 product.setStockQuantity(resultSet.getInt("stock_quantity"));
                 product.setMonthOfWarranty(resultSet.getInt("month_of_warranty"));
                 product.setNote(resultSet.getString("note"));
@@ -45,20 +44,24 @@ public class ProductDAOImpl implements ProductDAO{
 
     @Override
     public void add(Product product) {
-        String query = "INSERT INTO products(id, product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, " +
-                "description, supplier_id, category_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1,product.getId());
-            statement.setString(2,product.getProductCode());
-            statement.setString(3,product.getName());
-            statement.setDouble(4,product.getPrice());
-            statement.setDouble(5,product.getMinimumPrice());
-            statement.setInt(6,product.getStockQuantity());
-            statement.setInt(7,product.getMonthOfWarranty());
-            statement.setString(8,product.getNote());
-            statement.setLong(9,product.getSupplierId());
-            statement.setLong(10,product.getCategoryId());
-            statement.executeUpdate();
+        String query = "INSERT INTO products(product_code, name, price, stock_quantity, month_of_warranty, note, " +
+                "supplier_id, category_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statementInsertUpdate(product, statement);
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Adding product failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long generatedId = generatedKeys.getLong(1);
+                    product.setId(generatedId); // Set the generated ID on the product object
+                } else {
+                    throw new SQLException("Adding product failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,23 +69,26 @@ public class ProductDAOImpl implements ProductDAO{
 
     @Override
     public void update(Product product) {
-        String query = "UPDATE products SET product_code = ?, name = ?, price = ?, minimum_price = ?, stock_quantity = ?, month_of_warranty = ?, note = ?, " +
+        String query = "UPDATE products SET product_code = ?, name = ?, price = ?, stock_quantity = ?, month_of_warranty = ?, note = ?, " +
                 "supplier_id = ?, category_id = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1,product.getProductCode());
-            statement.setString(2,product.getName());
-            statement.setDouble(3,product.getPrice());
-            statement.setDouble(4,product.getMinimumPrice());
-            statement.setInt(5,product.getStockQuantity());
-            statement.setInt(6,product.getMonthOfWarranty());
-            statement.setString(7,product.getNote());
-            statement.setLong(9,product.getSupplierId());
-            statement.setLong(10,product.getCategoryId());
-            statement.setLong(11,product.getId());
+            statementInsertUpdate(product, statement);
+            statement.setLong(10,product.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Product product, PreparedStatement statement) throws SQLException {
+        statement.setString(1,product.getProductCode());
+        statement.setString(2,product.getName());
+        statement.setDouble(3,product.getPrice());
+        statement.setInt(4,product.getStockQuantity());
+        statement.setInt(5,product.getMonthOfWarranty());
+        statement.setString(6,product.getNote());
+        statement.setLong(7,product.getSupplierId());
+        statement.setLong(8,product.getCategoryId());
     }
 
     @Override

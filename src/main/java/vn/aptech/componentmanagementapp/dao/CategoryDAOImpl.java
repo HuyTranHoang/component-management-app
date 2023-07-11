@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Category;
+import vn.aptech.componentmanagementapp.model.Department;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 
@@ -42,8 +43,7 @@ public class CategoryDAOImpl implements CategoryDAO{
         String query = "INSERT INTO categories (name, description) " +
                 "VALUES (?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1,category.getName());
-            statement.setString(2, category.getDescription());
+            statementInsertUpdate(category, statement);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,13 +54,17 @@ public class CategoryDAOImpl implements CategoryDAO{
     public void update(Category category) {
         String query = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1,category.getName());
-            statement.setString(2, category.getDescription());;
+            statementInsertUpdate(category, statement);
             statement.setLong(3, category.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Category category, PreparedStatement statement) throws SQLException {
+        statement.setString(1,category.getName());
+        statement.setString(2, category.getDescription());;
     }
 
     @Override

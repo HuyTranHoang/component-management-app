@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Department;
+import vn.aptech.componentmanagementapp.model.Position;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
@@ -59,9 +60,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
     public void add(Department department) {
         String query = "INSERT INTO departments (id,name,description) VALUES (?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1,department.getId());
-            statement.setString(2, department.getName());
-            statement.setString(3, department.getDescription());
+            statementInsertUpdate(department, statement);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,14 +71,18 @@ public class DepartmentDAOImpl implements DepartmentDAO{
     public void update(Department department) {
         String query = "UPDATE departments SET id = ?, name = ?, description = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1,department.getId());
-            statement.setString(2, department.getName());
-            statement.setString(3, department.getDescription());
+            statementInsertUpdate(department, statement);
             statement.setLong(4,department.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Department department, PreparedStatement statement) throws SQLException {
+        statement.setLong(1,department.getId());
+        statement.setString(2, department.getName());
+        statement.setString(3, department.getDescription());
     }
 
     @Override

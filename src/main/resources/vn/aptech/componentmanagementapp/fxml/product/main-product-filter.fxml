@@ -97,8 +97,7 @@
                   <Font name="Inter SemiBold" size="24.0" />
                </font>
             </Label>
-            <MFXCheckbox id="customRadio" fx:id="checkbox_minimumPrice" layoutX="50.0" layoutY="43.0" text="Minimum Price" />
-            <MFXCheckbox id="customRadio" fx:id="checkbox_note" layoutX="183.0" layoutY="43.0" text="Note" />
+            <MFXCheckbox id="customRadio" fx:id="checkbox_note" layoutX="50.0" layoutY="44.0" text="Note" />
          </children>
       </AnchorPane>
    </children>

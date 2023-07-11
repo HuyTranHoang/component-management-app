@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
+import vn.aptech.componentmanagementapp.model.Position;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -44,9 +45,7 @@ public class SupplierDAOImpl implements SupplierDAO{
         String query = "INSERT INTO suppliers (name, email, website) " +
                 "VALUES (?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1,supplier.getName());
-            statement.setString(2, supplier.getEmail());
-            statement.setString(3, supplier.getWebsite());
+            statementInsertUpdate(supplier, statement);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,14 +56,18 @@ public class SupplierDAOImpl implements SupplierDAO{
     public void update(Supplier supplier) {
         String query = "UPDATE suppliers SET name = ?, email = ?, website = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1,supplier.getName());
-            statement.setString(2, supplier.getEmail());
-            statement.setString(3, supplier.getWebsite());
+            statementInsertUpdate(supplier, statement);
             statement.setLong(4, supplier.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Supplier supplier, PreparedStatement statement) throws SQLException {
+        statement.setString(1,supplier.getName());
+        statement.setString(2, supplier.getEmail());
+        statement.setString(3, supplier.getWebsite());
     }
 
     @Override

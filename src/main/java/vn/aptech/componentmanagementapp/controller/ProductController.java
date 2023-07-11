@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
-public class ProductController implements Initializable, ProductFilterController.FilterCallback {
+public class ProductController implements Initializable, ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback {
 
 //    Product Panel
     private static ObservableList<Product> products;
@@ -72,8 +72,6 @@ public class ProductController implements Initializable, ProductFilterController
     private TableColumn<Product, String> tbc_name;
     @FXML
     private TableColumn<Product, Double> tbc_price;
-    @FXML
-    private TableColumn<Product, Double> tbc_minimumPrice;
     @FXML
     private TableColumn<Product, Integer> tbc_quantity;
     @FXML
@@ -123,11 +121,6 @@ public class ProductController implements Initializable, ProductFilterController
 
         tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
-
-
-        tbc_minimumPrice.setCellFactory(column -> new FormattedDoubleTableCell<>());
-        tbc_minimumPrice.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
-
 
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
@@ -259,7 +252,7 @@ public class ProductController implements Initializable, ProductFilterController
                 filterController.setTxt_product_search(txt_product_search);
                 filterController.setProducts(products);
                 filterController.setFilter_noti(filter_noti_shape, filter_noti_label);
-                filterController.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
+                filterController.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price,
                         tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_suppliderId, tbc_categoryId);
 
                 filterStage.setScene(filterScene);
@@ -299,6 +292,9 @@ public class ProductController implements Initializable, ProductFilterController
                 ProductAddController controller = fxmlLoader.getController();
                 controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
                 controller.setProductView(productView);
+
+                // Pass the products list and set the ProductAddCallback
+                controller.setProductAddCallback(this);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -308,4 +304,13 @@ public class ProductController implements Initializable, ProductFilterController
         anchor_main_rightPanel.getChildren().add(addProductView);
     }
 
+    @Override
+    public void onProductAdded(Product product) {
+        // Add the newly added product to the products list
+        products.add(product);
+
+        // Update the table view and pagination
+        showLastPage();
+        updatePageButtons();
+    }
 }

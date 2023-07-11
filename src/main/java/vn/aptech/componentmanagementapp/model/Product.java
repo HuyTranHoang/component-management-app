@@ -7,7 +7,6 @@ public class Product {
     private String productCode;
     private String name;
     private double price;
-    private double minimumPrice;
     private int stockQuantity;
     private int monthOfWarranty;
     private String note;
@@ -48,14 +47,6 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public double getMinimumPrice() {
-        return minimumPrice;
-    }
-
-    public void setMinimumPrice(double minimumPrice) {
-        this.minimumPrice = minimumPrice;
     }
 
     public int getStockQuantity() {
@@ -122,7 +113,6 @@ public class Product {
                 ", productCode='" + productCode + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", minimumPrice=" + minimumPrice +
                 ", stockQuantity=" + stockQuantity +
                 ", monthOfWarranty=" + monthOfWarranty +
                 ", note='" + note + '\'' +

@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.dao;
 
 
 import vn.aptech.componentmanagementapp.model.Position;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
@@ -60,9 +61,7 @@ public class PositionDAOImpl implements PositionDAO{
     public void add(Position position) {
         String query = "INSERT INTO positions (id,name,description) VALUES (?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1,position.getId());
-            statement.setString(2, position.getName());
-            statement.setString(3, position.getDescription());
+            statementInsertUpdate(position, statement);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,14 +72,18 @@ public class PositionDAOImpl implements PositionDAO{
     public void update(Position position) {
         String query = "UPDATE positions SET id = ?, name = ?, description = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1,position.getId());
-            statement.setString(2, position.getName());
-            statement.setString(3, position.getDescription());
+            statementInsertUpdate(position, statement);
             statement.setLong(4,position.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Position position, PreparedStatement statement) throws SQLException {
+        statement.setLong(1,position.getId());
+        statement.setString(2, position.getName());
+        statement.setString(3, position.getDescription());
     }
 
     @Override
