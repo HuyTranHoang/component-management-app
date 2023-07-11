@@ -62,9 +62,17 @@ public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public void add(Customer customer) {
         String query = "INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)";
-        try(PreparedStatement statement = connection.prepareStatement(query)) {
+        try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(customer, statement);
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long generatedId = generatedKeys.getLong(1);
+                    customer.setId(generatedId);
+                } else {
+                    throw new SQLException("Adding customer failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
