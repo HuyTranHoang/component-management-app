@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -108,6 +109,8 @@ public class ProductController implements Initializable,
                         updatePageButtons();
                         initFilterStage();
                         filterController.initSearchListen();
+
+                        initTableViewEvent();
                     });
                 });
 
@@ -126,6 +129,16 @@ public class ProductController implements Initializable,
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
         tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
         tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
+    }
+
+    private void initTableViewEvent() {
+        // Double click thì edit
+        tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+                    updateProductButtonOnClick();
+            }
+        });
     }
 
 

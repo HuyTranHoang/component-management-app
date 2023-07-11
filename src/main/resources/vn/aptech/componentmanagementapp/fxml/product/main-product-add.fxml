@@ -39,7 +39,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_price" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Price (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                  <MFXTextField id="textfield-padding" fx:id="txt_price" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Price (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="380.0" promptText="Price">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -141,7 +141,7 @@
                   </HBox>
                   <HBox fx:id="hbox_updateButtonGroup" layoutX="591.0" layoutY="580.0" spacing="15.0">
                      <children>
-                        <MFXButton id="button-custom-clear" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                        <MFXButton id="button-custom-clear" onAction="#listProductButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

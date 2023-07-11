@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
@@ -31,8 +32,11 @@ import vn.aptech.componentmanagementapp.service.SupplierService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.UnaryOperator;
 
 public class ProductAddController implements Initializable {
 
@@ -287,7 +291,7 @@ public class ProductAddController implements Initializable {
     void editProduct(Product product) {
         txt_productCode.setText(product.getProductCode());
         txt_name.setText(product.getName());
-        txt_price.setText(String.valueOf(product.getPrice()));
+        txt_price.setText(String.format("%.0f", product.getPrice()));
         txt_stockQuantity.setText(String.valueOf(product.getStockQuantity()));
         txt_monthOfWarranty.setText(String.valueOf(product.getMonthOfWarranty()));
         txt_note.setText(product.getNote());
