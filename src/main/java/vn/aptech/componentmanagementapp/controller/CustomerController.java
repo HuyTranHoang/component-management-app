@@ -1,26 +1,28 @@
 package vn.aptech.componentmanagementapp.controller;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
+import net.synedra.validatorfx.Decoration;
+import net.synedra.validatorfx.ValidationMessage;
+import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.Customer;
-import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.CustomerService;
-import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
-    private CustomerService customerService = new CustomerService();
 //    List
     private ObservableList<Customer> customers;
     private ObservableList<Customer> pageItems;
@@ -74,6 +76,27 @@ public class CustomerController implements Initializable {
     @FXML
     private MFXTextField txt_product_search;
 
+    //Service
+    CustomerService customerService = new CustomerService();
+
+    //Validate
+
+    @FXML
+    private Label lbl_error_customerAddress;
+
+    @FXML
+    private Label lbl_error_customerName;
+
+    @FXML
+    private Label lbl_error_customerPhone;
+
+    @FXML
+    private Label lbl_error_customerEmail;
+
+    @FXML
+    private Label lbl_successMessage;
+
+    Validator customerValidator = new Validator();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +104,8 @@ public class CustomerController implements Initializable {
         initTableView();
         showPage(currentPageIndex);
         updatePageButtons();
+
+        initValidator();
     }
 
     private void initTableView() {
@@ -98,7 +123,94 @@ public class CustomerController implements Initializable {
         txt_email.setText("");
         txt_name.requestFocus();
     }
+    @FXML
+    void storeButton(){
+        if(customerValidator.validate()){
+            Customer customer = new Customer();
+            customer.setName(txt_name.getText());
+            customer.setAddress(txt_address.getText());
+            customer.setPhone(txt_phone.getText());
+            customer.setEmail(txt_email.getText());
+            customerService.addCustomer(customer);
+            customers.add(customer);
 
+
+            // Show success message
+            lbl_successMessage.setText("Add new customer successfully!!");
+            lbl_successMessage.setVisible(true);
+            new FadeIn(lbl_successMessage).play();
+            // Hide the message after 3 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+                new FadeOut(lbl_successMessage).play();
+            }));
+            timeline.play();
+            showLastPage();
+            updatePageButtons();
+        }
+    }
+
+    private void initValidator() {
+        customerValidator.createCheck()
+                .dependsOn("name", txt_name.textProperty())
+                .withMethod(context -> {
+                    String customerName = context.get("name");
+                    if (customerName.isEmpty())
+                        context.error("Name can't be empty");
+                    else if(!customerName.matches("\\D+"))
+                        context.error("Name can't have number");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerName);
+
+        customerValidator.createCheck()
+                .dependsOn("address", txt_address.textProperty())
+                .withMethod(context -> {
+                    String customerAddress = context.get("address");
+                    if (customerAddress.isEmpty())
+                        context.error("Address can't be empty");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerAddress);
+        customerValidator.createCheck()
+                .dependsOn("phone", txt_phone.textProperty())
+                .withMethod(context -> {
+                    String customerPhone = context.get("phone");
+                    if (customerPhone.isEmpty())
+                        context.error("Phone can't be empty");
+                    else if(!customerPhone.matches("\\d+"))
+                        context.error("Phone can only contain number");
+                    else if(!customerPhone.matches("^.{1,10}$"))
+                        context.error("Phone maximum limit is 10 numbers");
+                    else if(!customerPhone.matches("^\\d{10}$"))
+                        context.error("Phone requirements must be 10 digits");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerPhone);
+        customerValidator.createCheck()
+                .dependsOn("email", txt_email.textProperty())
+                .withMethod(context -> {
+                    String customerEmail = context.get("email");
+                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
+                        context.error("Please enter a valid email address");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerEmail);
+
+    }
+    private Decoration labelDecorator(ValidationMessage message) {
+        return new Decoration() {
+            @Override
+            public void add(Node target) {
+                ((Label) target).setText(message.getText());
+                target.setVisible(true);
+            }
+
+            @Override
+            public void remove(Node target) {
+                target.setVisible(false);
+            }
+        };
+    }
     /*
      * Begin of Pagination
      */

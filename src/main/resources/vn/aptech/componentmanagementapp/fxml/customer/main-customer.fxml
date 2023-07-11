@@ -75,12 +75,12 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXButton id="button-custom" fx:id="btn_store" layoutX="290.0" layoutY="598.0" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                  <MFXButton id="button-custom" fx:id="btn_store" layoutX="288.0" layoutY="598.0" onAction="#storeButton" prefHeight="48.0" prefWidth="150.0" text="STORE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton id="button-custom-clear" fx:id="btn_clear" layoutX="127.0" layoutY="598.0" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                  <MFXButton id="button-custom-clear" fx:id="btn_clear" layoutX="58.0" layoutY="598.0" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -89,6 +89,46 @@
                      <font>
                         <Font name="Inter Bold" size="22.0" />
                      </font>
+                  </Label>
+                  <Label fx:id="lbl_error_customerName" layoutX="58.0" layoutY="170.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_customerAddress" layoutX="58.0" layoutY="270.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_customerPhone" layoutX="58.0" layoutY="370.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_customerEmail" layoutX="56.0" layoutY="470.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_successMessage" layoutX="116.0" layoutY="550.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
+                     </graphic>
                   </Label>
                </children>
             </AnchorPane>
