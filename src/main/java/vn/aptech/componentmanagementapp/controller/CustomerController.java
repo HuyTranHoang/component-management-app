@@ -91,6 +91,9 @@ public class CustomerController implements Initializable {
     private Label lbl_error_customerPhone;
 
     @FXML
+    private Label lbl_error_customerEmail;
+
+    @FXML
     private Label lbl_successMessage;
 
     Validator customerValidator = new Validator();
@@ -183,6 +186,15 @@ public class CustomerController implements Initializable {
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerPhone);
+        customerValidator.createCheck()
+                .dependsOn("email", txt_email.textProperty())
+                .withMethod(context -> {
+                    String customerEmail = context.get("email");
+                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
+                        context.error("Please enter a valid email address");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerEmail);
 
     }
     private Decoration labelDecorator(ValidationMessage message) {
