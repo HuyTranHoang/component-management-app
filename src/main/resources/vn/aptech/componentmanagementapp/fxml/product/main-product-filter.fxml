@@ -99,7 +99,6 @@
             </Label>
             <MFXCheckbox id="customRadio" fx:id="checkbox_minimumPrice" layoutX="50.0" layoutY="43.0" text="Minimum Price" />
             <MFXCheckbox id="customRadio" fx:id="checkbox_note" layoutX="183.0" layoutY="43.0" text="Note" />
-            <MFXCheckbox id="customRadio" fx:id="checkbox_Description" layoutX="50.0" layoutY="70.0" text="Description" />
          </children>
       </AnchorPane>
    </children>

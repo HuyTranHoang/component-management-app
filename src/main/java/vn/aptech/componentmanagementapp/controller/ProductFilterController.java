@@ -81,8 +81,6 @@ public class ProductFilterController implements Initializable {
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, String> tbc_description;
-    @FXML
     private TableColumn<Product, Long> tbc_suppliderId;
     @FXML
     private TableColumn<Product, Long> tbc_categoryId;
@@ -128,7 +126,7 @@ public class ProductFilterController implements Initializable {
                                 TableColumn<Product, String> tbc_productCode, TableColumn<Product, String> tbc_name,
                                 TableColumn<Product, Double> tbc_price, TableColumn<Product, Double> tbc_minimumPrice,
                                 TableColumn<Product, Integer> tbc_quantity, TableColumn<Product, Integer> tbc_monthOfWarranty,
-                                TableColumn<Product, String> tbc_note, TableColumn<Product, String> tbc_description,
+                                TableColumn<Product, String> tbc_note,
                                 TableColumn<Product, Long> tbc_suppliderId, TableColumn<Product, Long> tbc_categoryId) {
         this.tableView = tableView;
         this.tbc_id = tbc_id;
@@ -139,7 +137,6 @@ public class ProductFilterController implements Initializable {
         this.tbc_quantity = tbc_quantity;
         this.tbc_monthOfWarranty = tbc_monthOfWarranty;
         this.tbc_note = tbc_note;
-        this.tbc_description = tbc_description;
         this.tbc_suppliderId = tbc_suppliderId;
         this.tbc_categoryId = tbc_categoryId;
     }
@@ -256,7 +253,6 @@ public class ProductFilterController implements Initializable {
         // Checkbox
 //        TODO: thêm những cột khác có thể hiện/ ẩn
 //        TODO: Sửa category id v supplier id thành tên trong table view
-        tbc_description.setVisible(checkbox_Description.isSelected());
         tbc_note.setVisible(checkbox_note.isSelected());
         tbc_minimumPrice.setVisible(checkbox_minimumPrice.isSelected());
 

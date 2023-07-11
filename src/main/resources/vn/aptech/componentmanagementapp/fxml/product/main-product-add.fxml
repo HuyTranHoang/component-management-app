@@ -5,22 +5,24 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductAddController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXButton layoutX="694.0" layoutY="19.0" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="LIST PRODUCT" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="14.0">
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listProductButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="LIST PRODUCT" AnchorPane.topAnchor="15.0">
          <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+            <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
          </graphic>
          <font>
             <Font name="Inter Bold" size="14.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </MFXButton>
       <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -51,7 +53,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </MFXButton>
-                  <MFXButton id="filter-clear-button" layoutX="569.0" layoutY="643.0" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                  <MFXButton id="button-custom" layoutX="569.0" layoutY="643.0" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -66,14 +68,19 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <TextArea layoutX="521.0" layoutY="315.0" prefHeight="110.0" prefWidth="380.0" />
                   <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="529.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Note">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXComboBox borderGap="0.0" floatMode="ABOVE" floatingText="Suplier" layoutX="521.0" layoutY="463.0" prefHeight="40.0" prefWidth="380.0" />
-                  <MFXComboBox borderGap="0.0" floatMode="ABOVE" floatingText="Category" layoutX="520.0" layoutY="556.0" prefHeight="40.0" prefWidth="380.0" />
+                  <MFXComboBox animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Suplier" floatingTextGap="10.0" layoutX="529.0" layoutY="319.0" prefHeight="40.0" prefWidth="380.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font></MFXComboBox>
+                  <MFXComboBox animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Category" floatingTextGap="10.0" layoutX="529.0" layoutY="419.0" prefHeight="40.0" prefWidth="380.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font></MFXComboBox>
                </children>
             </AnchorPane>
          </children>

@@ -1,15 +1,13 @@
 package vn.aptech.componentmanagementapp.controller;
 
-import animatefx.animation.FadeIn;
-import animatefx.animation.FadeInLeft;
-import animatefx.animation.FadeInUpBig;
-import animatefx.animation.LightSpeedIn;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
@@ -28,6 +26,9 @@ public class ManagementController implements Initializable {
 
     @FXML
     private MFXButton btn_leftPanel_Exit;
+
+    @FXML
+    private ImageView leftPanel_imageView;
 
     @FXML
     private MFXButton btn_leftPanel_OrderList;
@@ -54,8 +55,10 @@ public class ManagementController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
-            AnchorPane anchorPane = fxmlLoader.load();
-            anchor_main_rightPanel.getChildren().add(anchorPane);
+            productView = fxmlLoader.load();
+            ProductController controller = fxmlLoader.getController();
+            controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
+            anchor_main_rightPanel.getChildren().add(productView);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -74,6 +77,10 @@ public class ManagementController implements Initializable {
         }
     }
     @FXML
+    void minimizeButtonOnClick() {
+        stage.setIconified(true);
+    }
+    @FXML
     void productListButtonOnClick() {
         if (productView == null) {
             try {
@@ -83,6 +90,16 @@ public class ManagementController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
+
+        Image image = null;
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/product.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
 
         btn_leftPanel_productList.setId("button-custom-selected");
         btn_leftPanel_customerList.setId("button-custom");
@@ -103,6 +120,16 @@ public class ManagementController implements Initializable {
             }
         }
 
+        Image image = null;
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/customer.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
+
         btn_leftPanel_productList.setId("button-custom");
         btn_leftPanel_customerList.setId("button-custom-selected");
         btn_leftPanel_OrderList.setId("button-custom");
@@ -116,4 +143,6 @@ public class ManagementController implements Initializable {
     void orderListButtonOnClick() {
         System.out.println("789");
     }
+
+
 }

@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -35,7 +37,7 @@ public class ProductController implements Initializable, ProductFilterController
     private ObservableList<Product> pageItems;
     private ProductService productService = new ProductService();
     @FXML
-    private Label filter_noti_label; // Truyền vào ProductController để set visiable và text
+    private Label filter_noti_label; // Truyền vào ProductFilterController để set visiable và text
     @FXML
     private Circle filter_noti_shape;
     @FXML
@@ -79,14 +81,24 @@ public class ProductController implements Initializable, ProductFilterController
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, String> tbc_description;
-    @FXML
     private TableColumn<Product, Long> tbc_suppliderId;
     @FXML
     private TableColumn<Product, Long> tbc_categoryId;
 
 //    Controller to call clear filter function in this
     private ProductFilterController filterController;
+
+    // Cached views
+    private AnchorPane addProductView;
+
+    @FXML
+    private AnchorPane productView;
+
+    private AnchorPane anchor_main_rightPanel; // Truyền từ Main controller vào
+
+    public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
+        this.anchor_main_rightPanel = anchor_main_rightPanel;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -101,6 +113,7 @@ public class ProductController implements Initializable, ProductFilterController
                         filterController.initSearchListen();
                     });
                 });
+
     }
 
     private void initTableView() {
@@ -119,7 +132,6 @@ public class ProductController implements Initializable, ProductFilterController
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
-        tbc_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
         tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
     }
@@ -248,7 +260,7 @@ public class ProductController implements Initializable, ProductFilterController
                 filterController.setProducts(products);
                 filterController.setFilter_noti(filter_noti_shape, filter_noti_label);
                 filterController.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price, tbc_minimumPrice,
-                        tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_description, tbc_suppliderId, tbc_categoryId);
+                        tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_suppliderId, tbc_categoryId);
 
                 filterStage.setScene(filterScene);
                 filterStage.setResizable(false);
@@ -280,7 +292,20 @@ public class ProductController implements Initializable, ProductFilterController
 
     @FXML
     void addProductButtonOnClick() {
-        System.out.println("1234");
+        if (addProductView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
+                addProductView = fxmlLoader.load();
+                ProductAddController controller = fxmlLoader.getController();
+                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                controller.setProductView(productView);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(addProductView);
     }
 
 }

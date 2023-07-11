@@ -32,7 +32,6 @@ public class ProductDAOImpl implements ProductDAO{
                 product.setStockQuantity(resultSet.getInt("stock_quantity"));
                 product.setMonthOfWarranty(resultSet.getInt("month_of_warranty"));
                 product.setNote(resultSet.getString("note"));
-                product.setDescription(resultSet.getString("description"));
                 product.setSupplierId(resultSet.getLong("supplier_id"));
                 product.setCategoryId(resultSet.getLong("category_id"));
                 products.add(product);
@@ -47,7 +46,7 @@ public class ProductDAOImpl implements ProductDAO{
     @Override
     public void add(Product product) {
         String query = "INSERT INTO products(id, product_code, name, price, minimum_price, stock_quantity, month_of_warranty, note, " +
-                "description, supplier_id, category_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "description, supplier_id, category_id) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1,product.getId());
             statement.setString(2,product.getProductCode());
@@ -57,9 +56,8 @@ public class ProductDAOImpl implements ProductDAO{
             statement.setInt(6,product.getStockQuantity());
             statement.setInt(7,product.getMonthOfWarranty());
             statement.setString(8,product.getNote());
-            statement.setString(9,product.getDescription());
-            statement.setLong(10,product.getSupplierId());
-            statement.setLong(11,product.getCategoryId());
+            statement.setLong(9,product.getSupplierId());
+            statement.setLong(10,product.getCategoryId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,7 +67,7 @@ public class ProductDAOImpl implements ProductDAO{
     @Override
     public void update(Product product) {
         String query = "UPDATE products SET product_code = ?, name = ?, price = ?, minimum_price = ?, stock_quantity = ?, month_of_warranty = ?, note = ?, " +
-                "description = ?, supplier_id = ?, category_id = ? WHERE id = ?";
+                "supplier_id = ?, category_id = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1,product.getProductCode());
             statement.setString(2,product.getName());
@@ -78,9 +76,9 @@ public class ProductDAOImpl implements ProductDAO{
             statement.setInt(5,product.getStockQuantity());
             statement.setInt(6,product.getMonthOfWarranty());
             statement.setString(7,product.getNote());
-            statement.setString(8,product.getDescription());
             statement.setLong(9,product.getSupplierId());
             statement.setLong(10,product.getCategoryId());
+            statement.setLong(11,product.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,7 +89,7 @@ public class ProductDAOImpl implements ProductDAO{
     public void delete(long productId) {
         String query = "DELETE FROM products WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1,productId);
+            statement.setLong(1, productId);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

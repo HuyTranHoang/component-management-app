@@ -11,7 +11,6 @@ public class Product {
     private int stockQuantity;
     private int monthOfWarranty;
     private String note;
-    private String description;
     private long supplierId;
     private long categoryId;
 
@@ -83,14 +82,6 @@ public class Product {
         this.note = note;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public long getSupplierId() {
         return supplierId;
     }
@@ -135,7 +126,6 @@ public class Product {
                 ", stockQuantity=" + stockQuantity +
                 ", monthOfWarranty=" + monthOfWarranty +
                 ", note='" + note + '\'' +
-                ", description='" + description + '\'' +
                 ", supplierId=" + supplierId +
                 ", categoryId=" + categoryId +
                 ", supplier=" + supplier +

@@ -14,10 +14,10 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductController">
+<AnchorPane fx:id="productView" prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXTextField fx:id="txt_product_search" animated="false" caretVisible="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
+      <MFXTextField fx:id="txt_product_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
@@ -26,59 +26,66 @@
       <FontIcon iconColor="#4a55a2" iconLiteral="fas-filter" iconSize="25" layoutX="340.0" layoutY="42.0" onMouseClicked="#filterButtonOnClick" text="">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></FontIcon>
+         </cursor>
+      </FontIcon>
       <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0" onMouseClicked="#resetFilterIconClicked">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></FontIcon>
-      <MFXButton layoutX="694.0" layoutY="19.0" onAction="#addProductButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD PRODUCT" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="14.0">
+         </cursor>
+      </FontIcon>
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#addProductButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD PRODUCT" AnchorPane.topAnchor="15.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
          </graphic>
          <font>
             <Font name="Inter Bold" size="14.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </MFXButton>
       <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="361.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
       <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
       <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-              <columns>
-                <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
-                <TableColumn fx:id="tbc_productCode" prefWidth="100.0" text="Product Code" />
-                  <TableColumn fx:id="tbc_name" prefWidth="400.0" style="-fx-alignment: center-left;" text="Name" />
-                  <TableColumn fx:id="tbc_price" prefWidth="150.0" text="Price " />
-                  <TableColumn fx:id="tbc_minimumPrice" prefWidth="110.0" text="Minimum Price" visible="false" />
-                  <TableColumn fx:id="tbc_quantity" prefWidth="75.0" text="Quantity" />
-                  <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" text="Month of warranty" />
-                  <TableColumn fx:id="tbc_note" prefWidth="100.0" text="Note" visible="false" />
-                  <TableColumn fx:id="tbc_description" prefWidth="100.0" text="Description" visible="false" />
-                  <TableColumn fx:id="tbc_suppliderId" prefWidth="125.0" text="SuppliderId" />
-                  <TableColumn fx:id="tbc_categoryId" prefWidth="125.0" text="CategoryId" />
-              </columns>
-            </TableView>
-            <HBox fx:id="paginationControls" alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="1210.0" spacing="10.0">
-               <children>
-                  <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
-                     </graphic></Button>
-                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
-                     </graphic></Button>
-                  <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
-                  <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
-                     </graphic></Button>
-                  <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
-                     </graphic></Button>
-               </children></HBox>
-         </children>
+         <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+            <columns>
+               <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
+               <TableColumn fx:id="tbc_productCode" prefWidth="100.0" text="Product Code" />
+               <TableColumn fx:id="tbc_name" prefWidth="400.0" style="-fx-alignment: center-left;" text="Name" />
+               <TableColumn fx:id="tbc_price" prefWidth="150.0" text="Price " />
+               <TableColumn fx:id="tbc_minimumPrice" prefWidth="110.0" text="Minimum Price" visible="false" />
+               <TableColumn fx:id="tbc_quantity" prefWidth="75.0" text="Quantity" />
+               <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" text="Month of warranty" />
+               <TableColumn fx:id="tbc_note" prefWidth="100.0" text="Note" visible="false" />
+               <TableColumn fx:id="tbc_suppliderId" prefWidth="125.0" text="SuppliderId" />
+               <TableColumn fx:id="tbc_categoryId" prefWidth="125.0" text="CategoryId" />
+            </columns>
+         </TableView>
+         <HBox alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="1210.0" spacing="10.0">
+            <children>
+               <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
+                  <graphic>
+                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
+                  </graphic>
+               </Button>
+               <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
+                  <graphic>
+                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
+                  </graphic>
+               </Button>
+               <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
+               <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
+                  <graphic>
+                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
+                  </graphic>
+               </Button>
+               <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
+                  <graphic>
+                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
+                  </graphic>
+               </Button>
+            </children>
+         </HBox>
       </AnchorPane>
    </children>
 </AnchorPane>

@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,7 +29,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -84,21 +86,13 @@ public class LoginController implements Initializable {
     @FXML
     private MFXPasswordField txt_reset_newPasswordConfirm;
 
-    //    Service
     private final EmployeeService employeeService = new EmployeeService();
-
-    //    List
-    private ArrayList<LoginInfo> loginInfos;
+    private final Map<String, LoginInfo> loginInfoMap = new HashMap<>(); // Use HashMap for quick lookup
     private long currentID = -1;
-
-    //    Validator
     private final Validator loginValidator = new Validator();
     private final Validator forgotValidator = new Validator();
     private final Validator resetValidator = new Validator();
-
-    //    Variable
     private Stage stage;
-
     private double x;
     private double y;
 
@@ -106,7 +100,6 @@ public class LoginController implements Initializable {
         this.stage = stage;
     }
 
-    //    Init function
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initLoginValidator();
@@ -114,7 +107,14 @@ public class LoginController implements Initializable {
         initResetValidator();
         initEnterKeyPressing();
 
-        loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
+        loadLoginInfo();
+    }
+
+    private void loadLoginInfo() {
+        loginInfoMap.clear();
+        for (LoginInfo loginInfo : employeeService.getAllLoginInfo()) {
+            loginInfoMap.put(loginInfo.getEmail(), loginInfo);
+        }
     }
 
     private void initEnterKeyPressing() {
@@ -142,7 +142,6 @@ public class LoginController implements Initializable {
         txt_reset_newPasswordConfirm.setOnKeyPressed(passwordConfirmEventHandler);
     }
 
-    //    Validator section
     private void initLoginValidator() {
         loginValidator.createCheck()
                 .dependsOn("email", txt_login_email.textProperty())
@@ -192,8 +191,8 @@ public class LoginController implements Initializable {
                 .withMethod(context -> {
                     String newPassword = context.get("new_password");
                     if (newPassword.isEmpty()) {
-                        context.error("New password can't be empty");
-                    } else if (!newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+                        context.error("New password can'tbe empty");
+                    } else if (!newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[\\w\\d!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>/?\\\\|`~]{8,}$")) {
                         context.error("Must have at least 8 characters, contain letters and numbers");
                     }
                 })
@@ -216,15 +215,10 @@ public class LoginController implements Initializable {
         };
     }
 
-    /**
-     * @param input String trước khi được mã hoá
-     * @return String đã được mã hoá SHA-256
-     */
     private String hashSHA256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-            // Convert the byte array to a hexadecimal string
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -233,7 +227,6 @@ public class LoginController implements Initializable {
                 }
                 hexString.append(hex);
             }
-
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -246,10 +239,9 @@ public class LoginController implements Initializable {
         if (loginValidator.validate()) {
             String email = txt_login_email.getText();
             String password = hashSHA256(txt_login_password.getText());
-            boolean isLoginValid = loginInfos.stream()
-                    .anyMatch(loginInfo -> loginInfo.getEmail().equals(email) && loginInfo.getPassword().equals(password));
+            LoginInfo loginInfo = loginInfoMap.get(email);
 
-            if (isLoginValid) {
+            if (loginInfo != null && loginInfo.getPassword().equals(password)) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/main.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
@@ -313,13 +305,12 @@ public class LoginController implements Initializable {
     void resetButtonOnClick() {
         if (forgotValidator.validate()) {
             String citizen_id = txt_forgot_citizen.getText();
-            Optional<String> optionalId = loginInfos.stream()
+            Optional<LoginInfo> optionalLoginInfo = loginInfoMap.values().stream()
                     .filter(loginInfo -> loginInfo.getCitizenId().equals(citizen_id))
-                    .map(LoginInfo::getId)
                     .findFirst();
 
-            if (optionalId.isPresent()) {
-                currentID = Long.parseLong(optionalId.get());
+            if (optionalLoginInfo.isPresent()) {
+                currentID = Long.parseLong(optionalLoginInfo.get().getId());
                 clearReset();
 
                 anchor_leftPanel_login.setVisible(true);
@@ -331,7 +322,7 @@ public class LoginController implements Initializable {
 
                 txt_reset_newPassword.requestFocus();
             } else {
-                lbl_forgot_citizenError.setText("This citizen ID don't belong to any employee");
+                lbl_forgot_citizenError.setText("This citizen ID doesn't belong to any employee");
                 lbl_forgot_citizenError.setVisible(true);
             }
         }
@@ -344,15 +335,13 @@ public class LoginController implements Initializable {
                 long id = currentID;
                 String password = hashSHA256(txt_reset_newPassword.getText());
                 employeeService.updateEmployeePassword(id, password);
-//                Cập nhật lại list login sau khi update
-                loginInfos = (ArrayList<LoginInfo>) employeeService.getAllLoginInfo();
+                loadLoginInfo();
                 currentID = -1;
                 backToLoginOnClick();
-//                Set thông báo thành công cập nhật password
                 lbl_login_resetSuccess.setVisible(true);
                 lbl_login_resetSuccess2.setVisible(true);
             } else {
-                System.out.println("something is wrong");
+                System.out.println("Something went wrong");
             }
         }
     }
@@ -383,7 +372,7 @@ public class LoginController implements Initializable {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure want to exit?");
+        confirmation.setContentText("Are you sure you want to exit?");
 
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             DatabaseConnection.closeConnection(DatabaseConnection.getConnection());

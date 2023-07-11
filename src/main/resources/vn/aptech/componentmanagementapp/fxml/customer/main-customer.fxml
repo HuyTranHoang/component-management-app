@@ -22,8 +22,6 @@
          </font>
       </MFXTextField>
       <FontIcon iconLiteral="fas-search" iconSize="14" layoutX="29.0" layoutY="37.0" text="" />
-      <FontIcon iconLiteral="far-user-circle" iconSize="25" layoutX="1132.0" layoutY="36.0" AnchorPane.rightAnchor="87.0" AnchorPane.topAnchor="17.0" />
-      <FontIcon iconLiteral="far-bell" iconSize="25" layoutX="1174.0" layoutY="42.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="17.0" />
       <AnchorPane fx:id="anchor_product_view" layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TableView fx:id="tableView" prefHeight="720.0" prefWidth="700.0" AnchorPane.leftAnchor="10.0">
@@ -35,7 +33,7 @@
                   <TableColumn fx:id="tbc_email" prefWidth="140.0" text="Email" />
               </columns>
             </TableView>
-            <HBox fx:id="paginationControls" alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="689.0" spacing="10.0">
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="689.0" spacing="10.0">
                <children>
                   <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
                      <graphic>

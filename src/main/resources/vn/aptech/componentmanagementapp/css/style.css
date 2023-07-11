@@ -16,7 +16,8 @@
 }
 
 
-.mfx-text-field .floating-text {
+.mfx-text-field .floating-text,
+.mfx-combo-box .floating-text{
     -fx-background-color: -hbd-primary-color;
     -fx-text-fill: #fff;
 }
@@ -30,6 +31,16 @@
 
 .no-border-radius:hover {
     -fx-background-color: #fff;
+}
+
+.no-border-radius-main {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-background-color: #F4F4F4;
+}
+
+.no-border-radius-main:hover {
+    -fx-background-color: -hbd-primary-color;
 }
 
 /*#textfield-custom .mfx-icon-wrapper {*/
