@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
@@ -140,6 +143,7 @@ public class ProductAddController implements Initializable {
                         cbb_supplier.getSelectionModel().selectFirst();
 
                         initValidator();
+                        initEnterKeyPressing();
                     });
                 })
                 .join();
@@ -378,6 +382,30 @@ public class ProductAddController implements Initializable {
     void addMode() {
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (hbox_addButtonGroup.visibleProperty().get()) {
+                    storeButtonOnClick();
+                } else {
+                    updateButtonOnClick();
+                }
+            } else if (event.getCode() == KeyCode.ESCAPE)
+                listProductButtonOnClick();
+        };
+
+        txt_productCode.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_price.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_monthOfWarranty.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_stockQuantity.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_note.setOnKeyPressed(storeOrUpdateEventHandler);
+    }
+
+    void setRequestFocus() {
+        txt_productCode.requestFocus();
     }
 
 

@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import vn.aptech.componentmanagementapp.dao.*;
 
 public class Product {
@@ -16,6 +18,23 @@ public class Product {
     // Lazy-loaded Supplier and Category objects
     private Supplier supplier;
     private Category category;
+
+    // For multi delete
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+
 
     public long getId() {
         return id;

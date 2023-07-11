@@ -75,9 +75,9 @@ public class ProductFilterController implements Initializable {
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, Long> tbc_suppliderId;
+    private TableColumn<Product, String> tbc_suppliderId;
     @FXML
-    private TableColumn<Product, Long> tbc_categoryId;
+    private TableColumn<Product, String> tbc_categoryId;
 
 //    List product từ product controller
     private static ObservableList<Product> products;
@@ -121,7 +121,7 @@ public class ProductFilterController implements Initializable {
                                 TableColumn<Product, Double> tbc_price,
                                 TableColumn<Product, Integer> tbc_quantity, TableColumn<Product, Integer> tbc_monthOfWarranty,
                                 TableColumn<Product, String> tbc_note,
-                                TableColumn<Product, Long> tbc_suppliderId, TableColumn<Product, Long> tbc_categoryId) {
+                                TableColumn<Product, String> tbc_suppliderId, TableColumn<Product, String> tbc_categoryId) {
         this.tableView = tableView;
         this.tbc_id = tbc_id;
         this.tbc_productCode = tbc_productCode;
@@ -385,6 +385,13 @@ public class ProductFilterController implements Initializable {
                 }
             }, DEBOUNCE_DELAY);
         });
+    }
+
+    void filterRemoveProduct(Product product) {
+        products.remove(product);
+    }
+    void filterAddProduct(Product product) {
+        products.add(product);
     }
 
 }

@@ -1,7 +1,10 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,20 +13,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
+import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
+import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
@@ -45,6 +52,11 @@ public class ProductController implements Initializable,
 //    Filter Panel
     private Scene filterScene;
     private Stage filterStage;
+//    Sort
+    @FXML
+    private MFXComboBox<String> cbb_sortBy;
+    @FXML
+    private MFXComboBox<String> cbb_orderBy;
 
 //  Pagination
     @FXML
@@ -78,9 +90,11 @@ public class ProductController implements Initializable,
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, Long> tbc_suppliderId;
+    private TableColumn<Product, String> tbc_suppliderId;
     @FXML
-    private TableColumn<Product, Long> tbc_categoryId;
+    private TableColumn<Product, String> tbc_categoryId;
+
+    private ArrayList<Long> selectedProductIds = new ArrayList<>();
 
 //    Controller to call clear filter function in this
     private ProductFilterController filterController;
@@ -88,10 +102,8 @@ public class ProductController implements Initializable,
 
     // Cached views
     private AnchorPane addProductView;
-
     @FXML
     private AnchorPane productView;
-
     private AnchorPane anchor_main_rightPanel; // Truyền từ Main controller vào
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
@@ -111,12 +123,14 @@ public class ProductController implements Initializable,
                         filterController.initSearchListen();
 
                         initTableViewEvent();
+                        initSort();
                     });
                 });
 
     }
 
     private void initTableView() {
+
         tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -127,9 +141,65 @@ public class ProductController implements Initializable,
         tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
-        tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
-        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
+
+
+//        tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
+//        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
+
+        tbc_suppliderId.setCellValueFactory(cellData -> {
+            Supplier supplier = cellData.getValue().getSupplier();
+            if (supplier != null) {
+                return new ReadOnlyObjectWrapper<>(supplier.getName());
+            } else {
+                return new ReadOnlyObjectWrapper<>("");
+            }
+        });
+
+        tbc_categoryId.setCellValueFactory(cellData -> {
+            Category category = cellData.getValue().getCategory();
+            if (category != null) {
+                return new ReadOnlyObjectWrapper<>(category.getName());
+            } else {
+                return new ReadOnlyObjectWrapper<>("");
+            }
+        });
+
+        // Checkbox for multi delete
+        TableColumn<Product, Boolean> tbc_checkbox = new TableColumn<>("");
+        tbc_checkbox.setPrefWidth(40);
+        tbc_checkbox.setCellValueFactory(param -> param.getValue().selectedProperty());
+        tbc_checkbox.setCellFactory(column -> new CheckBoxTableCell<Product, Boolean>() {
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!empty) {
+                    TableRow<Product> currentRow = getTableRow();
+                    if (currentRow != null) {
+                        Product product = currentRow.getItem();
+                        if (product != null) {
+                            CheckBox checkBox = new CheckBox();
+                            checkBox.setSelected(item != null && item);
+                            checkBox.setOnAction(event -> {
+                                boolean selected = checkBox.isSelected();
+                                product.setSelected(selected);
+                                if (selected) {
+                                    selectedProductIds.add(product.getId());
+                                } else {
+                                    selectedProductIds.remove(product.getId());
+                                }
+                            });
+                            setGraphic(checkBox);
+                        }
+                    }
+                } else {
+                    setGraphic(null);
+                }
+            }
+        });
+
+        tableView.getColumns().add(0, tbc_checkbox);
     }
+
 
     private void initTableViewEvent() {
         // Double click thì edit
@@ -140,6 +210,34 @@ public class ProductController implements Initializable,
             }
         });
     }
+
+    private void initSort() {
+        cbb_sortBy.setItems(FXCollections.observableArrayList(List.of("Id", "Name", "Price", "Quantity")));
+        cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+        // Add listeners to both ComboBoxes
+        cbb_sortBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+        cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+    }
+
+    private void applySorting() {
+        String sortBy = cbb_sortBy.getValue();
+        String orderBy = cbb_orderBy.getValue();
+        Comparator<Product> comparator = switch (sortBy) {
+            case "Name" -> Comparator.comparing(Product::getName);
+            case "Price" -> Comparator.comparing(Product::getPrice);
+            case "Quantity" -> Comparator.comparing(Product::getStockQuantity);
+            default -> Comparator.comparing(Product::getId);
+        };
+        // Check the selected value of cbb_orderBy and adjust the comparator accordingly
+        if ("DESC".equals(orderBy)) {
+            comparator = comparator.reversed();
+        }
+        // Sort the products list with the chosen comparator
+        FXCollections.sort(products, comparator);
+        showFirstPage();
+    }
+
+
 
 
     /*
@@ -293,6 +391,9 @@ public class ProductController implements Initializable,
         if (filterController != null) {
             filterController.clearFilterButtonOnClick();
         }
+        cbb_sortBy.selectFirst();
+        cbb_orderBy.selectFirst();
+        uncheckAllCheckboxes();
     }
 
     @FXML
@@ -315,8 +416,11 @@ public class ProductController implements Initializable,
 
         productAddController.clearInput();
         productAddController.addMode();
+
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addProductView);
+        productAddController.setRequestFocus();
+
     }
 
     @FXML
@@ -353,14 +457,71 @@ public class ProductController implements Initializable,
 
             anchor_main_rightPanel.getChildren().clear();
             anchor_main_rightPanel.getChildren().add(addProductView);
+            productAddController.setRequestFocus();
+
         }
 
+    }
+
+    @FXML
+    void deleteProductButtonOnClick() {
+        Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a product before deleting!");
+            alert.show();
+        } else {
+
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete selected product?");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                productService.deleteProduct(selectedProduct.getId());
+                products.remove(selectedProduct);
+                filterController.filterRemoveProduct(selectedProduct);
+                tableView.getItems().remove(selectedProduct); // Remove the product from the TableView
+
+                if (pageItems.size() == 0)
+                    showPreviousPage();
+            }
+        }
+    }
+
+    @FXML
+    void deleteSelectedProductOnClick() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Are you sure you want to delete " + selectedProductIds.size() + " product?");
+        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+            selectedProductIds.forEach(aLong -> {
+                productService.deleteProduct(aLong);
+            });
+
+            products = FXCollections.observableArrayList(productService.getAllProduct());
+            filterController.setProducts(products);
+            showFirstPage();
+            updatePageButtons();
+        }
+    }
+
+    private void uncheckAllCheckboxes() {
+        for (Product product : tableView.getItems()) {
+            product.setSelected(false);
+        }
+        selectedProductIds.clear();
     }
 
     @Override
     public void onProductAdded(Product product) {
         // Add the newly added product to the products list
-        products.add(product);
+        resetFilterIconClicked(); // Khum có cái này thì bug, chưa hiểu tại sao
+        products.add(product); // Nhưng chắc do conflic giữa 2 cái list này
+        filterController.filterAddProduct(product); // huhu
 
         // Update the table view and pagination
         showLastPage();

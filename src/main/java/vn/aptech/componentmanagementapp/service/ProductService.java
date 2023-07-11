@@ -30,7 +30,7 @@ public class ProductService {
         productDAO.update(product);
     }
 
-    public void deleteProduct(int productId) {
+    public void deleteProduct(long productId) {
 
         productDAO.delete(productId);
     }

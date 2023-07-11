@@ -22,6 +22,12 @@
     -fx-text-fill: #fff;
 }
 
+
+#custom-combobox .floating-text{
+    -fx-background-color: #fff;
+    -fx-text-fill: -hbd-primary-color;
+}
+
 /*Close and mimimize button*/
 .no-border-radius {
     -fx-background-radius: 0;
