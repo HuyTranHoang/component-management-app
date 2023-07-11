@@ -64,6 +64,9 @@ public class CustomerDAOImpl implements CustomerDAO{
         String query = "INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(customer, statement);
+            if (customer.getEmail().isEmpty()) {
+                statement.setNull(4, Types.VARCHAR);
+            }
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
