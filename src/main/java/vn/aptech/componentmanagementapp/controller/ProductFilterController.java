@@ -38,10 +38,6 @@ public class ProductFilterController implements Initializable {
     @FXML
     private ToggleGroup tggPrice;
     @FXML
-    private MFXCheckbox checkbox_Description;
-    @FXML
-    private MFXCheckbox checkbox_minimumPrice;
-    @FXML
     private MFXCheckbox checkbox_note;
 
     //    Chứa toggle button để filter category
@@ -332,9 +328,7 @@ public class ProductFilterController implements Initializable {
 
     @FXML
     void clearFilterButtonOnClick() {
-        checkbox_minimumPrice.setSelected(false);
         checkbox_note.setSelected(false);
-        checkbox_Description.setSelected(false);
 
         supplierSelectedToggleButtons.forEach(toggleButton -> toggleButton.setSelected(false));
         supplierSelectedToggleButtons.clear();

@@ -9,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +27,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
-public class ProductController implements Initializable, ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback {
+public class ProductController implements Initializable,
+        ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback {
 
 //    Product Panel
     private static ObservableList<Product> products;
@@ -85,6 +83,7 @@ public class ProductController implements Initializable, ProductFilterController
 
 //    Controller to call clear filter function in this
     private ProductFilterController filterController;
+    private ProductAddController productAddController;
 
     // Cached views
     private AnchorPane addProductView;
@@ -289,19 +288,60 @@ public class ProductController implements Initializable, ProductFilterController
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
                 addProductView = fxmlLoader.load();
-                ProductAddController controller = fxmlLoader.getController();
-                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
-                controller.setProductView(productView);
+                productAddController = fxmlLoader.getController();
+                productAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                productAddController.setProductView(productView);
+                productAddController.setTableView(tableView);
 
                 // Pass the products list and set the ProductAddCallback
-                controller.setProductAddCallback(this);
+                productAddController.setProductAddCallback(this);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
+        productAddController.clearInput();
+        productAddController.addMode();
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addProductView);
+    }
+
+    @FXML
+    void updateProductButtonOnClick() {
+        if (addProductView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
+                addProductView = fxmlLoader.load();
+                productAddController = fxmlLoader.getController();
+                productAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                productAddController.setProductView(productView);
+                productAddController.setTableView(tableView);
+
+                // Pass the products list and set the ProductAddCallback
+                productAddController.setProductAddCallback(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select product before edit!");
+            alert.show();
+        } else {
+            productAddController.clearInput();
+            productAddController.updateMode();
+            productAddController.editProduct(selectedProduct);
+            productAddController.setCurrentProduct(selectedProduct);
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(addProductView);
+        }
+
     }
 
     @Override
@@ -313,4 +353,5 @@ public class ProductController implements Initializable, ProductFilterController
         showLastPage();
         updatePageButtons();
     }
+
 }

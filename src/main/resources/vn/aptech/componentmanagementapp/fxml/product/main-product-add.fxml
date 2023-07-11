@@ -6,6 +6,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -38,7 +39,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_price" animated="false" borderGap="0.0" caretVisible="false" floatMode="ABOVE" floatingText="Price (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                  <MFXTextField id="textfield-padding" fx:id="txt_price" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Price (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -58,17 +59,17 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXFilterComboBox fx:id="cbb_supplier" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Category (*)" layoutX="526.0" layoutY="335.0" prefHeight="40.0" prefWidth="380.0">
+                  <MFXFilterComboBox fx:id="cbb_category" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Category (*)" layoutX="526.0" layoutY="335.0" prefHeight="40.0" prefWidth="380.0">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXFilterComboBox>
-                  <MFXFilterComboBox fx:id="cbb_category" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Supplier (*)" layoutX="526.0" layoutY="445.0" prefHeight="40.0" prefWidth="380.0">
+                  <MFXFilterComboBox fx:id="cbb_supplier" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Supplier (*)" layoutX="526.0" layoutY="445.0" prefHeight="40.0" prefWidth="380.0">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXFilterComboBox>
-                  <Label fx:id="lbl_successMessage" layoutX="570.0" layoutY="567.0" text="Add new product succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="603.0" layoutY="529.0" text="Add new product succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>
@@ -76,16 +77,6 @@
                         <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
                      </graphic>
                   </Label>
-                  <MFXButton id="button-custom" layoutX="751.0" layoutY="643.0" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </MFXButton>
-                  <MFXButton id="button-custom-clear" layoutX="569.0" layoutY="643.0" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </MFXButton>
                   <Label fx:id="lbl_error_productCode" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
@@ -134,6 +125,34 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
+                  <HBox fx:id="hbox_addButtonGroup" layoutX="591.0" layoutY="580.0" spacing="15.0" visible="false">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="591.0" layoutY="580.0" spacing="15.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
          </children>

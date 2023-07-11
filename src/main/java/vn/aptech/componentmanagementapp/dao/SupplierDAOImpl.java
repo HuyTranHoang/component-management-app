@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
+import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Position;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
@@ -14,8 +15,27 @@ public class SupplierDAOImpl implements SupplierDAO{
     private Connection connection = DatabaseConnection.getConnection();
 
     @Override
-    public Supplier getById(long id) {
-        return null;
+    public Supplier getById(long supplierId) {
+        Supplier supplier = null;
+
+        String query = "SELECT * FROM suppliers WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, supplierId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    supplier = new Supplier();
+                    supplier.setId(resultSet.getLong("id"));
+                    supplier.setName(resultSet.getString("name"));
+                    supplier.setEmail(resultSet.getString("email"));
+                    supplier.setWebsite(resultSet.getString("website"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return supplier;
     }
 
     @Override

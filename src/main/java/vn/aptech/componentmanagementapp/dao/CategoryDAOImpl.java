@@ -1,9 +1,7 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Category;
-import vn.aptech.componentmanagementapp.model.Department;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
-
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,8 +11,26 @@ public class CategoryDAOImpl implements CategoryDAO{
 
     private Connection connection = DatabaseConnection.getConnection();
     @Override
-    public Category getById(long id) {
-        return null;
+    public Category getById(long categoryId) {
+        Category category = null;
+
+        String query = "SELECT * FROM categories WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, categoryId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    category = new Category();
+                    category.setId(resultSet.getLong("id"));
+                    category.setName(resultSet.getString("name"));
+                    category.setDescription(resultSet.getString("description"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return category;
     }
 
     @Override

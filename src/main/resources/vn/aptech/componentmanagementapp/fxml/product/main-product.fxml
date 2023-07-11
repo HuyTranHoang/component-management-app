@@ -86,5 +86,16 @@
             </children>
          </HBox>
       </AnchorPane>
+      <MFXButton layoutX="626.0" layoutY="15.0" onAction="#updateProductButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT PRODUCT">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
    </children>
 </AnchorPane>

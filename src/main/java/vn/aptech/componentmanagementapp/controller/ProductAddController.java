@@ -14,7 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
@@ -34,7 +36,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ProductAddController implements Initializable {
 
-    // Call back product
+    // Call back add product
     public interface ProductAddCallback {
         void onProductAdded(Product product);
     }
@@ -45,7 +47,6 @@ public class ProductAddController implements Initializable {
 
     // Cached views
     private AnchorPane productView;
-
     private AnchorPane anchor_main_rightPanel; // Truyền từ Product controller vào
 
     //  List
@@ -88,6 +89,16 @@ public class ProductAddController implements Initializable {
     @FXML
     private MFXTextField txt_stockQuantity;
 
+    // Button Group ( Swap mode )
+    @FXML
+    private HBox hbox_addButtonGroup;
+    @FXML
+    private HBox hbox_updateButtonGroup;
+    // Current Product for edit/update
+    private Product currentProduct;
+    private TableView<Product> tableView; // Truyền từ Product controller vào
+
+
     //  Service
     private final ProductService productService = new ProductService();
     private final CategoryService categoryService = new CategoryService();
@@ -100,6 +111,15 @@ public class ProductAddController implements Initializable {
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
     }
+
+    public void setCurrentProduct(Product currentProduct) {
+        this.currentProduct = currentProduct;
+    }
+
+    public void setTableView(TableView<Product> tableView) {
+        this.tableView = tableView;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         CompletableFuture.supplyAsync(categoryService::getAllCategory)
@@ -129,7 +149,7 @@ public class ProductAddController implements Initializable {
                     String productCode = context.get("productCode");
                     if (productCode.isEmpty())
                         context.error("Product code can't be empty");
-                    else if (!productCode.matches("([A-Z])\\w+"))
+                    else if (!productCode.matches("([A-Za-z0-9])+"))
                         context.error("Product code can't have whitespace");
                 })
                 .decoratingWith(this::labelDecorator)
@@ -219,14 +239,12 @@ public class ProductAddController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
-        clearValidateError();
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(productView);
     }
 
     @FXML
     void storeButtonOnClick() {
-        //TODO: Validate các input
         if (productValidator.validate()) {
             Product product = new Product();
             product.setProductCode(txt_productCode.getText());
@@ -247,7 +265,6 @@ public class ProductAddController implements Initializable {
             }
 
             productService.addProduct(product);
-            System.out.println(product);
 
             // Pass the newly added product to the callback
             if (productAddCallback != null) {
@@ -255,6 +272,7 @@ public class ProductAddController implements Initializable {
             }
 
             // Show success message
+            lbl_successMessage.setText("Add new product succesfully!!");
             lbl_successMessage.setVisible(true);
             new FadeIn(lbl_successMessage).play();
             // Hide the message after 3 seconds
@@ -262,11 +280,72 @@ public class ProductAddController implements Initializable {
                 new FadeOut(lbl_successMessage).play();
             }));
             timeline.play();
+
+        }
+    }
+
+    void editProduct(Product product) {
+        txt_productCode.setText(product.getProductCode());
+        txt_name.setText(product.getName());
+        txt_price.setText(String.valueOf(product.getPrice()));
+        txt_stockQuantity.setText(String.valueOf(product.getStockQuantity()));
+        txt_monthOfWarranty.setText(String.valueOf(product.getMonthOfWarranty()));
+        txt_note.setText(product.getNote());
+
+        suppliers.stream()
+                .filter(supplier -> supplier.getId() == product.getSupplierId())
+                .findFirst()
+                .ifPresent(selectedSupplier -> cbb_supplier.setValue(selectedSupplier));
+
+        categories.stream()
+                .filter(category -> category.getId() == product.getCategoryId())
+                .findFirst()
+                .ifPresent(selectedCategory -> cbb_category.setValue(selectedCategory));
+    }
+
+    @FXML
+    void updateButtonOnClick() {
+        if (productValidator.validate()) {
+            currentProduct.setProductCode(txt_productCode.getText());
+            currentProduct.setName(txt_name.getText());
+            currentProduct.setPrice(Double.parseDouble(txt_price.getText()));
+            currentProduct.setStockQuantity(Integer.parseInt(txt_stockQuantity.getText()));
+            currentProduct.setMonthOfWarranty(Integer.parseInt(txt_monthOfWarranty.getText()));
+            currentProduct.setNote(txt_note.getText());
+
+            Category selectedCategory = cbb_category.getSelectionModel().getSelectedItem();
+            if (selectedCategory != null) {
+                currentProduct.setCategoryId(selectedCategory.getId());
+            }
+
+            Supplier selectedSupplier = cbb_supplier.getSelectionModel().getSelectedItem();
+            if (selectedSupplier != null) {
+                currentProduct.setSupplierId(selectedSupplier.getId());
+            }
+
+            productService.updateProduct(currentProduct);
+
+            // Show success message
+            lbl_successMessage.setText("Update product succesfully!!");
+            lbl_successMessage.setVisible(true);
+            new FadeIn(lbl_successMessage).play();
+            // Hide the message after 3 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+                new FadeOut(lbl_successMessage).play();
+            }));
+            timeline.play();
+
+            int index = tableView.getItems().indexOf(currentProduct);
+            System.out.println(index);
+            if (index >= 0) {
+                tableView.getItems().set(index, currentProduct);
+            }
+
         }
     }
 
     @FXML
-    void clearInput() {
+    void clearInput() { // Được gọi trước khi vào add view ở Product Add Controller
         txt_productCode.clear();
         txt_name.clear();
         txt_price.clear();
@@ -285,6 +364,16 @@ public class ProductAddController implements Initializable {
         lbl_error_price.setVisible(false);
         lbl_error_stockQuantity.setVisible(false);
         lbl_error_monthOfWarranty.setVisible(false);
+    }
+
+    void updateMode() {
+        hbox_addButtonGroup.setVisible(false);
+        hbox_updateButtonGroup.setVisible(true);
+    }
+
+    void addMode() {
+        hbox_addButtonGroup.setVisible(true);
+        hbox_updateButtonGroup.setVisible(false);
     }
 
 

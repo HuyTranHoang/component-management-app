@@ -73,7 +73,7 @@ public class ProductDAOImpl implements ProductDAO{
                 "supplier_id = ?, category_id = ? WHERE id = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
             statementInsertUpdate(product, statement);
-            statement.setLong(10,product.getId());
+            statement.setLong(9,product.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
