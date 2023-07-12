@@ -20,6 +20,7 @@ import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
@@ -192,10 +193,18 @@ public class CustomerController implements Initializable {
                     String customerEmail = context.get("email");
                     if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
                         context.error("Please enter a valid email address");
+                    else if (!isEmailUnique(customers, customerEmail)) {
+                        context.error("This email is already in database");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerEmail);
 
+    }
+
+    public boolean isEmailUnique(List<Customer> customers, String txt_email) {
+        return customers.stream()
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email));
     }
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
