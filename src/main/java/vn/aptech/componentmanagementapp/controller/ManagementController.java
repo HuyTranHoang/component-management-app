@@ -42,6 +42,7 @@ public class ManagementController implements Initializable {
     // Cached views
     private AnchorPane productView;
     private AnchorPane customerView;
+    private AnchorPane orderView;
 
 
     //    Variable
@@ -138,11 +139,33 @@ public class ManagementController implements Initializable {
         anchor_main_rightPanel.getChildren().add(customerView);
     }
 
-
     @FXML
     void orderListButtonOnClick() {
-        System.out.println("789");
-    }
+        if (orderView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order.fxml"));
+                orderView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
+        Image image = null;
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/customer.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
+
+        btn_leftPanel_productList.setId("button-custom");
+        btn_leftPanel_customerList.setId("button-custom-selected");
+        btn_leftPanel_OrderList.setId("button-custom");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(orderView);
+    }
 
 }
