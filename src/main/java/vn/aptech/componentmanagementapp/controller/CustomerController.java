@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.controller;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
@@ -77,6 +79,24 @@ public class CustomerController implements Initializable {
     @FXML
     private MFXTextField txt_product_search;
 
+    @FXML
+    private MFXButton btn_back;
+
+    @FXML
+    private MFXButton btn_clear;
+
+    @FXML
+    private MFXButton btn_store;
+
+    @FXML
+    private MFXButton btn_update;
+
+    @FXML
+    private HBox hbox_addGroup;
+    @FXML
+    private HBox hbox_updateGroup;
+    @FXML
+    private Label lbl_text;
     //Service
     CustomerService customerService = new CustomerService();
 
@@ -98,6 +118,7 @@ public class CustomerController implements Initializable {
     private Label lbl_successMessage;
 
     Validator customerValidator = new Validator();
+    Validator emailValidator = new Validator();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -107,6 +128,15 @@ public class CustomerController implements Initializable {
         updatePageButtons();
 
         initValidator();
+        initEmailValidator();
+
+        // Double click thì edit
+        tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+                        editButton();
+            }
+        });
     }
 
     private void initTableView() {
@@ -122,6 +152,10 @@ public class CustomerController implements Initializable {
         txt_address.setText("");
         txt_phone.setText("");
         txt_email.setText("");
+        lbl_error_customerName.setVisible(false);
+        lbl_error_customerAddress.setVisible(false);
+        lbl_error_customerPhone.setVisible(false);
+        lbl_error_customerEmail.setVisible(false);
         txt_name.requestFocus();
     }
     @FXML
@@ -149,7 +183,67 @@ public class CustomerController implements Initializable {
             updatePageButtons();
         }
     }
+    @FXML
+    void updateButton(){
+        if(emailValidator.validate()){
+            Customer customer = tableView.getSelectionModel().getSelectedItem();
+            customer.setName(txt_name.getText());
+            customer.setAddress(txt_address.getText());
+            customer.setPhone(txt_phone.getText());
+            customer.setEmail(txt_email.getText());
+            customerService.updateCustomer(customer);
 
+            // Show success message
+            lbl_successMessage.setText("Update customer successfully!!");
+            lbl_successMessage.setVisible(true);
+            new FadeIn(lbl_successMessage).play();
+            // Hide the message after 3 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOut(lbl_successMessage).play()));
+            timeline.play();
+
+            int index = tableView.getItems().indexOf(customer);
+            System.out.println(index);
+            if (index >= 0) {
+                tableView.getItems().set(index, customer);
+            }
+
+            showLastPage();
+            updatePageButtons();
+        }
+    }
+    @FXML
+    void editButton () {
+        updateMode();
+        Customer customer = tableView.getSelectionModel().getSelectedItem();
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select customer before edit!");
+            alert.show();
+        } else {
+            txt_name.setText(customer.getName());
+            txt_address.setText(customer.getAddress());
+            txt_phone.setText(customer.getPhone());
+            if (customer.getEmail() != null)
+                txt_email.setText(customer.getEmail());
+        }
+    }
+    @FXML
+    void updateMode() {
+        hbox_updateGroup.setVisible(true);
+        hbox_addGroup.setVisible(false);
+        lbl_text.setText("UPDATE CUSTOMER");
+        clearButton();
+
+    }
+    @FXML
+    void addMode() {
+        hbox_updateGroup.setVisible(false);
+        hbox_addGroup.setVisible(true);
+        lbl_text.setText("ADD NEW CUSTOMER");
+        clearButton();
+    }
     private void initValidator() {
         customerValidator.createCheck()
                 .dependsOn("name", txt_name.textProperty())
@@ -199,13 +293,34 @@ public class CustomerController implements Initializable {
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerEmail);
-
+    }
+    private void initEmailValidator(){
+        emailValidator.createCheck()
+                .dependsOn("email", txt_email.textProperty())
+                .withMethod(context -> {
+                    String customerEmail = context.get("email");
+                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
+                        context.error("Please enter a valid email address");
+                    else if (!isEmailUniqueUpdate(customers, customerEmail)) {
+                        context.error("This email is already in database");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerEmail);
     }
 
     public boolean isEmailUnique(List<Customer> customers, String txt_email) {
         return customers.stream()
                 .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email));
     }
+
+    public boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
+        String email = tableView.getSelectionModel().getSelectedItem().getEmail();
+        return (customers.stream()
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email)) || txt_email.equals(email));
+    }
+
+
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
             @Override
