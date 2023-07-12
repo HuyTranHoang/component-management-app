@@ -11,7 +11,7 @@ CREATE TABLE customers
 CREATE UNIQUE INDEX idx_unique_email
     ON customers (email)
     WHERE email IS NOT NULL AND email <> '';
-CREATE UNIQUE INDEX  ifx_unique_phone
+CREATE UNIQUE INDEX  idx_unique_phone
     ON customers (phone)
 WHERE phone IS NOT NULL AND phone <> '';
 
