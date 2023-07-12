@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import animatefx.animation.Shake;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
@@ -13,15 +14,20 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
@@ -364,6 +370,21 @@ public class ProductController implements Initializable,
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-filter.fxml"));
                 filterScene = new Scene(fxmlLoader.load());
                 filterStage = new Stage();
+
+                filterStage.setTitle("Filter Product");
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/product.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                filterStage.getIcons().add(image);
+
+                filterStage.initModality(Modality.APPLICATION_MODAL);
+                filterStage.initOwner(tableView.getScene().getWindow());
 
                 filterController = fxmlLoader.getController();
                 filterController.setFilterCallback(this);

@@ -9,7 +9,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -43,6 +45,16 @@ public class ManagementController implements Initializable {
     private AnchorPane productView;
     private AnchorPane customerView;
     private AnchorPane orderView;
+
+    //  Icon
+    @FXML
+    private FontIcon icon_customerList;
+
+    @FXML
+    private FontIcon icon_orderList;
+
+    @FXML
+    private FontIcon icon_productList;
 
 
     //    Variable
@@ -102,6 +114,10 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        icon_productList.setIconColor(Paint.valueOf("#4A55A2"));
+        icon_customerList.setIconColor(Paint.valueOf("#fff"));
+        icon_orderList.setIconColor(Paint.valueOf("#fff"));
+
         btn_leftPanel_productList.setId("button-custom-selected");
         btn_leftPanel_customerList.setId("button-custom");
         btn_leftPanel_OrderList.setId("button-custom");
@@ -131,6 +147,10 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        icon_productList.setIconColor(Paint.valueOf("#fff"));
+        icon_customerList.setIconColor(Paint.valueOf("#4A55A2"));
+        icon_orderList.setIconColor(Paint.valueOf("#fff"));
+
         btn_leftPanel_productList.setId("button-custom");
         btn_leftPanel_customerList.setId("button-custom-selected");
         btn_leftPanel_OrderList.setId("button-custom");
@@ -152,7 +172,7 @@ public class ManagementController implements Initializable {
 
         Image image = null;
 
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/customer.png");
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/order.png");
         if (resourceURL != null) {
             String resourcePath = resourceURL.toExternalForm();
             image = new Image(resourcePath);
@@ -160,9 +180,13 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        icon_productList.setIconColor(Paint.valueOf("#fff"));
+        icon_customerList.setIconColor(Paint.valueOf("#fff"));
+        icon_orderList.setIconColor(Paint.valueOf("#4A55A2"));
+
         btn_leftPanel_productList.setId("button-custom");
-        btn_leftPanel_customerList.setId("button-custom-selected");
-        btn_leftPanel_OrderList.setId("button-custom");
+        btn_leftPanel_customerList.setId("button-custom");
+        btn_leftPanel_OrderList.setId("button-custom-selected");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(orderView);
