@@ -78,12 +78,12 @@
                   </MFXTextField>
                   <HBox fx:id="hbox_addGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0">
                      <children>
-                        <MFXButton id="button-custom-clear" fx:id="btn_clear" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                        <MFXButton id="button-custom-clear" fx:id="btn_clear" onAction="#clearButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" fx:id="btn_store" onAction="#storeButton" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                        <MFXButton id="button-custom" fx:id="btn_store" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -97,7 +97,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" fx:id="btn_update" onAction="#updateButton" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                        <MFXButton id="button-custom" fx:id="btn_update" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -164,7 +164,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXButton layoutX="458.0" layoutY="11.0" onAction="#editButton" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+      <MFXButton layoutX="458.0" layoutY="11.0" onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
          </graphic>
@@ -175,7 +175,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXButton layoutX="568.0" layoutY="11.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
+      <MFXButton fx:id="btn_delete" layoutX="568.0" layoutY="11.0" onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
          <font>
             <Font name="Inter Bold" size="14.0" />
          </font>

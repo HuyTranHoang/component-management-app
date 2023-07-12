@@ -3,10 +3,8 @@ package vn.aptech.componentmanagementapp.controller;
 import animatefx.animation.Shake;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -14,20 +12,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
@@ -153,7 +148,7 @@ public class ProductController implements Initializable,
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
 
 
-//        tbc_suppliderId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
+//        tbc_supplierId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
 //        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
 
         tbc_suppliderId.setCellValueFactory(cellData -> {
@@ -199,7 +194,7 @@ public class ProductController implements Initializable,
                                     }
                                 } else {
                                     selectedProductIds.remove(product.getId());
-                                    if (selectedProductIds.size() == 0)
+                                    if (selectedProductIds.isEmpty())
                                         btn_deleteCheckedProduct.setDisable(true);
                                 }
                             });
@@ -290,7 +285,8 @@ public class ProductController implements Initializable,
     }
     @FXML
     void showLastPage() {
-        int maxPageIndex = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1;
+        int maxPageIndex;
+        maxPageIndex = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1;
         currentPageIndex = maxPageIndex;
         showPage(currentPageIndex);
         updatePageButtons();
@@ -515,7 +511,7 @@ public class ProductController implements Initializable,
                 filterController.filterRemoveProduct(selectedProduct);
                 tableView.getItems().remove(selectedProduct); // Remove the product from the TableView
 
-                if (pageItems.size() == 0)
+                if (pageItems.isEmpty())
                     showPreviousPage();
             }
         }
@@ -563,6 +559,11 @@ public class ProductController implements Initializable,
         resetFilterIconClicked(); // Khum có cái này thì bug, chưa hiểu tại sao
         products.add(product); // Nhưng chắc do conflic giữa 2 cái list này
         filterController.filterAddProduct(product); // huhu
+
+        // Do khi filter thì cái table đang set sẽ lấy 1 list là filterList chứ không phải product, do đó table view
+        // khi được quay lại gốc (products) sẽ không có ( Nó gán products thành filter list luôn)
+        // Khi reset thì sẽ trả lại list gốc từ bên filterController hoặc ở đâu đó khum biết, nhưng khi reset thì nó sẽ chỉ add 1
+        // .__. ~
 
         // Update the table view and pagination
         showLastPage();
