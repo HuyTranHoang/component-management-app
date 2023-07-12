@@ -46,17 +46,6 @@ public class ManagementController implements Initializable {
     private AnchorPane customerView;
     private AnchorPane orderView;
 
-    //  Icon
-    @FXML
-    private FontIcon icon_customerList;
-
-    @FXML
-    private FontIcon icon_orderList;
-
-    @FXML
-    private FontIcon icon_productList;
-
-
     //    Variable
     private Stage stage;
 
@@ -114,13 +103,9 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
-        icon_productList.setIconColor(Paint.valueOf("#4A55A2"));
-        icon_customerList.setIconColor(Paint.valueOf("#fff"));
-        icon_orderList.setIconColor(Paint.valueOf("#fff"));
-
-        btn_leftPanel_productList.setId("button-custom-selected");
-        btn_leftPanel_customerList.setId("button-custom");
-        btn_leftPanel_OrderList.setId("button-custom");
+        btn_leftPanel_productList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(productView);
@@ -147,13 +132,9 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
-        icon_productList.setIconColor(Paint.valueOf("#fff"));
-        icon_customerList.setIconColor(Paint.valueOf("#4A55A2"));
-        icon_orderList.setIconColor(Paint.valueOf("#fff"));
-
-        btn_leftPanel_productList.setId("button-custom");
-        btn_leftPanel_customerList.setId("button-custom-selected");
-        btn_leftPanel_OrderList.setId("button-custom");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(customerView);
@@ -180,13 +161,9 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
-        icon_productList.setIconColor(Paint.valueOf("#fff"));
-        icon_customerList.setIconColor(Paint.valueOf("#fff"));
-        icon_orderList.setIconColor(Paint.valueOf("#4A55A2"));
-
-        btn_leftPanel_productList.setId("button-custom");
-        btn_leftPanel_customerList.setId("button-custom");
-        btn_leftPanel_OrderList.setId("button-custom-selected");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_OrderList.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(orderView);

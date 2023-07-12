@@ -18,7 +18,7 @@
          <children>
             <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="330.0" prefHeight="380.0" prefWidth="350.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <MFXButton id="button-custom-selected" fx:id="btn_leftPanel_productList" graphicTextGap="10.0" onAction="#productListButtonOnClick" prefHeight="48.0" prefWidth="300.0" style="-fx-padding: 0 0 0 15px;" text="PRODUCT LIST">
+                  <MFXButton id="button-custom-mainPanel-selected" fx:id="btn_leftPanel_productList" alignment="BASELINE_LEFT" graphicTextGap="15.0" onAction="#productListButtonOnClick" prefHeight="48.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="PRODUCT LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -26,10 +26,13 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                      <graphic>
-                        <FontIcon fx:id="icon_productList" iconColor="#4a55a2" iconLiteral="fas-boxes" />
+                        <FontIcon id="icon" iconColor="WHITE" iconLiteral="fas-boxes" />
                      </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_leftPanel_customerList" graphicTextGap="10.0" onAction="#customerListButtonOnClick" prefHeight="48.0" prefWidth="300.0" text="CUSTOMER LIST">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_customerList" alignment="BASELINE_LEFT" graphicTextGap="15.0" onAction="#customerListButtonOnClick" prefHeight="48.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="CUSTOMER LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -37,16 +40,22 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                      <graphic>
-                        <FontIcon fx:id="icon_customerList" iconColor="WHITE" iconLiteral="far-id-card" />
+                        <FontIcon id="icon" iconColor="WHITE" iconLiteral="far-id-card" />
                      </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom" fx:id="btn_leftPanel_OrderList" graphicTextGap="10.0" onAction="#orderListButtonOnClick" prefHeight="48.0" prefWidth="300.0" text="ORDER LIST">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_OrderList" alignment="BASELINE_LEFT" graphicTextGap="15.0" onAction="#orderListButtonOnClick" prefHeight="48.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="ORDER LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <graphic>
-                        <FontIcon fx:id="icon_orderList" iconColor="WHITE" iconLiteral="fas-receipt" />
+                        <FontIcon id="icon" iconColor="WHITE" iconLiteral="fas-receipt" />
                      </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
                   </MFXButton>
                </children>
             </VBox>
