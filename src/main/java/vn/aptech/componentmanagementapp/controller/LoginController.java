@@ -112,18 +112,6 @@ public class LoginController implements Initializable {
         initResetValidator();
         initEnterKeyPressing();
 
-        ProductStorage productStorage = new ProductStorage();
-        productStorage.setId(1);
-        productStorage.setImportQuantity(10);
-        productStorage.setExportQuantity(0);
-        productStorage.setDateOfStorage(LocalDate.now());
-        productStorage.setProductId(1);
-
-        ProductStorageDAO productStorageDAO = new ProductStorageImpl();
-        productStorageDAO.add(productStorage);
-
-
-
         loadLoginInfo();
     }
 

@@ -564,6 +564,11 @@ public class ProductController implements Initializable,
         products.add(product); // Nhưng chắc do conflic giữa 2 cái list này
         filterController.filterAddProduct(product); // huhu
 
+        // Do khi filter thì cái table đang set sẽ lấy 1 list là filterList chứ không phải product, do đó table view
+        // khi được quay lại gốc (products) sẽ không có ( Nó gán products thành filter list luôn)
+        // Khi reset thì sẽ trả lại list gốc từ bên filterController hoặc ở đâu đó khum biết, nhưng khi reset thì nó sẽ chỉ add 1
+        // .__. ~
+
         // Update the table view and pagination
         showLastPage();
         updatePageButtons();
