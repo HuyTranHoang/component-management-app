@@ -20,10 +20,6 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.dao.CategoryDAO;
-import vn.aptech.componentmanagementapp.dao.CategoryDAOImpl;
-import vn.aptech.componentmanagementapp.dao.SupplierDAO;
-import vn.aptech.componentmanagementapp.dao.SupplierDAOImpl;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
@@ -109,7 +105,6 @@ public class LoginController implements Initializable {
         initLoginValidator();
         initForgotValidator();
         initResetValidator();
-        initEnterKeyPressing();
 
         loadLoginInfo();
     }
