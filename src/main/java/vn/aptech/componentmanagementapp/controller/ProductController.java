@@ -1,9 +1,11 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -48,6 +50,8 @@ public class ProductController implements Initializable,
     private Circle filter_noti_shape;
     @FXML
     private MFXTextField txt_product_search;
+    @FXML
+    private MFXButton btn_deleteCheckedProduct;
 
 //    Filter Panel
     private Scene filterScene;
@@ -184,8 +188,13 @@ public class ProductController implements Initializable,
                                 product.setSelected(selected);
                                 if (selected) {
                                     selectedProductIds.add(product.getId());
+                                    if (btn_deleteCheckedProduct.disabledProperty().get()) {
+                                        btn_deleteCheckedProduct.setDisable(false);
+                                    }
                                 } else {
                                     selectedProductIds.remove(product.getId());
+                                    if (selectedProductIds.size() == 0)
+                                        btn_deleteCheckedProduct.setDisable(true);
                                 }
                             });
                             setGraphic(checkBox);
@@ -500,10 +509,21 @@ public class ProductController implements Initializable,
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             selectedProductIds.forEach(aLong -> {
                 productService.deleteProduct(aLong);
+                Product product = products.stream()
+                        .filter(p -> p.getId() == aLong)
+                        .findFirst()
+                        .orElse(null);
+
+                products.remove(product);
+                filterController.filterRemoveProduct(product);
+
             });
 
-            products = FXCollections.observableArrayList(productService.getAllProduct());
-            filterController.setProducts(products);
+//            products = FXCollections.observableArrayList(productService.getAllProduct());
+//            filterController.setProducts(products);
+//            resetFilterIconClicked();
+
+            btn_deleteCheckedProduct.setDisable(true);
             showFirstPage();
             updatePageButtons();
         }

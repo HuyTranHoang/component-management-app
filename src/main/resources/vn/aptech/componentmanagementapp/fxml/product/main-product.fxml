@@ -86,7 +86,7 @@
                </Button>
             </children>
          </HBox>
-         <MFXButton layoutX="19.0" layoutY="735.0" onAction="#deleteSelectedProductOnClick" prefHeight="35.0" prefWidth="240.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE CHECKED PRODUCT">
+         <MFXButton fx:id="btn_deleteCheckedProduct" disable="true" layoutX="19.0" layoutY="735.0" onAction="#deleteSelectedProductOnClick" prefHeight="35.0" prefWidth="240.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE CHECKED PRODUCT">
             <graphic>
                <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
             </graphic>

@@ -279,12 +279,14 @@ public class ProductAddController implements Initializable {
                 productAddCallback.onProductAdded(product);
             }
 
+            clearInput();
+
             // Show success message
             lbl_successMessage.setText("Add new product succesfully!!");
             lbl_successMessage.setVisible(true);
             new FadeIn(lbl_successMessage).play();
-            // Hide the message after 3 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
+            // Hide the message after 4 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
                 new FadeOut(lbl_successMessage).play();
             }));
             timeline.play();
