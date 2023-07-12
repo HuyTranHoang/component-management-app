@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -75,17 +76,35 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXButton id="button-custom" fx:id="btn_store" layoutX="288.0" layoutY="598.0" onAction="#storeButton" prefHeight="48.0" prefWidth="150.0" text="STORE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </MFXButton>
-                  <MFXButton id="button-custom-clear" fx:id="btn_clear" layoutX="58.0" layoutY="598.0" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </MFXButton>
-                  <Label layoutX="126.0" layoutY="41.0" text="ADD NEW CUSTOMER" textFill="WHITE">
+                  <HBox fx:id="hbox_addGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" fx:id="btn_clear" onAction="#clearButton" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" fx:id="btn_store" onAction="#storeButton" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbox_updateGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0" visible="false">
+                     <children>
+                        <MFXButton id="button-custom-clear" fx:id="btn_back" onAction="#addMode" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" fx:id="btn_update" onAction="#updateButton" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lbl_text" layoutX="126.0" layoutY="41.0" text="ADD NEW CUSTOMER" textFill="WHITE">
                      <font>
                         <Font name="Inter Bold" size="22.0" />
                      </font>
@@ -122,7 +141,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_successMessage" layoutX="116.0" layoutY="550.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="112.0" layoutY="488.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>
@@ -134,5 +153,48 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <MFXButton layoutX="348.0" layoutY="11.0" onAction="#addMode" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <MFXButton layoutX="458.0" layoutY="11.0" onAction="#editButton" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <MFXButton layoutX="568.0" layoutY="11.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
+         </graphic>
+      </MFXButton>
+      <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" floatMode="BORDER" floatingText="Sort by" layoutX="694.0" layoutY="8.0" prefHeight="40.0" prefWidth="150.0">
+         <font>
+            <Font name="Inter Regular" size="13.0" />
+         </font>
+      </MFXComboBox>
+      <MFXComboBox id="custom-combobox" fx:id="cbb_orderBy" floatMode="BORDER" floatingText="Order by" layoutX="856.0" layoutY="8.0" prefHeight="40.0" prefWidth="150.0">
+         <font>
+            <Font name="Inter Regular" size="13.0" />
+         </font>
+      </MFXComboBox>
    </children>
 </AnchorPane>
