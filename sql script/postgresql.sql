@@ -5,8 +5,12 @@ CREATE TABLE customers
     name    VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone   VARCHAR(10)  NOT NULL,
-    email   VARCHAR(255) UNIQUE
+    email   VARCHAR(255)
 );
+
+CREATE UNIQUE INDEX idx_unique_email
+    ON customers (email)
+    WHERE email IS NOT NULL AND email <> '';
 
 CREATE TABLE departments
 (
