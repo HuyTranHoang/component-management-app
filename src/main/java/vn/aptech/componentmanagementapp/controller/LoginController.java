@@ -20,11 +20,10 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.dao.CategoryDAO;
-import vn.aptech.componentmanagementapp.dao.CategoryDAOImpl;
-import vn.aptech.componentmanagementapp.dao.SupplierDAO;
-import vn.aptech.componentmanagementapp.dao.SupplierDAOImpl;
+import vn.aptech.componentmanagementapp.dao.*;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
+import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.model.ProductStorage;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -33,6 +32,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -110,6 +111,18 @@ public class LoginController implements Initializable {
         initForgotValidator();
         initResetValidator();
         initEnterKeyPressing();
+
+        ProductStorage productStorage = new ProductStorage();
+        productStorage.setId(1);
+        productStorage.setImportQuantity(10);
+        productStorage.setExportQuantity(0);
+        productStorage.setDateOfStorage(LocalDate.now());
+        productStorage.setProductId(1);
+
+        ProductStorageDAO productStorageDAO = new ProductStorageImpl();
+        productStorageDAO.add(productStorage);
+
+
 
         loadLoginInfo();
     }

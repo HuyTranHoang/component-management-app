@@ -108,4 +108,21 @@ public class Order {
         }
         return employee;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", deliveryDate=" + deliveryDate +
+                ", shipmentDate=" + shipmentDate +
+                ", deliveryLocation='" + deliveryLocation + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", note='" + note + '\'' +
+                ", customerId=" + customerId +
+                ", employeeId=" + employeeId +
+                ", customer=" + customer +
+                ", employee=" + employee +
+                '}';
+    }
 }
