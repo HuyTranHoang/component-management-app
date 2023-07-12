@@ -1,8 +1,11 @@
 package vn.aptech.componentmanagementapp.controller;
+
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
+
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -15,9 +18,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 
@@ -41,8 +46,6 @@ public class CustomerController implements Initializable {
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
-    @FXML
-    private HBox paginationControls;
     private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
 
@@ -101,7 +104,6 @@ public class CustomerController implements Initializable {
     CustomerService customerService = new CustomerService();
 
     //Validate
-
     @FXML
     private Label lbl_error_customerAddress;
 
@@ -138,7 +140,7 @@ public class CustomerController implements Initializable {
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY
                     && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
-                        editButton();
+                        editButtonOnClick();
             }
         });
     }
@@ -151,19 +153,7 @@ public class CustomerController implements Initializable {
         tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
     }
     @FXML
-    void clearButton(){
-        txt_name.setText("");
-        txt_address.setText("");
-        txt_phone.setText("");
-        txt_email.setText("");
-        lbl_error_customerName.setVisible(false);
-        lbl_error_customerAddress.setVisible(false);
-        lbl_error_customerPhone.setVisible(false);
-        lbl_error_customerEmail.setVisible(false);
-        txt_name.requestFocus();
-    }
-    @FXML
-    void storeButton(){
+    void storeButtonOnClick(){
         if(customerValidator.validate() && validateUniqueAdd.validate()){
             Customer customer = new Customer();
             customer.setName(txt_name.getText());
@@ -186,7 +176,7 @@ public class CustomerController implements Initializable {
         }
     }
     @FXML
-    void updateButton(){
+    void updateButtonOnClick(){
         if(customerValidator.validate() && validateUniqueUpdate.validate()){
             Customer customer = tableView.getSelectionModel().getSelectedItem();
             customer.setName(txt_name.getText());
@@ -214,7 +204,32 @@ public class CustomerController implements Initializable {
         }
     }
     @FXML
-    void editButton () {
+    void deleteButtonOnClick() {
+        Customer selectedCustomer = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a customer before deleting!");
+            alert.show();
+        } else {
+
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete selected customer?");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                customerService.deleteCustomer((int) selectedCustomer.getId());
+                customers.remove(selectedCustomer);
+                tableView.getItems().remove(selectedCustomer); // Remove the product from the TableView
+                if (pageItems.isEmpty())
+                    showPreviousPage();
+            }
+        }
+    }
+    @FXML
+    void editButtonOnClick() {
         updateMode();
         Customer customer = tableView.getSelectionModel().getSelectedItem();
         if (customer == null) {
@@ -236,7 +251,7 @@ public class CustomerController implements Initializable {
         hbox_updateGroup.setVisible(true);
         hbox_addGroup.setVisible(false);
         lbl_text.setText("UPDATE CUSTOMER");
-        clearButton();
+        clearButtonOnClick();
 
     }
     @FXML
@@ -244,7 +259,19 @@ public class CustomerController implements Initializable {
         hbox_updateGroup.setVisible(false);
         hbox_addGroup.setVisible(true);
         lbl_text.setText("ADD NEW CUSTOMER");
-        clearButton();
+        clearButtonOnClick();
+    }
+    @FXML
+    void clearButtonOnClick(){
+        txt_name.setText("");
+        txt_address.setText("");
+        txt_phone.setText("");
+        txt_email.setText("");
+        lbl_error_customerName.setVisible(false);
+        lbl_error_customerAddress.setVisible(false);
+        lbl_error_customerPhone.setVisible(false);
+        lbl_error_customerEmail.setVisible(false);
+        txt_name.requestFocus();
     }
     private void initValidator() {
         customerValidator.createCheck()
