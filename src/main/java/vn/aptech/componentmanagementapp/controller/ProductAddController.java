@@ -205,20 +205,22 @@ public class ProductAddController implements Initializable {
                     if (monthOfWarranty.isEmpty())
                         context.error("Month of warranty can't be empty");
                     else if (!monthOfWarranty.matches("\\d+"))
-                        context.error("Stock quantity can only contain number");
+                        context.error("Month of warranty can only contain numbers");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_monthOfWarranty);
 
-//        productValidator.createCheck()
-//                .dependsOn("note", txt_note.textProperty())
-//                .withMethod(context -> {
-//                    String note = context.get("note");
-//                    if (note.isEmpty())
-//                        context.error("Note can't be empty");
-//                })
-//                .decoratingWith(this::labelDecorator)
-//                .decorates(lbl_error_note);
+        productValidator.createCheck()
+                .dependsOn("note", txt_note.textProperty())
+                .withMethod(context -> {
+                    String note = context.get("note");
+                    if (note.length() > 255) {
+                        context.error("Note length exceeds the maximum limit of 255 characters");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_note);
+
     }
 
     private Decoration labelDecorator(ValidationMessage message) {
