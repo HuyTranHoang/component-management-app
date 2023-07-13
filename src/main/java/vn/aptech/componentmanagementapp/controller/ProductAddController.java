@@ -158,6 +158,9 @@ public class ProductAddController implements Initializable {
                         context.error("Product code can't be empty");
                     else if (!productCode.matches("([A-Za-z0-9])+"))
                         context.error("Product code can't have whitespace");
+                    else if (productCode.length() > 255) {
+                        context.error("Product code length exceeds the maximum limit of 255 characters");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_productCode);
@@ -168,6 +171,9 @@ public class ProductAddController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
+                    else if (name.length() > 255) {
+                        context.error("Name length exceeds the maximum limit of 255 characters");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_name);

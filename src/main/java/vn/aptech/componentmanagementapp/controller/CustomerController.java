@@ -334,7 +334,10 @@ public class CustomerController implements Initializable {
                         context.error("Name can't be empty");
                     } else if (!customerName.matches("\\D+")) {
                         context.error("Name can't have numbers");
+                    } else if (customerName.length() > 255) {
+                        context.error("Name length exceeds the maximum limit of 255 characters");
                     }
+
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerName);
@@ -345,6 +348,8 @@ public class CustomerController implements Initializable {
                     String customerAddress = context.get("address");
                     if (customerAddress.isEmpty()) {
                         context.error("Address can't be empty");
+                    } else if (customerAddress.length() > 255) {
+                        context.error("Address length exceeds the maximum limit of 255 characters");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
@@ -356,9 +361,12 @@ public class CustomerController implements Initializable {
                     String customerEmail = context.get("email");
                     if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$")) {
                         context.error("Please enter a valid email address");
+                    } else if (customerEmail.length() > 255) {
+                        context.error("Email length exceeds the maximum limit of 255 characters");
                     } else if (isUpdate ? !isEmailUniqueUpdate(customers, customerEmail) : !isEmailUnique(customers, customerEmail)) {
                         context.error("This email is already in the database");
                     }
+
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerEmail);
@@ -369,14 +377,10 @@ public class CustomerController implements Initializable {
                     String customerPhone = context.get("phone");
                     if (customerPhone.isEmpty()) {
                         context.error("Phone can't be empty");
-                    } else if (!customerPhone.matches("\\d+")) {
-                        context.error("Phone can only contain numbers");
-                    } else if (!customerPhone.matches("^.{1,10}$")) {
-                        context.error("Phone maximum limit is 10 numbers");
                     } else if (!customerPhone.matches("^\\d{10}$")) {
                         context.error("Phone must have 10 digits");
                     } else if (isUpdate ? !isPhoneUniqueUpdate(customers, customerPhone) : !isPhoneUnique(customers, customerPhone)) {
-                        context.error("This phone is already in the database");
+                        context.error("This phone number is already in the database");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
