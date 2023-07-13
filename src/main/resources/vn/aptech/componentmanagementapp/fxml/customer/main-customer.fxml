@@ -18,7 +18,7 @@
 <AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.CustomerController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXTextField fx:id="txt_product_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
+      <MFXTextField fx:id="txt_customer_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
@@ -163,7 +163,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <HBox fx:id="hbox_addEditDelete" layoutX="334.0" layoutY="15.0" spacing="10.0">
+      <HBox fx:id="hbox_addEditDelete" layoutX="400.0" layoutY="15.0" spacing="10.0">
          <children>
             <MFXButton onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
                <graphic>
@@ -200,7 +200,7 @@
             </MFXButton>
          </children>
       </HBox>
-      <HBox fx:id="hbox_confirmDelete" layoutX="334.0" layoutY="15.0" spacing="10.0" visible="false">
+      <HBox fx:id="hbox_confirmDelete" layoutX="400.0" layoutY="15.0" spacing="10.0" visible="false">
          <children>
             <MFXButton onAction="#deleteSelectedCustomerOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
                <graphic>
@@ -226,5 +226,10 @@
             </MFXButton>
          </children>
       </HBox>
+      <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="340.0" layoutY="42.0" onMouseClicked="#resetFilterIconClicked">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </FontIcon>
    </children>
 </AnchorPane>

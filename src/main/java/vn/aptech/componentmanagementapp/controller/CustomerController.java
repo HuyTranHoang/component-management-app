@@ -32,10 +32,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class CustomerController implements Initializable {
 //    List
     private ObservableList<Customer> customers;
+    private ObservableList<Customer> filterCustomers;
 
     //  Pagination
     @FXML
@@ -79,7 +81,7 @@ public class CustomerController implements Initializable {
     private MFXTextField txt_phone;
 
     @FXML
-    private MFXTextField txt_product_search;
+    private MFXTextField txt_customer_search;
 
     @FXML
     private HBox hbox_addGroup;
@@ -456,6 +458,15 @@ public class CustomerController implements Initializable {
         txt_address.setOnKeyPressed(storeOrUpdateEventHandler);
         txt_phone.setOnKeyPressed(storeOrUpdateEventHandler);
         txt_email.setOnKeyPressed(storeOrUpdateEventHandler);
+
+        txt_customer_search.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                searchCustomerOnAction();
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                txt_customer_search.clear();
+                searchCustomerOnAction();
+            }
+        });
     }
 
 
@@ -498,6 +509,32 @@ public class CustomerController implements Initializable {
             showFirstPage();
             tableView.refresh();
         }
+    }
+
+    private void searchCustomerOnAction() {
+        String searchText = txt_customer_search.getText().trim();
+        if (!searchText.isEmpty()) {
+            List<Customer> filter = customers.stream()
+                    .filter(customer ->
+                            customer.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                            customer.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
+                            customer.getPhone().toLowerCase().contains(searchText.toLowerCase()))
+                    .toList();
+
+            filterCustomers = FXCollections.observableArrayList(filter);
+
+            paginationHelper.setItems(filterCustomers);
+            paginationHelper.showFirstPage();
+        } else {
+            paginationHelper.setItems(customers);
+            paginationHelper.showFirstPage();
+        }
+    }
+
+    @FXML
+    void resetFilterIconClicked() {
+        txt_customer_search.setText("");
+        searchCustomerOnAction();
     }
 
 }
