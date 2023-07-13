@@ -242,3 +242,16 @@
     -fx-background-color: -hbd-primary-color; /* Thumb color */
 }
 
+.context-menu {
+    -fx-padding: 10px 0;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.menu-item {
+    -fx-padding: 0 40px 0 20px
+}
+
+.menu-item:focused {
+    -fx-background-color: -hbd-primary-color;
+}

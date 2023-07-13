@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.service.OrderService;
+import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +44,7 @@ public class OrderController implements Initializable {
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
+    private PaginationHelper<Order> paginationHelper;
 
     @FXML
     private TableView<Order> tableView;
@@ -74,11 +76,6 @@ public class OrderController implements Initializable {
     //  Service
     private OrderService orderService = new OrderService();
 
-
-    //  Pagination
-    private static final int ITEMS_PER_PAGE = 26;
-    private int currentPageIndex = 0;
-
     //    Controller to call clear filter function in this
     private OrderAddController orderAddController;
 
@@ -95,110 +92,25 @@ public class OrderController implements Initializable {
     /*
      * Begin of Pagination
      */
-    private void showPage(int pageIndex) {
-        int startIndex = pageIndex * ITEMS_PER_PAGE;
-        int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, orders.size());
-
-        pageItems = FXCollections.observableArrayList(orders.subList(startIndex, endIndex));
-        tableView.setItems(pageItems);
-    }
 
     @FXML
     void showPreviousPage() {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showPreviousPage();
     }
 
     @FXML
     void showNextPage() {
-        int maxPageIndex = (int) Math.ceil((double) orders.size() / ITEMS_PER_PAGE) - 1;
-        if (currentPageIndex < maxPageIndex) {
-            currentPageIndex++;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showNextPage();
     }
 
     @FXML
     void showFirstPage() {
-        currentPageIndex = 0;
-        showPage(currentPageIndex);
-        updatePageButtons();
+        paginationHelper.showFirstPage();
     }
 
     @FXML
     void showLastPage() {
-        int maxPageIndex = (int) Math.ceil((double) orders.size() / ITEMS_PER_PAGE) - 1;
-        currentPageIndex = maxPageIndex;
-        showPage(currentPageIndex);
-        updatePageButtons();
-    }
-
-    private void updatePageButtons() {
-        int pageCount = (int) Math.ceil((double) orders.size() / ITEMS_PER_PAGE);
-        int maxVisibleButtons = 5; // Maximum number of visible page buttons
-
-        int startIndex;
-        int endIndex;
-
-        if (pageCount <= maxVisibleButtons) {
-            startIndex = 0;
-            endIndex = pageCount;
-        } else {
-            startIndex = Math.max(currentPageIndex - 2, 0);
-            endIndex = Math.min(startIndex + maxVisibleButtons, pageCount);
-
-            if (endIndex - startIndex < maxVisibleButtons) {
-                startIndex = Math.max(endIndex - maxVisibleButtons, 0);
-            }
-        }
-
-        pageButtonContainer.getChildren().clear();
-
-        firstPageButton.setDisable(currentPageIndex == 0);
-        previousButton.setDisable(currentPageIndex == 0);
-        lastPageButton.setDisable(currentPageIndex == pageCount - 1);
-        nextButton.setDisable(currentPageIndex == pageCount - 1);
-        if (startIndex > 0) {
-            Button ellipsisButtonStart = new Button("...");
-            ellipsisButtonStart.setMinWidth(30);
-            ellipsisButtonStart.getStyleClass().add("pagination-button");
-            ellipsisButtonStart.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonStart);
-        }
-
-        for (int i = startIndex; i < endIndex; i++) {
-            Button pageButton = new Button(Integer.toString(i + 1));
-            pageButton.setMinWidth(30);
-            pageButton.getStyleClass().add("pagination-button");
-            int pageIndex = i;
-            pageButton.setOnAction(e -> showPageByIndex(pageIndex));
-            pageButtonContainer.getChildren().add(pageButton);
-
-            // Highlight the selected page button
-            if (pageIndex == currentPageIndex) {
-                pageButton.getStyleClass().add("pagination-button-selected");
-            }
-        }
-
-        if (endIndex < pageCount) {
-            Button ellipsisButtonEnd = new Button("...");
-            ellipsisButtonEnd.setMinWidth(30);
-            ellipsisButtonEnd.getStyleClass().add("pagination-button");
-            ellipsisButtonEnd.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonEnd);
-        }
-    }
-
-    private void showPageByIndex(int pageIndex) {
-        if (pageIndex >= 0 && pageIndex <= (int) Math.ceil((double) orders.size() / ITEMS_PER_PAGE) - 1) {
-            currentPageIndex = pageIndex;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showLastPage();
     }
 
     /*
@@ -208,10 +120,22 @@ public class OrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         orders = FXCollections.observableArrayList(orderService.getAllOrder());
-
         initTableView();
-        showPage(currentPageIndex);
-        updatePageButtons();
+
+        paginationHelper = new PaginationHelper<>();
+        paginationHelper.setItems(orders);
+        paginationHelper.setTableView(tableView);
+
+        paginationHelper.setPageButtonContainer(pageButtonContainer);
+        paginationHelper.setFirstPageButton(firstPageButton);
+        paginationHelper.setPreviousButton(previousButton);
+        paginationHelper.setNextButton(nextButton);
+        paginationHelper.setLastPageButton(lastPageButton);
+
+        paginationHelper.showFirstPage();
+
+//        showPage(currentPageIndex);
+//        updatePageButtons();
     }
 
     private void initTableView() {

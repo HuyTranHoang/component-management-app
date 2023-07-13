@@ -5,7 +5,9 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,118 +18,147 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane fx:id="productView" prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductController">
-   <children>
-      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXTextField fx:id="txt_product_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
-         <font>
-            <Font name="Inter Regular" size="14.0" />
-         </font>
-      </MFXTextField>
-      <FontIcon iconLiteral="fas-search" iconSize="14" layoutX="29.0" layoutY="37.0" text="" />
-      <FontIcon iconColor="#4a55a2" iconLiteral="fas-filter" iconSize="25" layoutX="340.0" layoutY="42.0" onMouseClicked="#filterButtonOnClick" text="">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </FontIcon>
-      <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0" onMouseClicked="#resetFilterIconClicked">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </FontIcon>
-      <MFXButton layoutX="440.0" layoutY="15.0" onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD" AnchorPane.topAnchor="15.0">
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
-         </graphic>
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MFXButton>
-      <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="361.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
-      <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
-      <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
-            <columns>
-               <TableColumn fx:id="tbc_id" prefWidth="75.0" sortable="false" text="Id" />
-               <TableColumn fx:id="tbc_productCode" prefWidth="100.0" sortable="false" text="Product Code" />
-               <TableColumn fx:id="tbc_name" prefWidth="400.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
-               <TableColumn fx:id="tbc_price" prefWidth="150.0" sortable="false" text="Price " />
-               <TableColumn fx:id="tbc_quantity" prefWidth="75.0" sortable="false" text="Quantity" />
-               <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" sortable="false" text="Month of warranty" />
-               <TableColumn fx:id="tbc_note" prefWidth="100.0" sortable="false" text="Note" visible="false" />
-               <TableColumn fx:id="tbc_suppliderId" prefWidth="125.0" sortable="false" text="Supplider Name" />
-               <TableColumn fx:id="tbc_categoryId" prefWidth="125.0" sortable="false" text="Category Name" />
-            </columns>
-         </TableView>
-         <HBox alignment="CENTER" layoutX="259.0" layoutY="735.0" prefHeight="35.0" prefWidth="734.0" spacing="10.0">
-            <children>
-               <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
-                  <graphic>
-                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
-                  </graphic>
-               </Button>
-               <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
-                  <graphic>
-                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
-                  </graphic>
-               </Button>
-               <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
-               <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
-                  <graphic>
-                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
-                  </graphic>
-               </Button>
-               <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
-                  <graphic>
-                     <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
-                  </graphic>
-               </Button>
-            </children>
-         </HBox>
-         <MFXButton fx:id="btn_deleteCheckedProduct" disable="true" layoutX="19.0" layoutY="735.0" onAction="#deleteSelectedProductOnClick" prefHeight="35.0" prefWidth="240.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE CHECKED PRODUCT">
-            <graphic>
-               <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
-            </graphic>
+    <children>
+        <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+        <MFXTextField fx:id="txt_product_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
             <font>
-               <Font name="Inter Bold" size="14.0" />
+                <Font name="Inter Regular" size="14.0" />
             </font>
+        </MFXTextField>
+        <FontIcon iconLiteral="fas-search" iconSize="14" layoutX="29.0" layoutY="37.0" text="" />
+        <FontIcon iconColor="#4a55a2" iconLiteral="fas-filter" iconSize="25" layoutX="340.0" layoutY="42.0" onMouseClicked="#filterButtonOnClick" text="">
             <cursor>
-               <Cursor fx:constant="HAND" />
+                <Cursor fx:constant="HAND" />
             </cursor>
-         </MFXButton>
-      </AnchorPane>
-      <MFXButton layoutX="550.0" layoutY="15.0" onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
-         </graphic>
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MFXButton>
-      <MFXButton layoutX="660.0" layoutY="15.0" onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
-         </graphic>
-      </MFXButton>
-      <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" floatMode="BORDER" floatingText="Sort by" layoutX="786.0" layoutY="12.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
-         <font>
-            <Font name="Inter Regular" size="13.0" />
-         </font></MFXComboBox>
-      <MFXComboBox id="custom-combobox" fx:id="cbb_orderBy" floatMode="BORDER" floatingText="Order by" layoutX="949.0" layoutY="19.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
-         <font>
-            <Font name="Inter Regular" size="13.0" />
-         </font>
-      </MFXComboBox>
-   </children>
+        </FontIcon>
+        <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0" onMouseClicked="#resetFilterIconClicked">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </FontIcon>
+        <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="361.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
+        <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
+        <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                <columns>
+                    <TableColumn fx:id="tbc_checkbox" editable="false" prefWidth="40.0" resizable="false" sortable="false" visible="false" />
+                    <TableColumn fx:id="tbc_id" prefWidth="75.0" sortable="false" text="Id" />
+                    <TableColumn fx:id="tbc_productCode" prefWidth="100.0" sortable="false" text="Product Code" />
+                    <TableColumn fx:id="tbc_name" prefWidth="400.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
+                    <TableColumn fx:id="tbc_price" prefWidth="150.0" sortable="false" text="Price " />
+                    <TableColumn fx:id="tbc_quantity" prefWidth="75.0" sortable="false" text="Quantity" />
+                    <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" sortable="false" text="Month of warranty" />
+                    <TableColumn fx:id="tbc_note" prefWidth="100.0" sortable="false" text="Note" visible="false" />
+                    <TableColumn fx:id="tbc_suppliderId" prefWidth="125.0" sortable="false" text="Supplider Name" />
+                    <TableColumn fx:id="tbc_categoryId" prefWidth="125.0" sortable="false" text="Category Name" />
+                </columns>
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem mnemonicParsing="false" onAction="#editButtonOnClick" text="Edit" />
+                            <MenuItem mnemonicParsing="false" onAction="#deleteContextOnClick" text="Delete" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </TableView>
+            <HBox alignment="CENTER" layoutX="259.0" layoutY="731.0" prefHeight="35.0" prefWidth="734.0" spacing="10.0">
+                <children>
+                    <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
+                        <graphic>
+                            <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
+                        </graphic>
+                    </Button>
+                    <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
+                        <graphic>
+                            <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
+                        </graphic>
+                    </Button>
+                    <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
+                    <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
+                        <graphic>
+                            <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
+                        </graphic>
+                    </Button>
+                    <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
+                        <graphic>
+                            <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
+                        </graphic>
+                    </Button>
+                </children>
+            </HBox>
+        </AnchorPane>
+        <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" floatMode="BORDER" floatingText="Sort by" layoutX="786.0" layoutY="12.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
+            <font>
+                <Font name="Inter Regular" size="13.0" />
+            </font>
+        </MFXComboBox>
+        <MFXComboBox id="custom-combobox" fx:id="cbb_orderBy" floatMode="BORDER" floatingText="Order by" layoutX="949.0" layoutY="19.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
+            <font>
+                <Font name="Inter Regular" size="13.0" />
+            </font>
+        </MFXComboBox>
+        <HBox fx:id="hbox_addEditDelete" layoutX="434.0" layoutY="15.0" spacing="10.0">
+            <children>
+                <MFXButton onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
+                    <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+                    </graphic>
+                    <font>
+                        <Font name="Inter Bold" size="14.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </MFXButton>
+                <MFXButton onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+                    <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+                    </graphic>
+                    <font>
+                        <Font name="Inter Bold" size="14.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </MFXButton>
+                <MFXButton onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
+                    <font>
+                        <Font name="Inter Bold" size="14.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
+                    </graphic>
+                </MFXButton>
+            </children>
+        </HBox>
+        <HBox fx:id="hbox_confirmDelete" layoutX="434.0" layoutY="15.0" spacing="10.0" visible="false">
+            <children>
+                <MFXButton onAction="#deleteSelectedProductOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+                    <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+                    </graphic>
+                    <font>
+                        <Font name="Inter Bold" size="14.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </MFXButton>
+                <MFXButton onAction="#backButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="BACK">
+                    <font>
+                        <Font name="Inter Bold" size="14.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
+                    </graphic>
+                </MFXButton>
+            </children>
+        </HBox>
+    </children>
 </AnchorPane>

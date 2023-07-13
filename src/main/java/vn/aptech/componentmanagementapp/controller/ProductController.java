@@ -51,7 +51,10 @@ public class ProductController implements Initializable,
     @FXML
     private MFXTextField txt_product_search;
     @FXML
-    private MFXButton btn_deleteCheckedProduct;
+    private HBox hbox_addEditDelete;
+    @FXML
+    private HBox hbox_confirmDelete;
+
 
 //    Filter Panel
     private Scene filterScene;
@@ -79,6 +82,8 @@ public class ProductController implements Initializable,
 //    TableView
     @FXML
     private TableView<Product> tableView;
+    @FXML
+    private TableColumn<Product, Boolean> tbc_checkbox;
     @FXML
     private TableColumn<Product, Long> tbc_id;
     @FXML
@@ -168,47 +173,51 @@ public class ProductController implements Initializable,
             }
         });
 
-        // Checkbox for multi delete
-        TableColumn<Product, Boolean> tbc_checkbox = new TableColumn<>("");
-        tbc_checkbox.setPrefWidth(40);
-        tbc_checkbox.setCellValueFactory(param -> param.getValue().selectedProperty());
+        initCheckBox();
+    }
+
+    private void initCheckBox() {
+        tbc_checkbox.setCellValueFactory(new PropertyValueFactory<>("selected"));
         tbc_checkbox.setCellFactory(column -> new CheckBoxTableCell<Product, Boolean>() {
+            private final CheckBox checkBox = new CheckBox();
+
+            {
+                checkBox.setOnAction(event -> {
+                    Product product = getTableRow().getItem();
+                    boolean selected = checkBox.isSelected();
+                    product.setSelected(selected);
+                    if (selected) {
+                        selectedProductIds.add(product.getId());
+                    } else {
+                        selectedProductIds.remove(product.getId());
+                    }
+                    updateRowStyle();
+                });
+            }
+
             @Override
             public void updateItem(Boolean item, boolean empty) {
                 super.updateItem(item, empty);
-                if (!empty) {
-                    TableRow<Product> currentRow = getTableRow();
-                    if (currentRow != null) {
-                        Product product = currentRow.getItem();
-                        if (product != null) {
-                            CheckBox checkBox = new CheckBox();
-                            checkBox.setSelected(item != null && item);
-                            checkBox.setOnAction(event -> {
-                                boolean selected = checkBox.isSelected();
-                                product.setSelected(selected);
-                                if (selected) {
-                                    selectedProductIds.add(product.getId());
-                                    if (btn_deleteCheckedProduct.disabledProperty().get()) {
-                                        btn_deleteCheckedProduct.setDisable(false);
-                                    }
-                                } else {
-                                    selectedProductIds.remove(product.getId());
-                                    if (selectedProductIds.isEmpty())
-                                        btn_deleteCheckedProduct.setDisable(true);
-                                }
-                            });
-                            setGraphic(checkBox);
-                        }
-                    }
-                } else {
+                if (empty) {
                     setGraphic(null);
+                } else {
+                    Product product = getTableRow().getItem();
+                    checkBox.setSelected(item != null && item);
+                    setGraphic(checkBox);
+                    updateRowStyle();
+                }
+            }
+
+            private void updateRowStyle() {
+                boolean selected = checkBox.isSelected();
+                TableRow<Product> currentRow = getTableRow();
+                if (currentRow != null) {
+                    currentRow.setStyle(selected ? "-fx-background-color: #ffb8b4;" : "");
                 }
             }
         });
 
-        tableView.getColumns().add(0, tbc_checkbox);
     }
-
 
     private void initTableViewEvent() {
         // Double click thì edit
@@ -488,8 +497,9 @@ public class ProductController implements Initializable,
 
     }
 
+
     @FXML
-    void deleteButtonOnClick() {
+    void deleteContextOnClick() {
         Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
@@ -517,6 +527,28 @@ public class ProductController implements Initializable,
     }
 
     @FXML
+    void deleteButtonOnClick() {
+        hbox_addEditDelete.setVisible(false);
+        hbox_confirmDelete.setVisible(true);
+
+        tbc_checkbox.setVisible(true);
+    }
+
+    @FXML
+    void backButtonOnClick() {
+        hbox_addEditDelete.setVisible(true);
+        hbox_confirmDelete.setVisible(false);
+
+        tbc_checkbox.setVisible(false);
+
+        uncheckAllCheckboxes();
+        tableView.refresh();
+    }
+
+
+
+
+    @FXML
     void deleteSelectedProductOnClick() {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
@@ -539,7 +571,6 @@ public class ProductController implements Initializable,
 //            filterController.setProducts(products);
 //            resetFilterIconClicked();
 
-            btn_deleteCheckedProduct.setDisable(true);
             showFirstPage();
             updatePageButtons();
         }
