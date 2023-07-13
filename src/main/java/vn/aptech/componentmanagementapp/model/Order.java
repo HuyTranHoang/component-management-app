@@ -1,6 +1,9 @@
 package vn.aptech.componentmanagementapp.model;
 
-import vn.aptech.componentmanagementapp.dao.*;
+import vn.aptech.componentmanagementapp.dao.CustomerDAO;
+import vn.aptech.componentmanagementapp.dao.CustomerDAOImpl;
+import vn.aptech.componentmanagementapp.dao.EmployeeDAO;
+import vn.aptech.componentmanagementapp.dao.EmployeeDAOImpl;
 
 import java.time.LocalDateTime;
 

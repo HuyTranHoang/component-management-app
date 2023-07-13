@@ -2,7 +2,10 @@ package vn.aptech.componentmanagementapp.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import vn.aptech.componentmanagementapp.dao.*;
+import vn.aptech.componentmanagementapp.dao.CategoryDAO;
+import vn.aptech.componentmanagementapp.dao.CategoryDAOImpl;
+import vn.aptech.componentmanagementapp.dao.SupplierDAO;
+import vn.aptech.componentmanagementapp.dao.SupplierDAOImpl;
 
 public class Product {
     private long id;

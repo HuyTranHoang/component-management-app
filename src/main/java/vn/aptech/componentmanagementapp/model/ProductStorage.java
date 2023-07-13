@@ -1,7 +1,5 @@
 package vn.aptech.componentmanagementapp.model;
 
-import vn.aptech.componentmanagementapp.dao.PositionDAO;
-import vn.aptech.componentmanagementapp.dao.PositionDAOImpl;
 import vn.aptech.componentmanagementapp.dao.ProductDAO;
 import vn.aptech.componentmanagementapp.dao.ProductDAOImpl;
 

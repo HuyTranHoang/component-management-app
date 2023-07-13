@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.controller;
 
-import animatefx.animation.Shake;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;

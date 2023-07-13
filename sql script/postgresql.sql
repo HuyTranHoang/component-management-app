@@ -11,9 +11,10 @@ CREATE TABLE customers
 CREATE UNIQUE INDEX idx_unique_email
     ON customers (email)
     WHERE email IS NOT NULL AND email <> '';
-CREATE UNIQUE INDEX  idx_unique_phone
+
+CREATE UNIQUE INDEX idx_unique_phone
     ON customers (phone)
-WHERE phone IS NOT NULL AND phone <> '';
+    WHERE phone IS NOT NULL AND phone <> '';
 
 CREATE TABLE departments
 (
@@ -100,7 +101,7 @@ CREATE TABLE orders
     shipment_date     TIMESTAMP        NOT NULL,
     delivery_location VARCHAR(255)     NOT NULL,
     total_amount      DOUBLE PRECISION NOT NULL,
-    note              varchar(255),
+    note              VARCHAR(255),
     customer_id       BIGINT REFERENCES customers (id),
     employee_id       BIGINT REFERENCES employees (id)
 );
@@ -108,9 +109,11 @@ CREATE TABLE orders
 CREATE INDEX idx_customer_employee
     ON orders (customer_id, employee_id);
 
-CREATE TABLE OrderDetail
+CREATE TABLE order_detail
 (
     id           SERIAL PRIMARY KEY,
+    name         VARCHAR(255)     NOT NULL,
+    price        DOUBLE PRECISION NOT NULL,
     quantity     INTEGER          NOT NULL,
     discount     DOUBLE PRECISION NOT NULL,
     total_amount DOUBLE PRECISION NOT NULL,
@@ -119,7 +122,7 @@ CREATE TABLE OrderDetail
 );
 
 CREATE INDEX idx_order_product
-    ON OrderDetail (order_id, product_id);
+    ON order_detail (order_id, product_id);
 
 
 -- Trigger Section
@@ -162,6 +165,22 @@ CREATE TRIGGER decrease_stock_trigger
     FOR EACH ROW
     WHEN (NEW.export_quantity > 0) -- Nếu ExportQuantity > 0 thì chạy func
 EXECUTE FUNCTION decrease_stock_quantity();
+-- Trigger khi sửa stock_quantity thì sẽ tự động thêm cột mới vào trong bảng products storage
+CREATE OR REPLACE FUNCTION update_products_storage()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    IF NEW.stock_quantity > OLD.stock_quantity THEN
+        INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
+        VALUES (NEW.stock_quantity - OLD.stock_quantity, 0, NOW(), NEW.id);
+    ELSIF NEW.stock_quantity < OLD.stock_quantity THEN
+        INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
+        VALUES (0, OLD.stock_quantity - NEW.stock_quantity, NOW(), NEW.id);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 
 -- Insert Section
 -- Customer
@@ -213,7 +232,7 @@ VALUES ('ASUS', 'asus@gmail.com', 'https://www.asus.com/'),
        ('MSI', 'msi@gmail.com', 'https://www.msi.com/'),
        ('SAMSUNG', 'samsung@gmail.com', 'https://www.samsung.com/'),
        ('Western Digital', 'wd@gmail.com', 'https://www.wd.com/'),
-       ('AMD','amd@gmail.com', 'https://www.amd.com/');
+       ('AMD', 'amd@gmail.com', 'https://www.amd.com/');
 
 -- Product
 -- CPU
@@ -281,7 +300,7 @@ VALUES ('SNV2', 'Ổ cứng gắn trong/ SSD Kingston NV2 1000GB M.2 2280 PCIe G
 INSERT INTO products (product_code, name, price, stock_quantity, month_of_warranty, note,
                       supplier_id, category_id)
 VALUES ('MB520', 'Thùng máy/ Case CM MasterBox MB520 ARGB', 1999000, 0, 12, 'note', 3, 3),
-       ('MB05W', 'Case máy tính Cooler Master MasterBox 5 White', 1539000 , 0, 12, 'note', 3, 3),
+       ('MB05W', 'Case máy tính Cooler Master MasterBox 5 White', 1539000, 0, 12, 'note', 3, 3),
        ('M100A', 'Thùng máy/ Case MSI MAG FORCE M100A (4 Fan RGB)', 829000, 0, 24, 'note', 7, 3),
        ('M110R', 'Thùng máy/ Case MSI MPG GUNGNIR 110R WHITE (306-7G10W21-W57)', 2330000, 0, 24, 'note',
         7, 3),
@@ -305,7 +324,8 @@ VALUES ('RCMK235', 'RAM desktop CORSAIR Vengeance LPX Black Heat spreader (1 x 1
         12, 'note', 2, 4),
        ('RS13Z55', 'Bộ nhớ ram Gigabyte AORUS RGB 16GB (2x8GB) DDR4 3600 (2x Demo kit)', 3549000, 0, 12,
         'note', 4, 4),
-       ('RKFB432', 'RAM desktop KINGSTON Fury Beast RGB 16GB (2 x 8GB) DDR4 3200MHz (KF432C16BBAK2/16)', 1699000, 0, 24, 'note', 6, 4),
+       ('RKFB432', 'RAM desktop KINGSTON Fury Beast RGB 16GB (2 x 8GB) DDR4 3200MHz (KF432C16BBAK2/16)', 1699000, 0, 24,
+        'note', 6, 4),
        ('RS16G33', 'RAM desktop GIGABYTE Aorus RGB 16GB DDR4-3333 (2 x 8GB) DDR4 2666MHz', 2950000, 0, 24,
         'note', 4, 4),
        ('SAM16G3200', 'RAM desktop Samsung DDR4 16GB (1x16GB) 3200MHz', 1399000, 0, 12, 'note',

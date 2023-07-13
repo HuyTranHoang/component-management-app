@@ -2,10 +2,8 @@ package vn.aptech.componentmanagementapp.controller;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
-
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -18,11 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
-
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 

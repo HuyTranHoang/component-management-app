@@ -1,11 +1,9 @@
 package vn.aptech.componentmanagementapp.dao;
 
-import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.model.ProductStorage;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

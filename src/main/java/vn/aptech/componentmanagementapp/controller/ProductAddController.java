@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -35,11 +34,8 @@ import vn.aptech.componentmanagementapp.service.SupplierService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.ParsePosition;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.UnaryOperator;
 
 public class ProductAddController implements Initializable {
 
