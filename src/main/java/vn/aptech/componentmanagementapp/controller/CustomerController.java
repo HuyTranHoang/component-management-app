@@ -8,11 +8,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
@@ -124,6 +127,8 @@ public class CustomerController implements Initializable {
 
         //Validate
         initValidator();
+
+        initEnterKeyPressing();
 
         // Double click thì edit
         tableView.setOnMouseClicked(event -> {
@@ -373,6 +378,23 @@ public class CustomerController implements Initializable {
     @FXML
     void showLastPage() {
         paginationHelper.showLastPage();
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (hbox_addGroup.visibleProperty().get()) {
+                    storeButtonOnClick();
+                } else {
+                    updateButtonOnClick();
+                }
+            }
+        };
+
+        txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_address.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_phone.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_email.setOnKeyPressed(storeOrUpdateEventHandler);
     }
 
 
