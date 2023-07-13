@@ -27,7 +27,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </FontIcon>
-      <MFXButton layoutX="440.0" layoutY="15.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD" AnchorPane.topAnchor="15.0">
+      <MFXButton layoutX="440.0" layoutY="15.0" onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD" AnchorPane.topAnchor="15.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
          </graphic>

@@ -86,6 +86,8 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
                 productView = fxmlLoader.load();
+                ProductController controller = fxmlLoader.getController();
+                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -144,6 +146,8 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order.fxml"));
                 orderView = fxmlLoader.load();
+                OrderController controller = fxmlLoader.getController();
+                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

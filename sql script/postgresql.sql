@@ -67,7 +67,7 @@ CREATE TABLE products_storage
     import_quantity INTEGER NOT NULL,
     export_quantity INTEGER NOT NULL,
     date_of_storage DATE    NOT NULL,
-    product_id      BIGINT REFERENCES products (id)
+    product_id      BIGINT REFERENCES products (id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_product

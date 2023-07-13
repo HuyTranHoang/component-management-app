@@ -6,26 +6,24 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.service.OrderService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class OrderController implements Initializable {
-    @FXML
-    private AnchorPane orderView;
-
     // Sort and multi deleted
     @FXML
     private MFXButton btn_deleteCheckedOrder;
@@ -80,6 +78,19 @@ public class OrderController implements Initializable {
     //  Pagination
     private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
+
+    //    Controller to call clear filter function in this
+    private OrderAddController orderAddController;
+
+    // Cached views
+    private AnchorPane addOrderView;
+    @FXML
+    private AnchorPane orderView;
+    private AnchorPane anchor_main_rightPanel; // Truyền từ Main controller vào
+
+    public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
+        this.anchor_main_rightPanel = anchor_main_rightPanel;
+    }
 
     /*
      * Begin of Pagination
@@ -213,5 +224,29 @@ public class OrderController implements Initializable {
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
         tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+    }
+
+    @FXML
+    void addButtonOnClick() {
+        if (addOrderView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add.fxml"));
+                addOrderView = fxmlLoader.load();
+                orderAddController = fxmlLoader.getController();
+                orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                orderAddController.setOrderView(orderView);
+                orderAddController.setTableView(tableView);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+//        productAddController.clearInput();
+//        productAddController.addMode();
+//
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(addOrderView);
+//        productAddController.setRequestFocus();
+
     }
 }

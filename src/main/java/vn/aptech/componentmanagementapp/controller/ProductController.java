@@ -215,7 +215,7 @@ public class ProductController implements Initializable,
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY
                     && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
-                    updateProductButtonOnClick();
+                    editButtonOnClick();
             }
         });
     }
@@ -422,7 +422,7 @@ public class ProductController implements Initializable,
     }
 
     @FXML
-    void addProductButtonOnClick() {
+    void addButtonOnClick() {
         if (addProductView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
@@ -449,7 +449,7 @@ public class ProductController implements Initializable,
     }
 
     @FXML
-    void updateProductButtonOnClick() {
+    void editButtonOnClick() {
         if (addProductView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
@@ -489,7 +489,7 @@ public class ProductController implements Initializable,
     }
 
     @FXML
-    void deleteProductButtonOnClick() {
+    void deleteButtonOnClick() {
         Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
