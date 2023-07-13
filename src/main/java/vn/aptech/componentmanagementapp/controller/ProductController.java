@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.controller;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
@@ -28,6 +27,7 @@ import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
+import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,8 +42,7 @@ public class ProductController implements Initializable,
 
 //    Product Panel
     private static ObservableList<Product> products;
-    private ObservableList<Product> pageItems;
-    private ProductService productService = new ProductService();
+    private final ProductService productService = new ProductService();
     @FXML
     private Label filter_noti_label; // Truyền vào ProductFilterController để set visiable và text
     @FXML
@@ -76,8 +75,7 @@ public class ProductController implements Initializable,
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
-    private static final int ITEMS_PER_PAGE = 26;
-    private int currentPageIndex = 0;
+    private PaginationHelper<Product> paginationHelper;
 
 //    TableView
     @FXML
@@ -99,11 +97,11 @@ public class ProductController implements Initializable,
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, String> tbc_suppliderId;
+    private TableColumn<Product, String> tbc_supplierId;
     @FXML
     private TableColumn<Product, String> tbc_categoryId;
 
-    private ArrayList<Long> selectedProductIds = new ArrayList<>();
+    private final ArrayList<Long> selectedProductIds = new ArrayList<>();
 
 //    Controller to call clear filter function in this
     private ProductFilterController filterController;
@@ -121,13 +119,24 @@ public class ProductController implements Initializable,
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CompletableFuture.supplyAsync(() -> productService.getAllProduct())
+        CompletableFuture.supplyAsync(productService::getAllProduct)
                 .thenAcceptAsync(productList -> {
                     products = FXCollections.observableArrayList(productList);
                     Platform.runLater(() -> {
                         initTableView();
-                        showPage(currentPageIndex);
-                        updatePageButtons();
+
+                        paginationHelper = new PaginationHelper<>();
+                        paginationHelper.setItems(products);
+                        paginationHelper.setTableView(tableView);
+
+                        paginationHelper.setPageButtonContainer(pageButtonContainer);
+                        paginationHelper.setFirstPageButton(firstPageButton);
+                        paginationHelper.setPreviousButton(previousButton);
+                        paginationHelper.setNextButton(nextButton);
+                        paginationHelper.setLastPageButton(lastPageButton);
+
+                        paginationHelper.showFirstPage();
+
                         initFilterStage();
                         filterController.initSearchListen();
 
@@ -155,7 +164,7 @@ public class ProductController implements Initializable,
 //        tbc_supplierId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
 //        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
 
-        tbc_suppliderId.setCellValueFactory(cellData -> {
+        tbc_supplierId.setCellValueFactory(cellData -> {
             Supplier supplier = cellData.getValue().getSupplier();
             if (supplier != null) {
                 return new ReadOnlyObjectWrapper<>(supplier.getName());
@@ -201,7 +210,6 @@ public class ProductController implements Initializable,
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    Product product = getTableRow().getItem();
                     checkBox.setSelected(item != null && item);
                     setGraphic(checkBox);
                     updateRowStyle();
@@ -261,107 +269,21 @@ public class ProductController implements Initializable,
     /*
      * Begin of Pagination
      */
-    private void showPage(int pageIndex) {
-        int startIndex = pageIndex * ITEMS_PER_PAGE;
-        int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, products.size());
-
-        pageItems = FXCollections.observableArrayList(products.subList(startIndex, endIndex));
-        tableView.setItems(pageItems);
-    }
     @FXML
     void showPreviousPage() {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showPreviousPage();
     }
     @FXML
     void showNextPage() {
-        int maxPageIndex = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1;
-        if (currentPageIndex < maxPageIndex) {
-            currentPageIndex++;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showNextPage();
     }
     @FXML
     void showFirstPage() {
-        currentPageIndex = 0;
-        showPage(currentPageIndex);
-        updatePageButtons();
+        paginationHelper.showFirstPage();
     }
     @FXML
     void showLastPage() {
-        int maxPageIndex;
-        maxPageIndex = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1;
-        currentPageIndex = maxPageIndex;
-        showPage(currentPageIndex);
-        updatePageButtons();
-    }
-
-    private void updatePageButtons() {
-        int pageCount = (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE);
-        int maxVisibleButtons = 5; // Maximum number of visible page buttons
-
-        int startIndex;
-        int endIndex;
-
-        if (pageCount <= maxVisibleButtons) {
-            startIndex = 0;
-            endIndex = pageCount;
-        } else {
-            startIndex = Math.max(currentPageIndex - 2, 0);
-            endIndex = Math.min(startIndex + maxVisibleButtons, pageCount);
-
-            if (endIndex - startIndex < maxVisibleButtons) {
-                startIndex = Math.max(endIndex - maxVisibleButtons, 0);
-            }
-        }
-
-        pageButtonContainer.getChildren().clear();
-
-        firstPageButton.setDisable(currentPageIndex == 0);
-        previousButton.setDisable(currentPageIndex == 0);
-        lastPageButton.setDisable(currentPageIndex == pageCount - 1);
-        nextButton.setDisable(currentPageIndex == pageCount -1);
-        if (startIndex > 0) {
-            Button ellipsisButtonStart = new Button("...");
-            ellipsisButtonStart.setMinWidth(30);
-            ellipsisButtonStart.getStyleClass().add("pagination-button");
-            ellipsisButtonStart.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonStart);
-        }
-
-        for (int i = startIndex; i < endIndex; i++) {
-            Button pageButton = new Button(Integer.toString(i + 1));
-            pageButton.setMinWidth(30);
-            pageButton.getStyleClass().add("pagination-button");
-            int pageIndex = i;
-            pageButton.setOnAction(e -> showPageByIndex(pageIndex));
-            pageButtonContainer.getChildren().add(pageButton);
-
-            // Highlight the selected page button
-            if (pageIndex == currentPageIndex) {
-                pageButton.getStyleClass().add("pagination-button-selected");
-            }
-        }
-
-        if (endIndex < pageCount) {
-            Button ellipsisButtonEnd = new Button("...");
-            ellipsisButtonEnd.setMinWidth(30);
-            ellipsisButtonEnd.getStyleClass().add("pagination-button");
-            ellipsisButtonEnd.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonEnd);
-        }
-    }
-
-    private void showPageByIndex(int pageIndex) {
-        if (pageIndex >= 0 && pageIndex <= (int) Math.ceil((double) products.size() / ITEMS_PER_PAGE) - 1) {
-            currentPageIndex = pageIndex;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showLastPage();
     }
 
     /*
@@ -397,7 +319,7 @@ public class ProductController implements Initializable,
                 filterController.setProducts(products);
                 filterController.setFilter_noti(filter_noti_shape, filter_noti_label);
                 filterController.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price,
-                        tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_suppliderId, tbc_categoryId);
+                        tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_supplierId, tbc_categoryId);
 
                 filterStage.setScene(filterScene);
                 filterStage.setResizable(false);
@@ -416,8 +338,8 @@ public class ProductController implements Initializable,
     public void onFilterApplied(List<Product> filteredProducts) {
         // Update the table view with the filtered products
         products = FXCollections.observableArrayList(filteredProducts);
+        paginationHelper.setItems(products);
         showFirstPage();
-        updatePageButtons();
     }
 
     @FXML
@@ -519,8 +441,9 @@ public class ProductController implements Initializable,
                 products.remove(selectedProduct);
                 filterController.filterRemoveProduct(selectedProduct);
                 tableView.getItems().remove(selectedProduct); // Remove the product from the TableView
+                tableView.refresh();
 
-                if (pageItems.isEmpty())
+                if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
             }
         }
@@ -572,7 +495,6 @@ public class ProductController implements Initializable,
 //            resetFilterIconClicked();
 
             showFirstPage();
-            updatePageButtons();
         }
     }
 
@@ -597,7 +519,6 @@ public class ProductController implements Initializable,
 
         // Update the table view and pagination
         showLastPage();
-        updatePageButtons();
     }
 
 }

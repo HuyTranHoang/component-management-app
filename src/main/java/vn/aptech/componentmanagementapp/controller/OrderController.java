@@ -27,8 +27,6 @@ import java.util.ResourceBundle;
 public class OrderController implements Initializable {
     // Sort and multi deleted
     @FXML
-    private MFXButton btn_deleteCheckedOrder;
-    @FXML
     private MFXComboBox<String> cbb_orderBy;
     @FXML
     private MFXComboBox<String> cbb_sortBy;
@@ -65,7 +63,7 @@ public class OrderController implements Initializable {
     @FXML
     private TableColumn<Order, Long> tbc_customerId;
     @FXML
-    private TableColumn<Order, ?> tbc_employeeId;
+    private TableColumn<Order, Long> tbc_employeeId;
     @FXML
     private MFXTextField txt_order_search;
 
@@ -74,7 +72,7 @@ public class OrderController implements Initializable {
     private ObservableList<Order> pageItems;
 
     //  Service
-    private OrderService orderService = new OrderService();
+    private final OrderService orderService = new OrderService();
 
     //    Controller to call clear filter function in this
     private OrderAddController orderAddController;

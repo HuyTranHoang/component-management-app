@@ -20,7 +20,6 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.Customer;
-import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
@@ -31,7 +30,6 @@ import java.util.ResourceBundle;
 public class CustomerController implements Initializable {
 //    List
     private ObservableList<Customer> customers;
-    private ObservableList<Customer> pageItems;
 
     //  Pagination
     @FXML
@@ -78,18 +76,6 @@ public class CustomerController implements Initializable {
 
     @FXML
     private MFXTextField txt_product_search;
-
-    @FXML
-    private MFXButton btn_back;
-
-    @FXML
-    private MFXButton btn_clear;
-
-    @FXML
-    private MFXButton btn_store;
-
-    @FXML
-    private MFXButton btn_update;
 
     @FXML
     private HBox hbox_addGroup;
@@ -228,7 +214,7 @@ public class CustomerController implements Initializable {
                 customerService.deleteCustomer((int) selectedCustomer.getId());
                 customers.remove(selectedCustomer);
                 tableView.getItems().remove(selectedCustomer); // Remove the product from the TableView
-                if (pageItems.isEmpty())
+                if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
             }
         }

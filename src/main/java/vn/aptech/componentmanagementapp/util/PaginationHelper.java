@@ -19,6 +19,10 @@ public class PaginationHelper<T> {
     private HBox pageButtonContainer;
     private Button previousButton;
 
+    public ObservableList<T> getPageItems() {
+        return pageItems;
+    }
+
     public void setFirstPageButton(Button firstPageButton) {
         this.firstPageButton = firstPageButton;
     }

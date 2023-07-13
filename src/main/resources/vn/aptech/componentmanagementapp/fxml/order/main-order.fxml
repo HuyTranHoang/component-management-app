@@ -77,17 +77,6 @@
                </Button>
             </children>
          </HBox>
-         <MFXButton fx:id="btn_deleteCheckedOrder" disable="true" layoutX="19.0" layoutY="735.0" prefHeight="35.0" prefWidth="240.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE CHECKED ORDER">
-            <graphic>
-               <FontIcon iconColor="WHITE" iconLiteral="fas-trash" />
-            </graphic>
-            <font>
-               <Font name="Inter Bold" size="14.0" />
-            </font>
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor>
-         </MFXButton>
       </AnchorPane>
       <MFXButton layoutX="550.0" layoutY="15.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
          <graphic>

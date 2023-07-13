@@ -49,7 +49,7 @@
                     <TableColumn fx:id="tbc_quantity" prefWidth="75.0" sortable="false" text="Quantity" />
                     <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="120.0" sortable="false" text="Month of warranty" />
                     <TableColumn fx:id="tbc_note" prefWidth="100.0" sortable="false" text="Note" visible="false" />
-                    <TableColumn fx:id="tbc_suppliderId" prefWidth="125.0" sortable="false" text="Supplider Name" />
+                    <TableColumn fx:id="tbc_supplierId" prefWidth="125.0" sortable="false" text="Supplider Name" />
                     <TableColumn fx:id="tbc_categoryId" prefWidth="125.0" sortable="false" text="Category Name" />
                 </columns>
                 <contextMenu>

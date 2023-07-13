@@ -22,12 +22,6 @@ public class ManagementController implements Initializable {
     private AnchorPane anchor_main_rightPanel;
 
     @FXML
-    private AnchorPane anchor_mainPanel;
-
-    @FXML
-    private MFXButton btn_leftPanel_Exit;
-
-    @FXML
     private ImageView leftPanel_imageView;
 
     @FXML
