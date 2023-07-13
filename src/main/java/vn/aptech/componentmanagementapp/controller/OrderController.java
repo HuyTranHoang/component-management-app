@@ -130,9 +130,6 @@ public class OrderController implements Initializable {
         paginationHelper.setLastPageButton(lastPageButton);
 
         paginationHelper.showFirstPage();
-
-//        showPage(currentPageIndex);
-//        updatePageButtons();
     }
 
     private void initTableView() {
