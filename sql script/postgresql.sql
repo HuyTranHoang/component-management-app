@@ -102,7 +102,7 @@ CREATE TABLE orders
     delivery_location VARCHAR(255)     NOT NULL,
     total_amount      DOUBLE PRECISION NOT NULL,
     note              VARCHAR(255),
-    customer_id       BIGINT REFERENCES customers (id),
+    customer_id       BIGINT REFERENCES customers (id) ON DELETE CASCADE,
     employee_id       BIGINT REFERENCES employees (id)
 );
 

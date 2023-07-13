@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -27,12 +28,21 @@
          <children>
             <TableView fx:id="tableView" prefHeight="720.0" prefWidth="700.0" AnchorPane.leftAnchor="10.0">
               <columns>
+                  <TableColumn fx:id="tbc_checkbox" prefWidth="40.0" resizable="false" visible="false" />
                 <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
                   <TableColumn fx:id="tbc_name" prefWidth="200.0" text="Name" />
                   <TableColumn fx:id="tbc_address" prefWidth="140.0" text="Address" />
                   <TableColumn fx:id="tbc_phone" prefWidth="140.0" text="Phone" />
                   <TableColumn fx:id="tbc_email" prefWidth="140.0" text="Email" />
               </columns>
+               <contextMenu>
+                  <ContextMenu>
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#editButtonOnClick" text="Edit" />
+                        <MenuItem mnemonicParsing="false" onAction="#deleteContextOnClick" text="Delete" />
+                     </items>
+                  </ContextMenu>
+               </contextMenu>
             </TableView>
             <HBox alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="689.0" spacing="10.0">
                <children>
@@ -92,7 +102,7 @@
                   </HBox>
                   <HBox fx:id="hbox_updateGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0" visible="false">
                      <children>
-                        <MFXButton id="button-custom-clear" fx:id="btn_back" onAction="#addMode" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                        <MFXButton id="button-custom-clear" fx:id="btn_back" onAction="#addButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -153,48 +163,68 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <MFXButton layoutX="348.0" layoutY="11.0" onAction="#addMode" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
-         </graphic>
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MFXButton>
-      <MFXButton layoutX="458.0" layoutY="11.0" onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
-         </graphic>
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MFXButton>
-      <MFXButton fx:id="btn_delete" layoutX="568.0" layoutY="11.0" onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
-         </graphic>
-      </MFXButton>
-      <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" floatMode="BORDER" floatingText="Sort by" layoutX="694.0" layoutY="8.0" prefHeight="40.0" prefWidth="150.0">
-         <font>
-            <Font name="Inter Regular" size="13.0" />
-         </font>
-      </MFXComboBox>
-      <MFXComboBox id="custom-combobox" fx:id="cbb_orderBy" floatMode="BORDER" floatingText="Order by" layoutX="856.0" layoutY="8.0" prefHeight="40.0" prefWidth="150.0">
-         <font>
-            <Font name="Inter Regular" size="13.0" />
-         </font>
-      </MFXComboBox>
+      <HBox fx:id="hbox_addEditDelete" layoutX="334.0" layoutY="15.0" spacing="10.0">
+         <children>
+            <MFXButton onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+               </graphic>
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+               </graphic>
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" onDragDetected="#deleteButtonOnClick" />
+               </graphic>
+            </MFXButton>
+         </children>
+      </HBox>
+      <HBox fx:id="hbox_confirmDelete" layoutX="334.0" layoutY="15.0" spacing="10.0" visible="false">
+         <children>
+            <MFXButton onAction="#deleteSelectedCustomerOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+               </graphic>
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton onAction="#backButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="BACK">
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
+               </graphic>
+            </MFXButton>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

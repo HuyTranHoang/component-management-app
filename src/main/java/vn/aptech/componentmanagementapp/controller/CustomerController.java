@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,10 +24,12 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.Customer;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -51,28 +54,26 @@ public class CustomerController implements Initializable {
     @FXML
     private TableView<Customer> tableView;
     @FXML
-    private TableColumn<Customer, String> tbc_address;
-
-    @FXML
-    private TableColumn<Customer, String> tbc_email;
-
+    private TableColumn<Customer, Boolean> tbc_checkbox;
     @FXML
     private TableColumn<Customer, Long> tbc_id;
-
     @FXML
     private TableColumn<Customer, String> tbc_name;
-
+    @FXML
+    private TableColumn<Customer, String> tbc_address;
     @FXML
     private TableColumn<Customer, String> tbc_phone;
-
     @FXML
-    private MFXTextField txt_address;
+    private TableColumn<Customer, String> tbc_email;
 
     @FXML
     private MFXTextField txt_email;
 
     @FXML
     private MFXTextField txt_name;
+
+    @FXML
+    private MFXTextField txt_address;
 
     @FXML
     private MFXTextField txt_phone;
@@ -104,9 +105,14 @@ public class CustomerController implements Initializable {
 
     @FXML
     private Label lbl_successMessage;
-
     Validator customerValidator = new Validator();
     private boolean isUpdate = false;
+
+    private final ArrayList<Long> selectedCustomerIds = new ArrayList<>();
+    @FXML
+    private HBox hbox_addEditDelete;
+    @FXML
+    private HBox hbox_confirmDelete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -145,6 +151,50 @@ public class CustomerController implements Initializable {
         tbc_address.setCellValueFactory(new PropertyValueFactory<>("address"));
         tbc_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        initCheckBox();
+    }
+
+    private void initCheckBox() {
+        tbc_checkbox.setCellValueFactory(new PropertyValueFactory<>("selected"));
+        tbc_checkbox.setCellFactory(column -> new CheckBoxTableCell<Customer, Boolean>() {
+            private final CheckBox checkBox = new CheckBox();
+
+            {
+                checkBox.setOnAction(event -> {
+                    Customer customer = getTableRow().getItem();
+                    boolean selected = checkBox.isSelected();
+                    customer.setSelected(selected);
+                    if (selected) {
+                        selectedCustomerIds.add(customer.getId());
+                    } else {
+                        selectedCustomerIds.remove(customer.getId());
+                    }
+                    updateRowStyle();
+                });
+            }
+
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    checkBox.setSelected(item != null && item);
+                    setGraphic(checkBox);
+                    updateRowStyle();
+                }
+            }
+
+            private void updateRowStyle() {
+                boolean selected = checkBox.isSelected();
+                TableRow<Customer> currentRow = getTableRow();
+                if (currentRow != null) {
+                    currentRow.setStyle(selected ? "-fx-background-color: #ffb8b4;" : "");
+                }
+            }
+        });
+
     }
     @FXML
     void storeButtonOnClick(){
@@ -195,7 +245,7 @@ public class CustomerController implements Initializable {
         }
     }
     @FXML
-    void deleteButtonOnClick() {
+    void deleteContextOnClick() {
         Customer selectedCustomer = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedCustomer == null) {
@@ -209,13 +259,15 @@ public class CustomerController implements Initializable {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
-            confirmation.setContentText("Are you sure you want to delete selected customer?");
+            confirmation.setContentText("Are you sure you want to delete selected customer? " +
+                    "If you delete, all orders belong to that customers also get deleted.");
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 customerService.deleteCustomer((int) selectedCustomer.getId());
                 customers.remove(selectedCustomer);
                 tableView.getItems().remove(selectedCustomer); // Remove the product from the TableView
                 if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+                addButtonOnClick();
             }
         }
     }
@@ -238,22 +290,31 @@ public class CustomerController implements Initializable {
         }
     }
     @FXML
-    void updateMode() {
-        isUpdate = true;
-        hbox_updateGroup.setVisible(true);
-        hbox_addGroup.setVisible(false);
-        lbl_text.setText("UPDATE CUSTOMER");
-        clearButtonOnClick();
-
-    }
-    @FXML
-    void addMode() {
+    void addButtonOnClick() {
         isUpdate = false;
         hbox_updateGroup.setVisible(false);
         hbox_addGroup.setVisible(true);
         lbl_text.setText("ADD NEW CUSTOMER");
         clearButtonOnClick();
     }
+
+    @FXML
+    void deleteButtonOnClick() {
+        hbox_addEditDelete.setVisible(false);
+        hbox_confirmDelete.setVisible(true);
+
+        tbc_checkbox.setVisible(true);
+    }
+
+    @FXML
+    void updateMode() {
+        isUpdate = true;
+        hbox_updateGroup.setVisible(true);
+        hbox_addGroup.setVisible(false);
+        lbl_text.setText("UPDATE CUSTOMER");
+        clearButtonOnClick();
+    }
+
     @FXML
     void clearButtonOnClick(){
         txt_name.setText("");
@@ -398,5 +459,45 @@ public class CustomerController implements Initializable {
     }
 
 
+    private void uncheckAllCheckboxes() {
+        for (Customer customer : tableView.getItems()) {
+            customer.setSelected(false);
+        }
+        selectedCustomerIds.clear();
+    }
+
+    @FXML
+    void backButtonOnClick() {
+        hbox_addEditDelete.setVisible(true);
+        hbox_confirmDelete.setVisible(false);
+
+        tbc_checkbox.setVisible(false);
+
+        uncheckAllCheckboxes();
+        tableView.refresh();
+    }
+
+    @FXML
+    void deleteSelectedCustomerOnClick() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Are you sure you want to delete " + selectedCustomerIds.size() + " customer? " +
+                "If you delete, all orders belong to this customer also get deleted.");
+        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+            selectedCustomerIds.forEach(aLong -> {
+                customerService.deleteCustomer(aLong);
+                Customer customer = customers.stream()
+                        .filter(p -> p.getId() == aLong)
+                        .findFirst()
+                        .orElse(null);
+                customers.remove(customer);
+            });
+
+            addButtonOnClick();
+            showFirstPage();
+            tableView.refresh();
+        }
+    }
 
 }

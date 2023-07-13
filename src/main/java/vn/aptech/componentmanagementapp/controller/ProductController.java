@@ -264,11 +264,6 @@ public class ProductController implements Initializable,
     }
 
 
-
-
-    /*
-     * Begin of Pagination
-     */
     @FXML
     void showPreviousPage() {
         paginationHelper.showPreviousPage();
@@ -285,10 +280,6 @@ public class ProductController implements Initializable,
     void showLastPage() {
         paginationHelper.showLastPage();
     }
-
-    /*
-     * End of pagination
-     */
 
     private void initFilterStage() {
         try {
