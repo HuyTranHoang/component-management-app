@@ -126,45 +126,61 @@ CREATE INDEX idx_order_product
 
 
 -- Trigger Section
--- Trigger khi ProductStorage(import_quantity) tăng thì sẽ tăng Product(stock_quantity) lên
-CREATE OR REPLACE FUNCTION increase_stock_quantity()
-    RETURNS TRIGGER AS
-$$
-BEGIN
-    UPDATE products
-    SET stock_quantity = stock_quantity + NEW.import_quantity
-    WHERE id = NEW.product_id;
+-- -- Trigger khi ProductStorage(import_quantity) tăng thì sẽ tăng Product(stock_quantity) lên
+-- CREATE OR REPLACE FUNCTION increase_stock_quantity()
+--     RETURNS TRIGGER AS
+-- $$
+-- BEGIN
+--     UPDATE products
+--     SET stock_quantity = stock_quantity + NEW.import_quantity
+--     WHERE id = NEW.product_id;
+--
+--     RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
+--
+-- CREATE TRIGGER increase_stock_trigger
+--     AFTER INSERT
+--     ON products_storage
+--     FOR EACH ROW
+--     WHEN (NEW.import_quantity > 0) -- Nếu ImportQuantity > 0 thì chạy func
+-- EXECUTE FUNCTION increase_stock_quantity();
+--
+-- -- Trigger khi ProductStorage(export_quantity) tăng thì sẽ giảm Product(stock_quantity) xuống
+-- CREATE OR REPLACE FUNCTION decrease_stock_quantity()
+--     RETURNS TRIGGER AS
+-- $$
+-- BEGIN
+--     UPDATE products
+--     SET stock_quantity = stock_quantity - NEW.export_quantity
+--     WHERE id = NEW.product_id;
+--
+--     RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
+--
+-- CREATE TRIGGER decrease_stock_trigger
+--     AFTER INSERT
+--     ON products_storage
+--     FOR EACH ROW
+--     WHEN (NEW.export_quantity > 0) -- Nếu ExportQuantity > 0 thì chạy func
+-- EXECUTE FUNCTION decrease_stock_quantity();
+-- -- Trigger khi sửa stock_quantity thì sẽ tự động thêm cột mới vào trong bảng products storage
+-- CREATE OR REPLACE FUNCTION update_products_storage()
+--     RETURNS TRIGGER AS
+-- $$
+-- BEGIN
+--     IF NEW.stock_quantity > OLD.stock_quantity THEN
+--         INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
+--         VALUES (NEW.stock_quantity - OLD.stock_quantity, 0, NOW(), NEW.id);
+--     ELSIF NEW.stock_quantity < OLD.stock_quantity THEN
+--         INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
+--         VALUES (0, OLD.stock_quantity - NEW.stock_quantity, NOW(), NEW.id);
+--     END IF;
+--     RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER increase_stock_trigger
-    AFTER INSERT
-    ON products_storage
-    FOR EACH ROW
-    WHEN (NEW.import_quantity > 0) -- Nếu ImportQuantity > 0 thì chạy func
-EXECUTE FUNCTION increase_stock_quantity();
-
--- Trigger khi ProductStorage(export_quantity) tăng thì sẽ giảm Product(stock_quantity) xuống
-CREATE OR REPLACE FUNCTION decrease_stock_quantity()
-    RETURNS TRIGGER AS
-$$
-BEGIN
-    UPDATE products
-    SET stock_quantity = stock_quantity - NEW.export_quantity
-    WHERE id = NEW.product_id;
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER decrease_stock_trigger
-    AFTER INSERT
-    ON products_storage
-    FOR EACH ROW
-    WHEN (NEW.export_quantity > 0) -- Nếu ExportQuantity > 0 thì chạy func
-EXECUTE FUNCTION decrease_stock_quantity();
 -- Trigger khi sửa stock_quantity thì sẽ tự động thêm cột mới vào trong bảng products storage
 CREATE OR REPLACE FUNCTION update_products_storage()
     RETURNS TRIGGER AS
@@ -180,6 +196,12 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_stock_trigger
+    BEFORE UPDATE OF stock_quantity
+    ON products
+    FOR EACH ROW
+EXECUTE FUNCTION update_products_storage();
 
 
 -- Insert Section
