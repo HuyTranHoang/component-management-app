@@ -103,8 +103,7 @@ public class CustomerController implements Initializable {
     private Label lbl_successMessage;
 
     Validator customerValidator = new Validator();
-    Validator validateUniqueUpdate = new Validator();
-    Validator validateUniqueAdd = new Validator();
+    private boolean isUpdate = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -125,9 +124,6 @@ public class CustomerController implements Initializable {
 
         //Validate
         initValidator();
-        initUpdateUniqueValidate();
-        initAddUniqueValidate();
-
 
         // Double click thì edit
         tableView.setOnMouseClicked(event -> {
@@ -147,7 +143,7 @@ public class CustomerController implements Initializable {
     }
     @FXML
     void storeButtonOnClick(){
-        if(customerValidator.validate() && validateUniqueAdd.validate()){
+        if(customerValidator.validate()){
             Customer customer = new Customer();
             customer.setName(txt_name.getText());
             customer.setAddress(txt_address.getText());
@@ -169,7 +165,7 @@ public class CustomerController implements Initializable {
     }
     @FXML
     void updateButtonOnClick(){
-        if(customerValidator.validate() && validateUniqueUpdate.validate()){
+        if(customerValidator.validate()){
             Customer customer = tableView.getSelectionModel().getSelectedItem();
             customer.setName(txt_name.getText());
             customer.setAddress(txt_address.getText());
@@ -186,7 +182,6 @@ public class CustomerController implements Initializable {
             timeline.play();
 
             int index = tableView.getItems().indexOf(customer);
-            System.out.println(index);
             if (index >= 0) {
                 tableView.getItems().set(index, customer);
             }
@@ -239,6 +234,7 @@ public class CustomerController implements Initializable {
     }
     @FXML
     void updateMode() {
+        isUpdate = true;
         hbox_updateGroup.setVisible(true);
         hbox_addGroup.setVisible(false);
         lbl_text.setText("UPDATE CUSTOMER");
@@ -247,6 +243,7 @@ public class CustomerController implements Initializable {
     }
     @FXML
     void addMode() {
+        isUpdate = false;
         hbox_updateGroup.setVisible(false);
         hbox_addGroup.setVisible(true);
         lbl_text.setText("ADD NEW CUSTOMER");
@@ -269,10 +266,11 @@ public class CustomerController implements Initializable {
                 .dependsOn("name", txt_name.textProperty())
                 .withMethod(context -> {
                     String customerName = context.get("name");
-                    if (customerName.isEmpty())
+                    if (customerName.isEmpty()) {
                         context.error("Name can't be empty");
-                    else if(!customerName.matches("\\D+"))
-                        context.error("Name can't have number");
+                    } else if (!customerName.matches("\\D+")) {
+                        context.error("Name can't have numbers");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerName);
@@ -281,98 +279,70 @@ public class CustomerController implements Initializable {
                 .dependsOn("address", txt_address.textProperty())
                 .withMethod(context -> {
                     String customerAddress = context.get("address");
-                    if (customerAddress.isEmpty())
+                    if (customerAddress.isEmpty()) {
                         context.error("Address can't be empty");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerAddress);
 
-    }
-    private void initUpdateUniqueValidate(){
-        validateUniqueUpdate.createCheck()
+        customerValidator.createCheck()
                 .dependsOn("email", txt_email.textProperty())
                 .withMethod(context -> {
                     String customerEmail = context.get("email");
-                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
+                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$")) {
                         context.error("Please enter a valid email address");
-                    else if (!isEmailUniqueUpdate(customers, customerEmail)) {
-                        context.error("This email is already in database");
+                    } else if (isUpdate ? !isEmailUniqueUpdate(customers, customerEmail) : !isEmailUnique(customers, customerEmail)) {
+                        context.error("This email is already in the database");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerEmail);
-        validateUniqueUpdate.createCheck()
-                .dependsOn("phone", txt_phone.textProperty())
-                .withMethod(context -> {
-                    String customerPhone = context.get("phone");
-                    if (customerPhone.isEmpty())
-                        context.error("Phone can't be empty");
-                    else if(!customerPhone.matches("\\d+"))
-                        context.error("Phone can only contain number");
-                    else if(!customerPhone.matches("^.{1,10}$"))
-                        context.error("Phone maximum limit is 10 numbers");
-                    else if(!customerPhone.matches("^\\d{10}$"))
-                        context.error("Phone requirements must be 10 digits");
-                    else if (!isPhoneUniqueUpdate(customers, customerPhone)) {
-                        context.error("This phone is already in database");
-                    }
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_customerPhone);
 
-    }
-    private void initAddUniqueValidate(){
-        validateUniqueAdd.createCheck()
-                .dependsOn("email", txt_email.textProperty())
-                .withMethod(context -> {
-                    String customerEmail = context.get("email");
-                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
-                        context.error("Please enter a valid email address");
-                    else if (!isEmailUnique(customers, customerEmail)) {
-                        context.error("This email is already in database");
-                    }
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_customerEmail);
-        validateUniqueAdd.createCheck()
+        customerValidator.createCheck()
                 .dependsOn("phone", txt_phone.textProperty())
                 .withMethod(context -> {
                     String customerPhone = context.get("phone");
-                    if (customerPhone.isEmpty())
+                    if (customerPhone.isEmpty()) {
                         context.error("Phone can't be empty");
-                    else if(!customerPhone.matches("\\d+"))
-                        context.error("Phone can only contain number");
-                    else if(!customerPhone.matches("^.{1,10}$"))
+                    } else if (!customerPhone.matches("\\d+")) {
+                        context.error("Phone can only contain numbers");
+                    } else if (!customerPhone.matches("^.{1,10}$")) {
                         context.error("Phone maximum limit is 10 numbers");
-                    else if(!customerPhone.matches("^\\d{10}$"))
-                        context.error("Phone requirements must be 10 digits");
-                    else if (!isPhoneUnique(customers, customerPhone)) {
-                        context.error("This phone is already in database");
+                    } else if (!customerPhone.matches("^\\d{10}$")) {
+                        context.error("Phone must have 10 digits");
+                    } else if (isUpdate ? !isPhoneUniqueUpdate(customers, customerPhone) : !isPhoneUnique(customers, customerPhone)) {
+                        context.error("This phone is already in the database");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerPhone);
     }
 
-
-    public boolean isEmailUnique(List<Customer> customers, String txt_email) {
+    private boolean isEmailUnique(List<Customer> customers, String txt_email) {
         return customers.stream()
-                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email)) ;
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email));
     }
 
-    public boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
+    private boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
         String email = tableView.getSelectionModel().getSelectedItem().getEmail();
-        return (customers.stream()
-                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email)) || txt_email.equals(email));
+        return customers.stream()
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email))
+                || txt_email.equals(email);
     }
-    public boolean isPhoneUnique(List<Customer> customers, String txt_phone){
-        return customers.stream().noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone));
+
+    private boolean isPhoneUnique(List<Customer> customers, String txt_phone) {
+        return customers.stream()
+                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone));
     }
-    public boolean isPhoneUniqueUpdate(List<Customer> customers, String txt_phone) {
+
+    private boolean isPhoneUniqueUpdate(List<Customer> customers, String txt_phone) {
         String phone = tableView.getSelectionModel().getSelectedItem().getPhone();
-        return (customers.stream()
-                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone)) || txt_phone.equals(phone));
+        return customers.stream()
+                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone))
+                || txt_phone.equals(phone);
     }
+
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
             @Override
@@ -387,9 +357,6 @@ public class CustomerController implements Initializable {
             }
         };
     }
-    /*
-     * Begin of Pagination
-     */
 
     @FXML
     void showPreviousPage() {
@@ -407,10 +374,6 @@ public class CustomerController implements Initializable {
     void showLastPage() {
         paginationHelper.showLastPage();
     }
-
-    /*
-     * End of pagination
-     */
 
 
 
