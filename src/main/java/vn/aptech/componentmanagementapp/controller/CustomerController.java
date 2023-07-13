@@ -2,7 +2,6 @@ package vn.aptech.componentmanagementapp.controller;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -24,7 +23,6 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.Customer;
-import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
@@ -32,12 +30,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class CustomerController implements Initializable {
 //    List
     private ObservableList<Customer> customers;
-    private ObservableList<Customer> filterCustomers;
 
     //  Pagination
     @FXML
@@ -521,7 +517,7 @@ public class CustomerController implements Initializable {
                             customer.getPhone().toLowerCase().contains(searchText.toLowerCase()))
                     .toList();
 
-            filterCustomers = FXCollections.observableArrayList(filter);
+            ObservableList<Customer> filterCustomers = FXCollections.observableArrayList(filter);
 
             paginationHelper.setItems(filterCustomers);
             paginationHelper.showFirstPage();
