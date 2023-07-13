@@ -6,77 +6,66 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.service.OrderService;
 
-public class OrderController {
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 
-    @FXML
-    private MFXButton btn_deleteCheckedOrder;
-
-    @FXML
-    private MFXComboBox<?> cbb_orderBy;
-
-    @FXML
-    private MFXComboBox<?> cbb_sortBy;
-
-    @FXML
-    private Label filter_noti_label;
-
-    @FXML
-    private Circle filter_noti_shape;
-
-    @FXML
-    private Button firstPageButton;
-
-    @FXML
-    private Button lastPageButton;
-
-    @FXML
-    private Button nextButton;
-
+public class OrderController implements Initializable {
     @FXML
     private AnchorPane orderView;
 
+    // Sort and multi deleted
+    @FXML
+    private MFXButton btn_deleteCheckedOrder;
+    @FXML
+    private MFXComboBox<String> cbb_orderBy;
+    @FXML
+    private MFXComboBox<String> cbb_sortBy;
+
+    // Pagination
+    @FXML
+    private Button firstPageButton;
+    @FXML
+    private Button lastPageButton;
+    @FXML
+    private Button nextButton;
     @FXML
     private HBox pageButtonContainer;
-
     @FXML
     private Button previousButton;
 
     @FXML
     private TableView<Order> tableView;
-
     @FXML
-    private TableColumn<?, ?> tbc_customerId;
-
+    private TableColumn<Order, Long> tbc_id;
     @FXML
-    private TableColumn<?, ?> tbc_deliveryDate;
-
+    private TableColumn<Order, LocalDateTime> tbc_orderDate;
     @FXML
-    private TableColumn<?, ?> tbc_deliveryLocation;
-
+    private TableColumn<Order, LocalDateTime> tbc_deliveryDate;
     @FXML
-    private TableColumn<?, ?> tbc_employeeId;
-
+    private TableColumn<Order, LocalDateTime> tbc_shipmentDate;
     @FXML
-    private TableColumn<?, ?> tbc_id;
-
+    private TableColumn<Order, String> tbc_deliveryLocation;
     @FXML
-    private TableColumn<?, ?> tbc_note;
-
+    private TableColumn<Order, Double> tbc_totalAmount;
     @FXML
-    private TableColumn<?, ?> tbc_orderDate;
-
+    private TableColumn<Order, String> tbc_note;
     @FXML
-    private TableColumn<?, ?> tbc_shipmentDate;
-
+    private TableColumn<Order, Long> tbc_customerId;
+    @FXML
+    private TableColumn<Order, ?> tbc_employeeId;
     @FXML
     private MFXTextField txt_order_search;
 
@@ -84,16 +73,17 @@ public class OrderController {
     private ObservableList<Order> orders;
     private ObservableList<Order> pageItems;
 
+    //  Service
+    private OrderService orderService = new OrderService();
+
 
     //  Pagination
-
     private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
 
     /*
      * Begin of Pagination
      */
-
     private void showPage(int pageIndex) {
         int startIndex = pageIndex * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, orders.size());
@@ -110,6 +100,7 @@ public class OrderController {
             updatePageButtons();
         }
     }
+
     @FXML
     void showNextPage() {
         int maxPageIndex = (int) Math.ceil((double) orders.size() / ITEMS_PER_PAGE) - 1;
@@ -119,12 +110,14 @@ public class OrderController {
             updatePageButtons();
         }
     }
+
     @FXML
     void showFirstPage() {
         currentPageIndex = 0;
         showPage(currentPageIndex);
         updatePageButtons();
     }
+
     @FXML
     void showLastPage() {
         int maxPageIndex = (int) Math.ceil((double) orders.size() / ITEMS_PER_PAGE) - 1;
@@ -157,7 +150,7 @@ public class OrderController {
         firstPageButton.setDisable(currentPageIndex == 0);
         previousButton.setDisable(currentPageIndex == 0);
         lastPageButton.setDisable(currentPageIndex == pageCount - 1);
-        nextButton.setDisable(currentPageIndex == pageCount -1);
+        nextButton.setDisable(currentPageIndex == pageCount - 1);
         if (startIndex > 0) {
             Button ellipsisButtonStart = new Button("...");
             ellipsisButtonStart.setMinWidth(30);
@@ -200,4 +193,25 @@ public class OrderController {
     /*
      * End of pagination
      */
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        orders = FXCollections.observableArrayList(orderService.getAllOrder());
+
+        initTableView();
+        showPage(currentPageIndex);
+        updatePageButtons();
+    }
+
+    private void initTableView() {
+        tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tbc_orderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        tbc_deliveryDate.setCellValueFactory(new PropertyValueFactory<>("deliveryDate"));
+        tbc_shipmentDate.setCellValueFactory(new PropertyValueFactory<>("shipmentDate"));
+        tbc_deliveryLocation.setCellValueFactory(new PropertyValueFactory<>("deliveryLocation"));
+        tbc_totalAmount.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
+        tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+    }
 }

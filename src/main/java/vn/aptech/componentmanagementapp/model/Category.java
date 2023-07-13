@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.model;
 
+import java.util.Objects;
+
 public class Category {
     private long id;
     private String name;
@@ -27,6 +29,26 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (id != category.id) return false;
+        if (!Objects.equals(name, category.name)) return false;
+        return Objects.equals(description, category.description);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 
     @Override

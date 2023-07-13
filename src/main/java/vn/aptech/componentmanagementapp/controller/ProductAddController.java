@@ -34,6 +34,7 @@ import vn.aptech.componentmanagementapp.service.SupplierService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
@@ -125,25 +126,27 @@ public class ProductAddController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CompletableFuture.supplyAsync(categoryService::getAllCategory)
-                .thenAcceptAsync(categoryList -> {
-                    categories = FXCollections.observableArrayList(categoryList);
-                })
-                .thenComposeAsync(__ -> CompletableFuture.supplyAsync(supplierService::getAllSupplier))
-                .thenAcceptAsync(supplierList -> {
-                    suppliers = FXCollections.observableArrayList(supplierList);
-                    Platform.runLater(() -> {
-                        cbb_category.setItems(categories);
-                        cbb_category.getSelectionModel().selectFirst();
-                        cbb_supplier.setItems(suppliers);
-                        cbb_supplier.getSelectionModel().selectFirst();
+        try {
+            List<Category> categoryList = categoryService.getAllCategory();
+            categories = FXCollections.observableArrayList(categoryList);
 
-                        initValidator();
-                        initEnterKeyPressing();
-                    });
-                })
-                .join();
+            List<Supplier> supplierList = supplierService.getAllSupplier();
+            suppliers = FXCollections.observableArrayList(supplierList);
+
+            cbb_category.setItems(categories);
+            cbb_category.getSelectionModel().selectFirst();
+            cbb_supplier.setItems(suppliers);
+            cbb_supplier.getSelectionModel().selectFirst();
+
+            initValidator();
+            initEnterKeyPressing();
+        } catch (Exception e) {
+            // Handle any exceptions that occur during data fetching
+            e.printStackTrace();
+        }
     }
+
+
 
 
     private void initValidator() {
@@ -298,15 +301,11 @@ public class ProductAddController implements Initializable {
         txt_monthOfWarranty.setText(String.valueOf(product.getMonthOfWarranty()));
         txt_note.setText(product.getNote());
 
-        suppliers.stream()
-                .filter(supplier -> supplier.getId() == product.getSupplierId())
-                .findFirst()
-                .ifPresent(selectedSupplier -> cbb_supplier.setValue(selectedSupplier));
+        Category category = product.getCategory();
+        cbb_category.getSelectionModel().selectItem(category);
 
-        categories.stream()
-                .filter(category -> category.getId() == product.getCategoryId())
-                .findFirst()
-                .ifPresent(selectedCategory -> cbb_category.setValue(selectedCategory));
+        Supplier supplier = product.getSupplier();
+        cbb_supplier.getSelectionModel().selectItem(supplier);
     }
 
     @FXML
