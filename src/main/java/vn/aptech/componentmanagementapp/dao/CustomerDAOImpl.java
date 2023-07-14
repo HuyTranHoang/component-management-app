@@ -22,11 +22,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     customer = new Customer();
-                    customer.setId(resultSet.getLong("id"));
-                    customer.setName(resultSet.getString("name"));
-                    customer.setAddress(resultSet.getString("address"));
-                    customer.setPhone(resultSet.getString("phone"));
-                    customer.setEmail(resultSet.getString("email"));
+                    setCustomer(customer, resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -45,11 +41,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Customer customer = new Customer();
-                customer.setId(resultSet.getLong("id"));
-                customer.setName(resultSet.getString("name"));
-                customer.setAddress(resultSet.getString("address"));
-                customer.setPhone(resultSet.getString("phone"));
-                customer.setEmail(resultSet.getString("email"));
+                setCustomer(customer, resultSet);
                 customers.add(customer);
             }
         } catch (SQLException e) {
@@ -92,13 +84,6 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
     }
 
-    private void statementInsertUpdate(Customer customer, PreparedStatement statement) throws SQLException {
-        statement.setString(1, customer.getName());
-        statement.setString(2, customer.getAddress());
-        statement.setString(3, customer.getPhone());
-        statement.setString(4, customer.getEmail());
-    }
-
     @Override
     public void delete(long customerId) {
         String query = "DELETE FROM customers WHERE id = ?";
@@ -109,5 +94,20 @@ public class CustomerDAOImpl implements CustomerDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Customer customer, PreparedStatement statement) throws SQLException {
+        statement.setString(1, customer.getName());
+        statement.setString(2, customer.getAddress());
+        statement.setString(3, customer.getPhone());
+        statement.setString(4, customer.getEmail());
+    }
+
+    private void setCustomer(Customer customer, ResultSet resultSet) throws SQLException {
+        customer.setId(resultSet.getLong("id"));
+        customer.setName(resultSet.getString("name"));
+        customer.setAddress(resultSet.getString("address"));
+        customer.setPhone(resultSet.getString("phone"));
+        customer.setEmail(resultSet.getString("email"));
     }
 }

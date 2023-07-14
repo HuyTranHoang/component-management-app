@@ -22,9 +22,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     department = new Department();
-                    department.setId(resultSet.getLong("id"));
-                    department.setName(resultSet.getString("name"));
-                    department.setDescription(resultSet.getString("description"));
+                    setDepartment(department, resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -43,9 +41,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Department department = new Department();
-                department.setId(resultSet.getInt("id"));
-                department.setName(resultSet.getString("name"));
-                department.setDescription(resultSet.getString("description"));
+                setDepartment(department, resultSet);
                 departments.add(department);
             }
         } catch (SQLException e) {
@@ -78,12 +74,6 @@ public class DepartmentDAOImpl implements DepartmentDAO{
         }
     }
 
-    private void statementInsertUpdate(Department department, PreparedStatement statement) throws SQLException {
-        statement.setLong(1,department.getId());
-        statement.setString(2, department.getName());
-        statement.setString(3, department.getDescription());
-    }
-
     @Override
     public void delete(long departmentId) {
         String query = "DELETE FROM departments WHERE id = ?";
@@ -93,5 +83,17 @@ public class DepartmentDAOImpl implements DepartmentDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Department department, PreparedStatement statement) throws SQLException {
+        statement.setLong(1,department.getId());
+        statement.setString(2, department.getName());
+        statement.setString(3, department.getDescription());
+    }
+
+    private void setDepartment(Department department, ResultSet resultSet) throws SQLException {
+        department.setId(resultSet.getInt("id"));
+        department.setName(resultSet.getString("name"));
+        department.setDescription(resultSet.getString("description"));
     }
 }

@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
+import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -11,8 +12,25 @@ public class ProductDAOImpl implements ProductDAO{
 
     private Connection connection = DatabaseConnection.getConnection();
     @Override
-    public Product getById(long id) {
-        return null;
+    public Product getById(long productId) {
+        Product product = null;
+
+        String query = "SELECT * FROM products WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, productId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    product = new Product();
+                    setProduct(product, resultSet);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product;
     }
 
     @Override
@@ -24,15 +42,7 @@ public class ProductDAOImpl implements ProductDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Product product = new Product();
-                product.setId(resultSet.getLong("id"));
-                product.setProductCode(resultSet.getString("product_code"));
-                product.setName(resultSet.getString("name"));
-                product.setPrice(resultSet.getDouble("price"));
-                product.setStockQuantity(resultSet.getInt("stock_quantity"));
-                product.setMonthOfWarranty(resultSet.getInt("month_of_warranty"));
-                product.setNote(resultSet.getString("note"));
-                product.setSupplierId(resultSet.getLong("supplier_id"));
-                product.setCategoryId(resultSet.getLong("category_id"));
+                setProduct(product, resultSet);
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -80,6 +90,17 @@ public class ProductDAOImpl implements ProductDAO{
         }
     }
 
+    @Override
+    public void delete(long productId) {
+        String query = "DELETE FROM products WHERE id = ?";
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, productId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void statementInsertUpdate(Product product, PreparedStatement statement) throws SQLException {
         statement.setString(1,product.getProductCode());
         statement.setString(2,product.getName());
@@ -91,14 +112,15 @@ public class ProductDAOImpl implements ProductDAO{
         statement.setLong(8,product.getCategoryId());
     }
 
-    @Override
-    public void delete(long productId) {
-        String query = "DELETE FROM products WHERE id = ?";
-        try(PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, productId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void setProduct(Product product, ResultSet resultSet) throws SQLException {
+        product.setId(resultSet.getLong("id"));
+        product.setProductCode(resultSet.getString("product_code"));
+        product.setName(resultSet.getString("name"));
+        product.setPrice(resultSet.getDouble("price"));
+        product.setStockQuantity(resultSet.getInt("stock_quantity"));
+        product.setMonthOfWarranty(resultSet.getInt("month_of_warranty"));
+        product.setNote(resultSet.getString("note"));
+        product.setSupplierId(resultSet.getLong("supplier_id"));
+        product.setCategoryId(resultSet.getLong("category_id"));
     }
 }

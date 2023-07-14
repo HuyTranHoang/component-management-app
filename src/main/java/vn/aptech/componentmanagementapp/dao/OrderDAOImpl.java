@@ -21,15 +21,7 @@ public class OrderDAOImpl implements OrderDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     order = new Order();
-                    order.setId(resultSet.getLong("id"));
-                    order.setOrderDate(resultSet.getTimestamp("order_date").toLocalDateTime());
-                    order.setDeliveryDate(resultSet.getTimestamp("delivery_date").toLocalDateTime());
-                    order.setShipmentDate(resultSet.getTimestamp("shipment_date").toLocalDateTime());
-                    order.setDeliveryLocation(resultSet.getString("delivery_location"));
-                    order.setTotalAmount(resultSet.getDouble("total_amount"));
-                    order.setNote(resultSet.getString("note"));
-                    order.setCustomerId(resultSet.getLong("customer_id"));
-                    order.setEmployeeId(resultSet.getLong("employee_id"));
+                    setOrder(order, resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -48,15 +40,7 @@ public class OrderDAOImpl implements OrderDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Order order = new Order();
-                order.setId(resultSet.getLong("id"));
-                order.setOrderDate(resultSet.getTimestamp("order_date").toLocalDateTime());
-                order.setDeliveryDate(resultSet.getTimestamp("delivery_date").toLocalDateTime());
-                order.setShipmentDate(resultSet.getTimestamp("shipment_date").toLocalDateTime());
-                order.setDeliveryLocation(resultSet.getString("delivery_location"));
-                order.setTotalAmount(resultSet.getDouble("total_amount"));
-                order.setNote(resultSet.getString("note"));
-                order.setCustomerId(resultSet.getLong("customer_id"));
-                order.setEmployeeId(resultSet.getLong("employee_id"));
+                setOrder(order, resultSet);
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -92,6 +76,17 @@ public class OrderDAOImpl implements OrderDAO{
         }
     }
 
+    @Override
+    public void delete(long orderId) {
+        String query = "DELETE FROM orders WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, orderId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void statementInsertUpdate(Order order, PreparedStatement statement) throws SQLException {
         statement.setTimestamp(1, Timestamp.valueOf(order.getOrderDate()));
         statement.setTimestamp(2, Timestamp.valueOf(order.getDeliveryDate()));
@@ -103,15 +98,15 @@ public class OrderDAOImpl implements OrderDAO{
         statement.setLong(8, order.getEmployeeId());
     }
 
-
-    @Override
-    public void delete(long orderId) {
-        String query = "DELETE FROM orders WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, orderId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void setOrder(Order order, ResultSet resultSet) throws SQLException {
+        order.setId(resultSet.getLong("id"));
+        order.setOrderDate(resultSet.getTimestamp("order_date").toLocalDateTime());
+        order.setDeliveryDate(resultSet.getTimestamp("delivery_date").toLocalDateTime());
+        order.setShipmentDate(resultSet.getTimestamp("shipment_date").toLocalDateTime());
+        order.setDeliveryLocation(resultSet.getString("delivery_location"));
+        order.setTotalAmount(resultSet.getDouble("total_amount"));
+        order.setNote(resultSet.getString("note"));
+        order.setCustomerId(resultSet.getLong("customer_id"));
+        order.setEmployeeId(resultSet.getLong("employee_id"));
     }
 }

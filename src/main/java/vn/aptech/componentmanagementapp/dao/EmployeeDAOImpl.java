@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
+import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
@@ -14,7 +15,23 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Employee getById(long employeeId) {
-        return null;
+        Employee employee = null;
+
+        String query = "SELECT * FROM employees WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, employeeId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    employee = new Employee();
+                    setEmployee(employee, resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employee;
     }
 
     @Override
@@ -27,19 +44,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.setId(resultSet.getLong("id"));
-                employee.setName(resultSet.getString("name"));
-                employee.setAddress(resultSet.getString("address"));
-                employee.setPhone(resultSet.getString("phone"));
-                employee.setEmail(resultSet.getString("email"));
-                employee.setSalary(resultSet.getDouble("salary"));
-                employee.setImage(resultSet.getString("image"));
-                employee.setCitizenID(resultSet.getString("citizen_identification"));
-                employee.setDateOfBirth(resultSet.getDate("date_of_birth").toLocalDate());
-                employee.setDateOfHire(resultSet.getDate("date_of_hire").toLocalDate());
-                employee.setDepartmentId(resultSet.getLong("department_id"));
-                employee.setPositionId(resultSet.getLong("position_id"));
-
+                setEmployee(employee, resultSet);
                 employees.add(employee);
             }
         } catch (SQLException e) {
@@ -75,6 +80,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         }
     }
 
+    @Override
+    public void delete(long employeeId) {
+        String query = "DELETE FROM employees WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, employeeId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void statementInsertUpdate(Employee employee, PreparedStatement statement) throws SQLException {
         statement.setString(1, employee.getName());
         statement.setString(2, employee.getAddress());
@@ -90,15 +106,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         statement.setLong(12, employee.getPositionId());
     }
 
-    @Override
-    public void delete(long employeeId) {
-        String query = "DELETE FROM employees WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setLong(1, employeeId);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private void setEmployee(Employee employee, ResultSet resultSet) throws SQLException {
+        employee.setId(resultSet.getLong("id"));
+        employee.setName(resultSet.getString("name"));
+        employee.setAddress(resultSet.getString("address"));
+        employee.setPhone(resultSet.getString("phone"));
+        employee.setEmail(resultSet.getString("email"));
+        employee.setSalary(resultSet.getDouble("salary"));
+        employee.setImage(resultSet.getString("image"));
+        employee.setCitizenID(resultSet.getString("citizen_identification"));
+        employee.setDateOfBirth(resultSet.getDate("date_of_birth").toLocalDate());
+        employee.setDateOfHire(resultSet.getDate("date_of_hire").toLocalDate());
+        employee.setDepartmentId(resultSet.getLong("department_id"));
+        employee.setPositionId(resultSet.getLong("position_id"));
     }
 
     @Override

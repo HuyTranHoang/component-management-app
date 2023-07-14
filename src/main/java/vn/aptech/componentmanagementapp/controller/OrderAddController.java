@@ -263,7 +263,7 @@ public class OrderAddController implements Initializable {
                     lbl_error_customerId.setText("Customer name: " + customer.getName());
                     lbl_error_customerId.setTextFill(Paint.valueOf("#70da6a"));
                 } else {
-                    lbl_error_customerId.setText("This is don't belong to any customer");
+                    lbl_error_customerId.setText("This id don't belong to any customer");
                     lbl_error_customerId.setTextFill(Paint.valueOf("#e57c23"));
                 }
             } else lbl_error_customerId.setVisible(false);
@@ -274,10 +274,10 @@ public class OrderAddController implements Initializable {
                 lbl_error_employeeId.setVisible(true);
                 Employee employee = employeeService.getEmployeeById(Long.parseLong(newValue));
                 if (employee != null) {
-                    lbl_error_employeeId.setText("Customer name: " + employee.getName());
+                    lbl_error_employeeId.setText("Employee name: " + employee.getName());
                     lbl_error_employeeId.setTextFill(Paint.valueOf("#70da6a"));
                 } else {
-                    lbl_error_employeeId.setText("This is don't belong to any customer");
+                    lbl_error_employeeId.setText("This id don't belong to any employee");
                     lbl_error_employeeId.setTextFill(Paint.valueOf("#e57c23"));
                 }
             } else lbl_error_employeeId.setVisible(false);
