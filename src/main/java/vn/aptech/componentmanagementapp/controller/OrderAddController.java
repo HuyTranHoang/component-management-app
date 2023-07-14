@@ -11,11 +11,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
@@ -116,6 +120,10 @@ public class OrderAddController implements Initializable {
     private final OrderService orderService = new OrderService();
     private final CustomerService customerService = new CustomerService();
     private final EmployeeService employeeService = new EmployeeService();
+
+    // Cache order details
+    private Scene orderDetailScene;
+    private Stage orderDetailStage;
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
@@ -415,5 +423,26 @@ public class OrderAddController implements Initializable {
             } else if (newValue.isEmpty())
                 lbl_error_employeeId.setVisible(false);
         });
+    }
+
+    @FXML
+    void addOrderDetailsOnClick() {
+        try {
+            if (orderDetailScene == null && orderDetailStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order-detail/main-orderDetail-add.fxml"));
+                orderDetailScene = new Scene(fxmlLoader.load());
+                orderDetailStage = new Stage();
+                orderDetailStage.setTitle("Order Details");
+                OrderDetailController controller = fxmlLoader.getController();
+                controller.setStage(orderDetailStage);
+
+                orderDetailStage.setScene(orderDetailScene);
+                orderDetailStage.setResizable(false);
+            }
+
+            orderDetailStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

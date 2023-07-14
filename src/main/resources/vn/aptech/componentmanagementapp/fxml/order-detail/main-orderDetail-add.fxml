@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.OrderDetailController">
+   <children>
+      <MFXTextField id="textfield-padding" fx:id="txt_productId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Id (*)" layoutX="30.0" layoutY="60.0" prefHeight="48.0" prefWidth="250.0" promptText="Product Id">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <MFXTextField id="textfield-padding" fx:id="txt_discount" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Discount (%)" layoutX="30.0" layoutY="260.0" prefHeight="48.0" prefWidth="250.0" promptText="Discount">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <MFXTextField id="textfield-padding" fx:id="txt_quantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Quantity (*)" layoutX="30.0" layoutY="160.0" prefHeight="48.0" prefWidth="250.0" promptText="Quantity">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <HBox fx:id="hbox_addButtonGroup" layoutX="312.0" layoutY="421.0" spacing="15.0">
+         <children>
+            <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton id="button-custom" prefHeight="48.0" prefWidth="150.0" text="ADD">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </HBox>
+      <Label fx:id="lbl_productName" layoutX="312.0" layoutY="60.0" prefHeight="48.0" prefWidth="322.0" text="Product name" textFill="#4a55a2" wrapText="true">
+         <font>
+            <Font name="Inter Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_productPrice" layoutX="312.0" layoutY="174.0" prefHeight="20.0" prefWidth="322.0" text="Product price" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_productPrice_discount" layoutX="312.0" layoutY="274.0" prefHeight="20.0" prefWidth="322.0" text="Product price after discount" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_productTotalAmount" layoutX="312.0" layoutY="360.0" prefHeight="20.0" prefWidth="322.0" text="Product total amount" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
