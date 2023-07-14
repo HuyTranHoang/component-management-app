@@ -21,6 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -131,6 +132,9 @@ public class OrderAddController implements Initializable {
     // Cache order details
     private Scene orderDetailScene;
     private Stage orderDetailStage;
+
+    @FXML
+    private VBox vbox_orderDetail;
     // List order details
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
@@ -465,6 +469,7 @@ public class OrderAddController implements Initializable {
                 OrderDetailController controller = fxmlLoader.getController();
                 controller.setStage(orderDetailStage);
                 controller.setOrderDetails(orderDetails);
+                controller.setVbox_orderDetail(vbox_orderDetail);
 
                 orderDetailStage.setScene(orderDetailScene);
             }

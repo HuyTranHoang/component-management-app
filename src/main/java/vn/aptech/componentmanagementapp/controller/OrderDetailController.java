@@ -5,19 +5,22 @@ import animatefx.animation.FadeOut;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
-import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
@@ -31,6 +34,11 @@ public class OrderDetailController implements Initializable {
 
     @FXML
     private HBox hbox_addButtonGroup;
+    private VBox vbox_orderDetail;
+
+    public void setVbox_orderDetail(VBox vbox_orderDetail) {
+        this.vbox_orderDetail = vbox_orderDetail;
+    }
 
     @FXML
     private Label lbl_productName;
@@ -75,6 +83,9 @@ public class OrderDetailController implements Initializable {
     //  Validator
     Validator productIdValidator = new Validator();
     Validator orderDetailsValidator = new Validator();
+
+    //  Formatter
+    private final DecimalFormat decimalFormat = new DecimalFormat("₫#,##0");
 
     private Stage stage;
 
@@ -179,7 +190,6 @@ public class OrderDetailController implements Initializable {
 
     // Sự kiện chung để cập nhật chi tiết sản phẩm
     private void updateProductDetails() {
-        DecimalFormat decimalFormat = new DecimalFormat("₫#,##0");
         if (orderDetailsValidator.validate()) {
             Product product = productService.getProductById(Long.parseLong(txt_productId.getText()));
 
@@ -223,7 +233,9 @@ public class OrderDetailController implements Initializable {
             double price = product.getPrice();
             int quantity = Integer.parseInt(txt_quantity.getText());
             int discount = Integer.parseInt(txt_discount.getText());
-            double totalAmount = (price - discount) * quantity;
+            double discountPrice = Double.parseDouble(txt_discount.getText()) / 100 * price;
+
+            double totalAmount = (price - discountPrice) * quantity;
 
             orderDetail.setName(product.getName());
             orderDetail.setPrice(price);
@@ -242,8 +254,109 @@ public class OrderDetailController implements Initializable {
                 new FadeOut(lbl_successMessage).play();
             }));
             timeline.play();
+
+            System.out.println(product.getName());
+
+            ProductInfoView productInfoView = new ProductInfoView();
+            productInfoView.getLblProductName().setText(product.getName());
+            productInfoView.getLblProductPrice().setText(decimalFormat.format(price));
+            productInfoView.getLblProductDiscount().setText(String.valueOf(discount));
+            productInfoView.getLblProductQuantity().setText(String.valueOf(quantity));
+            productInfoView.getLblProductTotalAmount().setText(decimalFormat.format(totalAmount));
+
+            vbox_orderDetail.getChildren().add(productInfoView);
         }
     }
 
+    public static class ProductInfoView extends VBox {
+        private final Label lblProductName;
+        private final Label lblProductPrice;
+        private final Label lblProductDiscount;
+        private final Label lblProductTotalAmount;
+        private final Label lblProductQuantity;
 
+        public Label getLblProductName() {
+            return lblProductName;
+        }
+
+        public Label getLblProductPrice() {
+            return lblProductPrice;
+        }
+
+        public Label getLblProductDiscount() {
+            return lblProductDiscount;
+        }
+
+        public Label getLblProductTotalAmount() {
+            return lblProductTotalAmount;
+        }
+
+        public Label getLblProductQuantity() {
+            return lblProductQuantity;
+        }
+
+        public ProductInfoView() {
+            setSpacing(15);
+            setPadding(new Insets(10));
+            setStyle("-fx-border-width: 0 0 2px 0; -fx-border-color: black");
+
+            lblProductName = new Label();
+            lblProductName.setWrapText(true);
+            lblProductPrice = new Label();
+            lblProductDiscount = new Label();
+            lblProductQuantity = new Label();
+            lblProductTotalAmount = new Label();
+
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(10);
+            gridPane.setVgap(10);
+
+            // Set column constraints
+            ColumnConstraints column1 = new ColumnConstraints();
+            column1.setPercentWidth(100);
+            ColumnConstraints column2 = new ColumnConstraints();
+            column2.setPercentWidth(50);
+            ColumnConstraints column3 = new ColumnConstraints();
+            column3.setPercentWidth(50);
+            gridPane.getColumnConstraints().addAll(column1, column2, column3);
+
+            gridPane.add(createProductName("Product name:", lblProductName), 0, 0, 2, 1);
+            gridPane.add(createLabelHBox("Price:", lblProductPrice), 0, 1);
+            gridPane.add(createLabelHBox("Quantity:", lblProductQuantity), 1, 1);
+            gridPane.add(createLabelHBox("Discount (%):", lblProductDiscount), 0, 2);
+            gridPane.add(createLabelHBox("Total amount:", lblProductTotalAmount), 1, 2, 2, 1);
+
+            getChildren().add(gridPane);
+        }
+
+        private VBox createProductName(String labelText, Label label) {
+            Label lblLabel = new Label(labelText);
+            lblLabel.setFont(Font.font("Inter Bold", 15));
+            lblLabel.setTextFill(javafx.scene.paint.Color.valueOf("#4a55a2"));
+            lblLabel.setWrapText(true);
+
+            Text text = new Text();
+            text.setFont(Font.font("Inter Regular", 13));
+            text.setWrappingWidth(450);
+            text.textProperty().bind(label.textProperty());
+
+            VBox vbox = new VBox(5);
+            vbox.getChildren().addAll(lblLabel, text);
+            return vbox;
+        }
+
+        private VBox createLabelHBox(String labelText, Label label) {
+            Label lblLabel = new Label(labelText);
+            lblLabel.setFont(Font.font("Inter Bold", 15));
+            lblLabel.setTextFill(javafx.scene.paint.Color.valueOf("#4a55a2"));
+            lblLabel.setWrapText(true);
+
+            label.setFont(Font.font("Inter Regular", 13));
+            label.setWrapText(true);
+
+            VBox vbox = new VBox(5);
+            vbox.getChildren().addAll(lblLabel, label);
+            return vbox;
+        }
+    }
 }
