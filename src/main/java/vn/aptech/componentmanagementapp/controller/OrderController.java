@@ -176,7 +176,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             }
         }
 
-        orderAddController.clearInput();
+//        orderAddController.clearInput();
         orderAddController.addMode();
 
         anchor_main_rightPanel.getChildren().clear();
@@ -210,7 +210,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             alert.setContentText("Please select product before edit!");
             alert.show();
         } else {
-            orderAddController.clearInput();
+//            orderAddController.clearInput();
             orderAddController.updateMode();
             orderAddController.editOrder(selectedOrder);
             orderAddController.setCurrentOrder(selectedOrder);

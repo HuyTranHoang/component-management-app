@@ -15,9 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.*;
+import vn.aptech.componentmanagementapp.service.CustomerService;
+import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 
 import java.io.IOException;
@@ -101,6 +104,8 @@ public class OrderAddController implements Initializable {
 
     // Service
     private final OrderService orderService = new OrderService();
+    private final CustomerService customerService = new CustomerService();
+    private final EmployeeService employeeService = new EmployeeService();
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
@@ -119,6 +124,8 @@ public class OrderAddController implements Initializable {
         txt_orderDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
         txt_deliveryDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
         txt_shipmentDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
+
+        initEvent();
     }
 
 
@@ -243,5 +250,37 @@ public class OrderAddController implements Initializable {
         lbl_error_employeeId.setVisible(false);
         lbl_error_deliveryLocation.setVisible(false);
         lbl_error_note.setVisible(false);
+    }
+
+    private void initEvent() {
+        // TODO: VALIDATE là số trước khi parse
+
+        txt_customerId.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                lbl_error_customerId.setVisible(true);
+                Customer customer = customerService.getCustomerById(Long.parseLong(newValue));
+                if (customer != null) {
+                    lbl_error_customerId.setText("Customer name: " + customer.getName());
+                    lbl_error_customerId.setTextFill(Paint.valueOf("#70da6a"));
+                } else {
+                    lbl_error_customerId.setText("This is don't belong to any customer");
+                    lbl_error_customerId.setTextFill(Paint.valueOf("#e57c23"));
+                }
+            } else lbl_error_customerId.setVisible(false);
+        });
+
+        txt_employeeId.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                lbl_error_employeeId.setVisible(true);
+                Employee employee = employeeService.getEmployeeById(Long.parseLong(newValue));
+                if (employee != null) {
+                    lbl_error_employeeId.setText("Customer name: " + employee.getName());
+                    lbl_error_employeeId.setTextFill(Paint.valueOf("#70da6a"));
+                } else {
+                    lbl_error_employeeId.setText("This is don't belong to any customer");
+                    lbl_error_employeeId.setTextFill(Paint.valueOf("#e57c23"));
+                }
+            } else lbl_error_employeeId.setVisible(false);
+        });
     }
 }

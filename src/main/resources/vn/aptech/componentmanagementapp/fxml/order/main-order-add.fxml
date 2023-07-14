@@ -141,21 +141,15 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <Label fx:id="lbl_error_customerId" layoutX="529.0" layoutY="175.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_customerId" layoutX="313.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="Customer name" textFill="WHITE">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_employeeId" layoutX="529.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_employeeId" layoutX="313.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="Employee name" textFill="WHITE">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
                   </Label>
                   <MFXScrollPane layoutX="654.0" layoutY="96.0" prefHeight="591.0" prefWidth="526.0">
                      <content>
