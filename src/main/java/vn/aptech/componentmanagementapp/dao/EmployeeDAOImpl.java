@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.dao;
 
-import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;

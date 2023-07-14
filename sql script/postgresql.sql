@@ -115,7 +115,7 @@ CREATE TABLE order_detail
     name         VARCHAR(255)     NOT NULL,
     price        DOUBLE PRECISION NOT NULL,
     quantity     INTEGER          NOT NULL,
-    discount     DOUBLE PRECISION NOT NULL,
+    discount     INTEGER          NOT NULL,
     total_amount DOUBLE PRECISION NOT NULL,
     order_id     BIGINT REFERENCES orders (id),
     product_id   BIGINT REFERENCES products (id)
@@ -193,7 +193,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER insert_stock_trigger
-    AFTER INSERT ON products
+    AFTER INSERT
+    ON products
     FOR EACH ROW
 EXECUTE FUNCTION insert_products_storage();
 

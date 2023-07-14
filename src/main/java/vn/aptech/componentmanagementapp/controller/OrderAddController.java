@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
@@ -145,6 +148,7 @@ public class OrderAddController implements Initializable {
 
         initEvent();
         initValidator();
+        initEnterKeyPressing();
     }
 
     private void initValidator() {
@@ -269,6 +273,25 @@ public class OrderAddController implements Initializable {
                 target.setVisible(false);
             }
         };
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent > storeOrUpdateEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (hbox_addButtonGroup.visibleProperty().get()) {
+                    storeButtonOnClick();
+                } else {
+                    updateButtonOnClick();
+                }
+            } else if (event.getCode() == KeyCode.ESCAPE)
+                listOrderButtonOnClick();
+        };
+
+
+       txt_customerId.setOnKeyPressed(storeOrUpdateEventHandler);
+       txt_employeeId.setOnKeyPressed(storeOrUpdateEventHandler);
+       txt_deliveryLocation.setOnKeyPressed(storeOrUpdateEventHandler);
+       txt_note.setOnKeyPressed(storeOrUpdateEventHandler);
     }
 
 

@@ -285,7 +285,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Please select product before edit!");
+            alert.setContentText("Please select order before edit!");
             alert.show();
         } else {
 //            orderAddController.clearInput();
@@ -395,21 +395,6 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     }
 
     private void initEnterKeyPressing() {
-//        EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
-//            if (event.getCode() == KeyCode.ENTER) {
-//                if (hbox_addGroup.visibleProperty().get()) {
-//                    storeButtonOnClick();
-//                } else {
-//                    updateButtonOnClick();
-//                }
-//            }
-//        };
-//
-//        txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
-//        txt_address.setOnKeyPressed(storeOrUpdateEventHandler);
-//        txt_phone.setOnKeyPressed(storeOrUpdateEventHandler);
-//        txt_email.setOnKeyPressed(storeOrUpdateEventHandler);
-
         txt_order_search.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 searchOrderOnAction();

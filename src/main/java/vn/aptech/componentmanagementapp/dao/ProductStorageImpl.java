@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.dao;
 
-import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.ProductStorage;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
