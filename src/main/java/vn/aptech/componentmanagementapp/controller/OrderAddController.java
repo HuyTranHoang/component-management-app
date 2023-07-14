@@ -7,24 +7,30 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
+import net.synedra.validatorfx.Decoration;
+import net.synedra.validatorfx.ValidationMessage;
+import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.model.*;
+import vn.aptech.componentmanagementapp.model.Customer;
+import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
@@ -43,7 +49,6 @@ public class OrderAddController implements Initializable {
     private AnchorPane anchor_main_rightPanel;
     private AnchorPane orderView;
 
-    private ObservableList<Order> orders;
     private TableView<Order> tableView;
     private Order currentOrder;
 
@@ -102,6 +107,11 @@ public class OrderAddController implements Initializable {
     @FXML
     private MFXTextField txt_note;
 
+    //  Validator
+    private final Validator orderAddValidator = new Validator();
+    private final Validator customerIdValidator = new Validator();
+    private final Validator employeeIdValidator = new Validator();
+
     // Service
     private final OrderService orderService = new OrderService();
     private final CustomerService customerService = new CustomerService();
@@ -126,6 +136,131 @@ public class OrderAddController implements Initializable {
         txt_shipmentDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
 
         initEvent();
+        initValidator();
+    }
+
+    private void initValidator() {
+        customerIdValidator.createCheck()
+                .dependsOn("customerId", txt_customerId.textProperty())
+                .withMethod(context -> {
+                    String customerId = context.get("customerId");
+                    if (!customerId.matches("\\d+")) {
+                        context.error("CustomerId only contain number");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_customerId);
+
+        employeeIdValidator.createCheck()
+                .dependsOn("employeeId", txt_employeeId.textProperty())
+                .withMethod(context -> {
+                    String employeeId = context.get("employeeId");
+                    if (!employeeId.matches("\\d+")) {
+                        context.error("EmployeeId only contain number");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_employeeId);
+
+        orderAddValidator.createCheck()
+                .dependsOn("orderDate", txt_orderDate.valueProperty())
+                .withMethod(context -> {
+                    LocalDate orderDate = context.get("orderDate");
+                    if (orderDate == null) {
+                        context.error("Order date can't be empty");
+                    } else if (orderDate.isBefore(LocalDate.now())) {
+                        context.error("Order date can't be in the past");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_orderDate);
+
+        orderAddValidator.createCheck()
+                .dependsOn("deliveryDate", txt_deliveryDate.valueProperty())
+                .dependsOn("orderDate", txt_orderDate.valueProperty())
+                .withMethod(context -> {
+                    LocalDate deliveryDate = context.get("deliveryDate");
+                    LocalDate orderDate = context.get("orderDate");
+                    if (deliveryDate == null) {
+                        context.error("Delivery date can't be empty");
+                    } else if (deliveryDate.isBefore(LocalDate.now())) {
+                        context.error("Delivery date can't be in the past");
+                    } else if (deliveryDate.isBefore(orderDate)) {
+                        context.error("Delivery date can't be before order date");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_deliveryDate);
+
+        orderAddValidator.createCheck()
+                .dependsOn("shipmentDate", txt_shipmentDate.valueProperty())
+                .dependsOn("deliveryDate", txt_deliveryDate.valueProperty())
+                .dependsOn("orderDate", txt_orderDate.valueProperty())
+                .withMethod(context -> {
+                    LocalDate shipmentDate = context.get("shipmentDate");
+                    LocalDate deliveryDate = context.get("deliveryDate");
+                    LocalDate orderDate = context.get("orderDate");
+                    if (shipmentDate == null) {
+                        context.error("Shipment date can't be empty");
+                    } else if (shipmentDate.isBefore(LocalDate.now())) {
+                        context.error("Shipment date can't be in the past");
+                    } else if (shipmentDate.isBefore(deliveryDate)) {
+                        context.error("Shipment date can't be before delivery date");
+                    } else if (shipmentDate.isBefore(orderDate)) {
+                        context.error("Shipment date can't be before order date");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_shipmentDate);
+
+        orderAddValidator.createCheck()
+                .dependsOn("deliveryLocation", txt_deliveryLocation.textProperty())
+                .withMethod(context -> {
+                    String deliveryLocation = context.get("deliveryLocation");
+                    if (deliveryLocation.isEmpty())
+                        context.error("Delivery location can't be empty");
+                    else if (deliveryLocation.length() > 255)
+                        context.error("Delivery location length exceeds the maximum limit of 255 characters");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_deliveryLocation);
+
+        orderAddValidator.createCheck()
+                .dependsOn("customerId", txt_customerId.textProperty())
+                .withMethod(context -> {
+                   String customerId = context.get("customerId");
+                   if (customerId.matches("\\d+")) {
+                       Customer customer = customerService.getCustomerById(Long.parseLong(customerId));
+                       if (customer == null)
+                           context.error("Customer id don't belong any customer");
+                   }
+                });
+
+        orderAddValidator.createCheck()
+                .dependsOn("employeeId", txt_employeeId.textProperty())
+                .withMethod(context -> {
+                    String employeeId = context.get("employeeId");
+                    if (employeeId.matches("\\d+")) {
+                        Employee employee = employeeService.getEmployeeById(Long.parseLong(employeeId));
+                        if (employee == null)
+                            context.error("Customer id don't belong any customer");
+                    }
+                });
+    }
+
+    private Decoration labelDecorator(ValidationMessage message) {
+        return new Decoration() {
+            @Override
+            public void add(Node target) {
+                ((Label) target).setText(message.getText());
+                target.setVisible(true);
+            }
+
+            @Override
+            public void remove(Node target) {
+                target.setVisible(false);
+            }
+        };
     }
 
 
@@ -146,8 +281,7 @@ public class OrderAddController implements Initializable {
 
     @FXML
     void storeButtonOnClick(){
-        //TODO : Làm validate
-        if(true){
+        if(orderAddValidator.validate()){
             Order order = new Order();
             order.setOrderDate(txt_orderDate.getValue().atTime(LocalTime.now()));
             order.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
@@ -198,8 +332,7 @@ public class OrderAddController implements Initializable {
 
     @FXML
     void updateButtonOnClick() {
-        //TODO : Làm validate
-        if (true) {
+        if (orderAddValidator.validate()) {
             currentOrder.setOrderDate(txt_orderDate.getValue().atTime(LocalTime.now()));
             currentOrder.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
             currentOrder.setShipmentDate(txt_shipmentDate.getValue().atTime(LocalTime.now()));
@@ -253,10 +386,8 @@ public class OrderAddController implements Initializable {
     }
 
     private void initEvent() {
-        // TODO: VALIDATE là số trước khi parse
-
         txt_customerId.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
+            if (customerIdValidator.validate()) {
                 lbl_error_customerId.setVisible(true);
                 Customer customer = customerService.getCustomerById(Long.parseLong(newValue));
                 if (customer != null) {
@@ -266,11 +397,12 @@ public class OrderAddController implements Initializable {
                     lbl_error_customerId.setText("This id don't belong to any customer");
                     lbl_error_customerId.setTextFill(Paint.valueOf("#e57c23"));
                 }
-            } else lbl_error_customerId.setVisible(false);
+            } else if (newValue.isEmpty())
+                lbl_error_customerId.setVisible(false);
         });
 
         txt_employeeId.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
+            if (employeeIdValidator.validate()) {
                 lbl_error_employeeId.setVisible(true);
                 Employee employee = employeeService.getEmployeeById(Long.parseLong(newValue));
                 if (employee != null) {
@@ -280,7 +412,8 @@ public class OrderAddController implements Initializable {
                     lbl_error_employeeId.setText("This id don't belong to any employee");
                     lbl_error_employeeId.setTextFill(Paint.valueOf("#e57c23"));
                 }
-            } else lbl_error_employeeId.setVisible(false);
+            } else if (newValue.isEmpty())
+                lbl_error_employeeId.setVisible(false);
         });
     }
 }

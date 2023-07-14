@@ -100,7 +100,6 @@ public class ProductAddController implements Initializable {
     private Product currentProduct;
     private TableView<Product> tableView; // Truyền từ Product controller vào
 
-
     //  Service
     private final ProductService productService = new ProductService();
     private final CategoryService categoryService = new CategoryService();
@@ -143,8 +142,6 @@ public class ProductAddController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 
 
     private void initValidator() {

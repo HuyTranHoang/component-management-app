@@ -45,12 +45,12 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXDatePicker>
-                  <MFXTextField id="textfield-padding" fx:id="txt_deliveryLocation" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery location (*)" layoutX="58.0" layoutY="445.0" prefHeight="48.0" prefWidth="501.0" promptText="Delivery location">
+                  <MFXTextField id="textfield-padding" fx:id="txt_deliveryLocation" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery location (*)" layoutX="58.0" layoutY="445.0" prefHeight="48.0" prefWidth="549.0" promptText="Delivery location">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="58.0" layoutY="550.0" prefHeight="48.0" prefWidth="501.0" promptText="Note">
+                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="58.0" layoutY="550.0" prefHeight="48.0" prefWidth="549.0" promptText="Note">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_orderDate" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_orderDate" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -89,7 +89,7 @@
                   </Label>
                   <HBox fx:id="hbox_addButtonGroup" layoutX="248.0" layoutY="635.0" spacing="15.0">
                      <children>
-                        <MFXButton id="button-custom-clear" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                        <MFXButton id="button-custom-clear" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -115,7 +115,7 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <Label fx:id="lbl_error_deliveryDate" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_deliveryDate" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -123,7 +123,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_shipmentDate" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_shipmentDate" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -131,22 +131,22 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <MFXTextField id="textfield-padding" fx:id="txt_customerId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Customer Id (*)" layoutX="313.0" layoutY="225.0" prefHeight="48.0" prefWidth="250.0" promptText="Customer Id">
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Customer Id (*)" layoutX="353.0" layoutY="225.0" prefHeight="48.0" prefWidth="250.0" promptText="Customer Id">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_employeeId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Employee Id (*)" layoutX="313.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee Id">
+                  <MFXTextField id="textfield-padding" fx:id="txt_employeeId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Employee Id (*)" layoutX="353.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee Id">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <Label fx:id="lbl_error_customerId" layoutX="313.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="Customer name" textFill="WHITE">
+                  <Label fx:id="lbl_error_customerId" layoutX="353.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="Customer name" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_error_employeeId" layoutX="313.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="Employee name" textFill="WHITE">
+                  <Label fx:id="lbl_error_employeeId" layoutX="353.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="Employee name" textFill="WHITE" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
