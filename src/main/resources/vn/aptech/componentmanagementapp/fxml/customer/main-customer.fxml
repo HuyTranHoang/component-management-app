@@ -66,17 +66,17 @@
                </children></HBox>
             <AnchorPane layoutX="743.0" prefHeight="720.0" prefWidth="491.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_address" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
+                  <MFXTextField id="textfield-padding" fx:id="txt_address" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address (*)" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_phone" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Phone" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                  <MFXTextField id="textfield-padding" fx:id="txt_phone" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Phone (*)" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -151,7 +151,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_successMessage" layoutX="112.0" layoutY="488.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="55.0" layoutY="488.0" prefHeight="23.0" prefWidth="380.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>

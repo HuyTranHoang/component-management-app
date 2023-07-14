@@ -29,7 +29,7 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" fx:id="txt_productCode" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Code (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
+                  <MFXTextField id="textfield-padding" fx:id="txt_productCode" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product code (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product code">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>

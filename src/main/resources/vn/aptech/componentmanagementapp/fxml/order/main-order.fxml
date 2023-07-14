@@ -78,7 +78,7 @@
             </children>
          </HBox>
       </AnchorPane>
-      <MFXButton layoutX="550.0" layoutY="15.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+      <MFXButton layoutX="550.0" layoutY="15.0" onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
          </graphic>

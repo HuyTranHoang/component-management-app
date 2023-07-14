@@ -57,6 +57,20 @@
 /*    visibility: hidden;*/
 /*}*/
 
+/*Alert Diaglog*/
+/*.dialog-pane {*/
+/*    -fx-background-color: -hbd-primary-color;*/
+/*}*/
+
+/*.dialog-pane .label {*/
+/*    -fx-text-fill: white;*/
+/*}*/
+
+/*.dialog-pane *.label.content {*/
+/*    -fx-font-size: 12px;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+
 /*Button*/
 #button-custom-mainPanel {
     -fx-background-color: #4A55A2;

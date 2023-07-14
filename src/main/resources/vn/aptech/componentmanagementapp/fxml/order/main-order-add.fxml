@@ -2,7 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
-<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +15,7 @@
 <AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.OrderAddController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXButton layoutX="437.0" layoutY="15.0" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ORDER LIST" AnchorPane.topAnchor="15.0">
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listOrderButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ORDER LIST" AnchorPane.topAnchor="15.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
          </graphic>
@@ -30,32 +30,32 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order Date" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0">
+                  <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order date (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXDatePicker>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Month of warranty (*)" layoutX="529.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Month of warranty">
+                  <MFXDatePicker fx:id="txt_deliveryDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery date (*)" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="200.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXDatePicker fx:id="txt_shipmentDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Shipment date (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="200.0">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXTextField id="textfield-padding" fx:id="txt_deliveryLocation" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery location (*)" layoutX="58.0" layoutY="445.0" prefHeight="48.0" prefWidth="501.0" promptText="Delivery location">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="529.0" layoutY="225.0" prefHeight="48.0" prefWidth="380.0" promptText="Note">
+                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="58.0" layoutY="550.0" prefHeight="48.0" prefWidth="501.0" promptText="Note">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXFilterComboBox animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Category (*)" layoutX="526.0" layoutY="335.0" prefHeight="40.0" prefWidth="380.0">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXFilterComboBox>
-                  <MFXFilterComboBox animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Supplier (*)" layoutX="526.0" layoutY="445.0" prefHeight="40.0" prefWidth="380.0">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXFilterComboBox>
-                  <Label fx:id="lbl_successMessage" layoutX="603.0" layoutY="529.0" text="Add new product succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="58.0" layoutY="37.0" text="Add new order succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_orderDate" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23">
+                  <Label fx:id="lbl_error_orderDate" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -71,7 +71,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_monthOfWarranty" layoutX="529.0" layoutY="175.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_deliveryLocation" layoutX="58.0" layoutY="505.0" prefHeight="16.0" prefWidth="501.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -79,7 +79,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_note" layoutX="529.0" layoutY="285.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_note" layoutX="68.0" layoutY="612.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -87,45 +87,35 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <HBox fx:id="hbox_addButtonGroup" layoutX="591.0" layoutY="580.0" spacing="15.0" visible="false">
+                  <HBox fx:id="hbox_addButtonGroup" layoutX="248.0" layoutY="635.0" spacing="15.0">
                      <children>
                         <MFXButton id="button-custom-clear" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                        <MFXButton id="button-custom" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
                      </children>
                   </HBox>
-                  <HBox fx:id="hbox_updateButtonGroup" layoutX="591.0" layoutY="580.0" spacing="15.0">
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="248.0" layoutY="635.0" spacing="15.0" visible="false">
                      <children>
-                        <MFXButton id="button-custom-clear" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                        <MFXButton id="button-custom-clear" onAction="#listOrderButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
                      </children>
                   </HBox>
-                  <MFXDatePicker fx:id="txt_deliveryDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery Date" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="200.0">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXDatePicker>
-                  <MFXDatePicker fx:id="txt_shipmentDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Shipment Date" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="200.0">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXDatePicker>
-                  <Label fx:id="lbl_error_deliveryDate" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23">
+                  <Label fx:id="lbl_error_deliveryDate" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -133,13 +123,49 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_shipmentDate" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23">
+                  <Label fx:id="lbl_error_shipmentDate" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="200.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
                      <graphic>
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
+                  </Label>
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Customer Id (*)" layoutX="313.0" layoutY="225.0" prefHeight="48.0" prefWidth="250.0" promptText="Customer Id">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField id="textfield-padding" fx:id="txt_employeeId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Employee Id (*)" layoutX="313.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee Id">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label fx:id="lbl_error_customerId" layoutX="529.0" layoutY="175.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_employeeId" layoutX="529.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <MFXScrollPane layoutX="654.0" layoutY="96.0" prefHeight="591.0" prefWidth="526.0">
+                     <content>
+                        <AnchorPane prefHeight="1000.0" prefWidth="200.0" style="-fx-background-color: red;" />
+                     </content>
+                  </MFXScrollPane>
+                  <Label layoutX="814.0" layoutY="32.0" text="ORDER DETAILS" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Bold" size="26.0" />
+                     </font>
                   </Label>
                </children>
             </AnchorPane>

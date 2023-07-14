@@ -7,12 +7,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.service.OrderService;
@@ -21,9 +20,10 @@ import vn.aptech.componentmanagementapp.util.PaginationHelper;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class OrderController implements Initializable {
+public class OrderController implements Initializable, OrderAddController.OrderAddCallback {
     // Sort and multi deleted
     @FXML
     private MFXComboBox<String> cbb_orderBy;
@@ -86,10 +86,6 @@ public class OrderController implements Initializable {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
     }
 
-    /*
-     * Begin of Pagination
-     */
-
     @FXML
     void showPreviousPage() {
         paginationHelper.showPreviousPage();
@@ -109,10 +105,6 @@ public class OrderController implements Initializable {
     void showLastPage() {
         paginationHelper.showLastPage();
     }
-
-    /*
-     * End of pagination
-     */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -142,6 +134,29 @@ public class OrderController implements Initializable {
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
         tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        tbc_orderDate.setCellFactory(formatCellFactory(formatter));
+        tbc_deliveryDate.setCellFactory(formatCellFactory(formatter));
+        tbc_shipmentDate.setCellFactory(formatCellFactory(formatter));
+    }
+
+    private Callback<TableColumn<Order, LocalDateTime>, TableCell<Order, LocalDateTime>> formatCellFactory(DateTimeFormatter formatter) {
+        return column -> {
+            TableCell<Order, LocalDateTime> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(formatter.format(item));
+                    }
+                }
+            };
+            return cell;
+        };
     }
 
     @FXML
@@ -154,17 +169,63 @@ public class OrderController implements Initializable {
                 orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
                 orderAddController.setOrderView(orderView);
                 orderAddController.setTableView(tableView);
+
+                orderAddController.setOrderAddCallback(this);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
-//        productAddController.clearInput();
-//        productAddController.addMode();
-//
+        orderAddController.clearInput();
+        orderAddController.addMode();
+
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addOrderView);
 //        productAddController.setRequestFocus();
+    }
 
+    @FXML
+    void editButtonOnClick() {
+        if (addOrderView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add.fxml"));
+                addOrderView = fxmlLoader.load();
+                orderAddController = fxmlLoader.getController();
+                orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                orderAddController.setOrderView(orderView);
+                orderAddController.setTableView(tableView);
+
+                orderAddController.setOrderAddCallback(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Order selectedOrder = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedOrder == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select product before edit!");
+            alert.show();
+        } else {
+            orderAddController.clearInput();
+            orderAddController.updateMode();
+            orderAddController.editOrder(selectedOrder);
+            orderAddController.setCurrentOrder(selectedOrder);
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(addOrderView);
+//            orderAddController.setRequestFocus();
+
+        }
+
+    }
+
+    @Override
+    public void onOrderAdded(Order order) {
+        orders.add(order);
+        showLastPage();
     }
 }
