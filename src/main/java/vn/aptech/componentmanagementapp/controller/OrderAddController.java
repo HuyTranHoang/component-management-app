@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,7 @@ import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderService;
@@ -39,6 +41,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class OrderAddController implements Initializable {
@@ -127,6 +131,8 @@ public class OrderAddController implements Initializable {
     // Cache order details
     private Scene orderDetailScene;
     private Stage orderDetailStage;
+    // List order details
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
@@ -458,14 +464,19 @@ public class OrderAddController implements Initializable {
                 orderDetailStage.setTitle("Order Details");
                 OrderDetailController controller = fxmlLoader.getController();
                 controller.setStage(orderDetailStage);
+                controller.setOrderDetails(orderDetails);
 
                 orderDetailStage.setScene(orderDetailScene);
-                orderDetailStage.setResizable(false);
             }
 
             orderDetailStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    void test() {
+        System.out.println(orderDetails);
     }
 }

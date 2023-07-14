@@ -34,7 +34,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MFXButton>
-            <MFXButton id="button-custom" prefHeight="48.0" prefWidth="150.0" text="ADD">
+            <MFXButton id="button-custom" onAction="#addButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="ADD">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -130,5 +130,13 @@
             </HBox>
          </children>
       </VBox>
+      <Label fx:id="lbl_successMessage" layoutX="36.0" layoutY="357.0" text="Add new order detail succesfully!!" textFill="#70da6a" visible="false">
+         <font>
+            <Font name="Inter Bold" size="18.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
+         </graphic>
+      </Label>
    </children>
 </AnchorPane>

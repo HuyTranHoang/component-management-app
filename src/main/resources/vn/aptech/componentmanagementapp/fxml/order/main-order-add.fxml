@@ -158,6 +158,11 @@
                            <children>
                               <HBox alignment="TOP_RIGHT" prefWidth="0.0">
                                  <children>
+                                    <MFXButton contentDisplay="RIGHT" onAction="#test" text="TEST">
+                                       <graphic>
+                                          <FontIcon iconLiteral="fas-plus-circle" />
+                                       </graphic>
+                                    </MFXButton>
                                     <MFXButton contentDisplay="RIGHT" onAction="#addOrderDetailsOnClick" text="Add">
                                        <graphic>
                                           <FontIcon iconLiteral="fas-plus-circle" />

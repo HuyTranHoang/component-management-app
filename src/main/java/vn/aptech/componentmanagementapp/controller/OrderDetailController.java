@@ -1,6 +1,11 @@
 package vn.aptech.componentmanagementapp.controller;
 
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -8,15 +13,18 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
 
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class OrderDetailController implements Initializable {
@@ -45,6 +53,8 @@ public class OrderDetailController implements Initializable {
     @FXML
     private Label lbl_error_quantity;
 
+    @FXML
+    private Label lbl_successMessage;
 
     @FXML
     private MFXTextField txt_discount;
@@ -56,6 +66,11 @@ public class OrderDetailController implements Initializable {
     private MFXTextField txt_quantity;
     // Service
     ProductService productService = new ProductService();
+    // List order details
+    private List<OrderDetail> orderDetails;
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
 
     //  Validator
     Validator productIdValidator = new Validator();
@@ -178,14 +193,11 @@ public class OrderDetailController implements Initializable {
 
                 lbl_productPrice.setText(decimalFormat.format(price));
 
-                if (!txt_discount.getText().isEmpty()) {
-                    discount = Double.parseDouble(txt_discount.getText()) / 100 * price;
-                }
+                discount = Double.parseDouble(txt_discount.getText()) / 100 * price;
+
                 lbl_productPrice_discount.setText(decimalFormat.format(discount));
 
-                if (!txt_quantity.getText().isEmpty()) {
-                    quantity = Integer.parseInt(txt_quantity.getText());
-                }
+                quantity = Integer.parseInt(txt_quantity.getText());
 
                 double totalAmount = (price - discount) * quantity;
                 lbl_productTotalAmount.setText(decimalFormat.format(totalAmount));
@@ -204,6 +216,32 @@ public class OrderDetailController implements Initializable {
     @FXML
     void addButtonOnClick() {
         if (orderDetailsValidator.validate()) {
+            OrderDetail orderDetail = new OrderDetail();
+
+            Product product = productService.getProductById(Long.parseLong(txt_productId.getText()));
+
+            double price = product.getPrice();
+            int quantity = Integer.parseInt(txt_quantity.getText());
+            int discount = Integer.parseInt(txt_discount.getText());
+            double totalAmount = (price - discount) * quantity;
+
+            orderDetail.setName(product.getName());
+            orderDetail.setPrice(price);
+            orderDetail.setDiscount(discount);
+            orderDetail.setTotalAmount(totalAmount);
+            orderDetail.setProductId(product.getId());
+
+            orderDetails.add(orderDetail);
+
+            // Show success message
+//            lbl_successMessage.setText("Add new order detail successfully!!");
+            lbl_successMessage.setVisible(true);
+            new FadeIn(lbl_successMessage).play();
+            // Hide the message after 4 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
+                new FadeOut(lbl_successMessage).play();
+            }));
+            timeline.play();
         }
     }
 

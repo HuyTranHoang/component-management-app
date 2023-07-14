@@ -109,9 +109,6 @@ public class LoginController implements Initializable {
         initResetValidator();
         initEnterKeyPressing();
 
-        OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
-        System.out.println(orderDetailDAO.getAll());
-
         loadLoginInfo();
     }
 
