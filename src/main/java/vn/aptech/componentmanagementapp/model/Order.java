@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import vn.aptech.componentmanagementapp.dao.CustomerDAO;
 import vn.aptech.componentmanagementapp.dao.CustomerDAOImpl;
 import vn.aptech.componentmanagementapp.dao.EmployeeDAO;
@@ -17,6 +19,22 @@ public class Order {
     private String note;
     private long customerId;
     private long employeeId;
+
+    // For multi delete
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
 
     // Lazy-loaded Customer and Employee objects
     private Customer customer;

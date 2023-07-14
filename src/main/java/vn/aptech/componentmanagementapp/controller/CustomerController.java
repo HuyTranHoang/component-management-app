@@ -260,7 +260,7 @@ public class CustomerController implements Initializable {
             confirmation.setContentText("Are you sure you want to delete selected customer? " +
                     "If you delete, all orders belong to that customers also get deleted.");
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-                customerService.deleteCustomer((int) selectedCustomer.getId());
+                customerService.deleteCustomer(selectedCustomer.getId());
                 customers.remove(selectedCustomer);
                 tableView.getItems().remove(selectedCustomer); // Remove the product from the TableView
                 if (paginationHelper.getPageItems().isEmpty())

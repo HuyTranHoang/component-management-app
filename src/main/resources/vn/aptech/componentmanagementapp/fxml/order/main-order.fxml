@@ -5,6 +5,8 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,35 +24,33 @@
          </font>
       </MFXTextField>
       <FontIcon iconLiteral="fas-search" iconSize="14" layoutX="29.0" layoutY="37.0" text="" />
-      <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0">
+      <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="340.0" layoutY="42.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </FontIcon>
-      <MFXButton layoutX="440.0" layoutY="15.0" onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD" AnchorPane.topAnchor="15.0">
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
-         </graphic>
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MFXButton>
       <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <columns>
+               <TableColumn fx:id="tbc_checkbox" prefWidth="40.0" sortable="false" visible="false" />
                <TableColumn fx:id="tbc_id" prefWidth="75.0" sortable="false" text="Id" />
-               <TableColumn fx:id="tbc_orderDate" prefWidth="150.0" sortable="false" text="Order date" />
-               <TableColumn fx:id="tbc_deliveryDate" prefWidth="150.0" sortable="false" text="Delivery date" />
-               <TableColumn fx:id="tbc_shipmentDate" prefWidth="150.0" sortable="false" text="Shipment date" />
+               <TableColumn fx:id="tbc_orderDate" prefWidth="125.0" sortable="false" text="Order date" />
+               <TableColumn fx:id="tbc_deliveryDate" prefWidth="125.0" sortable="false" text="Delivery date" />
+               <TableColumn fx:id="tbc_shipmentDate" prefWidth="125.0" sortable="false" text="Shipment date" />
                <TableColumn fx:id="tbc_deliveryLocation" prefWidth="200.0" sortable="false" text="Delivery location" />
                <TableColumn fx:id="tbc_totalAmount" prefWidth="125.0" sortable="false" text="Total amount" />
                <TableColumn fx:id="tbc_note" prefWidth="150.0" sortable="false" text="Note" />
-               <TableColumn fx:id="tbc_customerId" prefWidth="100.0" sortable="false" text="CustomerId" />
-               <TableColumn fx:id="tbc_employeeId" prefWidth="100.0" sortable="false" text="EmployeeId" />
+               <TableColumn fx:id="tbc_customerId" prefWidth="125.0" sortable="false" text="Customer name" />
+               <TableColumn fx:id="tbc_employeeId" prefWidth="125.0" sortable="false" text="Employee name" />
             </columns>
+            <contextMenu>
+               <ContextMenu>
+                  <items>
+                     <MenuItem mnemonicParsing="false" onAction="#editButtonOnClick" text="Edit" />
+                     <MenuItem mnemonicParsing="false" onAction="#deleteContextOnClick" text="Delete" />
+                  </items>
+               </ContextMenu>
+            </contextMenu>
          </TableView>
          <HBox alignment="CENTER" layoutX="259.0" layoutY="735.0" prefHeight="35.0" prefWidth="734.0" spacing="10.0">
             <children>
@@ -78,28 +78,6 @@
             </children>
          </HBox>
       </AnchorPane>
-      <MFXButton layoutX="550.0" layoutY="15.0" onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
-         </graphic>
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </MFXButton>
-      <MFXButton layoutX="660.0" layoutY="15.0" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
-         <font>
-            <Font name="Inter Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <graphic>
-            <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
-         </graphic>
-      </MFXButton>
       <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" floatMode="BORDER" floatingText="Sort by" layoutX="786.0" layoutY="12.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
          <font>
             <Font name="Inter Regular" size="13.0" />
@@ -109,5 +87,68 @@
             <Font name="Inter Regular" size="13.0" />
          </font>
       </MFXComboBox>
+      <HBox fx:id="hbox_addEditDelete" layoutX="400.0" layoutY="15.0" spacing="10.0">
+         <children>
+            <MFXButton onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="fas-plus" />
+               </graphic>
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+               </graphic>
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" onDragDetected="#deleteButtonOnClick" />
+               </graphic>
+            </MFXButton>
+         </children>
+      </HBox>
+      <HBox fx:id="hbox_confirmDelete" layoutX="400.0" layoutY="15.0" spacing="10.0" visible="false">
+         <children>
+            <MFXButton onAction="#deleteSelectedOrderOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
+               </graphic>
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton onAction="#backButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="BACK">
+               <font>
+                  <Font name="Inter Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="far-trash-alt" />
+               </graphic>
+            </MFXButton>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
