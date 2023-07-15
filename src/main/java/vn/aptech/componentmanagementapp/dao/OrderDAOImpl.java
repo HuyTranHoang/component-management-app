@@ -52,19 +52,27 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public void add(Order order) {
-        String query = "INSERT INTO orders(order_date, delivery_date, shipment_date, delivery_location, " +
+        String query = "INSERT INTO orders(order_date, delivery_date, receive_date, delivery_location, " +
                 "total_amount, note, customer_id, employee_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(order, statement);
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long generatedId = generatedKeys.getLong(1);
+                    order.setId(generatedId);
+                } else {
+                    throw new SQLException("Adding order failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public long addReturnId(Order order) {
-        String query = "INSERT INTO orders(order_date, delivery_date, shipment_date, delivery_location, " +
+        String query = "INSERT INTO orders(order_date, delivery_date, receive_date, delivery_location, " +
                 "total_amount, note, customer_id, employee_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -73,7 +81,9 @@ public class OrderDAOImpl implements OrderDAO{
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
+                    long generatedId = generatedKeys.getLong(1);
+                    order.setId(generatedId);
+                    return generatedId;
                 } else {
                     throw new SQLException("Adding customer failed, no ID obtained.");
                 }
@@ -87,7 +97,7 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public void update(Order order) {
-        String query = "UPDATE orders SET order_date = ?, delivery_date = ?, shipment_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +
+        String query = "UPDATE orders SET order_date = ?, delivery_date = ?, receive_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +
                 "customer_id = ?, employee_id = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statementInsertUpdate(order, statement);
@@ -112,7 +122,7 @@ public class OrderDAOImpl implements OrderDAO{
     private void statementInsertUpdate(Order order, PreparedStatement statement) throws SQLException {
         statement.setTimestamp(1, Timestamp.valueOf(order.getOrderDate()));
         statement.setTimestamp(2, Timestamp.valueOf(order.getDeliveryDate()));
-        statement.setTimestamp(3, Timestamp.valueOf(order.getShipmentDate()));
+        statement.setTimestamp(3, Timestamp.valueOf(order.getReceiveDate()));
         statement.setString(4, order.getDeliveryLocation());
         statement.setDouble(5, order.getTotalAmount());
         statement.setString(6, order.getNote());
@@ -124,7 +134,7 @@ public class OrderDAOImpl implements OrderDAO{
         order.setId(resultSet.getLong("id"));
         order.setOrderDate(resultSet.getTimestamp("order_date").toLocalDateTime());
         order.setDeliveryDate(resultSet.getTimestamp("delivery_date").toLocalDateTime());
-        order.setShipmentDate(resultSet.getTimestamp("shipment_date").toLocalDateTime());
+        order.setReceiveDate(resultSet.getTimestamp("receive_date").toLocalDateTime());
         order.setDeliveryLocation(resultSet.getString("delivery_location"));
         order.setTotalAmount(resultSet.getDouble("total_amount"));
         order.setNote(resultSet.getString("note"));

@@ -1,5 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
+import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -113,5 +114,27 @@ public class OrderDetailDAOImpl implements OrderDetailDAO{
         orderDetail.setTotalAmount(resultSet.getDouble("total_amount"));
         orderDetail.setOrderId(resultSet.getLong("order_id"));
         orderDetail.setProductId(resultSet.getLong("product_id"));
+    }
+
+    @Override
+    public List<OrderDetail> getAllByOrderId(long orderId) {
+        ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+
+        String query = "SELECT * FROM order_detail WHERE order_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, orderId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    setOrderDetail(orderDetail, resultSet);
+                    orderDetails.add(orderDetail);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orderDetails;
     }
 }

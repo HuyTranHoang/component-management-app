@@ -32,4 +32,6 @@ public class OrderDetailService {
     public void deleteOrderDetail(long orderDetailId) {
         orderDetailDAO.delete(orderDetailId);
     }
+
+    public List<OrderDetail> getAllOrderDetailByOrderId(long orderId) { return orderDetailDAO.getAllByOrderId(orderId);}
 }

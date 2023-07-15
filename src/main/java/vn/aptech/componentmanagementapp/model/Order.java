@@ -13,7 +13,7 @@ public class Order {
     private long id;
     private LocalDateTime orderDate;
     private LocalDateTime deliveryDate;
-    private LocalDateTime shipmentDate;
+    private LocalDateTime receiveDate;
     private String deliveryLocation;
     private double totalAmount;
     private String note;
@@ -64,12 +64,12 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public LocalDateTime getShipmentDate() {
-        return shipmentDate;
+    public LocalDateTime getReceiveDate() {
+        return receiveDate;
     }
 
-    public void setShipmentDate(LocalDateTime shipmentDate) {
-        this.shipmentDate = shipmentDate;
+    public void setReceiveDate(LocalDateTime receiveDate) {
+        this.receiveDate = receiveDate;
     }
 
     public String getDeliveryLocation() {
@@ -136,7 +136,7 @@ public class Order {
                 "id=" + id +
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
-                ", shipmentDate=" + shipmentDate +
+                ", shipmentDate=" + receiveDate +
                 ", deliveryLocation='" + deliveryLocation + '\'' +
                 ", totalAmount=" + totalAmount +
                 ", note='" + note + '\'' +

@@ -8,7 +8,6 @@ import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,9 +37,11 @@ import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
+import vn.aptech.componentmanagementapp.util.ProductInfoView;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -101,13 +102,16 @@ public class OrderAddController implements Initializable {
     private Label lbl_successMessage;
 
     @FXML
+    private Label lbl_totalAmount;
+
+    @FXML
     private MFXDatePicker txt_deliveryDate;
 
     @FXML
     private MFXDatePicker txt_orderDate;
 
     @FXML
-    private MFXDatePicker txt_shipmentDate;
+    private MFXDatePicker txt_receiveDate;
 
     @FXML
     private MFXTextField txt_customerId;
@@ -164,7 +168,7 @@ public class OrderAddController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         txt_orderDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
         txt_deliveryDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
-        txt_shipmentDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
+        txt_receiveDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
 
         initEvent();
         initValidator();
@@ -225,7 +229,7 @@ public class OrderAddController implements Initializable {
                 .decorates(lbl_error_deliveryDate);
 
         orderAddValidator.createCheck()
-                .dependsOn("shipmentDate", txt_shipmentDate.valueProperty())
+                .dependsOn("shipmentDate", txt_receiveDate.valueProperty())
                 .dependsOn("deliveryDate", txt_deliveryDate.valueProperty())
                 .dependsOn("orderDate", txt_orderDate.valueProperty())
                 .withMethod(context -> {
@@ -344,7 +348,7 @@ public class OrderAddController implements Initializable {
             Order order = new Order();
             order.setOrderDate(txt_orderDate.getValue().atTime(LocalTime.now()));
             order.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
-            order.setShipmentDate(txt_shipmentDate.getValue().atTime(LocalTime.now()));
+            order.setReceiveDate(txt_receiveDate.getValue().atTime(LocalTime.now()));
             order.setDeliveryLocation(txt_deliveryLocation.getText());
             order.setCustomerId(Long.parseLong(txt_customerId.getText()));
             order.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
@@ -382,15 +386,39 @@ public class OrderAddController implements Initializable {
     }
 
     void editOrder(Order order) {
+         DecimalFormat decimalFormat = new DecimalFormat("#,##0₫");
+
         txt_orderDate.setValue(order.getOrderDate().toLocalDate());
         txt_deliveryDate.setValue(order.getDeliveryDate().toLocalDate());
-        txt_shipmentDate.setValue(order.getShipmentDate().toLocalDate());
+        txt_receiveDate.setValue(order.getReceiveDate().toLocalDate());
 
         txt_customerId.setText(String.valueOf(order.getCustomerId()));
         txt_employeeId.setText(String.valueOf(order.getEmployeeId()));
 
         txt_deliveryLocation.setText(order.getDeliveryLocation());
         txt_note.setText(order.getNote());
+
+
+        clearOrderDetail();
+        orderDetails = orderDetailService.getAllOrderDetailByOrderId(order.getId());
+        double totalAmount = 0;
+
+        for (OrderDetail orderDetail: orderDetails) {
+            ProductInfoView productInfoView = new ProductInfoView();
+            productInfoView.getLblProductName().setText(orderDetail.getName());
+            productInfoView.getLblProductPrice().setText(decimalFormat.format(orderDetail.getPrice()));
+            productInfoView.getLblProductDiscount().setText(String.valueOf(orderDetail.getDiscount()));
+            productInfoView.getLblProductQuantity().setText(String.valueOf(orderDetail.getQuantity()));
+            productInfoView.getLblProductTotalAmount().setText(decimalFormat.format(orderDetail.getTotalAmount()));
+            productInfoView.setVbox_orderDetail(vbox_orderDetail);
+            productInfoView.setOrderDetail(orderDetail);
+            productInfoView.setOrderDetails(orderDetails);
+            
+            totalAmount += orderDetail.getTotalAmount();
+
+            vbox_orderDetail.getChildren().add(productInfoView);
+        }
+        lbl_totalAmount.setText(decimalFormat.format(totalAmount));
     }
 
     @FXML
@@ -398,7 +426,7 @@ public class OrderAddController implements Initializable {
         if (orderAddValidator.validate()) {
             currentOrder.setOrderDate(txt_orderDate.getValue().atTime(LocalTime.now()));
             currentOrder.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
-            currentOrder.setShipmentDate(txt_shipmentDate.getValue().atTime(LocalTime.now()));
+            currentOrder.setReceiveDate(txt_receiveDate.getValue().atTime(LocalTime.now()));
             currentOrder.setDeliveryLocation(txt_deliveryLocation.getText());
             currentOrder.setCustomerId(Long.parseLong(txt_customerId.getText()));
             currentOrder.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
@@ -429,12 +457,14 @@ public class OrderAddController implements Initializable {
     void clearInput() { // Được gọi trước khi vào add view ở Order Add Controller
         txt_orderDate.clear();
         txt_deliveryDate.clear();
-        txt_shipmentDate.clear();
+        txt_receiveDate.clear();
         txt_customerId.clear();
         txt_employeeId.clear();
         txt_deliveryLocation.clear();
         txt_note.clear();
 
+
+        clearOrderDetail();
         clearValidateError();
     }
 
@@ -446,6 +476,7 @@ public class OrderAddController implements Initializable {
         lbl_error_employeeId.setVisible(false);
         lbl_error_deliveryLocation.setVisible(false);
         lbl_error_note.setVisible(false);
+        lbl_error_orderDetailEmpty.setVisible(false);
     }
 
     private void initEvent() {
@@ -529,6 +560,7 @@ public class OrderAddController implements Initializable {
                 controller.setStage(orderDetailStage);
                 controller.setOrderDetails(orderDetails);
                 controller.setVbox_orderDetail(vbox_orderDetail);
+                controller.setLbl_totalAmount(lbl_totalAmount);
 
                 orderDetailStage.setScene(orderDetailScene);
             }
@@ -537,6 +569,13 @@ public class OrderAddController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    void clearOrderDetail() {
+        vbox_orderDetail.getChildren().clear();
+        orderDetails.clear();
+        lbl_totalAmount.setText("");
     }
 
     @FXML

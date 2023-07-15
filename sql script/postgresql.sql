@@ -98,7 +98,7 @@ CREATE TABLE orders
     id                SERIAL PRIMARY KEY,
     order_date        TIMESTAMP        NOT NULL,
     delivery_date     TIMESTAMP        NOT NULL,
-    shipment_date     TIMESTAMP        NOT NULL,
+    receive_date     TIMESTAMP        NOT NULL,
     delivery_location VARCHAR(255)     NOT NULL,
     total_amount      DOUBLE PRECISION NOT NULL,
     note              VARCHAR(255),
@@ -117,8 +117,8 @@ CREATE TABLE order_detail
     quantity     INTEGER          NOT NULL,
     discount     INTEGER          NOT NULL,
     total_amount DOUBLE PRECISION NOT NULL,
-    order_id     BIGINT REFERENCES orders (id),
-    product_id   BIGINT REFERENCES products (id)
+    order_id     BIGINT REFERENCES orders (id) ON DELETE CASCADE,
+    product_id   BIGINT REFERENCES products (id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_order_product
@@ -429,7 +429,7 @@ VALUES ('F0E3', 'Quạt case MSI RGB 12cm Fan (OE3-7G20001-809)', 89000, 14, 12,
         1, 7);
 
 -- Order
-INSERT INTO orders (order_date, delivery_date, shipment_date, delivery_location, total_amount, note, customer_id,
+INSERT INTO orders (order_date, delivery_date, receive_date, delivery_location, total_amount, note, customer_id,
                     employee_id)
 VALUES ('2023/07/13', '2023/07/13', '2023/07/15', 'Bến Lức Long An', 0, '', 1, 1),
        ('2023/06/13', '2023/06/13', '2023/06/15', 'Quận 1 Hồ Chí Minh', 0, '', 2, 1),

@@ -36,7 +36,7 @@
                <TableColumn fx:id="tbc_id" prefWidth="75.0" sortable="false" text="Id" />
                <TableColumn fx:id="tbc_orderDate" prefWidth="125.0" sortable="false" text="Order date" />
                <TableColumn fx:id="tbc_deliveryDate" prefWidth="125.0" sortable="false" text="Delivery date" />
-               <TableColumn fx:id="tbc_shipmentDate" prefWidth="125.0" sortable="false" text="Shipment date" />
+               <TableColumn fx:id="tbc_receiveDate" prefWidth="125.0" sortable="false" text="Shipment date" />
                <TableColumn fx:id="tbc_deliveryLocation" prefWidth="200.0" sortable="false" text="Delivery location" />
                <TableColumn fx:id="tbc_totalAmount" prefWidth="125.0" sortable="false" text="Total amount" />
                <TableColumn fx:id="tbc_note" prefWidth="150.0" sortable="false" text="Note" />

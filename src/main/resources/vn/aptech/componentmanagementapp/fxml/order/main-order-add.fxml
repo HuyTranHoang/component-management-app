@@ -31,17 +31,17 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order date (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0">
+                  <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order date (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0" promptText="Order date">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXDatePicker>
-                  <MFXDatePicker fx:id="txt_deliveryDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery date (*)" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="200.0">
+                  <MFXDatePicker fx:id="txt_deliveryDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery date (*)" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="200.0" promptText="Delivery date">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXDatePicker>
-                  <MFXDatePicker fx:id="txt_shipmentDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Shipment date (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="200.0">
+                  <MFXDatePicker fx:id="txt_receiveDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Receive date (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="200.0" promptText="Receive date">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -154,11 +154,16 @@
                   </Label>
                   <MFXScrollPane layoutX="654.0" layoutY="96.0" prefHeight="591.0" prefWidth="526.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;">
                      <content>
-                        <VBox fx:id="vbox_orderDetail" prefHeight="200.0" prefWidth="510.0">
+                        <VBox prefHeight="200.0" prefWidth="510.0">
                            <children>
                               <HBox alignment="TOP_RIGHT" prefWidth="0.0">
                                  <children>
                                     <MFXButton contentDisplay="RIGHT" onAction="#test" text="TEST">
+                                       <graphic>
+                                          <FontIcon iconLiteral="fas-plus-circle" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton contentDisplay="RIGHT" onAction="#clearOrderDetail" text="Clear">
                                        <graphic>
                                           <FontIcon iconLiteral="fas-plus-circle" />
                                        </graphic>
@@ -170,6 +175,7 @@
                                     </MFXButton>
                                  </children>
                               </HBox>
+                              <VBox fx:id="vbox_orderDetail" prefHeight="200.0" prefWidth="100.0" />
                            </children>
                         </VBox>
                      </content>
@@ -187,6 +193,20 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
+                  <HBox layoutX="654.0" layoutY="696.0" prefWidth="526.0" spacing="15.0">
+                     <children>
+                        <Label text="Total amount:" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_totalAmount" textFill="WHITE">
+                           <font>
+                              <Font name="Inter Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
          </children>

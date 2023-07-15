@@ -24,6 +24,7 @@ import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
+import vn.aptech.componentmanagementapp.util.ProductInfoView;
 
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -88,9 +89,14 @@ public class OrderDetailController implements Initializable {
     private final DecimalFormat decimalFormat = new DecimalFormat("#,##0₫");
 
     private Stage stage;
+    private Label lbl_totalAmount;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setLbl_totalAmount(Label lbl_totalAmount) {
+        this.lbl_totalAmount = lbl_totalAmount;
     }
 
     @FXML
@@ -238,6 +244,14 @@ public class OrderDetailController implements Initializable {
 
             orderDetails.add(orderDetail);
 
+            double totalOrderAmount = 0;
+
+            for (OrderDetail od: orderDetails) {
+                totalOrderAmount = totalOrderAmount + od.getTotalAmount();
+            }
+
+            lbl_totalAmount.setText(decimalFormat.format(totalOrderAmount));
+
             // Show success message
 //            lbl_successMessage.setText("Add new order detail successfully!!");
             lbl_successMessage.setVisible(true);
@@ -256,100 +270,12 @@ public class OrderDetailController implements Initializable {
             productInfoView.getLblProductDiscount().setText(String.valueOf(discount));
             productInfoView.getLblProductQuantity().setText(String.valueOf(quantity));
             productInfoView.getLblProductTotalAmount().setText(decimalFormat.format(totalAmount));
+            productInfoView.setVbox_orderDetail(vbox_orderDetail);
+            productInfoView.setOrderDetail(orderDetail);
+            productInfoView.setOrderDetails(orderDetails);
 
             vbox_orderDetail.getChildren().add(productInfoView);
         }
     }
 
-    public static class ProductInfoView extends VBox {
-        private final Label lblProductName;
-        private final Label lblProductPrice;
-        private final Label lblProductDiscount;
-        private final Label lblProductTotalAmount;
-        private final Label lblProductQuantity;
-
-        public Label getLblProductName() {
-            return lblProductName;
-        }
-
-        public Label getLblProductPrice() {
-            return lblProductPrice;
-        }
-
-        public Label getLblProductDiscount() {
-            return lblProductDiscount;
-        }
-
-        public Label getLblProductTotalAmount() {
-            return lblProductTotalAmount;
-        }
-
-        public Label getLblProductQuantity() {
-            return lblProductQuantity;
-        }
-
-        public ProductInfoView() {
-            setSpacing(15);
-            setPadding(new Insets(10));
-            setStyle("-fx-border-width: 0 0 2px 0; -fx-border-color: black");
-
-            lblProductName = new Label();
-            lblProductName.setWrapText(true);
-            lblProductPrice = new Label();
-            lblProductDiscount = new Label();
-            lblProductQuantity = new Label();
-            lblProductTotalAmount = new Label();
-
-            GridPane gridPane = new GridPane();
-            gridPane.setHgap(10);
-            gridPane.setVgap(10);
-
-            // Set column constraints
-            ColumnConstraints column1 = new ColumnConstraints();
-            column1.setPercentWidth(100);
-            ColumnConstraints column2 = new ColumnConstraints();
-            column2.setPercentWidth(50);
-            ColumnConstraints column3 = new ColumnConstraints();
-            column3.setPercentWidth(50);
-            gridPane.getColumnConstraints().addAll(column1, column2, column3);
-
-            gridPane.add(createProductName("Product name:", lblProductName), 0, 0, 2, 1);
-            gridPane.add(createLabelHBox("Price:", lblProductPrice), 0, 1);
-            gridPane.add(createLabelHBox("Quantity:", lblProductQuantity), 1, 1);
-            gridPane.add(createLabelHBox("Discount (%):", lblProductDiscount), 0, 2);
-            gridPane.add(createLabelHBox("Total amount:", lblProductTotalAmount), 1, 2, 2, 1);
-
-            getChildren().add(gridPane);
-        }
-
-        private VBox createProductName(String labelText, Label label) {
-            Label lblLabel = new Label(labelText);
-            lblLabel.setFont(Font.font("Inter Bold", 15));
-            lblLabel.setTextFill(javafx.scene.paint.Color.valueOf("#4a55a2"));
-            lblLabel.setWrapText(true);
-
-            Text text = new Text();
-            text.setFont(Font.font("Inter Regular", 13));
-            text.setWrappingWidth(450);
-            text.textProperty().bind(label.textProperty());
-
-            VBox vbox = new VBox(5);
-            vbox.getChildren().addAll(lblLabel, text);
-            return vbox;
-        }
-
-        private VBox createLabelHBox(String labelText, Label label) {
-            Label lblLabel = new Label(labelText);
-            lblLabel.setFont(Font.font("Inter Bold", 15));
-            lblLabel.setTextFill(javafx.scene.paint.Color.valueOf("#4a55a2"));
-            lblLabel.setWrapText(true);
-
-            label.setFont(Font.font("Inter Regular", 13));
-            label.setWrapText(true);
-
-            VBox vbox = new VBox(5);
-            vbox.getChildren().addAll(lblLabel, label);
-            return vbox;
-        }
-    }
 }

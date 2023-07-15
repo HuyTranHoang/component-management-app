@@ -5,7 +5,6 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
@@ -61,7 +59,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     @FXML
     private TableColumn<Order, LocalDateTime> tbc_deliveryDate;
     @FXML
-    private TableColumn<Order, LocalDateTime> tbc_shipmentDate;
+    private TableColumn<Order, LocalDateTime> tbc_receiveDate;
     @FXML
     private TableColumn<Order, String> tbc_deliveryLocation;
     @FXML
@@ -144,7 +142,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbc_orderDate.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         tbc_deliveryDate.setCellValueFactory(new PropertyValueFactory<>("deliveryDate"));
-        tbc_shipmentDate.setCellValueFactory(new PropertyValueFactory<>("shipmentDate"));
+        tbc_receiveDate.setCellValueFactory(new PropertyValueFactory<>("receiveDate"));
         tbc_deliveryLocation.setCellValueFactory(new PropertyValueFactory<>("deliveryLocation"));
         tbc_totalAmount.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
@@ -173,7 +171,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         tbc_orderDate.setCellFactory(formatCellFactory(formatter));
         tbc_deliveryDate.setCellFactory(formatCellFactory(formatter));
-        tbc_shipmentDate.setCellFactory(formatCellFactory(formatter));
+        tbc_receiveDate.setCellFactory(formatCellFactory(formatter));
 
         initCheckBox();
     }
@@ -254,7 +252,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             }
         }
 
-//        orderAddController.clearInput();
+        orderAddController.clearInput();
         orderAddController.addMode();
 
         anchor_main_rightPanel.getChildren().clear();
@@ -288,7 +286,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             alert.setContentText("Please select order before edit!");
             alert.show();
         } else {
-//            orderAddController.clearInput();
+            orderAddController.clearInput();
             orderAddController.updateMode();
             orderAddController.editOrder(selectedOrder);
             orderAddController.setCurrentOrder(selectedOrder);
