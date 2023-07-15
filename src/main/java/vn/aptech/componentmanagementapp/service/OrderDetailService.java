@@ -21,12 +21,12 @@ public class OrderDetailService {
         return orderDetailDAO.getById(orderDetailId);
     }
 
-    public void addOrderDetail(OrderDetail product) {
-        orderDetailDAO.add(product);
+    public void addOrderDetail(OrderDetail orderDetail) {
+        orderDetailDAO.add(orderDetail);
     }
 
-    public void updateOrderDetail(OrderDetail product) {
-        orderDetailDAO.update(product);
+    public void updateOrderDetail(OrderDetail orderDetail) {
+        orderDetailDAO.update(orderDetail);
     }
 
     public void deleteOrderDetail(long orderDetailId) {

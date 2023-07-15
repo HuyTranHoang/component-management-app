@@ -29,7 +29,7 @@
       </MFXButton>
       <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
+            <AnchorPane layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
                   <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order date (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0">
                      <font>
@@ -56,7 +56,7 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <Label fx:id="lbl_successMessage" layoutX="58.0" layoutY="37.0" text="Add new order succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="58.0" layoutY="639.0" text="Add new order succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>
@@ -88,7 +88,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <HBox fx:id="hbox_addButtonGroup" layoutX="248.0" layoutY="635.0" spacing="15.0">
+                  <HBox fx:id="hbox_addButtonGroup" layoutX="248.0" layoutY="685.0" spacing="15.0">
                      <children>
                         <MFXButton id="button-custom-clear" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                            <cursor>
@@ -102,7 +102,7 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <HBox fx:id="hbox_updateButtonGroup" layoutX="248.0" layoutY="635.0" spacing="15.0" visible="false">
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="248.0" layoutY="685.0" spacing="15.0" visible="false">
                      <children>
                         <MFXButton id="button-custom-clear" onAction="#listOrderButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
                            <cursor>
@@ -142,12 +142,12 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <Label fx:id="lbl_error_customerId" layoutX="353.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="Customer name" textFill="WHITE" visible="false">
+                  <Label fx:id="lbl_error_customerId" layoutX="353.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_error_employeeId" layoutX="353.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="Employee name" textFill="WHITE" visible="false">
+                  <Label fx:id="lbl_error_employeeId" layoutX="353.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -178,6 +178,14 @@
                      <font>
                         <Font name="Inter Bold" size="26.0" />
                      </font>
+                  </Label>
+                  <Label fx:id="lbl_error_orderDetailEmpty" layoutX="58.0" layoutY="642.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
                   </Label>
                </children>
             </AnchorPane>

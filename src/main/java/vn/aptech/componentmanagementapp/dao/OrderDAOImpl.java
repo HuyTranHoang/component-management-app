@@ -63,6 +63,28 @@ public class OrderDAOImpl implements OrderDAO{
         }
     }
 
+    public long addReturnId(Order order) {
+        String query = "INSERT INTO orders(order_date, delivery_date, shipment_date, delivery_location, " +
+                "total_amount, note, customer_id, employee_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statementInsertUpdate(order, statement);
+            statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                } else {
+                    throw new SQLException("Adding customer failed, no ID obtained.");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     @Override
     public void update(Order order) {
         String query = "UPDATE orders SET order_date = ?, delivery_date = ?, shipment_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +

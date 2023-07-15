@@ -85,7 +85,7 @@ public class OrderDetailController implements Initializable {
     Validator orderDetailsValidator = new Validator();
 
     //  Formatter
-    private final DecimalFormat decimalFormat = new DecimalFormat("₫#,##0");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#,##0₫");
 
     private Stage stage;
 
@@ -195,21 +195,14 @@ public class OrderDetailController implements Initializable {
 
             if (product != null) {
                 double price = product.getPrice();
-                double discount = 0;
-                int quantity = 1;
+                int quantity = Integer.parseInt(txt_quantity.getText());
+                double discount = Double.parseDouble(txt_discount.getText()) / 100 * price;
+                double totalDiscount = Double.parseDouble(txt_discount.getText()) / 100 * price * quantity;
+                double totalAmount = (price - discount) * quantity;
 
                 lbl_productName.setText(product.getName());
-                lbl_productName.setTextFill(Paint.valueOf("#4A55A2"));
-
                 lbl_productPrice.setText(decimalFormat.format(price));
-
-                discount = Double.parseDouble(txt_discount.getText()) / 100 * price;
-
-                lbl_productPrice_discount.setText(decimalFormat.format(discount));
-
-                quantity = Integer.parseInt(txt_quantity.getText());
-
-                double totalAmount = (price - discount) * quantity;
+                lbl_productPrice_discount.setText("- " + decimalFormat.format(totalDiscount));
                 lbl_productTotalAmount.setText(decimalFormat.format(totalAmount));
             } else {
                 lbl_productName.setText("This id doesn't belong to any product");

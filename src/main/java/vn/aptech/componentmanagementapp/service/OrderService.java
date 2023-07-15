@@ -25,6 +25,8 @@ public class OrderService {
         orderDAO.add(order);
     }
 
+    public long addOrderReturnId(Order order) {return orderDAO.addReturnId(order);}
+
     public void updateOrder(Order order) {
         orderDAO.update(order);
     }

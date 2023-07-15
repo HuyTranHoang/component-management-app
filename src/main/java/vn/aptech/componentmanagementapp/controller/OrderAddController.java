@@ -7,7 +7,8 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -36,15 +36,14 @@ import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
+import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class OrderAddController implements Initializable {
 
@@ -96,6 +95,9 @@ public class OrderAddController implements Initializable {
     private Label lbl_error_shipmentDate;
 
     @FXML
+    private Label lbl_error_orderDetailEmpty;
+
+    @FXML
     private Label lbl_successMessage;
 
     @FXML
@@ -126,12 +128,20 @@ public class OrderAddController implements Initializable {
 
     // Service
     private final OrderService orderService = new OrderService();
+    private final OrderDetailService orderDetailService = new OrderDetailService();
     private final CustomerService customerService = new CustomerService();
     private final EmployeeService employeeService = new EmployeeService();
 
     // Cache order details
     private Scene orderDetailScene;
     private Stage orderDetailStage;
+
+    //    Debound for text field
+    private Timer debounceTimerCustomer;
+    private Timer debounceTimerEmployee;
+    private boolean isInputPendingCustomer = false;
+    private boolean isInputPendingEmployee = false;
+    private final long DEBOUNCE_DELAY = 500; // Delay in milliseconds
 
     @FXML
     private VBox vbox_orderDetail;
@@ -268,6 +278,14 @@ public class OrderAddController implements Initializable {
                             context.error("Customer id don't belong any customer");
                     }
                 });
+
+        orderAddValidator.createCheck()
+                .withMethod(context -> {
+                    if (orderDetails.isEmpty())
+                        context.error("Order details can't be empty");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_orderDetailEmpty);
     }
 
     private Decoration labelDecorator(ValidationMessage message) {
@@ -332,7 +350,11 @@ public class OrderAddController implements Initializable {
             order.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
             order.setNote(txt_note.getText());
 
-            orderService.addOrder(order);
+            long orderId = orderService.addOrderReturnId(order);
+            orderDetails.forEach(orderDetail -> {
+                orderDetail.setOrderId(orderId);
+                orderDetailService.addOrderDetail(orderDetail);
+            });
 
             // Pass the newly added product to the callback
             if (orderAddCallback != null) {
@@ -428,33 +450,68 @@ public class OrderAddController implements Initializable {
 
     private void initEvent() {
         txt_customerId.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (customerIdValidator.validate()) {
-                lbl_error_customerId.setVisible(true);
-                Customer customer = customerService.getCustomerById(Long.parseLong(newValue));
-                if (customer != null) {
-                    lbl_error_customerId.setText("Customer name: " + customer.getName());
-                    lbl_error_customerId.setTextFill(Paint.valueOf("#70da6a"));
-                } else {
-                    lbl_error_customerId.setText("This id don't belong to any customer");
-                    lbl_error_customerId.setTextFill(Paint.valueOf("#e57c23"));
+            if (debounceTimerCustomer != null) {
+                lbl_error_customerId.setText("...");
+                debounceTimerCustomer.cancel();
+            }
+            isInputPendingCustomer = true;
+            debounceTimerCustomer = new Timer();
+            debounceTimerCustomer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (isInputPendingCustomer) {
+                        Platform.runLater(() -> {
+                            if (customerIdValidator.validate()) {
+                                lbl_error_customerId.setVisible(true);
+                                Customer customer = customerService.getCustomerById(Long.parseLong(newValue));
+                                if (customer != null) {
+                                    lbl_error_customerId.setText("Customer name: " + customer.getName());
+                                    lbl_error_customerId.setTextFill(Paint.valueOf("#70da6a"));
+                                } else {
+                                    lbl_error_customerId.setText("This id don't belong to any customer");
+                                    lbl_error_customerId.setTextFill(Paint.valueOf("#e57c23"));
+                                }
+                            } else if (newValue.isEmpty())
+                                lbl_error_customerId.setVisible(false);
+                            isInputPendingCustomer = false;
+                        });
+                    }
                 }
-            } else if (newValue.isEmpty())
-                lbl_error_customerId.setVisible(false);
+            }, DEBOUNCE_DELAY);
         });
 
         txt_employeeId.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (employeeIdValidator.validate()) {
-                lbl_error_employeeId.setVisible(true);
-                Employee employee = employeeService.getEmployeeById(Long.parseLong(newValue));
-                if (employee != null) {
-                    lbl_error_employeeId.setText("Employee name: " + employee.getName());
-                    lbl_error_employeeId.setTextFill(Paint.valueOf("#70da6a"));
-                } else {
-                    lbl_error_employeeId.setText("This id don't belong to any employee");
-                    lbl_error_employeeId.setTextFill(Paint.valueOf("#e57c23"));
+
+            if (debounceTimerEmployee != null) {
+                lbl_error_employeeId.setText("...");
+                debounceTimerEmployee.cancel();
+            }
+            isInputPendingEmployee = true;
+            debounceTimerEmployee = new Timer();
+
+            debounceTimerEmployee.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (isInputPendingEmployee) {
+                        Platform.runLater(() -> {
+                            if (employeeIdValidator.validate()) {
+                                lbl_error_employeeId.setVisible(true);
+                                Employee employee = employeeService.getEmployeeById(Long.parseLong(newValue));
+                                if (employee != null) {
+                                    lbl_error_employeeId.setText("Employee name: " + employee.getName());
+                                    lbl_error_employeeId.setTextFill(Paint.valueOf("#70da6a"));
+                                } else {
+                                    lbl_error_employeeId.setText("This id don't belong to any employee");
+                                    lbl_error_employeeId.setTextFill(Paint.valueOf("#e57c23"));
+                                }
+                            } else if (newValue.isEmpty())
+                                lbl_error_employeeId.setVisible(false);
+                            isInputPendingEmployee = false;
+                        });
+                    }
                 }
-            } else if (newValue.isEmpty())
-                lbl_error_employeeId.setVisible(false);
+            }, DEBOUNCE_DELAY);
+
         });
     }
 
@@ -466,6 +523,8 @@ public class OrderAddController implements Initializable {
                 orderDetailScene = new Scene(fxmlLoader.load());
                 orderDetailStage = new Stage();
                 orderDetailStage.setTitle("Order Details");
+                orderDetailStage.initModality(Modality.APPLICATION_MODAL);
+                orderDetailStage.setResizable(false);
                 OrderDetailController controller = fxmlLoader.getController();
                 controller.setStage(orderDetailStage);
                 controller.setOrderDetails(orderDetails);
