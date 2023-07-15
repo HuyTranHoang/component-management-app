@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.OrderAddController">
+   <children>
+      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listOrderButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ORDER LIST" AnchorPane.topAnchor="15.0">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
+               <children>
+                  <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order date (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0" promptText="Order date">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXDatePicker fx:id="txt_deliveryDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery date (*)" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="200.0" promptText="Delivery date">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXDatePicker fx:id="txt_receiveDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Receive date (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="200.0" promptText="Receive date">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXTextField id="textfield-padding" fx:id="txt_deliveryLocation" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery location (*)" layoutX="58.0" layoutY="445.0" prefHeight="48.0" prefWidth="549.0" promptText="Delivery location">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="58.0" layoutY="550.0" prefHeight="48.0" prefWidth="549.0" promptText="Note">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label fx:id="lbl_successMessage" layoutX="58.0" layoutY="639.0" text="Add new order succesfully!!" textFill="#70da6a" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_orderDate" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_deliveryLocation" layoutX="58.0" layoutY="505.0" prefHeight="16.0" prefWidth="501.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_note" layoutX="68.0" layoutY="612.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <HBox fx:id="hbox_addButtonGroup" layoutX="248.0" layoutY="685.0" spacing="15.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="248.0" layoutY="685.0" spacing="15.0" visible="false">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#listOrderButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lbl_error_deliveryDate" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_shipmentDate" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Customer Id (*)" layoutX="353.0" layoutY="225.0" prefHeight="48.0" prefWidth="250.0" promptText="Customer Id">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField id="textfield-padding" fx:id="txt_employeeId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Employee Id (*)" layoutX="353.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee Id">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label fx:id="lbl_error_customerId" layoutX="353.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_error_employeeId" layoutX="353.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <MFXScrollPane layoutX="654.0" layoutY="96.0" prefHeight="591.0" prefWidth="526.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="510.0">
+                           <children>
+                              <HBox alignment="TOP_RIGHT" prefWidth="0.0">
+                                 <children>
+                                    <MFXButton contentDisplay="RIGHT" onAction="#test" text="TEST">
+                                       <graphic>
+                                          <FontIcon iconLiteral="fas-plus-circle" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton contentDisplay="RIGHT" onAction="#clearOrderDetail" text="Clear">
+                                       <graphic>
+                                          <FontIcon iconLiteral="fas-plus-circle" />
+                                       </graphic>
+                                    </MFXButton>
+                                    <MFXButton contentDisplay="RIGHT" onAction="#addOrderDetailsOnClick" text="Add">
+                                       <graphic>
+                                          <FontIcon iconLiteral="fas-plus-circle" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </children>
+                              </HBox>
+                              <VBox fx:id="vbox_orderDetail" prefHeight="200.0" prefWidth="100.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </MFXScrollPane>
+                  <Label layoutX="814.0" layoutY="32.0" text="ORDER DETAILS" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_error_orderDetailEmpty" layoutX="58.0" layoutY="642.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <HBox layoutX="654.0" layoutY="696.0" prefWidth="526.0" spacing="15.0">
+                     <children>
+                        <Label text="Total amount:" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_totalAmount" textFill="WHITE">
+                           <font>
+                              <Font name="Inter Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Label layoutX="28.0" layoutY="15.0" text="ADD NEW ORDER" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="26.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

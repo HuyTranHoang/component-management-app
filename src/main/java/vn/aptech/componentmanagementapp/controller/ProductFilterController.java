@@ -121,7 +121,7 @@ public class ProductFilterController implements Initializable {
                                 TableColumn<Product, Double> tbc_price,
                                 TableColumn<Product, Integer> tbc_quantity, TableColumn<Product, Integer> tbc_monthOfWarranty,
                                 TableColumn<Product, String> tbc_note,
-                                TableColumn<Product, String> tbc_suppliderId, TableColumn<Product, String> tbc_categoryId) {
+                                TableColumn<Product, String> tbc_supplierId, TableColumn<Product, String> tbc_categoryId) {
         this.tableView = tableView;
         this.tbc_id = tbc_id;
         this.tbc_productCode = tbc_productCode;
@@ -130,7 +130,7 @@ public class ProductFilterController implements Initializable {
         this.tbc_quantity = tbc_quantity;
         this.tbc_monthOfWarranty = tbc_monthOfWarranty;
         this.tbc_note = tbc_note;
-        this.tbc_suppliderId = tbc_suppliderId;
+        this.tbc_suppliderId = tbc_supplierId;
         this.tbc_categoryId = tbc_categoryId;
     }
 

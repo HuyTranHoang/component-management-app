@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.dao;
 
-import java.sql.Connection;
 import java.util.List;
 
 public interface BaseDAO<T> {

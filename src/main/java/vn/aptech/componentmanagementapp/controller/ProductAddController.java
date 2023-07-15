@@ -6,7 +6,6 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -16,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -35,11 +33,8 @@ import vn.aptech.componentmanagementapp.service.SupplierService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.ParsePosition;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.UnaryOperator;
 
 public class ProductAddController implements Initializable {
 
@@ -105,7 +100,6 @@ public class ProductAddController implements Initializable {
     private Product currentProduct;
     private TableView<Product> tableView; // Truyền từ Product controller vào
 
-
     //  Service
     private final ProductService productService = new ProductService();
     private final CategoryService categoryService = new CategoryService();
@@ -129,24 +123,24 @@ public class ProductAddController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CompletableFuture.supplyAsync(categoryService::getAllCategory)
-                .thenAcceptAsync(categoryList -> {
-                    categories = FXCollections.observableArrayList(categoryList);
-                })
-                .thenComposeAsync(__ -> CompletableFuture.supplyAsync(supplierService::getAllSupplier))
-                .thenAcceptAsync(supplierList -> {
-                    suppliers = FXCollections.observableArrayList(supplierList);
-                    Platform.runLater(() -> {
-                        cbb_category.setItems(categories);
-                        cbb_category.getSelectionModel().selectFirst();
-                        cbb_supplier.setItems(suppliers);
-                        cbb_supplier.getSelectionModel().selectFirst();
+        try {
+            List<Category> categoryList = categoryService.getAllCategory();
+            categories = FXCollections.observableArrayList(categoryList);
 
-                        initValidator();
-                        initEnterKeyPressing();
-                    });
-                })
-                .join();
+            List<Supplier> supplierList = supplierService.getAllSupplier();
+            suppliers = FXCollections.observableArrayList(supplierList);
+
+            cbb_category.setItems(categories);
+            cbb_category.getSelectionModel().selectFirst();
+            cbb_supplier.setItems(suppliers);
+            cbb_supplier.getSelectionModel().selectFirst();
+
+            initValidator();
+            initEnterKeyPressing();
+        } catch (Exception e) {
+            // Handle any exceptions that occur during data fetching
+            e.printStackTrace();
+        }
     }
 
 
@@ -159,6 +153,9 @@ public class ProductAddController implements Initializable {
                         context.error("Product code can't be empty");
                     else if (!productCode.matches("([A-Za-z0-9])+"))
                         context.error("Product code can't have whitespace");
+                    else if (productCode.length() > 255) {
+                        context.error("Product code length exceeds the maximum limit of 255 characters");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_productCode);
@@ -169,6 +166,9 @@ public class ProductAddController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
+                    else if (name.length() > 255) {
+                        context.error("Name length exceeds the maximum limit of 255 characters");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_name);
@@ -206,20 +206,22 @@ public class ProductAddController implements Initializable {
                     if (monthOfWarranty.isEmpty())
                         context.error("Month of warranty can't be empty");
                     else if (!monthOfWarranty.matches("\\d+"))
-                        context.error("Stock quantity can only contain number");
+                        context.error("Month of warranty can only contain numbers");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_monthOfWarranty);
 
-//        productValidator.createCheck()
-//                .dependsOn("note", txt_note.textProperty())
-//                .withMethod(context -> {
-//                    String note = context.get("note");
-//                    if (note.isEmpty())
-//                        context.error("Note can't be empty");
-//                })
-//                .decoratingWith(this::labelDecorator)
-//                .decorates(lbl_error_note);
+        productValidator.createCheck()
+                .dependsOn("note", txt_note.textProperty())
+                .withMethod(context -> {
+                    String note = context.get("note");
+                    if (note.length() > 255) {
+                        context.error("Note length exceeds the maximum limit of 255 characters");
+                    }
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_note);
+
     }
 
     private Decoration labelDecorator(ValidationMessage message) {
@@ -302,15 +304,11 @@ public class ProductAddController implements Initializable {
         txt_monthOfWarranty.setText(String.valueOf(product.getMonthOfWarranty()));
         txt_note.setText(product.getNote());
 
-        suppliers.stream()
-                .filter(supplier -> supplier.getId() == product.getSupplierId())
-                .findFirst()
-                .ifPresent(selectedSupplier -> cbb_supplier.setValue(selectedSupplier));
+        Category category = product.getCategory();
+        cbb_category.getSelectionModel().selectItem(category);
 
-        categories.stream()
-                .filter(category -> category.getId() == product.getCategoryId())
-                .findFirst()
-                .ifPresent(selectedCategory -> cbb_category.setValue(selectedCategory));
+        Supplier supplier = product.getSupplier();
+        cbb_supplier.getSelectionModel().selectItem(supplier);
     }
 
     @FXML

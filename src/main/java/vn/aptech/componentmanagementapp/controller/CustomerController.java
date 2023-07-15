@@ -2,38 +2,38 @@ package vn.aptech.componentmanagementapp.controller;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
-
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
-
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.service.CustomerService;
+import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
 //    List
     private ObservableList<Customer> customers;
-    private ObservableList<Customer> pageItems;
 
     //  Pagination
     @FXML
@@ -46,29 +46,23 @@ public class CustomerController implements Initializable {
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
-    private static final int ITEMS_PER_PAGE = 26;
-    private int currentPageIndex = 0;
+    private PaginationHelper<Customer> paginationHelper;
 
     // Customer Panel
     @FXML
     private TableView<Customer> tableView;
     @FXML
-    private TableColumn<Customer, String> tbc_address;
-
-    @FXML
-    private TableColumn<Customer, String> tbc_email;
-
+    private TableColumn<Customer, Boolean> tbc_checkbox;
     @FXML
     private TableColumn<Customer, Long> tbc_id;
-
     @FXML
     private TableColumn<Customer, String> tbc_name;
-
+    @FXML
+    private TableColumn<Customer, String> tbc_address;
     @FXML
     private TableColumn<Customer, String> tbc_phone;
-
     @FXML
-    private MFXTextField txt_address;
+    private TableColumn<Customer, String> tbc_email;
 
     @FXML
     private MFXTextField txt_email;
@@ -77,22 +71,13 @@ public class CustomerController implements Initializable {
     private MFXTextField txt_name;
 
     @FXML
+    private MFXTextField txt_address;
+
+    @FXML
     private MFXTextField txt_phone;
 
     @FXML
-    private MFXTextField txt_product_search;
-
-    @FXML
-    private MFXButton btn_back;
-
-    @FXML
-    private MFXButton btn_clear;
-
-    @FXML
-    private MFXButton btn_store;
-
-    @FXML
-    private MFXButton btn_update;
+    private MFXTextField txt_customer_search;
 
     @FXML
     private HBox hbox_addGroup;
@@ -118,23 +103,36 @@ public class CustomerController implements Initializable {
 
     @FXML
     private Label lbl_successMessage;
-
     Validator customerValidator = new Validator();
-    Validator validateUniqueUpdate = new Validator();
-    Validator validateUniqueAdd = new Validator();
+    private boolean isUpdate = false;
+
+    private final ArrayList<Long> selectedCustomerIds = new ArrayList<>();
+    @FXML
+    private HBox hbox_addEditDelete;
+    @FXML
+    private HBox hbox_confirmDelete;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         customers = FXCollections.observableArrayList(customerService.getAllCustomer());
         initTableView();
-        showPage(currentPageIndex);
-        updatePageButtons();
+
+        paginationHelper = new PaginationHelper<>();
+        paginationHelper.setItems(customers);
+        paginationHelper.setTableView(tableView);
+
+        paginationHelper.setPageButtonContainer(pageButtonContainer);
+        paginationHelper.setFirstPageButton(firstPageButton);
+        paginationHelper.setPreviousButton(previousButton);
+        paginationHelper.setNextButton(nextButton);
+        paginationHelper.setLastPageButton(lastPageButton);
+
+        paginationHelper.showFirstPage();
 
         //Validate
         initValidator();
-        initUpdateUniqueValidate();
-        initAddUniqueValidate();
 
+        initEnterKeyPressing();
 
         // Double click thì edit
         tableView.setOnMouseClicked(event -> {
@@ -151,10 +149,54 @@ public class CustomerController implements Initializable {
         tbc_address.setCellValueFactory(new PropertyValueFactory<>("address"));
         tbc_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        initCheckBox();
+    }
+
+    private void initCheckBox() {
+        tbc_checkbox.setCellValueFactory(new PropertyValueFactory<>("selected"));
+        tbc_checkbox.setCellFactory(column -> new CheckBoxTableCell<Customer, Boolean>() {
+            private final CheckBox checkBox = new CheckBox();
+
+            {
+                checkBox.setOnAction(event -> {
+                    Customer customer = getTableRow().getItem();
+                    boolean selected = checkBox.isSelected();
+                    customer.setSelected(selected);
+                    if (selected) {
+                        selectedCustomerIds.add(customer.getId());
+                    } else {
+                        selectedCustomerIds.remove(customer.getId());
+                    }
+                    updateRowStyle();
+                });
+            }
+
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    checkBox.setSelected(item != null && item);
+                    setGraphic(checkBox);
+                    updateRowStyle();
+                }
+            }
+
+            private void updateRowStyle() {
+                boolean selected = checkBox.isSelected();
+                TableRow<Customer> currentRow = getTableRow();
+                if (currentRow != null) {
+                    currentRow.setStyle(selected ? "-fx-background-color: #ffb8b4;" : "");
+                }
+            }
+        });
+
     }
     @FXML
     void storeButtonOnClick(){
-        if(customerValidator.validate() && validateUniqueAdd.validate()){
+        if(customerValidator.validate()){
             Customer customer = new Customer();
             customer.setName(txt_name.getText());
             customer.setAddress(txt_address.getText());
@@ -172,12 +214,11 @@ public class CustomerController implements Initializable {
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
             showLastPage();
-            updatePageButtons();
         }
     }
     @FXML
     void updateButtonOnClick(){
-        if(customerValidator.validate() && validateUniqueUpdate.validate()){
+        if(customerValidator.validate()){
             Customer customer = tableView.getSelectionModel().getSelectedItem();
             customer.setName(txt_name.getText());
             customer.setAddress(txt_address.getText());
@@ -194,17 +235,15 @@ public class CustomerController implements Initializable {
             timeline.play();
 
             int index = tableView.getItems().indexOf(customer);
-            System.out.println(index);
             if (index >= 0) {
                 tableView.getItems().set(index, customer);
             }
 
             showLastPage();
-            updatePageButtons();
         }
     }
     @FXML
-    void deleteButtonOnClick() {
+    void deleteContextOnClick() {
         Customer selectedCustomer = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedCustomer == null) {
@@ -218,13 +257,15 @@ public class CustomerController implements Initializable {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
-            confirmation.setContentText("Are you sure you want to delete selected customer?");
+            confirmation.setContentText("Are you sure you want to delete selected customer? " +
+                    "If you delete, all orders belong to that customers also get deleted.");
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-                customerService.deleteCustomer((int) selectedCustomer.getId());
+                customerService.deleteCustomer(selectedCustomer.getId());
                 customers.remove(selectedCustomer);
                 tableView.getItems().remove(selectedCustomer); // Remove the product from the TableView
-                if (pageItems.isEmpty())
+                if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+                addButtonOnClick();
             }
         }
     }
@@ -247,20 +288,31 @@ public class CustomerController implements Initializable {
         }
     }
     @FXML
-    void updateMode() {
-        hbox_updateGroup.setVisible(true);
-        hbox_addGroup.setVisible(false);
-        lbl_text.setText("UPDATE CUSTOMER");
-        clearButtonOnClick();
-
-    }
-    @FXML
-    void addMode() {
+    void addButtonOnClick() {
+        isUpdate = false;
         hbox_updateGroup.setVisible(false);
         hbox_addGroup.setVisible(true);
         lbl_text.setText("ADD NEW CUSTOMER");
         clearButtonOnClick();
     }
+
+    @FXML
+    void deleteButtonOnClick() {
+        hbox_addEditDelete.setVisible(false);
+        hbox_confirmDelete.setVisible(true);
+
+        tbc_checkbox.setVisible(true);
+    }
+
+    @FXML
+    void updateMode() {
+        isUpdate = true;
+        hbox_updateGroup.setVisible(true);
+        hbox_addGroup.setVisible(false);
+        lbl_text.setText("UPDATE CUSTOMER");
+        clearButtonOnClick();
+    }
+
     @FXML
     void clearButtonOnClick(){
         txt_name.setText("");
@@ -278,10 +330,14 @@ public class CustomerController implements Initializable {
                 .dependsOn("name", txt_name.textProperty())
                 .withMethod(context -> {
                     String customerName = context.get("name");
-                    if (customerName.isEmpty())
+                    if (customerName.isEmpty()) {
                         context.error("Name can't be empty");
-                    else if(!customerName.matches("\\D+"))
-                        context.error("Name can't have number");
+                    } else if (!customerName.matches("\\D+")) {
+                        context.error("Name can't have numbers");
+                    } else if (customerName.length() > 255) {
+                        context.error("Name length exceeds the maximum limit of 255 characters");
+                    }
+
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerName);
@@ -290,98 +346,71 @@ public class CustomerController implements Initializable {
                 .dependsOn("address", txt_address.textProperty())
                 .withMethod(context -> {
                     String customerAddress = context.get("address");
-                    if (customerAddress.isEmpty())
+                    if (customerAddress.isEmpty()) {
                         context.error("Address can't be empty");
+                    } else if (customerAddress.length() > 255) {
+                        context.error("Address length exceeds the maximum limit of 255 characters");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerAddress);
 
-    }
-    private void initUpdateUniqueValidate(){
-        validateUniqueUpdate.createCheck()
+        customerValidator.createCheck()
                 .dependsOn("email", txt_email.textProperty())
                 .withMethod(context -> {
                     String customerEmail = context.get("email");
-                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
+                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$")) {
                         context.error("Please enter a valid email address");
-                    else if (!isEmailUniqueUpdate(customers, customerEmail)) {
-                        context.error("This email is already in database");
+                    } else if (customerEmail.length() > 255) {
+                        context.error("Email length exceeds the maximum limit of 255 characters");
+                    } else if (isUpdate ? !isEmailUniqueUpdate(customers, customerEmail) : !isEmailUnique(customers, customerEmail)) {
+                        context.error("This email is already in the database");
                     }
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_customerEmail);
-        validateUniqueUpdate.createCheck()
-                .dependsOn("phone", txt_phone.textProperty())
-                .withMethod(context -> {
-                    String customerPhone = context.get("phone");
-                    if (customerPhone.isEmpty())
-                        context.error("Phone can't be empty");
-                    else if(!customerPhone.matches("\\d+"))
-                        context.error("Phone can only contain number");
-                    else if(!customerPhone.matches("^.{1,10}$"))
-                        context.error("Phone maximum limit is 10 numbers");
-                    else if(!customerPhone.matches("^\\d{10}$"))
-                        context.error("Phone requirements must be 10 digits");
-                    else if (!isPhoneUniqueUpdate(customers, customerPhone)) {
-                        context.error("This phone is already in database");
-                    }
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_customerPhone);
 
-    }
-    private void initAddUniqueValidate(){
-        validateUniqueAdd.createCheck()
-                .dependsOn("email", txt_email.textProperty())
-                .withMethod(context -> {
-                    String customerEmail = context.get("email");
-                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
-                        context.error("Please enter a valid email address");
-                    else if (!isEmailUnique(customers, customerEmail)) {
-                        context.error("This email is already in database");
-                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerEmail);
-        validateUniqueAdd.createCheck()
+
+        customerValidator.createCheck()
                 .dependsOn("phone", txt_phone.textProperty())
                 .withMethod(context -> {
                     String customerPhone = context.get("phone");
-                    if (customerPhone.isEmpty())
+                    if (customerPhone.isEmpty()) {
                         context.error("Phone can't be empty");
-                    else if(!customerPhone.matches("\\d+"))
-                        context.error("Phone can only contain number");
-                    else if(!customerPhone.matches("^.{1,10}$"))
-                        context.error("Phone maximum limit is 10 numbers");
-                    else if(!customerPhone.matches("^\\d{10}$"))
-                        context.error("Phone requirements must be 10 digits");
-                    else if (!isPhoneUnique(customers, customerPhone)) {
-                        context.error("This phone is already in database");
+                    } else if (!customerPhone.matches("^\\d{10}$")) {
+                        context.error("Phone must have 10 digits");
+                    } else if (isUpdate ? !isPhoneUniqueUpdate(customers, customerPhone) : !isPhoneUnique(customers, customerPhone)) {
+                        context.error("This phone number is already in the database");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerPhone);
     }
 
-
-    public boolean isEmailUnique(List<Customer> customers, String txt_email) {
+    private boolean isEmailUnique(List<Customer> customers, String txt_email) {
         return customers.stream()
-                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email)) ;
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email));
     }
 
-    public boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
+    private boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
         String email = tableView.getSelectionModel().getSelectedItem().getEmail();
-        return (customers.stream()
-                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email)) || txt_email.equals(email));
+        return customers.stream()
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email))
+                || txt_email.equals(email);
     }
-    public boolean isPhoneUnique(List<Customer> customers, String txt_phone){
-        return customers.stream().noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone));
+
+    private boolean isPhoneUnique(List<Customer> customers, String txt_phone) {
+        return customers.stream()
+                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone));
     }
-    public boolean isPhoneUniqueUpdate(List<Customer> customers, String txt_phone) {
+
+    private boolean isPhoneUniqueUpdate(List<Customer> customers, String txt_phone) {
         String phone = tableView.getSelectionModel().getSelectedItem().getPhone();
-        return (customers.stream()
-                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone)) || txt_phone.equals(phone));
+        return customers.stream()
+                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone))
+                || txt_phone.equals(phone);
     }
+
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
             @Override
@@ -396,118 +425,116 @@ public class CustomerController implements Initializable {
             }
         };
     }
-    /*
-     * Begin of Pagination
-     */
-
-    private void showPage(int pageIndex) {
-        int startIndex = pageIndex * ITEMS_PER_PAGE;
-        int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, customers.size());
-
-        pageItems = FXCollections.observableArrayList(customers.subList(startIndex, endIndex));
-        tableView.setItems(pageItems);
-    }
 
     @FXML
     void showPreviousPage() {
-        if (currentPageIndex > 0) {
-            currentPageIndex--;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showPreviousPage();
     }
     @FXML
     void showNextPage() {
-        int maxPageIndex = (int) Math.ceil((double) customers.size() / ITEMS_PER_PAGE) - 1;
-        if (currentPageIndex < maxPageIndex) {
-            currentPageIndex++;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+        paginationHelper.showNextPage();
     }
     @FXML
     void showFirstPage() {
-        currentPageIndex = 0;
-        showPage(currentPageIndex);
-        updatePageButtons();
+        paginationHelper.showFirstPage();
     }
     @FXML
     void showLastPage() {
-        int maxPageIndex;
-        maxPageIndex = (int) Math.ceil((double) customers.size() / ITEMS_PER_PAGE) - 1;
-        currentPageIndex = maxPageIndex;
-        showPage(currentPageIndex);
-        updatePageButtons();
+        paginationHelper.showLastPage();
     }
 
-    private void updatePageButtons() {
-        int pageCount = (int) Math.ceil((double) customers.size() / ITEMS_PER_PAGE);
-        int maxVisibleButtons = 5; // Maximum number of visible page buttons
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (hbox_addGroup.visibleProperty().get()) {
+                    storeButtonOnClick();
+                } else {
+                    updateButtonOnClick();
+                }
+            }
+        };
 
-        int startIndex;
-        int endIndex;
+        txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_address.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_phone.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_email.setOnKeyPressed(storeOrUpdateEventHandler);
 
-        if (pageCount <= maxVisibleButtons) {
-            startIndex = 0;
-            endIndex = pageCount;
+        txt_customer_search.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                searchCustomerOnAction();
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                txt_customer_search.clear();
+                searchCustomerOnAction();
+            }
+        });
+    }
+
+
+    private void uncheckAllCheckboxes() {
+        for (Customer customer : tableView.getItems()) {
+            customer.setSelected(false);
+        }
+        selectedCustomerIds.clear();
+    }
+
+    @FXML
+    void backButtonOnClick() {
+        hbox_addEditDelete.setVisible(true);
+        hbox_confirmDelete.setVisible(false);
+
+        tbc_checkbox.setVisible(false);
+
+        uncheckAllCheckboxes();
+        tableView.refresh();
+    }
+
+    @FXML
+    void deleteSelectedCustomerOnClick() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Are you sure you want to delete " + selectedCustomerIds.size() + " customer? " +
+                "If you delete, all orders belong to this customer also get deleted.");
+        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+            selectedCustomerIds.forEach(aLong -> {
+                customerService.deleteCustomer(aLong);
+                Customer customer = customers.stream()
+                        .filter(p -> p.getId() == aLong)
+                        .findFirst()
+                        .orElse(null);
+                customers.remove(customer);
+            });
+
+            addButtonOnClick();
+            showFirstPage();
+            tableView.refresh();
+        }
+    }
+
+    private void searchCustomerOnAction() {
+        String searchText = txt_customer_search.getText().trim();
+        if (!searchText.isEmpty()) {
+            List<Customer> filter = customers.stream()
+                    .filter(customer ->
+                            customer.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                            customer.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
+                            customer.getPhone().toLowerCase().contains(searchText.toLowerCase()))
+                    .toList();
+
+            ObservableList<Customer> filterCustomers = FXCollections.observableArrayList(filter);
+
+            paginationHelper.setItems(filterCustomers);
+            paginationHelper.showFirstPage();
         } else {
-            startIndex = Math.max(currentPageIndex - 2, 0);
-            endIndex = Math.min(startIndex + maxVisibleButtons, pageCount);
-
-            if (endIndex - startIndex < maxVisibleButtons) {
-                startIndex = Math.max(endIndex - maxVisibleButtons, 0);
-            }
-        }
-
-        pageButtonContainer.getChildren().clear();
-
-        firstPageButton.setDisable(currentPageIndex == 0);
-        previousButton.setDisable(currentPageIndex == 0);
-        lastPageButton.setDisable(currentPageIndex == pageCount - 1);
-        nextButton.setDisable(currentPageIndex == pageCount -1);
-        if (startIndex > 0) {
-            Button ellipsisButtonStart = new Button("...");
-            ellipsisButtonStart.setMinWidth(30);
-            ellipsisButtonStart.getStyleClass().add("pagination-button");
-            ellipsisButtonStart.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonStart);
-        }
-
-        for (int i = startIndex; i < endIndex; i++) {
-            Button pageButton = new Button(Integer.toString(i + 1));
-            pageButton.setMinWidth(30);
-            pageButton.getStyleClass().add("pagination-button");
-            int pageIndex = i;
-            pageButton.setOnAction(e -> showPageByIndex(pageIndex));
-            pageButtonContainer.getChildren().add(pageButton);
-
-            // Highlight the selected page button
-            if (pageIndex == currentPageIndex) {
-                pageButton.getStyleClass().add("pagination-button-selected");
-            }
-        }
-
-        if (endIndex < pageCount) {
-            Button ellipsisButtonEnd = new Button("...");
-            ellipsisButtonEnd.setMinWidth(30);
-            ellipsisButtonEnd.getStyleClass().add("pagination-button");
-            ellipsisButtonEnd.setDisable(true);
-            pageButtonContainer.getChildren().add(ellipsisButtonEnd);
+            paginationHelper.setItems(customers);
+            paginationHelper.showFirstPage();
         }
     }
 
-    private void showPageByIndex(int pageIndex) {
-        if (pageIndex >= 0 && pageIndex <= (int) Math.ceil((double) customers.size() / ITEMS_PER_PAGE) - 1) {
-            currentPageIndex = pageIndex;
-            showPage(currentPageIndex);
-            updatePageButtons();
-        }
+    @FXML
+    void resetFilterIconClicked() {
+        txt_customer_search.setText("");
+        searchCustomerOnAction();
     }
-
-    /*
-     * End of pagination
-     */
-
-
 
 }

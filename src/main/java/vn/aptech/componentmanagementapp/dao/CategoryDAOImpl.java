@@ -21,9 +21,8 @@ public class CategoryDAOImpl implements CategoryDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     category = new Category();
-                    category.setId(resultSet.getLong("id"));
-                    category.setName(resultSet.getString("name"));
-                    category.setDescription(resultSet.getString("description"));
+                    setCategory(category, resultSet);
+
                 }
             }
         } catch (SQLException e) {
@@ -42,9 +41,7 @@ public class CategoryDAOImpl implements CategoryDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Category category = new Category();
-                category.setId(resultSet.getLong("id"));
-                category.setName(resultSet.getString("name"));
-                category.setDescription(resultSet.getString("description"));
+                setCategory(category, resultSet);
                 categories.add(category);
             }
         } catch (SQLException e) {
@@ -78,11 +75,6 @@ public class CategoryDAOImpl implements CategoryDAO{
         }
     }
 
-    private void statementInsertUpdate(Category category, PreparedStatement statement) throws SQLException {
-        statement.setString(1,category.getName());
-        statement.setString(2, category.getDescription());;
-    }
-
     @Override
     public void delete(long categoryId) {
         String query = "DELETE FROM categories WHERE id = ?";
@@ -92,6 +84,16 @@ public class CategoryDAOImpl implements CategoryDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    private void statementInsertUpdate(Category category, PreparedStatement statement) throws SQLException {
+        statement.setString(1,category.getName());
+        statement.setString(2, category.getDescription());;
+    }
+
+    private void setCategory(Category category, ResultSet resultSet) throws SQLException {
+        category.setId(resultSet.getLong("id"));
+        category.setName(resultSet.getString("name"));
+        category.setDescription(resultSet.getString("description"));
     }
 }

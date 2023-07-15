@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="500.0" prefWidth="750.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.OrderDetailController">
+   <children>
+      <MFXTextField id="textfield-padding" fx:id="txt_productId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Id (*)" layoutX="30.0" layoutY="60.0" prefHeight="48.0" prefWidth="250.0" promptText="Product Id">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <MFXTextField id="textfield-padding" fx:id="txt_quantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Quantity (*)" layoutX="30.0" layoutY="160.0" prefHeight="48.0" prefWidth="250.0" promptText="Quantity" text="1">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <MFXTextField id="textfield-padding" fx:id="txt_discount" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Discount (%)" layoutX="30.0" layoutY="260.0" prefHeight="48.0" prefWidth="250.0" promptText="Discount" text="0">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <HBox fx:id="hbox_addButtonGroup" layoutX="408.0" layoutY="422.0" spacing="15.0">
+         <children>
+            <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton id="button-custom" onAction="#addButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="ADD">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </HBox>
+      <Label fx:id="lbl_error_productId" layoutX="30.0" layoutY="114.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+         <font>
+            <Font name="Inter Bold" size="13.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+         </graphic>
+      </Label>
+      <Label fx:id="lbl_error_quantity" layoutX="30.0" layoutY="214.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+         <font>
+            <Font name="Inter Bold" size="13.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+         </graphic>
+      </Label>
+      <Label fx:id="lbl_error_discount" layoutX="30.0" layoutY="314.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+         <font>
+            <Font name="Inter Bold" size="13.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+         </graphic>
+      </Label>
+      <VBox layoutX="312.0" layoutY="26.0" prefHeight="379.0" prefWidth="431.0" spacing="15.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="320.0" text="Product info" textFill="#4a55a2" wrapText="true">
+               <font>
+                  <Font name="Inter Bold" size="20.0" />
+               </font>
+            </Label>
+            <HBox spacing="10.0">
+               <children>
+                  <Label prefWidth="120.0" text="Name:" textFill="#4a55a2" wrapText="true">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_productName" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" wrapText="true">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <Label prefWidth="120.0" text="Price:" textFill="#4a55a2" wrapText="true">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_productPrice" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" textFill="#f88b2b">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <Label prefWidth="180.0" text="Discount amount:" textFill="#4a55a2" wrapText="true">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_productPrice_discount" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" textFill="#f88b2b">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <Label prefWidth="180.0" text="Total amount:" textFill="#4a55a2" wrapText="true">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_productTotalAmount" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" textFill="#f88b2b">
+                     <font>
+                        <Font name="Inter Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label fx:id="lbl_successMessage" layoutX="36.0" layoutY="357.0" text="Add new order detail succesfully!!" textFill="#70da6a" visible="false">
+         <font>
+            <Font name="Inter Bold" size="18.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
+         </graphic>
+      </Label>
+   </children>
+</AnchorPane>

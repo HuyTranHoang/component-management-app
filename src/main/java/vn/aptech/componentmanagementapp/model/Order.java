@@ -1,6 +1,11 @@
 package vn.aptech.componentmanagementapp.model;
 
-import vn.aptech.componentmanagementapp.dao.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import vn.aptech.componentmanagementapp.dao.CustomerDAO;
+import vn.aptech.componentmanagementapp.dao.CustomerDAOImpl;
+import vn.aptech.componentmanagementapp.dao.EmployeeDAO;
+import vn.aptech.componentmanagementapp.dao.EmployeeDAOImpl;
 
 import java.time.LocalDateTime;
 
@@ -8,12 +13,28 @@ public class Order {
     private long id;
     private LocalDateTime orderDate;
     private LocalDateTime deliveryDate;
-    private LocalDateTime shipmentDate;
+    private LocalDateTime receiveDate;
     private String deliveryLocation;
     private double totalAmount;
     private String note;
     private long customerId;
     private long employeeId;
+
+    // For multi delete
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
 
     // Lazy-loaded Customer and Employee objects
     private Customer customer;
@@ -43,12 +64,12 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public LocalDateTime getShipmentDate() {
-        return shipmentDate;
+    public LocalDateTime getReceiveDate() {
+        return receiveDate;
     }
 
-    public void setShipmentDate(LocalDateTime shipmentDate) {
-        this.shipmentDate = shipmentDate;
+    public void setReceiveDate(LocalDateTime receiveDate) {
+        this.receiveDate = receiveDate;
     }
 
     public String getDeliveryLocation() {
@@ -115,7 +136,7 @@ public class Order {
                 "id=" + id +
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
-                ", shipmentDate=" + shipmentDate +
+                ", shipmentDate=" + receiveDate +
                 ", deliveryLocation='" + deliveryLocation + '\'' +
                 ", totalAmount=" + totalAmount +
                 ", note='" + note + '\'' +

@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.model;
 
+import java.util.Objects;
+
 public class Supplier {
     private long id;
     private String name;
@@ -36,6 +38,28 @@ public class Supplier {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Supplier supplier = (Supplier) o;
+
+        if (id != supplier.id) return false;
+        if (!Objects.equals(name, supplier.name)) return false;
+        if (!Objects.equals(email, supplier.email)) return false;
+        return Objects.equals(website, supplier.website);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (website != null ? website.hashCode() : 0);
+        return result;
     }
 
     @Override

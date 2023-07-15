@@ -17,7 +17,7 @@ public class CustomerService {
         return customerDAO.getAll();
     }
 
-    public Customer getCustomerById(int customerId) {
+    public Customer getCustomerById(long customerId) {
         return customerDAO.getById(customerId);
     }
 
@@ -29,7 +29,7 @@ public class CustomerService {
         customerDAO.update(customer);
     }
 
-    public void deleteCustomer(int customerId) {
+    public void deleteCustomer(long customerId) {
         customerDAO.delete(customerId);
     }
 }

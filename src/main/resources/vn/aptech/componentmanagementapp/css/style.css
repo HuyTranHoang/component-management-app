@@ -57,6 +57,20 @@
 /*    visibility: hidden;*/
 /*}*/
 
+/*Alert Diaglog*/
+/*.dialog-pane {*/
+/*    -fx-background-color: -hbd-primary-color;*/
+/*}*/
+
+/*.dialog-pane .label {*/
+/*    -fx-text-fill: white;*/
+/*}*/
+
+/*.dialog-pane *.label.content {*/
+/*    -fx-font-size: 12px;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+
 /*Button*/
 #button-custom-mainPanel {
     -fx-background-color: #4A55A2;
@@ -242,3 +256,16 @@
     -fx-background-color: -hbd-primary-color; /* Thumb color */
 }
 
+.context-menu {
+    -fx-padding: 10px 0;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.menu-item {
+    -fx-padding: 0 40px 0 20px
+}
+
+.menu-item:focused {
+    -fx-background-color: -hbd-primary-color;
+}

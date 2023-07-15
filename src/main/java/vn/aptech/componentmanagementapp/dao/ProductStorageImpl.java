@@ -1,11 +1,9 @@
 package vn.aptech.componentmanagementapp.dao;
 
-import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.model.ProductStorage;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +11,25 @@ public class ProductStorageImpl implements ProductStorageDAO{
     private Connection connection = DatabaseConnection.getConnection();
 
     @Override
-    public ProductStorage getById(long id) {
-        return null;
+    public ProductStorage getById(long productStorageId) {
+        ProductStorage productStorage = null;
+
+        String query = "SELECT * FROM products_storage WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, productStorageId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    productStorage = new ProductStorage();
+                    setProductStorage(productStorage, resultSet);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productStorage;
     }
 
     @Override
@@ -26,11 +41,7 @@ public class ProductStorageImpl implements ProductStorageDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 ProductStorage productStorage = new ProductStorage();
-                productStorage.setId(resultSet.getLong("id"));
-                productStorage.setImportQuantity(resultSet.getInt("import_quantity"));
-                productStorage.setExportQuantity(resultSet.getInt("export_quantity"));
-                productStorage.setDateOfStorage(resultSet.getDate("date_of_storage").toLocalDate());
-                productStorage.setProductId(resultSet.getLong("product_id"));
+                setProductStorage(productStorage, resultSet);
                 productStorages.add(productStorage);
             }
         } catch (SQLException e) {
@@ -64,13 +75,6 @@ public class ProductStorageImpl implements ProductStorageDAO{
         }
     }
 
-    private void statementInsertUpdate(ProductStorage productStorage, PreparedStatement statement) throws SQLException{
-        statement.setInt(1, productStorage.getImportQuantity());
-        statement.setInt(2, productStorage.getExportQuantity());
-        statement.setDate(3, Date.valueOf(productStorage.getDateOfStorage()));
-        statement.setLong(4, productStorage.getImportQuantity());
-    }
-
     @Override
     public void delete(long productStorageId) {
         String query = "DELETE FROM products_storage WHERE id = ?";
@@ -80,5 +84,20 @@ public class ProductStorageImpl implements ProductStorageDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(ProductStorage productStorage, PreparedStatement statement) throws SQLException{
+        statement.setInt(1, productStorage.getImportQuantity());
+        statement.setInt(2, productStorage.getExportQuantity());
+        statement.setDate(3, Date.valueOf(productStorage.getDateOfStorage()));
+        statement.setLong(4, productStorage.getImportQuantity());
+    }
+
+    private void setProductStorage(ProductStorage productStorage, ResultSet resultSet) throws SQLException {
+        productStorage.setId(resultSet.getLong("id"));
+        productStorage.setImportQuantity(resultSet.getInt("import_quantity"));
+        productStorage.setExportQuantity(resultSet.getInt("export_quantity"));
+        productStorage.setDateOfStorage(resultSet.getDate("date_of_storage").toLocalDate());
+        productStorage.setProductId(resultSet.getLong("product_id"));
     }
 }

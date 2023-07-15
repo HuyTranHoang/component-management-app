@@ -2,56 +2,64 @@ package vn.aptech.componentmanagementapp.util;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 
-public class Pagination {
-
-    @FXML
-    private HBox pageButtonContainer;
-
-    //  Start of Pagination
-    private static final int ITEMS_PER_PAGE = 8;
-    private static final int COLUMNS = 4;
-    private static final ObservableList<String> items = FXCollections.observableArrayList();
+public class PaginationHelper<T> {
+    private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
 
-//    for (int i = 1; i <= 80; i++) {
-//        items.add("Item " + i);
-//    }
-//    showPage(currentPageIndex);
-//    updatePageButtons();
+    private ObservableList<T> items;
+    private ObservableList<T> pageItems;
+    private TableView<T> tableView;
+    private Button firstPageButton;
+    private Button lastPageButton;
+    private Button nextButton;
+    private HBox pageButtonContainer;
+    private Button previousButton;
 
-    private void showPage(int pageIndex) {
-//        product_gridPanel.getChildren().clear();
+    public ObservableList<T> getPageItems() {
+        return pageItems;
+    }
 
+    public void setFirstPageButton(Button firstPageButton) {
+        this.firstPageButton = firstPageButton;
+    }
+
+    public void setLastPageButton(Button lastPageButton) {
+        this.lastPageButton = lastPageButton;
+    }
+
+    public void setNextButton(Button nextButton) {
+        this.nextButton = nextButton;
+    }
+
+    public void setPageButtonContainer(HBox pageButtonContainer) {
+        this.pageButtonContainer = pageButtonContainer;
+    }
+
+    public void setPreviousButton(Button previousButton) {
+        this.previousButton = previousButton;
+    }
+
+    public void setItems(ObservableList<T> items) {
+        this.items = items;
+    }
+
+    public void setTableView(TableView<T> tableView) {
+        this.tableView = tableView;
+    }
+
+    public void showPage(int pageIndex) {
         int startIndex = pageIndex * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, items.size());
 
-        int currentRow = 0;
-        int currentColumn = 0;
-
-        for (int i = startIndex; i < endIndex; i++) {
-            String item = items.get(i);
-
-            Button itemButton = new Button(item);
-            itemButton.setMinWidth(80);
-            itemButton.setOnAction(e -> System.out.println(item)); // Example action
-
-//            product_gridPanel.add(itemButton, currentColumn, currentRow);
-
-            currentColumn++;
-
-            if (currentColumn == COLUMNS) {
-                currentColumn = 0;
-                currentRow++;
-            }
-        }
+        pageItems = FXCollections.observableArrayList(items.subList(startIndex, endIndex));
+        tableView.setItems(pageItems);
     }
 
-    @FXML
-    void showPreviousPage() {
+    public void showPreviousPage() {
         if (currentPageIndex > 0) {
             currentPageIndex--;
             showPage(currentPageIndex);
@@ -59,8 +67,7 @@ public class Pagination {
         }
     }
 
-    @FXML
-    private void showNextPage() {
+    public void showNextPage() {
         int maxPageIndex = (int) Math.ceil((double) items.size() / ITEMS_PER_PAGE) - 1;
         if (currentPageIndex < maxPageIndex) {
             currentPageIndex++;
@@ -69,16 +76,15 @@ public class Pagination {
         }
     }
 
-    @FXML
-    void showFirstPage() {
+    public void showFirstPage() {
         currentPageIndex = 0;
         showPage(currentPageIndex);
         updatePageButtons();
     }
 
-    @FXML
-    void showLastPage() {
-        currentPageIndex = (int) Math.ceil((double) items.size() / ITEMS_PER_PAGE) - 1;
+    public void showLastPage() {
+        int maxPageIndex = (int) Math.ceil((double) items.size() / ITEMS_PER_PAGE) - 1;
+        currentPageIndex = maxPageIndex;
         showPage(currentPageIndex);
         updatePageButtons();
     }
@@ -104,6 +110,10 @@ public class Pagination {
 
         pageButtonContainer.getChildren().clear();
 
+        firstPageButton.setDisable(currentPageIndex == 0);
+        previousButton.setDisable(currentPageIndex == 0);
+        lastPageButton.setDisable(currentPageIndex == pageCount - 1);
+        nextButton.setDisable(currentPageIndex == pageCount -1);
         if (startIndex > 0) {
             Button ellipsisButtonStart = new Button("...");
             ellipsisButtonStart.setMinWidth(30);
@@ -142,5 +152,5 @@ public class Pagination {
             updatePageButtons();
         }
     }
-//    End of Pagination
+
 }

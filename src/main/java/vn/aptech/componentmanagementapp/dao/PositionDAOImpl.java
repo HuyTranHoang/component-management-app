@@ -2,7 +2,6 @@ package vn.aptech.componentmanagementapp.dao;
 
 
 import vn.aptech.componentmanagementapp.model.Position;
-import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
@@ -24,9 +23,7 @@ public class PositionDAOImpl implements PositionDAO{
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     position = new Position();
-                    position.setId(resultSet.getInt("id"));
-                    position.setName(resultSet.getString("name"));
-                    position.setDescription(resultSet.getString("description"));
+                    setPosition(position, resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -45,9 +42,7 @@ public class PositionDAOImpl implements PositionDAO{
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Position position = new Position();
-                position.setId(resultSet.getLong("id"));
-                position.setName(resultSet.getString("name"));
-                position.setDescription(resultSet.getString("description"));
+                setPosition(position, resultSet);
                 positions.add(position);
             }
         } catch (SQLException e) {
@@ -80,12 +75,6 @@ public class PositionDAOImpl implements PositionDAO{
         }
     }
 
-    private void statementInsertUpdate(Position position, PreparedStatement statement) throws SQLException {
-        statement.setLong(1,position.getId());
-        statement.setString(2, position.getName());
-        statement.setString(3, position.getDescription());
-    }
-
     @Override
     public void delete(long positionId) {
         String query = "DELETE FROM employees WHERE id = ?";
@@ -95,5 +84,17 @@ public class PositionDAOImpl implements PositionDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void statementInsertUpdate(Position position, PreparedStatement statement) throws SQLException {
+        statement.setLong(1,position.getId());
+        statement.setString(2, position.getName());
+        statement.setString(3, position.getDescription());
+    }
+
+    private void setPosition(Position position, ResultSet resultSet) throws SQLException {
+        position.setId(resultSet.getLong("id"));
+        position.setName(resultSet.getString("name"));
+        position.setDescription(resultSet.getString("description"));
     }
 }

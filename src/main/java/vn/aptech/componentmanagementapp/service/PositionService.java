@@ -21,17 +21,14 @@ public class PositionService {
     }
 
     public void addPosition(Position position) {
-
         positionDAO.add(position);
     }
 
     public void updatePosition(Position position) {
-
         positionDAO.update(position);
     }
 
     public void deletePosition(int positionId) {
-
         positionDAO.delete(positionId);
     }
 }

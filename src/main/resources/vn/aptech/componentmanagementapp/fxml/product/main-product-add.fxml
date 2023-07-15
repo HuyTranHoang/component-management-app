@@ -14,7 +14,7 @@
 <AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.ProductAddController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listProductButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="LIST PRODUCT" AnchorPane.topAnchor="15.0">
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listProductButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="PRODUCT LIST" AnchorPane.topAnchor="15.0">
          <graphic>
             <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
          </graphic>
@@ -29,7 +29,7 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" fx:id="txt_productCode" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Code (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product Code">
+                  <MFXTextField id="textfield-padding" fx:id="txt_productCode" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product code (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Product code">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>

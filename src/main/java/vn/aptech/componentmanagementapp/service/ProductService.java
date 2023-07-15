@@ -16,22 +16,19 @@ public class ProductService {
     public List<Product> getAllProduct() {
         return productDAO.getAll();
     }
-    public Product getProductById(int productId) {
+    public Product getProductById(long productId) {
         return productDAO.getById(productId);
     }
 
     public void addProduct(Product product) {
-
         productDAO.add(product);
     }
 
     public void updateProduct(Product product) {
-
         productDAO.update(product);
     }
 
     public void deleteProduct(long productId) {
-
         productDAO.delete(productId);
     }
 }

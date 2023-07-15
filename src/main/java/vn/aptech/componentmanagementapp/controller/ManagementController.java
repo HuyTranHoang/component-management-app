@@ -9,9 +9,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -22,12 +20,6 @@ import java.util.ResourceBundle;
 public class ManagementController implements Initializable {
     @FXML
     private AnchorPane anchor_main_rightPanel;
-
-    @FXML
-    private AnchorPane anchor_mainPanel;
-
-    @FXML
-    private MFXButton btn_leftPanel_Exit;
 
     @FXML
     private ImageView leftPanel_imageView;
@@ -88,6 +80,8 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
                 productView = fxmlLoader.load();
+                ProductController controller = fxmlLoader.getController();
+                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -146,6 +140,8 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order.fxml"));
                 orderView = fxmlLoader.load();
+                OrderController controller = fxmlLoader.getController();
+                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
