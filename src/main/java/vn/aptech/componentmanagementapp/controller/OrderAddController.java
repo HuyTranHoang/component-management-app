@@ -197,8 +197,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                     LocalDate orderDate = context.get("orderDate");
                     if (orderDate == null) {
                         context.error("Order date can't be empty");
-                    } else if (orderDate.isBefore(LocalDate.now())) {
-                        context.error("Order date can't be in the past");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
@@ -212,8 +210,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                     LocalDate orderDate = context.get("orderDate");
                     if (deliveryDate == null) {
                         context.error("Delivery date can't be empty");
-                    } else if (deliveryDate.isBefore(LocalDate.now())) {
-                        context.error("Delivery date can't be in the past");
                     } else if (deliveryDate.isBefore(orderDate)) {
                         context.error("Delivery date can't be before order date");
                     }
@@ -222,21 +218,19 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 .decorates(lbl_error_deliveryDate);
 
         orderAddValidator.createCheck()
-                .dependsOn("shipmentDate", txt_receiveDate.valueProperty())
+                .dependsOn("receiveDate", txt_receiveDate.valueProperty())
                 .dependsOn("deliveryDate", txt_deliveryDate.valueProperty())
                 .dependsOn("orderDate", txt_orderDate.valueProperty())
                 .withMethod(context -> {
-                    LocalDate shipmentDate = context.get("shipmentDate");
+                    LocalDate receiveDate = context.get("receiveDate");
                     LocalDate deliveryDate = context.get("deliveryDate");
                     LocalDate orderDate = context.get("orderDate");
-                    if (shipmentDate == null) {
-                        context.error("Shipment date can't be empty");
-                    } else if (shipmentDate.isBefore(LocalDate.now())) {
-                        context.error("Shipment date can't be in the past");
-                    } else if (shipmentDate.isBefore(deliveryDate)) {
-                        context.error("Shipment date can't be before delivery date");
-                    } else if (shipmentDate.isBefore(orderDate)) {
-                        context.error("Shipment date can't be before order date");
+                    if (receiveDate == null) {
+                        context.error("Receive date can't be empty");
+                    } else if (receiveDate.isBefore(deliveryDate)) {
+                        context.error("Receive date can't be before delivery date");
+                    } else if (receiveDate.isBefore(orderDate)) {
+                        context.error("Receive date can't be before order date");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
