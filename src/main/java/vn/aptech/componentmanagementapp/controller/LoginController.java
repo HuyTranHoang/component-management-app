@@ -22,6 +22,7 @@ import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.dao.OrderDetailDAO;
 import vn.aptech.componentmanagementapp.dao.OrderDetailDAOImpl;
+import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
@@ -110,6 +111,7 @@ public class LoginController implements Initializable {
         initEnterKeyPressing();
 
         loadLoginInfo();
+
     }
 
     private void loadLoginInfo() {
@@ -261,6 +263,7 @@ public class LoginController implements Initializable {
 
                     scene.setOnMouseReleased(event -> stage.setOpacity(1));
                     ManagementController controller = fxmlLoader.getController();
+                    controller.setCurrentEmployee(employeeService.getEmployeeById(loginInfo.getId()));
                     controller.setStage(stage);
                     stage.setScene(scene);
                     stage.centerOnScreen();
@@ -272,7 +275,6 @@ public class LoginController implements Initializable {
                 lbl_login_passwordError.setVisible(true);
             }
         }
-
     }
 
     @FXML
@@ -312,7 +314,7 @@ public class LoginController implements Initializable {
                     .findFirst();
 
             if (optionalLoginInfo.isPresent()) {
-                currentID = Long.parseLong(optionalLoginInfo.get().getId());
+                currentID = optionalLoginInfo.get().getId();
                 clearReset();
 
                 anchor_leftPanel_login.setVisible(true);

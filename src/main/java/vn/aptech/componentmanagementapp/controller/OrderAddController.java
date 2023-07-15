@@ -21,7 +21,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,8 +32,6 @@ import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
-import vn.aptech.componentmanagementapp.service.CustomerService;
-import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 import vn.aptech.componentmanagementapp.util.ProductInfoView;
@@ -44,9 +41,18 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class OrderAddController implements Initializable {
+public class OrderAddController implements Initializable, OrderAddSelectCustomerController.CustomerSelectionCallback {
+
+    @Override
+    public void onCustomerSelected(Customer customer) {
+        currentCustomer = customer;
+        txt_customerPhone.setText(customer.getPhone());
+        txt_customerName.setText(customer.getName());
+    }
 
     // Call back add order
     public interface OrderAddCallback {
@@ -84,9 +90,6 @@ public class OrderAddController implements Initializable {
     private Label lbl_error_deliveryLocation;
 
     @FXML
-    private Label lbl_error_employeeId;
-
-    @FXML
     private Label lbl_error_note;
 
     @FXML
@@ -114,38 +117,45 @@ public class OrderAddController implements Initializable {
     private MFXDatePicker txt_receiveDate;
 
     @FXML
-    private MFXTextField txt_customerId;
+    private MFXTextField txt_customerName;
+
+    @FXML
+    private MFXTextField txt_customerPhone;
 
     @FXML
     private MFXTextField txt_deliveryLocation;
 
     @FXML
-    private MFXTextField txt_employeeId;
+    private MFXTextField txt_employeeName;
 
     @FXML
     private MFXTextField txt_note;
 
     //  Validator
     private final Validator orderAddValidator = new Validator();
-    private final Validator customerIdValidator = new Validator();
-    private final Validator employeeIdValidator = new Validator();
+
 
     // Service
     private final OrderService orderService = new OrderService();
     private final OrderDetailService orderDetailService = new OrderDetailService();
-    private final CustomerService customerService = new CustomerService();
-    private final EmployeeService employeeService = new EmployeeService();
 
     // Cache order details
     private Scene orderDetailScene;
     private Stage orderDetailStage;
 
-    //    Debound for text field
-    private Timer debounceTimerCustomer;
-    private Timer debounceTimerEmployee;
-    private boolean isInputPendingCustomer = false;
-    private boolean isInputPendingEmployee = false;
-    private final long DEBOUNCE_DELAY = 500; // Delay in milliseconds
+    private Scene selectCustomerScene;
+    private Stage selectCustomerStage;
+
+    private Customer currentCustomer;
+    private Employee currentEmployee;
+
+    public void setCurrentCustomer(Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
+    }
+
+    public void setCurrentEmployee(Employee currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
 
     @FXML
     private VBox vbox_orderDetail;
@@ -170,34 +180,17 @@ public class OrderAddController implements Initializable {
         txt_deliveryDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
         txt_receiveDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
 
-        initEvent();
         initValidator();
         initEnterKeyPressing();
+
+        Platform.runLater(() -> txt_employeeName.setText(currentEmployee.getName()));
+    }
+
+    public void setTextEmployeeName(Employee employee) {
+        txt_employeeName.setText(employee.getName());
     }
 
     private void initValidator() {
-        customerIdValidator.createCheck()
-                .dependsOn("customerId", txt_customerId.textProperty())
-                .withMethod(context -> {
-                    String customerId = context.get("customerId");
-                    if (!customerId.matches("\\d+")) {
-                        context.error("CustomerId only contain number");
-                    }
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_customerId);
-
-        employeeIdValidator.createCheck()
-                .dependsOn("employeeId", txt_employeeId.textProperty())
-                .withMethod(context -> {
-                    String employeeId = context.get("employeeId");
-                    if (!employeeId.matches("\\d+")) {
-                        context.error("EmployeeId only contain number");
-                    }
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_employeeId);
-
         orderAddValidator.createCheck()
                 .dependsOn("orderDate", txt_orderDate.valueProperty())
                 .withMethod(context -> {
@@ -262,28 +255,6 @@ public class OrderAddController implements Initializable {
                 .decorates(lbl_error_deliveryLocation);
 
         orderAddValidator.createCheck()
-                .dependsOn("customerId", txt_customerId.textProperty())
-                .withMethod(context -> {
-                   String customerId = context.get("customerId");
-                   if (customerId.matches("\\d+")) {
-                       Customer customer = customerService.getCustomerById(Long.parseLong(customerId));
-                       if (customer == null)
-                           context.error("Customer id don't belong any customer");
-                   }
-                });
-
-        orderAddValidator.createCheck()
-                .dependsOn("employeeId", txt_employeeId.textProperty())
-                .withMethod(context -> {
-                    String employeeId = context.get("employeeId");
-                    if (employeeId.matches("\\d+")) {
-                        Employee employee = employeeService.getEmployeeById(Long.parseLong(employeeId));
-                        if (employee == null)
-                            context.error("Customer id don't belong any customer");
-                    }
-                });
-
-        orderAddValidator.createCheck()
                 .withMethod(context -> {
                     if (orderDetails.isEmpty())
                         context.error("Order details can't be empty");
@@ -319,9 +290,6 @@ public class OrderAddController implements Initializable {
                 listOrderButtonOnClick();
         };
 
-
-       txt_customerId.setOnKeyPressed(storeOrUpdateEventHandler);
-       txt_employeeId.setOnKeyPressed(storeOrUpdateEventHandler);
        txt_deliveryLocation.setOnKeyPressed(storeOrUpdateEventHandler);
        txt_note.setOnKeyPressed(storeOrUpdateEventHandler);
     }
@@ -350,8 +318,8 @@ public class OrderAddController implements Initializable {
             order.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
             order.setReceiveDate(txt_receiveDate.getValue().atTime(LocalTime.now()));
             order.setDeliveryLocation(txt_deliveryLocation.getText());
-            order.setCustomerId(Long.parseLong(txt_customerId.getText()));
-            order.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
+            order.setCustomerId(currentCustomer.getId());
+            order.setEmployeeId(currentEmployee.getId());
             order.setNote(txt_note.getText());
 
             long orderId = orderService.addOrderReturnId(order);
@@ -392,8 +360,11 @@ public class OrderAddController implements Initializable {
         txt_deliveryDate.setValue(order.getDeliveryDate().toLocalDate());
         txt_receiveDate.setValue(order.getReceiveDate().toLocalDate());
 
-        txt_customerId.setText(String.valueOf(order.getCustomerId()));
-        txt_employeeId.setText(String.valueOf(order.getEmployeeId()));
+//        txt_customerId.setText(String.valueOf(order.getCustomerId()));
+//        txt_employeeId.setText(String.valueOf(order.getEmployeeId()));
+        txt_customerPhone.setText(currentCustomer.getPhone());
+        txt_customerName.setText(currentCustomer.getName());
+        txt_employeeName.setText(currentEmployee.getName());
 
         txt_deliveryLocation.setText(order.getDeliveryLocation());
         txt_note.setText(order.getNote());
@@ -428,8 +399,11 @@ public class OrderAddController implements Initializable {
             currentOrder.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
             currentOrder.setReceiveDate(txt_receiveDate.getValue().atTime(LocalTime.now()));
             currentOrder.setDeliveryLocation(txt_deliveryLocation.getText());
-            currentOrder.setCustomerId(Long.parseLong(txt_customerId.getText()));
-            currentOrder.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
+//            currentOrder.setCustomerId(Long.parseLong(txt_customerId.getText()));
+//            currentOrder.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
+            currentOrder.setCustomerId(currentCustomer.getId());
+            currentOrder.setEmployeeId(currentEmployee.getId());
+
             currentOrder.setNote(txt_note.getText());
 
             orderService.updateOrder(currentOrder);
@@ -458,8 +432,9 @@ public class OrderAddController implements Initializable {
         txt_orderDate.setValue(LocalDate.now());
         txt_deliveryDate.setValue(LocalDate.now());
         txt_receiveDate.setValue(LocalDate.now());
-        txt_customerId.clear();
-        txt_employeeId.clear();
+        txt_customerPhone.clear();
+        txt_customerName.clear();
+//        txt_employeeId.clear();
         txt_deliveryLocation.clear();
         txt_note.clear();
 
@@ -472,77 +447,10 @@ public class OrderAddController implements Initializable {
         lbl_error_deliveryDate.setVisible(false);
         lbl_error_shipmentDate.setVisible(false);
         lbl_error_customerId.setVisible(false);
-        lbl_error_employeeId.setVisible(false);
+//        lbl_error_employeeId.setVisible(false);
         lbl_error_deliveryLocation.setVisible(false);
         lbl_error_note.setVisible(false);
         lbl_error_orderDetailEmpty.setVisible(false);
-    }
-
-    private void initEvent() {
-        txt_customerId.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (debounceTimerCustomer != null) {
-                lbl_error_customerId.setText("...");
-                debounceTimerCustomer.cancel();
-            }
-            isInputPendingCustomer = true;
-            debounceTimerCustomer = new Timer();
-            debounceTimerCustomer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (isInputPendingCustomer) {
-                        Platform.runLater(() -> {
-                            if (customerIdValidator.validate()) {
-                                lbl_error_customerId.setVisible(true);
-                                Customer customer = customerService.getCustomerById(Long.parseLong(newValue));
-                                if (customer != null) {
-                                    lbl_error_customerId.setText("Customer name: " + customer.getName());
-                                    lbl_error_customerId.setTextFill(Paint.valueOf("#70da6a"));
-                                } else {
-                                    lbl_error_customerId.setText("This id don't belong to any customer");
-                                    lbl_error_customerId.setTextFill(Paint.valueOf("#e57c23"));
-                                }
-                            } else if (newValue.isEmpty())
-                                lbl_error_customerId.setVisible(false);
-                            isInputPendingCustomer = false;
-                        });
-                    }
-                }
-            }, DEBOUNCE_DELAY);
-        });
-
-        txt_employeeId.textProperty().addListener((observable, oldValue, newValue) -> {
-
-            if (debounceTimerEmployee != null) {
-                lbl_error_employeeId.setText("...");
-                debounceTimerEmployee.cancel();
-            }
-            isInputPendingEmployee = true;
-            debounceTimerEmployee = new Timer();
-
-            debounceTimerEmployee.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    if (isInputPendingEmployee) {
-                        Platform.runLater(() -> {
-                            if (employeeIdValidator.validate()) {
-                                lbl_error_employeeId.setVisible(true);
-                                Employee employee = employeeService.getEmployeeById(Long.parseLong(newValue));
-                                if (employee != null) {
-                                    lbl_error_employeeId.setText("Employee name: " + employee.getName());
-                                    lbl_error_employeeId.setTextFill(Paint.valueOf("#70da6a"));
-                                } else {
-                                    lbl_error_employeeId.setText("This id don't belong to any employee");
-                                    lbl_error_employeeId.setTextFill(Paint.valueOf("#e57c23"));
-                                }
-                            } else if (newValue.isEmpty())
-                                lbl_error_employeeId.setVisible(false);
-                            isInputPendingEmployee = false;
-                        });
-                    }
-                }
-            }, DEBOUNCE_DELAY);
-
-        });
     }
 
     @FXML
@@ -565,6 +473,29 @@ public class OrderAddController implements Initializable {
             }
 
             orderDetailStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void selectCustomerOnClick() {
+        try {
+            if (selectCustomerScene == null && selectCustomerStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add-selectCustomer.fxml"));
+                selectCustomerScene = new Scene(fxmlLoader.load());
+                selectCustomerStage = new Stage();
+                OrderAddSelectCustomerController controller = fxmlLoader.getController();
+                controller.setCustomerSelectionCallback(this);
+                controller.setStage(selectCustomerStage);
+                selectCustomerStage.setTitle("Select customer");
+                selectCustomerStage.initModality(Modality.APPLICATION_MODAL);
+                selectCustomerStage.setResizable(false);
+
+                selectCustomerStage.setScene(selectCustomerScene);
+            }
+
+            selectCustomerStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

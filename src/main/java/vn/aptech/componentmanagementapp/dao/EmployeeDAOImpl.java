@@ -128,7 +128,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 LoginInfo loginInfo = new LoginInfo();
-                loginInfo.setId(resultSet.getString("id"));
+                loginInfo.setId(resultSet.getLong("id"));
                 loginInfo.setEmail(resultSet.getString("email"));
                 loginInfo.setPassword(resultSet.getString("password"));
                 loginInfo.setCitizenId(resultSet.getString("citizen_identification"));

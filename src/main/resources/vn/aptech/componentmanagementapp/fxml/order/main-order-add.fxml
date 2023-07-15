@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -132,22 +133,20 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <MFXTextField id="textfield-padding" fx:id="txt_customerId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Customer Id (*)" layoutX="353.0" layoutY="225.0" prefHeight="48.0" prefWidth="250.0" promptText="Customer Id">
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerName" allowEdit="false" animated="false" borderGap="0.0" editable="false" floatMode="ABOVE" floatingText="Customer name (*)" layoutX="353.0" layoutY="225.0" onMouseClicked="#selectCustomerOnClick" prefHeight="48.0" prefWidth="250.0" promptText="Click to select">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_employeeId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Employee Id (*)" layoutX="353.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee Id">
+                  <MFXTextField id="textfield-padding-disable" fx:id="txt_employeeName" allowEdit="false" animated="false" borderGap="0.0" caretVisible="false" editable="false" floatMode="ABOVE" floatingText="Employee name" layoutX="353.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
+                     <textFill>
+                        <Color red="0.29019609093666077" green="0.3333333432674408" blue="0.6352941393852234" opacity="0.8700000047683716" />
+                     </textFill>
                   </MFXTextField>
                   <Label fx:id="lbl_error_customerId" layoutX="353.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbl_error_employeeId" layoutX="353.0" layoutY="395.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -207,6 +206,11 @@
                         </Label>
                      </children>
                   </HBox>
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerPhone" allowEdit="false" animated="false" borderGap="0.0" editable="false" floatMode="ABOVE" floatingText="Customer phone (*)" layoutX="353.0" layoutY="115.0" onMouseClicked="#selectCustomerOnClick" prefHeight="48.0" prefWidth="250.0" promptText="Click to select">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
                </children>
             </AnchorPane>
          </children>

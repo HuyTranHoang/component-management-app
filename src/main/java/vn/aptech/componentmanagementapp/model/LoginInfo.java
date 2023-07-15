@@ -1,17 +1,17 @@
 package vn.aptech.componentmanagementapp.model;
 
 public class LoginInfo {
-    private String id;
+    private long id;
     private String email;
     private String password;
     private String citizenId;
     private long departmentId;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -19,6 +19,11 @@
     -fx-padding: 0 10px 0 10px;
 }
 
+#textfield-padding-disable {
+    -fx-padding: 0 10px 0 10px;
+    -fx-background-color: #d9d9d9;
+}
+
 
 .mfx-text-field .floating-text,
 .mfx-combo-box .floating-text{
