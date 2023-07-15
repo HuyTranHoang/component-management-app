@@ -233,11 +233,11 @@ public class OrderDetailController implements Initializable {
             int quantity = Integer.parseInt(txt_quantity.getText());
             int discount = Integer.parseInt(txt_discount.getText());
             double discountPrice = Double.parseDouble(txt_discount.getText()) / 100 * price;
-
             double totalAmount = (price - discountPrice) * quantity;
 
             orderDetail.setName(product.getName());
             orderDetail.setPrice(price);
+            orderDetail.setQuantity(quantity);
             orderDetail.setDiscount(discount);
             orderDetail.setTotalAmount(totalAmount);
             orderDetail.setProductId(product.getId());

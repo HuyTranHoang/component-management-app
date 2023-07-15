@@ -413,7 +413,7 @@ public class OrderAddController implements Initializable {
             productInfoView.setVbox_orderDetail(vbox_orderDetail);
             productInfoView.setOrderDetail(orderDetail);
             productInfoView.setOrderDetails(orderDetails);
-            
+
             totalAmount += orderDetail.getTotalAmount();
 
             vbox_orderDetail.getChildren().add(productInfoView);
@@ -455,14 +455,13 @@ public class OrderAddController implements Initializable {
 
     @FXML
     void clearInput() { // Được gọi trước khi vào add view ở Order Add Controller
-        txt_orderDate.clear();
-        txt_deliveryDate.clear();
-        txt_receiveDate.clear();
+        txt_orderDate.setValue(LocalDate.now());
+        txt_deliveryDate.setValue(LocalDate.now());
+        txt_receiveDate.setValue(LocalDate.now());
         txt_customerId.clear();
         txt_employeeId.clear();
         txt_deliveryLocation.clear();
         txt_note.clear();
-
 
         clearOrderDetail();
         clearValidateError();

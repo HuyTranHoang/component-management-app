@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.controller;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOut;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
@@ -302,6 +303,7 @@ public class CustomerController implements Initializable {
         hbox_confirmDelete.setVisible(true);
 
         tbc_checkbox.setVisible(true);
+
     }
 
     @FXML
