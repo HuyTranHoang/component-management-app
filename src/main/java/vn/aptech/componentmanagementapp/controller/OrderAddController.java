@@ -8,6 +8,7 @@ import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -197,6 +198,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                     LocalDate orderDate = context.get("orderDate");
                     if (orderDate == null) {
                         context.error("Order date can't be empty");
+                    } else if (orderDate.isBefore(LocalDate.now())) {
+                        context.error("Order date can't be in the past");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
@@ -315,6 +318,11 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
             order.setCustomerId(currentCustomer.getId());
             order.setEmployeeId(currentEmployee.getId());
             order.setNote(txt_note.getText());
+            double totalAmount = 0;
+            for (OrderDetail orderDetail: orderDetails) {
+                totalAmount += orderDetail.getTotalAmount();
+            }
+            order.setTotalAmount(totalAmount);
 
             long orderId = orderService.addOrderReturnId(order);
             orderDetails.forEach(orderDetail -> {
@@ -356,6 +364,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
 //        txt_customerId.setText(String.valueOf(order.getCustomerId()));
 //        txt_employeeId.setText(String.valueOf(order.getEmployeeId()));
+
+        System.out.println(currentCustomer);
+
         txt_customerPhone.setText(currentCustomer.getPhone());
         txt_customerName.setText(currentCustomer.getName());
         txt_employeeName.setText(currentEmployee.getName());
@@ -412,12 +423,13 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
             }));
             timeline.play();
 
-            int index = tableView.getItems().indexOf(currentOrder);
-            System.out.println(index);
-            if (index >= 0) {
-                tableView.getItems().set(index, currentOrder);
-            }
+            tableView.setItems(FXCollections.observableArrayList(orderService.getAllOrder()));
 
+//            int index = tableView.getItems().indexOf(currentOrder);
+////            System.out.println(index);
+//            if (index >= 0) {
+//                tableView.getItems().set(index, currentOrder);
+//            }
         }
     }
 
