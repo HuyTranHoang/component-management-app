@@ -503,6 +503,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     @Override
     public void onOrderAdded(Order order) {
         orders.add(order);
+        resetFilterIconClicked();
         showLastPage();
     }
 
