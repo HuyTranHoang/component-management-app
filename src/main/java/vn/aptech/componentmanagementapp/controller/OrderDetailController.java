@@ -7,15 +7,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
@@ -233,11 +229,11 @@ public class OrderDetailController implements Initializable {
             int quantity = Integer.parseInt(txt_quantity.getText());
             int discount = Integer.parseInt(txt_discount.getText());
             double discountPrice = Double.parseDouble(txt_discount.getText()) / 100 * price;
-
             double totalAmount = (price - discountPrice) * quantity;
 
             orderDetail.setName(product.getName());
             orderDetail.setPrice(price);
+            orderDetail.setQuantity(quantity);
             orderDetail.setDiscount(discount);
             orderDetail.setTotalAmount(totalAmount);
             orderDetail.setProductId(product.getId());

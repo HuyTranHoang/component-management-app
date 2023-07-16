@@ -302,6 +302,7 @@ public class CustomerController implements Initializable {
         hbox_confirmDelete.setVisible(true);
 
         tbc_checkbox.setVisible(true);
+
     }
 
     @FXML

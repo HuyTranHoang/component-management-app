@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +17,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.model.*;
+import vn.aptech.componentmanagementapp.model.Customer;
+import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
@@ -84,6 +88,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
     //  Service
     private final OrderService orderService = new OrderService();
+    private final EmployeeService employeeService = new EmployeeService();
 
     //    Controller to call clear filter function in this
     private OrderAddController orderAddController;
@@ -93,6 +98,13 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     @FXML
     private AnchorPane orderView;
     private AnchorPane anchor_main_rightPanel; // Truyền từ Main controller vào
+
+    private Employee currentEmployee;
+    private Employee loginEmployee;
+
+    public void setCurrentEmployee(Employee currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
@@ -136,6 +148,10 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         paginationHelper.showFirstPage();
 
         initEnterKeyPressing();
+
+        Platform.runLater(() -> {
+            loginEmployee = employeeService.getEmployeeById(currentEmployee.getId());
+        });
     }
 
     private void initTableView() {
@@ -245,6 +261,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
                 orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
                 orderAddController.setOrderView(orderView);
                 orderAddController.setTableView(tableView);
+                orderAddController.setCurrentEmployee(currentEmployee);
 
                 orderAddController.setOrderAddCallback(this);
             } catch (IOException e) {
@@ -254,6 +271,10 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         orderAddController.clearInput();
         orderAddController.addMode();
+
+        Employee employee = employeeService.getEmployeeById(loginEmployee.getId());
+        orderAddController.setCurrentEmployee(employee);
+        orderAddController.setTextEmployeeName(employee);
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addOrderView);
@@ -288,6 +309,8 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         } else {
             orderAddController.clearInput();
             orderAddController.updateMode();
+            orderAddController.setCurrentCustomer(selectedOrder.getCustomer());
+            orderAddController.setCurrentEmployee(selectedOrder.getEmployee()); //Đang set employee theo orderdetail thay vì employee hiện tại
             orderAddController.editOrder(selectedOrder);
             orderAddController.setCurrentOrder(selectedOrder);
 

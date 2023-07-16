@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
+import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.io.IOException;
@@ -39,7 +40,12 @@ public class ManagementController implements Initializable {
     private AnchorPane orderView;
 
     //    Variable
+    private Employee currentEmployee;
     private Stage stage;
+
+    public void setCurrentEmployee(Employee currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -142,6 +148,7 @@ public class ManagementController implements Initializable {
                 orderView = fxmlLoader.load();
                 OrderController controller = fxmlLoader.getController();
                 controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                controller.setCurrentEmployee(currentEmployee);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
