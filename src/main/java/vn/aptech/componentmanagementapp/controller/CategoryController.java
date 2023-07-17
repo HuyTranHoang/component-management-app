@@ -300,7 +300,6 @@ public class CategoryController implements Initializable {
             if (index >= 0) {
                 tableView.getItems().set(index, category);
             }
-            showLastPage();
         }
     }
 

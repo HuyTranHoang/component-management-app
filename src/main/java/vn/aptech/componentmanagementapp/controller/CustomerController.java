@@ -238,8 +238,6 @@ public class CustomerController implements Initializable {
             if (index >= 0) {
                 tableView.getItems().set(index, customer);
             }
-
-            showLastPage();
         }
     }
     @FXML

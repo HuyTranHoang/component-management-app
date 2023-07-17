@@ -151,7 +151,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_successMessage" layoutX="55.0" layoutY="488.0" prefHeight="23.0" prefWidth="380.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="55.0" layoutY="488.0" prefHeight="23.0" prefWidth="380.0" text="Add new customer successfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>

@@ -13,7 +13,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;

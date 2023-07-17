@@ -24,7 +24,6 @@ import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
-import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.SupplierService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -324,7 +323,6 @@ public class SupplierController implements Initializable {
             if (index >= 0) {
                 tableView.getItems().set(index, supplier);
             }
-            showLastPage();
         }
     }
     @FXML
