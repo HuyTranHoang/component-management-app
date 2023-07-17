@@ -53,11 +53,21 @@ public class SupplierDAOImpl implements SupplierDAO{
 
     @Override
     public void add(Supplier supplier) {
-        String query = "INSERT INTO suppliers (name, email, website) " +
-                "VALUES (?, ?, ?)";
-        try(PreparedStatement statement = connection.prepareStatement(query)) {
+        String query = "INSERT INTO suppliers (name, email, website) " + "VALUES (?, ?, ?)";
+        try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(supplier, statement);
+            if (supplier.getEmail().isEmpty()) {
+                statement.setNull(2, Types.VARCHAR);
+            }
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long generatedId = generatedKeys.getLong(1);
+                    supplier.setId(generatedId);
+                } else {
+                    throw new SQLException("Adding supplier failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

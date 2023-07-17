@@ -223,6 +223,7 @@ public class SupplierController implements Initializable {
         };
 
         txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_email.setOnKeyPressed(storeOrUpdateEventHandler);
         txt_website.setOnKeyPressed(storeOrUpdateEventHandler);
 
         txt_supplier_search.setOnKeyPressed(event -> {
@@ -250,12 +251,12 @@ public class SupplierController implements Initializable {
         validator.createCheck()
                 .dependsOn("email", txt_email.textProperty())
                 .withMethod(context -> {
-                    String supplierEmail = context.get("email");
-                    if (!supplierEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$")) {
+                    String suppliersEmail = context.get("email");
+                    if (!suppliersEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$")) {
                         context.error("Please enter a valid email address");
-                    } else if (supplierEmail.length() > 255) {
+                    } else if (suppliersEmail.length() > 255) {
                         context.error("Email length exceeds the maximum limit of 255 characters");
-                    } else if (isUpdate ? !isEmailUniqueUpdate(suppliers, supplierEmail) : !isEmailUnique(suppliers, supplierEmail)) {
+                    } else if (isUpdate ? !isEmailUniqueUpdate(suppliers, suppliersEmail) : !isEmailUnique(suppliers, suppliersEmail)) {
                         context.error("This email is already in the database");
                     }
 
@@ -264,9 +265,9 @@ public class SupplierController implements Initializable {
                 .decorates(lbl_error_supplierEmail);
 
         validator.createCheck()
-                .dependsOn("description", txt_website.textProperty())
+                .dependsOn("website", txt_website.textProperty())
                 .withMethod(context -> {
-                    String description = context.get("description");
+                    String description = context.get("website");
                     if (description.length() > 255)
                         context.error("Website length exceeds the maximum limit of 255 characters");
                 })
@@ -330,6 +331,10 @@ public class SupplierController implements Initializable {
         txt_name.clear();
         txt_email.clear();
         txt_website.clear();
+        lbl_error_supplierName.setVisible(false);
+        lbl_error_supplierEmail.setVisible(false);
+        lbl_error_supplierWebsite.setVisible(false);
+        txt_name.requestFocus();
     }
     @FXML
     void addButtonOnClick() {
@@ -337,7 +342,6 @@ public class SupplierController implements Initializable {
     }
     @FXML
     void editButtonOnClick() {
-        updateMode();
         Supplier supplier = tableView.getSelectionModel().getSelectedItem();
         if (supplier == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -345,6 +349,12 @@ public class SupplierController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please select supplier before edit!");
             alert.show();
+        } else {
+            updateMode();
+            txt_name.setText(supplier.getName());
+            if (supplier.getEmail() != null)
+                txt_email.setText(supplier.getEmail());
+            txt_website.setText(supplier.getWebsite());
         }
     }
 
@@ -443,6 +453,7 @@ public class SupplierController implements Initializable {
     }
 
     private void updateMode() {
+        isUpdate = true;
         hbox_updateGroup.setVisible(true);
         hbox_addGroup.setVisible(false);
         lbl_text.setText("UPDATE SUPPLIER");
@@ -450,6 +461,7 @@ public class SupplierController implements Initializable {
     }
 
     private void addMode() {
+        isUpdate = false;
         hbox_updateGroup.setVisible(false);
         hbox_addGroup.setVisible(true);
         lbl_text.setText("ADD NEW SUPPLIER");
