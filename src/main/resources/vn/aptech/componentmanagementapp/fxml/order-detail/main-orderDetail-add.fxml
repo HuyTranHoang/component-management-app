@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.scene.control.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+
 <AnchorPane prefHeight="500.0" prefWidth="750.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.OrderDetailController">
    <children>
-      <MFXTextField id="textfield-padding" fx:id="txt_productId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Id (*)" layoutX="30.0" layoutY="60.0" prefHeight="48.0" prefWidth="250.0" promptText="Product Id">
+      <MFXTextField id="textfield-orderDetail" fx:id="txt_productId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Product Id (*)" layoutX="30.0" layoutY="60.0" prefHeight="48.0" prefWidth="250.0" promptText="Product Id">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
       </MFXTextField>
-      <MFXTextField id="textfield-padding" fx:id="txt_quantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Quantity (*)" layoutX="30.0" layoutY="160.0" prefHeight="48.0" prefWidth="250.0" promptText="Quantity" text="1">
+      <MFXTextField id="textfield-orderDetail" fx:id="txt_quantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Quantity (*)" layoutX="30.0" layoutY="160.0" prefHeight="48.0" prefWidth="250.0" promptText="Quantity" text="1">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
       </MFXTextField>
-      <MFXTextField id="textfield-padding" fx:id="txt_discount" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Discount (%)" layoutX="30.0" layoutY="260.0" prefHeight="48.0" prefWidth="250.0" promptText="Discount" text="0">
+      <MFXTextField id="textfield-orderDetail" fx:id="txt_discount" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Discount (%)" layoutX="30.0" layoutY="260.0" prefHeight="48.0" prefWidth="250.0" promptText="Discount" text="0">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>

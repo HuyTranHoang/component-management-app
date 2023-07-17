@@ -23,9 +23,9 @@
             </Label>
             <HBox layoutX="50.0" layoutY="95.0" spacing="25.0">
                <children>
-                  <MFXComboBox fx:id="cbb_byTypeOfDate" borderGap="0.0" floatMode="ABOVE" floatingText="By" prefHeight="40.0" prefWidth="200.0" />
-                  <MFXDatePicker fx:id="txt_fromDate" borderGap="0.0" floatMode="ABOVE" floatingText="From" />
-                  <MFXDatePicker fx:id="txt_toDate" borderGap="0.0" floatMode="ABOVE" floatingText="To" />
+                  <MFXComboBox id="custom-combobox" fx:id="cbb_byTypeOfDate" borderGap="0.0" floatMode="DISABLED" floatingText="By" floatingTextGap="15.0" prefHeight="40.0" prefWidth="200.0" />
+                  <MFXDatePicker id="custom-date-picker" fx:id="txt_fromDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="From" />
+                  <MFXDatePicker id="custom-date-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" />
                </children>
             </HBox>
             <Label fx:id="lbl_error_from" layoutX="275.0" layoutY="147.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
@@ -37,6 +37,7 @@
                </graphic>
             </Label>
             <MFXToggleButton fx:id="btn_toggleDate" layoutX="322.0" layoutY="15.0" text=" " />
+            <Label layoutX="50.0" layoutY="73.0" text="By" textFill="#4a55a2" />
          </children>
       </AnchorPane>
       <HBox layoutX="460.0" layoutY="427.0" spacing="15.0">

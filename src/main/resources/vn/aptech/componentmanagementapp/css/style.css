@@ -31,8 +31,18 @@
     -fx-text-fill: #fff;
 }
 
+#textfield-orderDetail .floating-text{
+    -fx-background-color: #F4F4F4;
+    -fx-text-fill: -hbd-primary-color;
+}
+
 
 #custom-combobox .floating-text{
+    -fx-background-color: #fff;
+    -fx-text-fill: -hbd-primary-color;
+}
+
+#custom-date-picker .floating-text{
     -fx-background-color: #fff;
     -fx-text-fill: -hbd-primary-color;
 }
