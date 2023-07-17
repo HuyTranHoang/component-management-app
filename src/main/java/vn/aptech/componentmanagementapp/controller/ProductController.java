@@ -322,6 +322,7 @@ public class ProductController implements Initializable,
 
     @FXML
     void filterButtonOnClick() {
+        filterController.setProducts(products);
         filterController.reloadFilter();
         filterStage.show();
     }
@@ -339,8 +340,13 @@ public class ProductController implements Initializable,
         if (filterController != null) {
             filterController.clearFilterButtonOnClick();
         }
+
         cbb_sortBy.selectFirst();
         cbb_orderBy.selectFirst();
+
+        products = FXCollections.observableArrayList(productService.getAllProduct());
+        paginationHelper.setItems(products);
+
         uncheckAllCheckboxes();
     }
 
@@ -499,17 +505,7 @@ public class ProductController implements Initializable,
 
     @Override
     public void onProductAdded(Product product) {
-        // Add the newly added product to the products list
-        resetFilterIconClicked(); // Khum có cái này thì bug, chưa hiểu tại sao
-        products.add(product); // Nhưng chắc do conflic giữa 2 cái list này
-        filterController.filterAddProduct(product); // huhu
-
-        // Do khi filter thì cái table đang set sẽ lấy 1 list là filterList chứ không phải product, do đó table view
-        // khi được quay lại gốc (products) sẽ không có ( Nó gán products thành filter list luôn)
-        // Khi reset thì sẽ trả lại list gốc từ bên filterController hoặc ở đâu đó khum biết, nhưng khi reset thì nó sẽ chỉ add 1
-        // .__. ~
-
-        // Update the table view and pagination
+        products.add(product);
         showLastPage();
     }
 

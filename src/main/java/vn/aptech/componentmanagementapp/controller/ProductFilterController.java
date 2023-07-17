@@ -81,7 +81,6 @@ public class ProductFilterController implements Initializable {
 
 //    List product từ product controller
     private static ObservableList<Product> products;
-    private List<Product> filteredProducts = null;
 
 //    Debound for search text field
     private Timer debounceTimer;
@@ -245,6 +244,7 @@ public class ProductFilterController implements Initializable {
 
     @FXML
     void viewResultButtonOnClick() {
+        List<Product> filteredProducts = products;
         int countFilter = 0; // Dùng để đếm số lượng filter xong gán thành text cho noti
 
         // Checkbox
@@ -353,7 +353,6 @@ public class ProductFilterController implements Initializable {
     }
 
     void initSearchListen() {
-
         txt_product_search.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER)
                 viewResultButtonOnClick();

@@ -520,4 +520,10 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         uncheckAllCheckboxes();
     }
+
+    public void reloadOrder() {
+        orders = FXCollections.observableArrayList(orderService.getAllOrder());
+        paginationHelper.setItems(orders);
+        showFirstPage();
+    }
 }

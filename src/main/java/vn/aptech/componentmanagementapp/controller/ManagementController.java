@@ -50,6 +50,7 @@ public class ManagementController implements Initializable {
 
     // Controller
     private ProductController productController;
+    private  OrderController orderController;
 
 
     //    Variable
@@ -115,6 +116,7 @@ public class ManagementController implements Initializable {
         }
 
         productController.reloadProduct(); // reload lại query mỗi lần quay lại
+        productController.resetFilterIconClicked(); // reset lại filter
 
         leftPanel_imageView.setImage(image);
 
@@ -165,9 +167,9 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order.fxml"));
                 orderView = fxmlLoader.load();
-                OrderController controller = fxmlLoader.getController();
-                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
-                controller.setCurrentEmployee(currentEmployee);
+                orderController = fxmlLoader.getController();
+                orderController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                orderController.setCurrentEmployee(currentEmployee);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -180,6 +182,9 @@ public class ManagementController implements Initializable {
             String resourcePath = resourceURL.toExternalForm();
             image = new Image(resourcePath);
         }
+
+        orderController.reloadOrder();
+        orderController.resetFilterIconClicked();
 
         leftPanel_imageView.setImage(image);
 
