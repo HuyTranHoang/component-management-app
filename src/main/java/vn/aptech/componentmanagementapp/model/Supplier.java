@@ -1,5 +1,8 @@
 package vn.aptech.componentmanagementapp.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.Objects;
 
 public class Supplier {
@@ -7,6 +10,20 @@ public class Supplier {
     private String name;
     private String email;
     private String website;
+    // For multi delete
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
 
     public long getId() {
         return id;

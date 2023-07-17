@@ -28,12 +28,11 @@
          <children>
             <TableView fx:id="tableView" prefHeight="720.0" prefWidth="700.0" AnchorPane.leftAnchor="10.0">
               <columns>
-                  <TableColumn fx:id="tbc_checkbox" prefWidth="40.0" resizable="false" visible="false" />
+                 <TableColumn fx:id="tbc_checkbox" prefWidth="40.0" resizable="false" visible="false" />
                 <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="tbc_name" prefWidth="200.0" text="Name" />
-                  <TableColumn fx:id="tbc_address" prefWidth="140.0" text="Address" />
-                  <TableColumn fx:id="tbc_phone" prefWidth="140.0" text="Phone" />
-                  <TableColumn fx:id="tbc_email" prefWidth="140.0" text="Email" />
+                  <TableColumn fx:id="tbc_name" prefWidth="171.0" text="Name" />
+                  <TableColumn fx:id="tbc_email" prefWidth="199.0" text="Email" />
+                  <TableColumn fx:id="tbc_website" prefWidth="252.0" text="Website" />
               </columns>
                <contextMenu>
                   <ContextMenu>
@@ -66,22 +65,17 @@
                </children></HBox>
             <AnchorPane layoutX="743.0" prefHeight="720.0" prefWidth="491.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" layoutX="58.0" layoutY="150.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_address" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address (*)" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
+                  <MFXTextField id="textfield-padding" fx:id="txt_website" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address (*)" layoutX="58.0" layoutY="405.0" prefHeight="48.0" prefWidth="380.0" promptText="Website">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_phone" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Phone (*)" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_email" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
+                  <MFXTextField id="textfield-padding" fx:id="txt_email" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="58.0" layoutY="275.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>
@@ -114,12 +108,12 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <Label fx:id="lbl_text" layoutX="126.0" layoutY="41.0" text="ADD NEW CUSTOMER" textFill="WHITE">
+                  <Label fx:id="lbl_text" layoutX="147.0" layoutY="42.0" text="ADD NEW SUPPLIER" textFill="WHITE">
                      <font>
                         <Font name="Inter Bold" size="22.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_error_customerName" layoutX="58.0" layoutY="170.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_supplierName" layoutX="58.0" layoutY="198.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -127,7 +121,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_customerAddress" layoutX="58.0" layoutY="270.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_supplierWebsite" layoutX="58.0" layoutY="323.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -135,7 +129,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_customerPhone" layoutX="58.0" layoutY="370.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_supplierEmail" layoutX="58.0" layoutY="453.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -143,15 +137,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_customerEmail" layoutX="56.0" layoutY="470.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lbl_successMessage" layoutX="55.0" layoutY="488.0" prefHeight="23.0" prefWidth="380.0" text="Add new customer succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="55.0" layoutY="512.0" prefHeight="23.0" prefWidth="380.0" text="Add new supplier succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>
@@ -202,7 +188,7 @@
       </HBox>
       <HBox fx:id="hbox_confirmDelete" layoutX="400.0" layoutY="15.0" spacing="10.0" visible="false">
          <children>
-            <MFXButton onAction="#deleteSelectedCustomerOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+            <MFXButton onAction="#deleteSelectedSupplierOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
                </graphic>
