@@ -41,7 +41,7 @@ public class ProductController implements Initializable,
         ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback {
 
 //    Product Panel
-    private static ObservableList<Product> products;
+    private ObservableList<Product> products;
     private final ProductService productService = new ProductService();
     @FXML
     private Label filter_noti_label; // Truyền vào ProductFilterController để set visiable và text
@@ -322,6 +322,7 @@ public class ProductController implements Initializable,
 
     @FXML
     void filterButtonOnClick() {
+        filterController.reloadFilter();
         filterStage.show();
     }
 
@@ -510,6 +511,12 @@ public class ProductController implements Initializable,
 
         // Update the table view and pagination
         showLastPage();
+    }
+
+    public void reloadProduct() {
+        products = FXCollections.observableArrayList(productService.getAllProduct());
+        paginationHelper.setItems(products);
+        showFirstPage();
     }
 
 }

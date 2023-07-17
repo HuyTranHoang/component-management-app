@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.io.IOException;
@@ -47,6 +48,10 @@ public class ManagementController implements Initializable {
     private AnchorPane categoryView;
     private AnchorPane supplierView;
 
+    // Controller
+    private ProductController productController;
+
+
     //    Variable
     private Employee currentEmployee;
     private Stage stage;
@@ -64,8 +69,8 @@ public class ManagementController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
             productView = fxmlLoader.load();
-            ProductController controller = fxmlLoader.getController();
-            controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
+            productController = fxmlLoader.getController();
+            productController.setAnchor_main_rightPanel(anchor_main_rightPanel);
             anchor_main_rightPanel.getChildren().add(productView);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -94,8 +99,8 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
                 productView = fxmlLoader.load();
-                ProductController controller = fxmlLoader.getController();
-                controller.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                productController = fxmlLoader.getController();
+                productController.setAnchor_main_rightPanel(anchor_main_rightPanel);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -108,6 +113,8 @@ public class ManagementController implements Initializable {
             String resourcePath = resourceURL.toExternalForm();
             image = new Image(resourcePath);
         }
+
+        productController.reloadProduct(); // reload lại query mỗi lần quay lại
 
         leftPanel_imageView.setImage(image);
 

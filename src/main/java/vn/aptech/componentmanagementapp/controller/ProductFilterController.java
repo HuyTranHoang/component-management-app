@@ -143,6 +143,8 @@ public class ProductFilterController implements Initializable {
     }
 
     private void initCategoryFilter() {
+        flowPanel_category.getChildren().clear();
+
         categories = FXCollections.observableArrayList(categoryService.getAllCategory());
 
         categories.forEach(category -> {
@@ -210,6 +212,8 @@ public class ProductFilterController implements Initializable {
 
 
     private void initSupplierFilter() {
+        flowPanel_supplier.getChildren().clear();
+
         suppliers = FXCollections.observableArrayList(supplierService.getAllSupplier());
 
         suppliers.forEach(supplier -> {
@@ -392,6 +396,11 @@ public class ProductFilterController implements Initializable {
     }
     void filterAddProduct(Product product) {
         products.add(product);
+    }
+
+    public void reloadFilter() {
+        initSupplierFilter();
+        initCategoryFilter();
     }
 
 }
