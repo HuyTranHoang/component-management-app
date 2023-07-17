@@ -18,7 +18,7 @@ public class CategoryService {
         return categoryDAO.getAll();
     }
   
-    public Category getCategoryById(int categoryId) {
+    public Category getCategoryById(long categoryId) {
         return categoryDAO.getById(categoryId);
     }
 
@@ -32,7 +32,7 @@ public class CategoryService {
         categoryDAO.update(category);
     }
 
-    public void deleteCategory(int categoryId) {
+    public void deleteCategory(long categoryId) {
 
         categoryDAO.delete(categoryId);
     }

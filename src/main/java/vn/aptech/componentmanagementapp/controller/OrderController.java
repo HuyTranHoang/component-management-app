@@ -426,7 +426,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedOrderIds.size() + " customer? " +
+        confirmation.setContentText("Are you sure you want to delete " + selectedOrderIds.size() + " order? " +
                 "If you delete, all order details belong to this order also get deleted.");
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             selectedOrderIds.forEach(aLong -> {
@@ -458,7 +458,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
-            confirmation.setContentText("Are you sure you want to delete selected customer? " +
+            confirmation.setContentText("Are you sure you want to delete selected order? " +
                     "If you delete, all order details belong to that order also get deleted.");
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 orderService.deleteOrder(selectedOrder.getId());

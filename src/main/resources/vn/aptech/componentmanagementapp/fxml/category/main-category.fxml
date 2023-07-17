@@ -9,31 +9,30 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.CustomerController">
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.CategoryController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXTextField fx:id="txt_customer_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search by name, email, phone" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
+      <MFXTextField fx:id="txt_category_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search by name" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
       </MFXTextField>
       <FontIcon iconLiteral="fas-search" iconSize="14" layoutX="29.0" layoutY="37.0" text="" />
-      <AnchorPane fx:id="anchor_product_view" layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TableView fx:id="tableView" prefHeight="720.0" prefWidth="700.0" AnchorPane.leftAnchor="10.0">
               <columns>
                   <TableColumn fx:id="tbc_checkbox" prefWidth="40.0" resizable="false" visible="false" />
                 <TableColumn fx:id="tbc_id" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="tbc_name" prefWidth="200.0" text="Name" />
-                  <TableColumn fx:id="tbc_address" prefWidth="140.0" text="Address" />
-                  <TableColumn fx:id="tbc_phone" prefWidth="140.0" text="Phone" />
-                  <TableColumn fx:id="tbc_email" prefWidth="140.0" text="Email" />
+                  <TableColumn fx:id="tbc_name" prefWidth="269.0" text="Name" />
+                  <TableColumn fx:id="tbc_description" prefWidth="316.0" text="Description" />
               </columns>
                <contextMenu>
                   <ContextMenu>
@@ -71,29 +70,14 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_address" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address (*)" layoutX="58.0" layoutY="215.0" prefHeight="48.0" prefWidth="380.0" promptText="Address">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_phone" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Phone (*)" layoutX="58.0" layoutY="315.0" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_email" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="56.0" layoutY="415.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
-                     <font>
-                        <Font name="Segoe UI" size="14.0" />
-                     </font>
-                  </MFXTextField>
                   <HBox fx:id="hbox_addGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0">
                      <children>
-                        <MFXButton id="button-custom-clear" fx:id="btn_clear" onAction="#clearButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                        <MFXButton id="button-custom-clear" onAction="#clearButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" fx:id="btn_store" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
+                        <MFXButton id="button-custom" onAction="#storeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="STORE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -102,24 +86,24 @@
                   </HBox>
                   <HBox fx:id="hbox_updateGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0" visible="false">
                      <children>
-                        <MFXButton id="button-custom-clear" fx:id="btn_back" onAction="#addButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                        <MFXButton id="button-custom-clear" onAction="#addButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" fx:id="btn_update" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
                      </children>
                   </HBox>
-                  <Label fx:id="lbl_text" layoutX="126.0" layoutY="41.0" text="ADD NEW CUSTOMER" textFill="WHITE">
+                  <Label fx:id="lbl_modeTitle" layoutX="126.0" layoutY="41.0" text="ADD NEW CATEGORY" textFill="WHITE">
                      <font>
                         <Font name="Inter Bold" size="22.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_error_customerName" layoutX="58.0" layoutY="170.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_categoryName" layoutX="58.0" layoutY="170.0" prefHeight="32.0" prefWidth="380.0" textFill="#e57c23" visible="false" wrapText="true">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -127,23 +111,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_customerAddress" layoutX="58.0" layoutY="270.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lbl_error_customerPhone" layoutX="58.0" layoutY="370.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lbl_error_customerEmail" layoutX="56.0" layoutY="470.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                  <Label fx:id="lbl_error_categoryDescription" layoutX="56.0" layoutY="460.0" prefHeight="32.0" prefWidth="380.0" textFill="#e57c23" visible="false" wrapText="true">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -158,6 +126,15 @@
                      <graphic>
                         <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
                      </graphic>
+                  </Label>
+                  <TextArea fx:id="txt_description" layoutX="58.0" layoutY="231.0" prefHeight="200.0" prefWidth="380.0" promptText="Description">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font></TextArea>
+                  <Label layoutX="58.0" layoutY="203.0" text="Description" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
                   </Label>
                </children>
             </AnchorPane>
@@ -202,7 +179,7 @@
       </HBox>
       <HBox fx:id="hbox_confirmDelete" layoutX="400.0" layoutY="15.0" spacing="10.0" visible="false">
          <children>
-            <MFXButton onAction="#deleteSelectedCustomerOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+            <MFXButton onAction="#deleteSelectedCategoryOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
                </graphic>
