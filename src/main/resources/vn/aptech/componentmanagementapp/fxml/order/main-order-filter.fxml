@@ -53,7 +53,7 @@
             </MFXButton>
          </children>
       </HBox>
-      <AnchorPane layoutY="150.0" prefHeight="146.0" prefWidth="800.0">
+      <AnchorPane layoutY="150.0" prefWidth="800.0">
          <children>
             <Label layoutX="66.0" layoutY="38.0" text="By customer" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
                <font>
@@ -85,6 +85,48 @@
                            </font>
                         </Label>
                         <Label fx:id="lbl_customerPhone">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="273.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="66.0" layoutY="38.0" text="By employee" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Inter SemiBold" size="24.0" />
+               </font>
+            </Label>
+            <MFXButton id="button-custom" layoutX="48.0" layoutY="63.0" onAction="#selectEmployeeOnClick" text="Select employee" />
+            <VBox fx:id="vbox_employeeInfo" layoutX="230.0" layoutY="63.0" spacing="20.0" visible="false">
+               <children>
+                  <HBox prefHeight="20.0" prefWidth="449.0" spacing="10.0">
+                     <children>
+                        <Label text="Employee name:" textFill="#4a55a2">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_employeeName">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="20.0" prefWidth="449.0" spacing="10.0">
+                     <children>
+                        <Label text="Customer phone:" textFill="#4a55a2">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_employeePhone">
                            <font>
                               <Font size="14.0" />
                            </font>

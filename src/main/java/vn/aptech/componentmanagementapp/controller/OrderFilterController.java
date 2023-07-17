@@ -20,6 +20,7 @@ import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
+import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
 
 import java.io.IOException;
@@ -30,7 +31,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class OrderFilterController implements Initializable, OrderAddSelectCustomerController.CustomerSelectionCallback {
+public class OrderFilterController implements Initializable, OrderAddSelectCustomerController.CustomerSelectionCallback,
+    OrderAddSelectEmployeeController.EmployeeSelectionCallback{
+
     public interface ViewResultCallback {
         void onViewResultClicked(List<Order> filterOrder);
     }
@@ -55,11 +58,19 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     private Scene selectCustomerScene;
     private Stage selectCustomerStage;
 
+    private Scene selectEmployeeScene;
+    private Stage selectEmployeeStage;
+
     // Filter var
     private Customer currentCustomer;
 
+    private Employee currentEmployee;
+
     @FXML
     private VBox vbox_customerInfo;
+
+    @FXML
+    private VBox vbox_employeeInfo;
 
     @FXML
     private MFXToggleButton btn_toggleDate;
@@ -81,6 +92,12 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
 
     @FXML
     private Label lbl_customerPhone;
+
+    @FXML
+    private Label lbl_employeeName;
+
+    @FXML
+    private Label lbl_employeePhone;
 
     private Stage stage;
 
@@ -215,6 +232,13 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 countFilter++;
             }
 
+            if (currentEmployee != null) {
+                filterOrder = filterOrder.stream()
+                        .filter(order -> order.getEmployeeId() == currentEmployee.getId())
+                        .collect(Collectors.toList());
+                countFilter++;
+            }
+
             if (viewResultCallback != null) {
                 viewResultCallback.onViewResultClicked(filterOrder);
             }
@@ -227,9 +251,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 filter_noti_shape.setVisible(false);
                 filter_noti_label.setVisible(false);
             }
-
-
-
+            
             stage.close();
         }
     }
@@ -257,11 +279,42 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         }
     }
 
+    @FXML
+    void selectEmployeeOnClick() {
+        try {
+            if (selectEmployeeScene == null && selectEmployeeStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add-selectEmployee.fxml"));
+                selectEmployeeScene = new Scene(fxmlLoader.load());
+                selectEmployeeStage = new Stage();
+                OrderAddSelectEmployeeController controller = fxmlLoader.getController();
+                controller.setEmployeeSelectionCallback(this);
+                controller.setStage(selectEmployeeStage);
+                selectEmployeeStage.setTitle("Select customer");
+                selectEmployeeStage.initModality(Modality.APPLICATION_MODAL);
+                selectEmployeeStage.setResizable(false);
+
+                selectEmployeeStage.setScene(selectEmployeeScene);
+            }
+
+            selectEmployeeStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void onCustomerSelected(Customer customer) {
         currentCustomer = customer;
         lbl_customerName.setText(currentCustomer.getName());
         lbl_customerPhone.setText(currentCustomer.getPhone());
         vbox_customerInfo.setVisible(true);
+    }
+
+    @Override
+    public void onEmployeeSelected(Employee employee) {
+        currentEmployee = employee;
+        lbl_employeeName.setText(currentEmployee.getName());
+        lbl_employeePhone.setText(currentEmployee.getPhone());
+        vbox_employeeInfo.setVisible(true);
     }
 }
