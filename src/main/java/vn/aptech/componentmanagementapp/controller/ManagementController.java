@@ -228,7 +228,9 @@ public class ManagementController implements Initializable {
 
         Image image = null;
 
+
         URL resourceURL = ComponentManagementApplication.class.getResource("images/categories.png");
+
         if (resourceURL != null) {
             String resourcePath = resourceURL.toExternalForm();
             image = new Image(resourcePath);
