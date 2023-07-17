@@ -185,7 +185,36 @@ public class ManagementController implements Initializable {
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(orderView);
     }
+    @FXML
+    void supplierListButtonOnClick() {
+        if (supplierView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/supplier/main-supplier.fxml"));
+                supplierView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
+        Image image = null;
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("image/supplier.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
+
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
+        btn_leftPanel_SupplierList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(supplierView);
+    }
     @FXML
     void categoryListButtonOnClick() {
         if (categoryView == null) {
