@@ -269,7 +269,6 @@ public class CustomerController implements Initializable {
     }
     @FXML
     void editButtonOnClick() {
-        updateMode();
         Customer customer = tableView.getSelectionModel().getSelectedItem();
         if (customer == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -278,6 +277,7 @@ public class CustomerController implements Initializable {
             alert.setContentText("Please select customer before edit!");
             alert.show();
         } else {
+            updateMode();
             txt_name.setText(customer.getName());
             txt_address.setText(customer.getAddress());
             txt_phone.setText(customer.getPhone());

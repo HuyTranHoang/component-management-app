@@ -43,43 +43,59 @@
                   </ContextMenu>
                </contextMenu>
             </TableView>
-            <HBox alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="689.0" spacing="10.0">
-               <children>
-                  <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
-                     </graphic></Button>
-                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
-                     </graphic></Button>
-                  <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
-                  <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
-                     </graphic></Button>
-                  <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
-                     <graphic>
-                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
-                     </graphic></Button>
-               </children></HBox>
             <AnchorPane layoutX="743.0" prefHeight="720.0" prefWidth="491.0" styleClass="main-background-color">
                <children>
-                  <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" layoutX="58.0" layoutY="150.0" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                  <HBox layoutX="58.0" layoutY="130.0">
+                     <children>
+                        <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lbl_error_supplierName" layoutX="58.0" layoutY="183.0" prefHeight="50.0" prefWidth="360.0" textFill="#e57c23" visible="false" wrapText="true">
                      <font>
-                        <Font name="Segoe UI" size="14.0" />
+                        <Font name="Inter Bold" size="13.0" />
                      </font>
-                  </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_website" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address (*)" layoutX="58.0" layoutY="405.0" prefHeight="48.0" prefWidth="380.0" promptText="Website">
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <HBox layoutX="58.0" layoutY="264.0">
+                     <children>
+                        <MFXTextField id="textfield-padding" fx:id="txt_email" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Email" prefHeight="48.0" prefWidth="380.0" promptText="Email">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lbl_error_supplierEmail" layoutX="58.0" layoutY="317.0" prefHeight="50.0" prefWidth="360.0" textFill="#e57c23" visible="false" wrapText="true">
                      <font>
-                        <Font name="Segoe UI" size="14.0" />
+                        <Font name="Inter Bold" size="13.0" />
                      </font>
-                  </MFXTextField>
-                  <MFXTextField id="textfield-padding" fx:id="txt_email" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Email" layoutX="58.0" layoutY="275.0" prefHeight="48.0" prefWidth="380.0" promptText="Email">
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <HBox layoutX="58.0" layoutY="405.0">
+                     <children>
+                        <MFXTextField id="textfield-padding" fx:id="txt_website" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Website" prefHeight="48.0" prefWidth="380.0" promptText="Website">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXTextField>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lbl_error_supplierWebsite" layoutX="58.0" layoutY="457.0" prefHeight="50.0" prefWidth="360.0" textFill="#e57c23" visible="false" wrapText="true">
                      <font>
-                        <Font name="Segoe UI" size="14.0" />
+                        <Font name="Inter Bold" size="13.0" />
                      </font>
-                  </MFXTextField>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
                   <HBox fx:id="hbox_addGroup" layoutX="55.0" layoutY="550.0" prefWidth="380.0" spacing="80.0">
                      <children>
                         <MFXButton id="button-custom-clear" fx:id="btn_clear" onAction="#clearButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
@@ -108,45 +124,49 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <Label fx:id="lbl_text" layoutX="147.0" layoutY="42.0" text="ADD NEW SUPPLIER" textFill="WHITE">
-                     <font>
-                        <Font name="Inter Bold" size="22.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbl_error_supplierName" layoutX="58.0" layoutY="198.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lbl_error_supplierWebsite" layoutX="58.0" layoutY="323.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lbl_error_supplierEmail" layoutX="58.0" layoutY="453.0" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="13.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                     </graphic>
-                  </Label>
-                  <Label fx:id="lbl_successMessage" layoutX="55.0" layoutY="512.0" prefHeight="23.0" prefWidth="380.0" text="Add new supplier successfully!!" textFill="#70da6a" visible="false">
-                     <font>
-                        <Font name="Inter Bold" size="18.0" />
-                     </font>
-                     <graphic>
-                        <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
-                     </graphic>
-                  </Label>
+                  <HBox layoutX="146.0" layoutY="46.0">
+                     <children>
+                        <Label fx:id="lbl_text" text="ADD NEW SUPPLIER" textFill="WHITE">
+                           <font>
+                              <Font name="Inter Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="56.0" layoutY="513.0">
+                     <children>
+                        <Label fx:id="lbl_successMessage" alignment="CENTER" prefHeight="23.0" prefWidth="380.0" text="Add new supplier successfully!!" textFill="#70da6a" visible="false" wrapText="true">
+                           <font>
+                              <Font name="Inter Bold" size="18.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
+                           </graphic>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="735.0" prefHeight="35.0" prefWidth="689.0" spacing="10.0">
+               <children>
+                  <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-left" iconSize="14" />
+                     </graphic></Button>
+                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#showPreviousPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-left" iconSize="14" />
+                     </graphic></Button>
+                  <HBox fx:id="pageButtonContainer" alignment="CENTER" spacing="5.0" />
+                  <Button fx:id="nextButton" mnemonicParsing="false" onAction="#showNextPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-caret-right" iconSize="14" />
+                     </graphic></Button>
+                  <Button fx:id="lastPageButton" mnemonicParsing="false" onAction="#showLastPage" styleClass="pagination-button">
+                     <graphic>
+                        <FontIcon iconColor="#4a55a2" iconLiteral="fas-angle-double-right" iconSize="14" />
+                     </graphic></Button>
+               </children></HBox>
          </children>
       </AnchorPane>
       <HBox fx:id="hbox_addEditDelete" layoutX="400.0" layoutY="15.0" spacing="10.0">
