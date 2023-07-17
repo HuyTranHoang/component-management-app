@@ -26,7 +26,6 @@ import vn.aptech.componentmanagementapp.model.Order;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -181,6 +180,9 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         currentCustomer = null;
         vbox_customerInfo.setVisible(false);
 
+        currentEmployee = null;
+        vbox_employeeInfo.setVisible(false);
+
         if (clearFilterCallback != null) {
             clearFilterCallback.onClearFilterClicked();
         }
@@ -251,7 +253,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 filter_noti_shape.setVisible(false);
                 filter_noti_label.setVisible(false);
             }
-            
+
             stage.close();
         }
     }

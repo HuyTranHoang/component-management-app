@@ -54,8 +54,8 @@ CREATE TABLE products
     stock_quantity    INTEGER          NOT NULL,
     month_of_warranty INTEGER,
     note              VARCHAR(255),
-    supplier_id       BIGINT REFERENCES suppliers (id),
-    category_id       BIGINT REFERENCES categories (id)
+    supplier_id       BIGINT REFERENCES suppliers (id) ON DELETE CASCADE,
+    category_id       BIGINT REFERENCES categories (id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_supplier_category

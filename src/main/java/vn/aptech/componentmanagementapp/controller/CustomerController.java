@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
-//    List
+    //    List
     private ObservableList<Customer> customers;
 
     //  Pagination
