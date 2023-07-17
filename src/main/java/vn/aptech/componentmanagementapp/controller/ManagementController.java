@@ -34,6 +34,12 @@ public class ManagementController implements Initializable {
     @FXML
     private MFXButton btn_leftPanel_productList;
 
+    @FXML
+    private MFXButton btn_leftPanel_SupplierList;
+
+    @FXML
+    private MFXButton btn_leftPanel_CategoryList;
+
     // Cached views
     private AnchorPane productView;
     private AnchorPane customerView;
@@ -106,6 +112,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_productList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel");
+        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(productView);
@@ -135,6 +143,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel");
+        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(customerView);
@@ -167,6 +177,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(orderView);

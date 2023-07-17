@@ -4,17 +4,22 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
@@ -22,6 +27,7 @@ import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderService;
+import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.io.IOException;
@@ -32,7 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class OrderController implements Initializable, OrderAddController.OrderAddCallback {
+public class OrderController implements Initializable, OrderAddController.OrderAddCallback,
+        OrderFilterController.ViewResultCallback, OrderFilterController.ClearFilterCallback {
     // Sort and multi deleted
     @FXML
     private MFXComboBox<String> cbb_orderBy;
@@ -84,14 +91,24 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     private HBox hbox_confirmDelete;
     //    List
     private ObservableList<Order> orders;
-    private ObservableList<Order> pageItems;
+
+    //    Filter Panel
+    private Scene filterScene;
+    private Stage filterStage;
+
+    @FXML
+    private Label filter_noti_label; // Truyền vào OrderFilterController để set visiable và text
+    @FXML
+    private Circle filter_noti_shape;
+
+
+    //    Controller to call clear filter function in this
+    private OrderFilterController filterController;
+    private OrderAddController orderAddController;
 
     //  Service
     private final OrderService orderService = new OrderService();
     private final EmployeeService employeeService = new EmployeeService();
-
-    //    Controller to call clear filter function in this
-    private OrderAddController orderAddController;
 
     // Cached views
     private AnchorPane addOrderView;
@@ -147,6 +164,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         paginationHelper.showFirstPage();
 
+        initFilterStage();
         initEnterKeyPressing();
 
         Platform.runLater(() -> {
@@ -160,10 +178,12 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         tbc_deliveryDate.setCellValueFactory(new PropertyValueFactory<>("deliveryDate"));
         tbc_receiveDate.setCellValueFactory(new PropertyValueFactory<>("receiveDate"));
         tbc_deliveryLocation.setCellValueFactory(new PropertyValueFactory<>("deliveryLocation"));
-        tbc_totalAmount.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+//        tbc_totalAmount.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        tbc_totalAmount.setCellFactory(column -> new FormattedDoubleTableCell<>());
+        tbc_totalAmount.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getTotalAmount()));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
-//        tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-//        tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
+        tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
 
         tbc_customerId.setCellValueFactory(cellData -> {
             Customer customer = cellData.getValue().getCustomer();
@@ -249,6 +269,59 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             };
             return cell;
         };
+    }
+
+    private void initFilterStage() {
+        try {
+            if (filterScene == null && filterStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-filter.fxml"));
+                filterScene = new Scene(fxmlLoader.load());
+                filterStage = new Stage();
+                filterStage.setTitle("Filter Order");
+                filterStage.initModality(Modality.APPLICATION_MODAL);
+
+                filterController = fxmlLoader.getController();
+                filterController.setOrders(orders);
+
+                // Xử lý dữ liệu sau khi viewResultButtonOnClick() được gọi và nhận filterOrder
+                // ... thực hiện các thao tác khác với filterOrder ...
+//                filterController.setViewResultCallback(filterOrder -> {
+//                    paginationHelper.setItems(FXCollections.observableArrayList(filterOrder));
+//                    paginationHelper.showFirstPage();
+//                });
+
+                filterController.setStage(filterStage);
+                filterController.setViewResultCallback(this);
+                filterController.setClearFilterCallback(this);
+                filterController.setFilter_noti_label(filter_noti_label);
+                filterController.setFilter_noti_shape(filter_noti_shape);
+
+                filterStage.setScene(filterScene);
+                filterStage.setResizable(false);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void filterButtonOnClick() {
+        filterStage.show();
+    }
+
+    @FXML
+    void resetFilterIconClicked() {
+        if (filterController != null) {
+            filterController.clearFilterButtonOnClick();
+        }
+//        cbb_sortBy.selectFirst();
+//        cbb_orderBy.selectFirst();
+
+        orders = FXCollections.observableArrayList(orderService.getAllOrder());
+        paginationHelper.setItems(orders);
+        showFirstPage();
+
+        uncheckAllCheckboxes();
     }
 
     @FXML
@@ -429,6 +502,22 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     @Override
     public void onOrderAdded(Order order) {
         orders.add(order);
+        resetFilterIconClicked();
         showLastPage();
+    }
+
+    @Override
+    public void onViewResultClicked(List<Order> filterOrder) {
+        paginationHelper.setItems(FXCollections.observableArrayList(filterOrder));
+        showFirstPage();
+    }
+
+    @Override
+    public void onClearFilterClicked() {
+        orders = FXCollections.observableArrayList(orderService.getAllOrder());
+        paginationHelper.setItems(orders);
+        showFirstPage();
+
+        uncheckAllCheckboxes();
     }
 }
