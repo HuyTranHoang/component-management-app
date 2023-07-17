@@ -111,7 +111,7 @@
                         <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                      </graphic>
                   </Label>
-                  <Label fx:id="lbl_error_categoryDescription" layoutX="56.0" layoutY="460.0" prefHeight="32.0" prefWidth="380.0" textFill="#e57c23" visible="false" wrapText="true">
+                  <Label fx:id="lbl_error_categoryDescription" layoutX="56.0" layoutY="472.0" prefHeight="32.0" prefWidth="380.0" textFill="#e57c23" visible="false" wrapText="true">
                      <font>
                         <Font name="Inter Bold" size="13.0" />
                      </font>
@@ -127,11 +127,11 @@
                         <FontIcon iconColor="#70da6a" iconLiteral="fas-check-circle" />
                      </graphic>
                   </Label>
-                  <TextArea fx:id="txt_description" layoutX="58.0" layoutY="231.0" prefHeight="200.0" prefWidth="380.0" promptText="Description">
+                  <TextArea fx:id="txt_description" layoutX="55.0" layoutY="268.0" prefHeight="200.0" prefWidth="380.0" promptText="Description">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font></TextArea>
-                  <Label layoutX="58.0" layoutY="203.0" text="Description" textFill="WHITE">
+                  <Label layoutX="58.0" layoutY="238.0" text="Description" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI" size="14.0" />
                      </font>

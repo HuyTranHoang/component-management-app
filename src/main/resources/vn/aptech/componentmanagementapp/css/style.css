@@ -274,3 +274,8 @@
 .menu-item:focused {
     -fx-background-color: -hbd-primary-color;
 }
+
+.text-area:focused {
+    -fx-border-color: #7a0ed9;
+    -fx-border-width: 3px;
+}
