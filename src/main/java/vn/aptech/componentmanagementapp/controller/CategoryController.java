@@ -201,10 +201,10 @@ public class CategoryController implements Initializable {
 
         txt_category_search.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                searchCustomerOnAction();
+                searchCategoryOnAction();
             } else if (event.getCode() == KeyCode.ESCAPE) {
                 txt_category_search.clear();
-                searchCustomerOnAction();
+                searchCategoryOnAction();
             }
         });
     }
@@ -422,7 +422,7 @@ public class CategoryController implements Initializable {
         clearButtonOnClick();
     }
 
-    private void searchCustomerOnAction() {
+    private void searchCategoryOnAction() {
         String searchText = txt_category_search.getText().trim();
         if (!searchText.isEmpty()) {
             List<Category> filter = categories.stream()
@@ -443,7 +443,7 @@ public class CategoryController implements Initializable {
     @FXML
     void resetFilterIconClicked() {
         txt_category_search.setText("");
-        searchCustomerOnAction();
+        searchCategoryOnAction();
     }
 
 }
