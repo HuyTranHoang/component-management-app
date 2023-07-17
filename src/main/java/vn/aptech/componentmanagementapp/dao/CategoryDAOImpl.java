@@ -88,7 +88,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 
     private void statementInsertUpdate(Category category, PreparedStatement statement) throws SQLException {
         statement.setString(1,category.getName());
-        statement.setString(2, category.getDescription());;
+        statement.setString(2, category.getDescription());
     }
 
     private void setCategory(Category category, ResultSet resultSet) throws SQLException {
