@@ -36,6 +36,8 @@ public class CategoryController implements Initializable {
     //List
     private ObservableList<Category> categories;
 
+    private Category currentCategory;
+
     //Service
     private final CategoryService categoryService = new CategoryService();
 
@@ -286,20 +288,20 @@ public class CategoryController implements Initializable {
     @FXML
     void updateButtonOnClick() {
         if (validator.validate()) {
-            Category category = tableView.getSelectionModel().getSelectedItem();
-            category.setName(txt_name.getText());
-            category.setDescription(txt_description.getText());
-            categoryService.updateCategory(category);
+            currentCategory.setName(txt_name.getText());
+            currentCategory.setDescription(txt_description.getText());
+            categoryService.updateCategory(currentCategory);
 
             lbl_successMessage.setText("Update category successfully!!");
             lbl_successMessage.setVisible(true);
             new FadeIn(lbl_successMessage).play();
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
-            int index = tableView.getItems().indexOf(category);
+            int index = tableView.getItems().indexOf(currentCategory);
             if (index >= 0) {
-                tableView.getItems().set(index, category);
+                tableView.getItems().set(index, currentCategory);
             }
+            addButtonOnClick();
         }
     }
 
@@ -311,8 +313,8 @@ public class CategoryController implements Initializable {
 
     @FXML
     void editButtonOnClick() {
-        Category category = tableView.getSelectionModel().getSelectedItem();
-        if (category == null) {
+        currentCategory = tableView.getSelectionModel().getSelectedItem();
+        if (currentCategory == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -320,9 +322,9 @@ public class CategoryController implements Initializable {
             alert.show();
         } else {
             updateMode();
-            txt_name.setText(category.getName());
-            if (category.getDescription() != null)
-                txt_description.setText(category.getDescription());
+            txt_name.setText(currentCategory.getName());
+            if (currentCategory.getDescription() != null)
+                txt_description.setText(currentCategory.getDescription());
         }
     }
 
