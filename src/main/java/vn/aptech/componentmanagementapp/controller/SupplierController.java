@@ -35,10 +35,9 @@ import java.util.ResourceBundle;
 
 public class SupplierController implements Initializable {
 
-    /**
-     * List
-     */
+    // List
     private ObservableList<Supplier> suppliers;
+    private Supplier currentSupplier;
 
     //  Pagination
     @FXML
@@ -53,9 +52,6 @@ public class SupplierController implements Initializable {
     private Button previousButton;
     private PaginationHelper<Supplier> paginationHelper;
 
-
-    @FXML
-    private AnchorPane anchor_product_view;
     //Service
     SupplierService supplierService = new SupplierService();
 
@@ -125,17 +121,6 @@ public class SupplierController implements Initializable {
     @FXML
     private HBox hbox_updateGroup;
 
-    @FXML
-    private MFXButton btn_back;
-
-    @FXML
-    private MFXButton btn_clear;
-
-    @FXML
-    private MFXButton btn_store;
-
-    @FXML
-    private MFXButton btn_update;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         suppliers = FXCollections.observableArrayList(supplierService.getAllSupplier());
@@ -309,21 +294,21 @@ public class SupplierController implements Initializable {
     @FXML
     void updateButtonOnClick() {
         if (validator.validate()) {
-            Supplier supplier = tableView.getSelectionModel().getSelectedItem();
-            supplier.setName(txt_name.getText());
-            supplier.setEmail(txt_email.getText());
-            supplier.setWebsite(txt_website.getText());
-            supplierService.updateSupplier(supplier);
+            currentSupplier.setName(txt_name.getText());
+            currentSupplier.setEmail(txt_email.getText());
+            currentSupplier.setWebsite(txt_website.getText());
+            supplierService.updateSupplier(currentSupplier);
 
             lbl_successMessage.setText("Update supplier successfully!!");
             lbl_successMessage.setVisible(true);
             new FadeIn(lbl_successMessage).play();
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
-            int index = tableView.getItems().indexOf(supplier);
+            int index = tableView.getItems().indexOf(currentSupplier);
             if (index >= 0) {
-                tableView.getItems().set(index, supplier);
+                tableView.getItems().set(index, currentSupplier);
             }
+            addButtonOnClick();
         }
     }
     @FXML
@@ -342,8 +327,8 @@ public class SupplierController implements Initializable {
     }
     @FXML
     void editButtonOnClick() {
-        Supplier supplier = tableView.getSelectionModel().getSelectedItem();
-        if (supplier == null) {
+        currentSupplier = tableView.getSelectionModel().getSelectedItem();
+        if (currentSupplier == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -351,10 +336,10 @@ public class SupplierController implements Initializable {
             alert.show();
         } else {
             updateMode();
-            txt_name.setText(supplier.getName());
-            if (supplier.getEmail() != null)
-                txt_email.setText(supplier.getEmail());
-            txt_website.setText(supplier.getWebsite());
+            txt_name.setText(currentSupplier.getName());
+            if (currentSupplier.getEmail() != null)
+                txt_email.setText(currentSupplier.getEmail());
+            txt_website.setText(currentSupplier.getWebsite());
         }
     }
 
@@ -496,7 +481,7 @@ public class SupplierController implements Initializable {
     }
 
     private boolean isEmailUniqueUpdate(List<Supplier> suppliers, String txt_email) {
-        String email = tableView.getSelectionModel().getSelectedItem().getEmail();
+        String email = currentSupplier.getEmail();
         return suppliers.stream()
                 .noneMatch(supplier -> supplier.getEmail() != null && supplier.getEmail().equals(txt_email))
                 || txt_email.equals(email);

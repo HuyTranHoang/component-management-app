@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
 public class CustomerController implements Initializable {
     //    List
     private ObservableList<Customer> customers;
+    private Customer currentCustomer;
 
     //  Pagination
     @FXML
@@ -219,12 +220,11 @@ public class CustomerController implements Initializable {
     @FXML
     void updateButtonOnClick(){
         if(customerValidator.validate()){
-            Customer customer = tableView.getSelectionModel().getSelectedItem();
-            customer.setName(txt_name.getText());
-            customer.setAddress(txt_address.getText());
-            customer.setPhone(txt_phone.getText());
-            customer.setEmail(txt_email.getText());
-            customerService.updateCustomer(customer);
+            currentCustomer.setName(txt_name.getText());
+            currentCustomer.setAddress(txt_address.getText());
+            currentCustomer.setPhone(txt_phone.getText());
+            currentCustomer.setEmail(txt_email.getText());
+            customerService.updateCustomer(currentCustomer);
 
             // Show success message
             lbl_successMessage.setText("Update customer successfully!!");
@@ -234,10 +234,11 @@ public class CustomerController implements Initializable {
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
 
-            int index = tableView.getItems().indexOf(customer);
+            int index = tableView.getItems().indexOf(currentCustomer);
             if (index >= 0) {
-                tableView.getItems().set(index, customer);
+                tableView.getItems().set(index, currentCustomer);
             }
+            addButtonOnClick();
         }
     }
     @FXML
@@ -269,8 +270,8 @@ public class CustomerController implements Initializable {
     }
     @FXML
     void editButtonOnClick() {
-        Customer customer = tableView.getSelectionModel().getSelectedItem();
-        if (customer == null) {
+        currentCustomer = tableView.getSelectionModel().getSelectedItem();
+        if (currentCustomer == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -278,11 +279,11 @@ public class CustomerController implements Initializable {
             alert.show();
         } else {
             updateMode();
-            txt_name.setText(customer.getName());
-            txt_address.setText(customer.getAddress());
-            txt_phone.setText(customer.getPhone());
-            if (customer.getEmail() != null)
-                txt_email.setText(customer.getEmail());
+            txt_name.setText(currentCustomer.getName());
+            txt_address.setText(currentCustomer.getAddress());
+            txt_phone.setText(currentCustomer.getPhone());
+            if (currentCustomer.getEmail() != null)
+                txt_email.setText(currentCustomer.getEmail());
         }
     }
     @FXML
@@ -392,7 +393,7 @@ public class CustomerController implements Initializable {
     }
 
     private boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
-        String email = tableView.getSelectionModel().getSelectedItem().getEmail();
+        String email = currentCustomer.getEmail();
         return customers.stream()
                 .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email))
                 || txt_email.equals(email);
@@ -404,7 +405,7 @@ public class CustomerController implements Initializable {
     }
 
     private boolean isPhoneUniqueUpdate(List<Customer> customers, String txt_phone) {
-        String phone = tableView.getSelectionModel().getSelectedItem().getPhone();
+        String phone = currentCustomer.getPhone();
         return customers.stream()
                 .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone))
                 || txt_phone.equals(phone);
