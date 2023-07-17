@@ -311,7 +311,6 @@ public class CategoryController implements Initializable {
 
     @FXML
     void editButtonOnClick() {
-        updateMode();
         Category category = tableView.getSelectionModel().getSelectedItem();
         if (category == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -320,6 +319,7 @@ public class CategoryController implements Initializable {
             alert.setContentText("Please select category before edit!");
             alert.show();
         } else {
+            updateMode();
             txt_name.setText(category.getName());
             if (category.getDescription() != null)
                 txt_description.setText(category.getDescription());
