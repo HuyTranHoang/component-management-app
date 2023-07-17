@@ -32,7 +32,7 @@ public class SupplierService {
         supplierDAO.update(supplier);
     }
 
-    public void deleteSupplier(int supplierId) {
+    public void deleteSupplier(long supplierId) {
 
         supplierDAO.delete(supplierId);
     }

@@ -37,6 +37,9 @@ CREATE TABLE suppliers
     email   VARCHAR(255),
     website VARCHAR(255)
 );
+CREATE UNIQUE INDEX idx_unique_email
+    ON suppliers (email)
+    WHERE email IS NOT NULL AND email <> '';
 
 CREATE TABLE categories
 (
