@@ -34,6 +34,17 @@ public class ProductFilterController implements Initializable {
     public void setFilterCallback(FilterCallback filterCallback) {
         this.filterCallback = filterCallback;
     }
+
+    public interface ClearFilterCallback {
+        void onClearFilterClicked();
+    }
+
+    private ClearFilterCallback clearFilterCallback;
+
+    public void setClearFilterCallback(ClearFilterCallback callback) {
+        this.clearFilterCallback = callback;
+    }
+
     //    Dùng để filter những cột nào hiển thị trên table
     @FXML
     private ToggleGroup tggPrice;
@@ -345,9 +356,14 @@ public class ProductFilterController implements Initializable {
 
         updateSelectedButtonsLabel(); // Clear the existing labels
 
+        filter_noti_label.setVisible(false);
+        filter_noti_shape.setVisible(false);
+
         txt_product_search.clear(); // Clear search text
 
-        viewResultButtonOnClick();
+        if (clearFilterCallback != null) {
+            clearFilterCallback.onClearFilterClicked();
+        }
 
         stage.close();
     }

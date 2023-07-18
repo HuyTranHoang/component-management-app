@@ -38,7 +38,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
 public class ProductController implements Initializable,
-        ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback {
+        ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback, ProductFilterController.ClearFilterCallback {
 
 //    Product Panel
     private ObservableList<Product> products;
@@ -304,7 +304,7 @@ public class ProductController implements Initializable,
                 filterStage.initOwner(tableView.getScene().getWindow());
 
                 filterController = fxmlLoader.getController();
-                filterController.setFilterCallback(this);
+
                 filterController.setStage(filterStage);
                 filterController.setTxt_product_search(txt_product_search);
                 filterController.setProducts(products);
@@ -314,6 +314,9 @@ public class ProductController implements Initializable,
 
                 filterStage.setScene(filterScene);
                 filterStage.setResizable(false);
+
+                filterController.setFilterCallback(this);
+                filterController.setClearFilterCallback(this);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -515,4 +518,12 @@ public class ProductController implements Initializable,
         showFirstPage();
     }
 
+    @Override
+    public void onClearFilterClicked() {
+        products = FXCollections.observableArrayList(productService.getAllProduct());
+        paginationHelper.setItems(products);
+        showFirstPage();
+
+        uncheckAllCheckboxes();
+    }
 }
