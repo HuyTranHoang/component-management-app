@@ -20,6 +20,10 @@ public class ProductService {
         return productDAO.getById(productId);
     }
 
+    public Product getProductByName(String productName) {
+        return productDAO.getByName(productName);
+    }
+
     public void addProduct(Product product) {
         productDAO.add(product);
     }

@@ -6,28 +6,33 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.ProductInfoView;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class OrderDetailController implements Initializable {
+public class OrderDetailController implements Initializable, OrderDetailSelectProductController.ProductSelectionCallback {
 
     @FXML
     private HBox hbox_addButtonGroup;
@@ -53,19 +58,16 @@ public class OrderDetailController implements Initializable {
     private Label lbl_error_discount;
 
     @FXML
-    private Label lbl_error_productId;
+    private Label lbl_error_quantity;
 
     @FXML
-    private Label lbl_error_quantity;
+    private Label lbl_error_product;
 
     @FXML
     private Label lbl_successMessage;
 
     @FXML
     private MFXTextField txt_discount;
-
-    @FXML
-    private MFXTextField txt_productId;
 
     @FXML
     private MFXTextField txt_quantity;
@@ -77,8 +79,13 @@ public class OrderDetailController implements Initializable {
         this.orderDetails = orderDetails;
     }
 
+    // Cache view
+    private Scene selectProductScene;
+    private Stage selectProductStage;
+
+    private Product currentProduct;
+
     //  Validator
-    Validator productIdValidator = new Validator();
     Validator orderDetailsValidator = new Validator();
 
     //  Formatter
@@ -109,39 +116,29 @@ public class OrderDetailController implements Initializable {
     }
 
     private void initValidator() {
-//        productIdValidator.createCheck()
-//                .dependsOn("productId", txt_productId.textProperty())
-//                .withMethod(context -> {
-//                    String productId = context.get("productId");
-//                    if (!productId.matches("\\d+")) {
-//                        context.error("ProductId only contain number");
-//                    }
-//                })
-//                .decoratingWith(this::labelDecorator)
-//                .decorates(lbl_error_productId);
-
         orderDetailsValidator.createCheck()
-                .dependsOn("productId", txt_productId.textProperty())
                 .withMethod(context -> {
-                    String productId = context.get("productId");
-                    if (productId.isEmpty()) {
-                        context.error("ProductId can't be empty");
-                    } else if (!productId.matches("\\d+")) {
-                        context.error("ProductId only contain number");
+                    if (currentProduct == null) {
+                        context.error("Please select product");
                     }
                 })
                 .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_productId);
+                .decorates(lbl_error_product);
+
 
         orderDetailsValidator.createCheck()
                 .dependsOn("quantity", txt_quantity.textProperty())
                 .withMethod(context -> {
                     String quantity = context.get("quantity");
-                    if (quantity.isEmpty()) {
-                        context.error("Quantity can't be empty");
-                    } else if (!quantity.matches("\\d+")) {
-                        context.error("Quantity only contain number");
+                    if (currentProduct != null) {
+                        if (quantity.isEmpty()) {
+                            context.error("Quantity can't be empty");
+                        } else if (!quantity.matches("\\d+")) {
+                            context.error("Quantity only contain number");
+                        } else if (Integer.parseInt(quantity) > currentProduct.getStockQuantity())
+                            context.error("Exceed the remaining quantity");
                     }
+
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_quantity);
@@ -177,10 +174,6 @@ public class OrderDetailController implements Initializable {
     }
 
     private void initEvent() {
-        txt_productId.textProperty().addListener((observable, oldValue, newValue) -> {
-            updateProductDetails();
-        });
-
         txt_quantity.textProperty().addListener((observable, oldValue, newValue) -> {
             updateProductDetails();
         });
@@ -190,25 +183,19 @@ public class OrderDetailController implements Initializable {
         });
     }
 
-    // Sự kiện chung để cập nhật chi tiết sản phẩm
     private void updateProductDetails() {
         if (orderDetailsValidator.validate()) {
-            Product product = productService.getProductById(Long.parseLong(txt_productId.getText()));
-
-            if (product != null) {
-                double price = product.getPrice();
+            if (currentProduct != null) {
+                double price = currentProduct.getPrice();
                 int quantity = Integer.parseInt(txt_quantity.getText());
                 double discount = Double.parseDouble(txt_discount.getText()) / 100 * price;
                 double totalDiscount = Double.parseDouble(txt_discount.getText()) / 100 * price * quantity;
                 double totalAmount = (price - discount) * quantity;
 
-                lbl_productName.setText(product.getName());
+                lbl_productName.setText(currentProduct.getName());
                 lbl_productPrice.setText(decimalFormat.format(price));
                 lbl_productPrice_discount.setText("- " + decimalFormat.format(totalDiscount));
                 lbl_productTotalAmount.setText(decimalFormat.format(totalAmount));
-            } else {
-                lbl_productName.setText("This id doesn't belong to any product");
-                lbl_productName.setTextFill(Paint.valueOf("#e57c23"));
             }
         } else {
             lbl_productName.setText("...");
@@ -218,25 +205,24 @@ public class OrderDetailController implements Initializable {
         }
     }
 
+
     @FXML
     void addButtonOnClick() {
         if (orderDetailsValidator.validate()) {
             OrderDetail orderDetail = new OrderDetail();
 
-            Product product = productService.getProductById(Long.parseLong(txt_productId.getText()));
-
-            double price = product.getPrice();
+            double price = currentProduct.getPrice();
             int quantity = Integer.parseInt(txt_quantity.getText());
             int discount = Integer.parseInt(txt_discount.getText());
             double discountPrice = Double.parseDouble(txt_discount.getText()) / 100 * price;
             double totalAmount = (price - discountPrice) * quantity;
 
-            orderDetail.setName(product.getName());
+            orderDetail.setName(currentProduct.getName());
             orderDetail.setPrice(price);
             orderDetail.setQuantity(quantity);
             orderDetail.setDiscount(discount);
             orderDetail.setTotalAmount(totalAmount);
-            orderDetail.setProductId(product.getId());
+            orderDetail.setProductId(currentProduct.getId());
 
             orderDetails.add(orderDetail);
 
@@ -258,10 +244,8 @@ public class OrderDetailController implements Initializable {
             }));
             timeline.play();
 
-            System.out.println(product.getName());
-
             ProductInfoView productInfoView = new ProductInfoView();
-            productInfoView.getLblProductName().setText(product.getName());
+            productInfoView.getLblProductName().setText(currentProduct.getName());
             productInfoView.getLblProductPrice().setText(decimalFormat.format(price));
             productInfoView.getLblProductDiscount().setText(String.valueOf(discount));
             productInfoView.getLblProductQuantity().setText(String.valueOf(quantity));
@@ -269,9 +253,88 @@ public class OrderDetailController implements Initializable {
             productInfoView.setVbox_orderDetail(vbox_orderDetail);
             productInfoView.setOrderDetail(orderDetail);
             productInfoView.setOrderDetails(orderDetails);
+            productInfoView.setEditButtonAction(event -> {
+                int index = vbox_orderDetail.getChildren().indexOf(productInfoView);
+                currentProduct = productService.getProductByName(productInfoView.getLblProductName().getText());
+                if (orderDetailsValidator.validate()) {
+                    double ePrice = currentProduct.getPrice();
+                    int eQuantity = Integer.parseInt(productInfoView.getLblProductQuantity().getText());
+                    double eDiscount = Double.parseDouble(productInfoView.getLblProductDiscount().getText()) / 100 * ePrice;
+                    double eTotalDiscount = Double.parseDouble(productInfoView.getLblProductDiscount().getText()) / 100 * ePrice * eQuantity;
+                    double eTotalAmount = (ePrice - eDiscount) * eQuantity;
+
+                    lbl_productName.setText(currentProduct.getName());
+                    lbl_productPrice.setText(decimalFormat.format(price));
+                    lbl_productPrice_discount.setText("- " + decimalFormat.format(eTotalDiscount));
+                    lbl_productTotalAmount.setText(decimalFormat.format(eTotalAmount));
+                    txt_quantity.setText(String.valueOf(eQuantity));
+                    txt_discount.setText(String.valueOf(productInfoView.getLblProductDiscount().getText()));
+
+                    // TODO: Thêm nút update, khi update thì update trong orderdetails list
+                }
+                stage.show();
+            });
 
             vbox_orderDetail.getChildren().add(productInfoView);
+
+            clearInput();
         }
     }
 
+    @FXML
+    void selectProductOnClick() {
+        try {
+            if (selectProductScene == null && selectProductStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class
+                        .getResource("fxml/order-detail/main-orderDetail-add-selectProduct.fxml"));
+                selectProductScene = new Scene(fxmlLoader.load());
+                selectProductStage = new Stage();
+                OrderDetailSelectProductController controller = fxmlLoader.getController();
+                controller.setProductSelectionCallback(this);
+                controller.setStage(selectProductStage);
+                selectProductStage.setTitle("Select customer");
+                selectProductStage.initModality(Modality.APPLICATION_MODAL);
+                selectProductStage.setResizable(false);
+
+                selectProductStage.setScene(selectProductScene);
+            }
+
+            selectProductStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void clearInput() {
+        currentProduct = null;
+        lbl_productName.setText("");
+        lbl_productPrice.setText("");
+        lbl_productPrice_discount.setText("");
+        lbl_productTotalAmount.setText("");
+
+
+        txt_quantity.setText("1");
+        txt_discount.setText("0");
+
+        lbl_error_product.setVisible(false);
+    }
+
+    @Override
+    public void onProductSelected(Product product) {
+        if (product != null) {
+            currentProduct = product;
+            if (orderDetailsValidator.validate()) {
+                double price = product.getPrice();
+                int quantity = Integer.parseInt(txt_quantity.getText());
+                double discount = Double.parseDouble(txt_discount.getText()) / 100 * price;
+                double totalDiscount = Double.parseDouble(txt_discount.getText()) / 100 * price * quantity;
+                double totalAmount = (price - discount) * quantity;
+
+                lbl_productName.setText(product.getName());
+                lbl_productPrice.setText(decimalFormat.format(price));
+                lbl_productPrice_discount.setText("- " + decimalFormat.format(totalDiscount));
+                lbl_productTotalAmount.setText(decimalFormat.format(totalAmount));
+            }
+        }
+    }
 }

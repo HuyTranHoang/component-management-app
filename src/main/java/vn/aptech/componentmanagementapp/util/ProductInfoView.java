@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.util;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +13,7 @@ import javafx.scene.text.Text;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductInfoView extends VBox {
     private final Label lblProductName;
@@ -32,6 +35,10 @@ public class ProductInfoView extends VBox {
 
     public void setOrderDetail(OrderDetail orderDetail) {
         this.orderDetail = orderDetail;
+    }
+
+    public OrderDetail getOrderDetail() {
+        return orderDetail;
     }
 
     private List<OrderDetail> orderDetails;
@@ -74,12 +81,6 @@ public class ProductInfoView extends VBox {
 
         btnEdit = new Button("Edit");
         btnRemove = new Button("Remove");
-
-        // Đặt sự kiện cho nút Edit
-        btnEdit.setOnAction(event -> {
-            // Lấy thông tin hiện tại của sản phẩm và thực hiện các hành động sửa đổi tương ứng
-            // ...
-        });
 
         // Đặt sự kiện cho nút Remove
         btnRemove.setOnAction(event -> {
@@ -143,5 +144,9 @@ public class ProductInfoView extends VBox {
         VBox vbox = new VBox(5);
         vbox.getChildren().addAll(lblLabel, label);
         return vbox;
+    }
+
+    public void setEditButtonAction(EventHandler<ActionEvent> eventHandler) {
+        btnEdit.setOnAction(eventHandler);
     }
 }

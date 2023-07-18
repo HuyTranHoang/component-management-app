@@ -122,4 +122,26 @@ public class ProductDAOImpl implements ProductDAO{
         product.setSupplierId(resultSet.getLong("supplier_id"));
         product.setCategoryId(resultSet.getLong("category_id"));
     }
+
+    @Override
+    public Product getByName(String name) {
+        Product product = null;
+
+        String query = "SELECT * FROM products WHERE name LIKE ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, "%" + name + "%");
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    product = new Product();
+                    setProduct(product, resultSet);
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return product;
+    }
 }
