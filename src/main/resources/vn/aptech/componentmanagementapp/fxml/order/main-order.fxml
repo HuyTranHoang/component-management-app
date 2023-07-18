@@ -48,7 +48,7 @@
             <contextMenu>
                <ContextMenu>
                   <items>
-                     <MenuItem mnemonicParsing="false" onAction="#editButtonOnClick" text="Edit" />
+                     <MenuItem mnemonicParsing="false" onAction="#showButtonOnClick" text="Show" />
                      <MenuItem mnemonicParsing="false" onAction="#deleteContextOnClick" text="Delete" />
                   </items>
                </ContextMenu>
@@ -102,7 +102,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MFXButton>
-            <MFXButton onAction="#editButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EDIT">
+            <MFXButton onAction="#showButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="SHOW">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
                </graphic>

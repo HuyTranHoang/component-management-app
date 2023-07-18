@@ -105,6 +105,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     //    Controller to call clear filter function in this
     private OrderFilterController filterController;
     private OrderAddController orderAddController;
+    private OrderShowController orderShowController;
 
     //  Service
     private final OrderService orderService = new OrderService();
@@ -112,6 +113,8 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
     // Cached views
     private AnchorPane addOrderView;
+    private AnchorPane showOrderView;
+
     @FXML
     private AnchorPane orderView;
     private AnchorPane anchor_main_rightPanel; // Truyền từ Main controller vào
@@ -343,7 +346,6 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         }
 
         orderAddController.clearInput();
-        orderAddController.addMode();
 
         Employee employee = employeeService.getEmployeeById(loginEmployee.getId());
         orderAddController.setCurrentEmployee(employee);
@@ -354,18 +356,16 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 //        productAddController.setRequestFocus();
     }
 
-    @FXML
-    void editButtonOnClick() {
-        if (addOrderView == null) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add.fxml"));
-                addOrderView = fxmlLoader.load();
-                orderAddController = fxmlLoader.getController();
-                orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
-                orderAddController.setOrderView(orderView);
-                orderAddController.setTableView(tableView);
 
-                orderAddController.setOrderAddCallback(this);
+    @FXML
+    void showButtonOnClick() {
+        if (showOrderView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-show.fxml"));
+                showOrderView = fxmlLoader.load();
+                orderShowController = fxmlLoader.getController();
+                orderShowController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                orderShowController.setOrderView(orderView);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -380,19 +380,13 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             alert.setContentText("Please select order before edit!");
             alert.show();
         } else {
-            orderAddController.clearInput();
-            orderAddController.updateMode();
-            orderAddController.setCurrentCustomer(selectedOrder.getCustomer());
-            orderAddController.setCurrentEmployee(selectedOrder.getEmployee()); //Đang set employee theo orderdetail thay vì employee hiện tại
-            orderAddController.editOrder(selectedOrder);
-            orderAddController.setCurrentOrder(selectedOrder);
+            orderShowController.setCurrentOrder(selectedOrder);
+            orderShowController.setInformation();
 
             anchor_main_rightPanel.getChildren().clear();
-            anchor_main_rightPanel.getChildren().add(addOrderView);
-//            orderAddController.setRequestFocus();
+            anchor_main_rightPanel.getChildren().add(showOrderView);
 
         }
-
     }
 
     @FXML

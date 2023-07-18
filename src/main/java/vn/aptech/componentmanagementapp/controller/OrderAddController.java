@@ -278,11 +278,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     private void initEnterKeyPressing() {
         EventHandler<KeyEvent > storeOrUpdateEventHandler = event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                if (hbox_addButtonGroup.visibleProperty().get()) {
-                    storeButtonOnClick();
-                } else {
-                    updateButtonOnClick();
-                }
+                storeButtonOnClick();
             } else if (event.getCode() == KeyCode.ESCAPE)
                 listOrderButtonOnClick();
         };
@@ -342,94 +338,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
             // Hide the message after 4 seconds
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
-        }
-    }
 
-    void updateMode() {
-        hbox_addButtonGroup.setVisible(false);
-        hbox_updateButtonGroup.setVisible(true);
-    }
-
-    void addMode() {
-        hbox_addButtonGroup.setVisible(true);
-        hbox_updateButtonGroup.setVisible(false);
-    }
-
-    void editOrder(Order order) {
-         DecimalFormat decimalFormat = new DecimalFormat("#,##0₫");
-
-        txt_orderDate.setValue(order.getOrderDate().toLocalDate());
-        txt_deliveryDate.setValue(order.getDeliveryDate().toLocalDate());
-        txt_receiveDate.setValue(order.getReceiveDate().toLocalDate());
-
-//        txt_customerId.setText(String.valueOf(order.getCustomerId()));
-//        txt_employeeId.setText(String.valueOf(order.getEmployeeId()));
-
-        System.out.println(currentCustomer);
-
-        txt_customerPhone.setText(currentCustomer.getPhone());
-        txt_customerName.setText(currentCustomer.getName());
-        txt_employeeName.setText(currentEmployee.getName());
-
-        txt_deliveryLocation.setText(order.getDeliveryLocation());
-        txt_note.setText(order.getNote());
-
-
-        clearOrderDetail();
-        orderDetails = orderDetailService.getAllOrderDetailByOrderId(order.getId());
-        double totalAmount = 0;
-
-        for (OrderDetail orderDetail: orderDetails) {
-            ProductInfoView productInfoView = new ProductInfoView();
-            productInfoView.getLblProductName().setText(orderDetail.getName());
-            productInfoView.getLblProductPrice().setText(decimalFormat.format(orderDetail.getPrice()));
-            productInfoView.getLblProductDiscount().setText(String.valueOf(orderDetail.getDiscount()));
-            productInfoView.getLblProductQuantity().setText(String.valueOf(orderDetail.getQuantity()));
-            productInfoView.getLblProductTotalAmount().setText(decimalFormat.format(orderDetail.getTotalAmount()));
-            productInfoView.setVbox_orderDetail(vbox_orderDetail);
-            productInfoView.setOrderDetail(orderDetail);
-            productInfoView.setOrderDetails(orderDetails);
-
-            totalAmount += orderDetail.getTotalAmount();
-
-            vbox_orderDetail.getChildren().add(productInfoView);
-        }
-        lbl_totalAmount.setText(decimalFormat.format(totalAmount));
-    }
-
-    @FXML
-    void updateButtonOnClick() {
-        if (orderAddValidator.validate()) {
-            currentOrder.setOrderDate(txt_orderDate.getValue().atTime(LocalTime.now()));
-            currentOrder.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
-            currentOrder.setReceiveDate(txt_receiveDate.getValue().atTime(LocalTime.now()));
-            currentOrder.setDeliveryLocation(txt_deliveryLocation.getText());
-//            currentOrder.setCustomerId(Long.parseLong(txt_customerId.getText()));
-//            currentOrder.setEmployeeId(Long.parseLong(txt_employeeId.getText()));
-            currentOrder.setCustomerId(currentCustomer.getId());
-            currentOrder.setEmployeeId(currentEmployee.getId());
-
-            currentOrder.setNote(txt_note.getText());
-
-            orderService.updateOrder(currentOrder);
-
-            // Show success message
-            lbl_successMessage.setText("Update product succesfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 3 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-                new FadeOut(lbl_successMessage).play();
-            }));
-            timeline.play();
-
-            tableView.setItems(FXCollections.observableArrayList(orderService.getAllOrder()));
-
-//            int index = tableView.getItems().indexOf(currentOrder);
-////            System.out.println(index);
-//            if (index >= 0) {
-//                tableView.getItems().set(index, currentOrder);
-//            }
+            clearInput();
         }
     }
 
