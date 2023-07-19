@@ -289,3 +289,21 @@
     -fx-border-color: #7a0ed9;
     -fx-border-width: 3px;
 }
+
+.btn-edit {
+    -fx-background-color: #fff;
+    -fx-border-width: 2px;
+    -fx-border-color: -hbd-primary-color;
+    -fx-text-fill: -hbd-primary-color;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.btn-remove {
+    -fx-background-color: #fff;
+    -fx-border-width: 2px;
+    -fx-border-color: #EE3B3B;
+    -fx-text-fill: #EE3B3B;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}

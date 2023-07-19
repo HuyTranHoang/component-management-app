@@ -253,7 +253,7 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
 
             updateTotalOrderAmount();
 
-            showSuccessMessage("Add new order details successfully!");
+//            showSuccessMessage("Add new order details successfully!");
 
             stage.close();
             clearInput();
@@ -377,7 +377,8 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
             productInfoView.setOrderDetail(orderDetail);
             productInfoView.setOrderDetails(orderDetails);
 
-            showSuccessMessage("Update order details successfully!");
+//            showSuccessMessage("Update order details successfully!");
+            stage.close();
         }
 
     }

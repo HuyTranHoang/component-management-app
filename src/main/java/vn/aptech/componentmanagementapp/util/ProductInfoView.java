@@ -80,7 +80,9 @@ public class ProductInfoView extends VBox {
         lblProductTotalAmount = new Label();
 
         btnEdit = new Button("Edit");
+        btnEdit.getStyleClass().add("btn-edit");
         btnRemove = new Button("Remove");
+        btnRemove.getStyleClass().add("btn-remove");
 
         // Đặt sự kiện cho nút Remove
         btnRemove.setOnAction(event -> {
