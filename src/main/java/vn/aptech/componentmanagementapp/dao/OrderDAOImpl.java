@@ -4,8 +4,11 @@ import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDAOImpl implements OrderDAO{
 
@@ -93,6 +96,31 @@ public class OrderDAOImpl implements OrderDAO{
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public Map<LocalDate, Double> weeklyTotalAmounts(LocalDate startOfWeek, LocalDate endOfWeek) {
+        Map<LocalDate, Double> list = new HashMap<>();
+        String query = "SELECT DATE(order_date) AS order_date, SUM(total_amount) AS total_amount_per_day" +
+                " FROM orders WHERE order_date >= ? AND order_date < ?" +
+                " GROUP BY DATE(order_date) ORDER BY order_date";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, Date.valueOf(startOfWeek));
+            statement.setDate(2, Date.valueOf(endOfWeek));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    list.put(
+                            resultSet.getDate("order_date").toLocalDate(),
+                            resultSet.getDouble("total_amount_per_day")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     @Override

@@ -307,3 +307,24 @@
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }
+
+.item-dashboard {
+    -fx-background-color: #fff;
+    -fx-padding: 5px;
+    -fx-border-color: -hbd-primary-color;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.bar-chart {
+    -fx-background-color: #fff; /* Màu nền */
+}
+
+.bar-chart .chart-content .chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: -hbd-primary-color;
+}

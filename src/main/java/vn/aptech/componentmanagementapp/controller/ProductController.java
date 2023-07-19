@@ -119,32 +119,27 @@ public class ProductController implements Initializable,
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CompletableFuture.supplyAsync(productService::getAllProduct)
-                .thenAcceptAsync(productList -> {
-                    products = FXCollections.observableArrayList(productList);
-                    Platform.runLater(() -> {
-                        initTableView();
+        paginationHelper = new PaginationHelper<>();
+        initTableView();
 
-                        paginationHelper = new PaginationHelper<>();
-                        paginationHelper.setItems(products);
-                        paginationHelper.setTableView(tableView);
+        paginationHelper.setTableView(tableView);
+        paginationHelper.setPageButtonContainer(pageButtonContainer);
+        paginationHelper.setFirstPageButton(firstPageButton);
+        paginationHelper.setPreviousButton(previousButton);
+        paginationHelper.setNextButton(nextButton);
+        paginationHelper.setLastPageButton(lastPageButton);
 
-                        paginationHelper.setPageButtonContainer(pageButtonContainer);
-                        paginationHelper.setFirstPageButton(firstPageButton);
-                        paginationHelper.setPreviousButton(previousButton);
-                        paginationHelper.setNextButton(nextButton);
-                        paginationHelper.setLastPageButton(lastPageButton);
+        Platform.runLater(() -> {
+            List<Product> productList = productService.getAllProduct();
+            products = FXCollections.observableArrayList(productList);
 
-                        paginationHelper.showFirstPage();
-
-                        initFilterStage();
-                        filterController.initSearchListen();
-
-                        initTableViewEvent();
-                        initSort();
-                    });
-                });
-
+            paginationHelper.setItems(products);
+            paginationHelper.showFirstPage();
+            initFilterStage();
+            filterController.initSearchListen();
+            initTableViewEvent();
+            initSort();
+        });
     }
 
     private void initTableView() {
@@ -301,7 +296,6 @@ public class ProductController implements Initializable,
                 filterStage.getIcons().add(image);
 
                 filterStage.initModality(Modality.APPLICATION_MODAL);
-                filterStage.initOwner(tableView.getScene().getWindow());
 
                 filterController = fxmlLoader.getController();
 

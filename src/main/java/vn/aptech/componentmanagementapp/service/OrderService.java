@@ -4,7 +4,9 @@ import vn.aptech.componentmanagementapp.dao.OrderDAO;
 import vn.aptech.componentmanagementapp.dao.OrderDAOImpl;
 import vn.aptech.componentmanagementapp.model.Order;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class OrderService {
     private OrderDAO orderDAO;
@@ -33,5 +35,9 @@ public class OrderService {
 
     public void deleteOrder(long orderId) {
         orderDAO.delete(orderId);
+    }
+
+    public Map<LocalDate, Double> getWeeklyTotalAmounts(LocalDate startOfWeek, LocalDate endOfWeek) {
+        return orderDAO.weeklyTotalAmounts(startOfWeek, endOfWeek);
     }
 }

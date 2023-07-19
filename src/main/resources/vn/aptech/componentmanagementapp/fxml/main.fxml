@@ -18,7 +18,18 @@
          <children>
             <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="330.0" prefHeight="380.0" prefWidth="350.0" spacing="15.0" AnchorPane.leftAnchor="0.0">
                <children>
-                  <MFXButton id="button-custom-mainPanel-selected" fx:id="btn_leftPanel_productList" alignment="BASELINE_LEFT" graphicTextGap="15.0" onAction="#productListButtonOnClick" prefHeight="48.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="PRODUCT LIST">
+                  <MFXButton id="button-custom-mainPanel-selected" fx:id="btn_leftPanel_dashboard" alignment="BASELINE_LEFT" graphicTextGap="15.0" onAction="#dashboardButtonOnClick" prefHeight="48.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="DASHBOARD">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <FontIcon id="icon" iconColor="WHITE" iconLiteral="fas-boxes" />
+                     </graphic>
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </MFXButton>
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_productList" alignment="BASELINE_LEFT" graphicTextGap="15.0" onAction="#productListButtonOnClick" prefHeight="48.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="PRODUCT LIST">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

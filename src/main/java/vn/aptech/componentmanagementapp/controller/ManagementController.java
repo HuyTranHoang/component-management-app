@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Employee;
-import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.io.IOException;
@@ -36,12 +35,16 @@ public class ManagementController implements Initializable {
     private MFXButton btn_leftPanel_productList;
 
     @FXML
+    private MFXButton btn_leftPanel_dashboard;
+
+    @FXML
     private MFXButton btn_leftPanel_SupplierList;
 
     @FXML
     private MFXButton btn_leftPanel_CategoryList;
 
     // Cached views
+    private AnchorPane dashboardView;
     private AnchorPane productView;
     private AnchorPane customerView;
     private AnchorPane orderView;
@@ -68,11 +71,9 @@ public class ManagementController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
-            productView = fxmlLoader.load();
-            productController = fxmlLoader.getController();
-            productController.setAnchor_main_rightPanel(anchor_main_rightPanel);
-            anchor_main_rightPanel.getChildren().add(productView);
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/main-dashboard.fxml"));
+            dashboardView = fxmlLoader.load();
+            anchor_main_rightPanel.getChildren().add(dashboardView);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -93,6 +94,38 @@ public class ManagementController implements Initializable {
     @FXML
     void minimizeButtonOnClick() {
         stage.setIconified(true);
+    }
+
+    @FXML
+    void dashboardButtonOnClick() {
+        if (dashboardView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/main-dashboard.fxml"));
+                dashboardView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Image image = null;
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/product.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
+        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(dashboardView);
     }
     @FXML
     void productListButtonOnClick() {
@@ -120,6 +153,7 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel");
@@ -151,6 +185,7 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel");
@@ -188,6 +223,7 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel-selected");
@@ -218,6 +254,7 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel");
@@ -250,6 +287,7 @@ public class ManagementController implements Initializable {
 
         leftPanel_imageView.setImage(image);
 
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
         btn_leftPanel_OrderList.setId("button-custom-mainPanel");
