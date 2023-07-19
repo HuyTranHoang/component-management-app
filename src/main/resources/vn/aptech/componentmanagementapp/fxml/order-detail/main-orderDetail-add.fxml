@@ -41,6 +41,20 @@
             </MFXButton>
          </children>
       </HBox>
+      <HBox fx:id="hbox_updateButtonGroup" layoutX="408.0" layoutY="422.0" spacing="15.0" visible="false">
+         <children>
+            <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </HBox>
       <Label fx:id="lbl_error_quantity" layoutX="30.0" layoutY="214.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
          <font>
             <Font name="Inter Bold" size="13.0" />

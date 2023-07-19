@@ -8,7 +8,6 @@ import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,11 +34,9 @@ import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
-import vn.aptech.componentmanagementapp.util.ProductInfoView;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -77,9 +74,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
     @FXML
     private HBox hbox_addButtonGroup;
-
     @FXML
     private HBox hbox_updateButtonGroup;
+
 
     @FXML
     private Label lbl_error_customerId;
@@ -139,6 +136,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     // Service
     private final OrderService orderService = new OrderService();
     private final OrderDetailService orderDetailService = new OrderDetailService();
+
+    // Controller
+    private OrderDetailController orderDetailController;
 
     // Cache order details
     private Scene orderDetailScene;
@@ -379,15 +379,17 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 orderDetailStage.setTitle("Order Details");
                 orderDetailStage.initModality(Modality.APPLICATION_MODAL);
                 orderDetailStage.setResizable(false);
-                OrderDetailController controller = fxmlLoader.getController();
-                controller.setStage(orderDetailStage);
-                controller.setOrderDetails(orderDetails);
-                controller.setVbox_orderDetail(vbox_orderDetail);
-                controller.setLbl_totalAmount(lbl_totalAmount);
+                orderDetailController = fxmlLoader.getController();
+                orderDetailController.setStage(orderDetailStage);
+                orderDetailController.setOrderDetails(orderDetails);
+                orderDetailController.setVbox_orderDetail(vbox_orderDetail);
+                orderDetailController.setLbl_totalAmount(lbl_totalAmount);
 
                 orderDetailStage.setScene(orderDetailScene);
             }
 
+            orderDetailController.addMode();
+            orderDetailController.clearInput();
             orderDetailStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
