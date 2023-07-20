@@ -278,7 +278,7 @@ public class ProductController implements Initializable,
     private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-filter.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product-filter.fxml"));
                 filterScene = new Scene(fxmlLoader.load());
                 filterStage = new Stage();
 
@@ -350,7 +350,7 @@ public class ProductController implements Initializable,
     void addButtonOnClick() {
         if (addProductView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product-add.fxml"));
                 addProductView = fxmlLoader.load();
                 productAddController = fxmlLoader.getController();
                 productAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -377,7 +377,7 @@ public class ProductController implements Initializable,
     void editButtonOnClick() {
         if (addProductView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product-add.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product-add.fxml"));
                 addProductView = fxmlLoader.load();
                 productAddController = fxmlLoader.getController();
                 productAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);

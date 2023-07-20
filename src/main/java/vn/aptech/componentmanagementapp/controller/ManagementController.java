@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.controller.dashboard.DashboardController;
+import vn.aptech.componentmanagementapp.controller.employee.EmployeeController;
 import vn.aptech.componentmanagementapp.controller.order.OrderController;
 import vn.aptech.componentmanagementapp.controller.product.ProductController;
 import vn.aptech.componentmanagementapp.model.Employee;
@@ -29,7 +30,7 @@ public class ManagementController implements Initializable {
     private ImageView leftPanel_imageView;
 
     @FXML
-    private MFXButton btn_leftPanel_OrderList;
+    private MFXButton btn_leftPanel_orderList;
 
     @FXML
     private MFXButton btn_leftPanel_customerList;
@@ -38,17 +39,21 @@ public class ManagementController implements Initializable {
     private MFXButton btn_leftPanel_productList;
 
     @FXML
+    private MFXButton btn_leftPanel_employeeList;
+
+    @FXML
     private MFXButton btn_leftPanel_dashboard;
 
     @FXML
-    private MFXButton btn_leftPanel_SupplierList;
+    private MFXButton btn_leftPanel_supplierList;
 
     @FXML
-    private MFXButton btn_leftPanel_CategoryList;
+    private MFXButton btn_leftPanel_categoryList;
 
     // Cached views
     private AnchorPane dashboardView;
     private AnchorPane productView;
+    private AnchorPane employeeView;
     private AnchorPane customerView;
     private AnchorPane orderView;
     private AnchorPane categoryView;
@@ -57,6 +62,7 @@ public class ManagementController implements Initializable {
     // Controller
     private DashboardController dashboardController;
     private ProductController productController;
+    private EmployeeController employeeController;
     private OrderController orderController;
 
 
@@ -75,7 +81,7 @@ public class ManagementController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/main-dashboard.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
             dashboardView = fxmlLoader.load();
             dashboardController = fxmlLoader.getController();
             anchor_main_rightPanel.getChildren().add(dashboardView);
@@ -105,7 +111,7 @@ public class ManagementController implements Initializable {
     void dashboardButtonOnClick() {
         if (dashboardView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/main-dashboard.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
                 dashboardView = fxmlLoader.load();
                 dashboardController = fxmlLoader.getController();
             } catch (IOException e) {
@@ -128,10 +134,11 @@ public class ManagementController implements Initializable {
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel-selected");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
-        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
-        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
-        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(dashboardView);
@@ -140,7 +147,7 @@ public class ManagementController implements Initializable {
     void productListButtonOnClick() {
         if (productView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product.fxml"));
                 productView = fxmlLoader.load();
                 productController = fxmlLoader.getController();
                 productController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -164,20 +171,59 @@ public class ManagementController implements Initializable {
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
-        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
-        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
-        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(productView);
     }
 
     @FXML
+    void employeeListButtonOnClick() {
+        if (employeeView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee.fxml"));
+                employeeView = fxmlLoader.load();
+                employeeController = fxmlLoader.getController();
+                employeeController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Image image = null;
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/employee.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+//        employeeController.reloadProduct(); // reload lại query mỗi lần quay lại
+//        employeeController.resetFilterIconClicked(); // reset lại filter
+
+        leftPanel_imageView.setImage(image);
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(employeeView);
+    }
+
+    @FXML
     void customerListButtonOnClick() {
         if (customerView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/customer/main-customer.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/customer/customer.fxml"));
                 customerView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -196,10 +242,11 @@ public class ManagementController implements Initializable {
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel-selected");
-        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
-        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
-        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(customerView);
@@ -209,7 +256,7 @@ public class ManagementController implements Initializable {
     void orderListButtonOnClick() {
         if (orderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order.fxml"));
                 orderView = fxmlLoader.load();
                 orderController = fxmlLoader.getController();
                 orderController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -234,10 +281,11 @@ public class ManagementController implements Initializable {
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
-        btn_leftPanel_OrderList.setId("button-custom-mainPanel-selected");
-        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
-        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(orderView);
@@ -246,7 +294,7 @@ public class ManagementController implements Initializable {
     void supplierListButtonOnClick() {
         if (supplierView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/supplier/main-supplier.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/supplier/supplier.fxml"));
                 supplierView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -265,10 +313,11 @@ public class ManagementController implements Initializable {
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
-        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
-        btn_leftPanel_SupplierList.setId("button-custom-mainPanel-selected");
-        btn_leftPanel_CategoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(supplierView);
@@ -277,7 +326,7 @@ public class ManagementController implements Initializable {
     void categoryListButtonOnClick() {
         if (categoryView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/category/main-category.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/category/category.fxml"));
                 categoryView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -298,10 +347,11 @@ public class ManagementController implements Initializable {
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
         btn_leftPanel_customerList.setId("button-custom-mainPanel");
-        btn_leftPanel_OrderList.setId("button-custom-mainPanel");
-        btn_leftPanel_SupplierList.setId("button-custom-mainPanel");
-        btn_leftPanel_CategoryList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(categoryView);

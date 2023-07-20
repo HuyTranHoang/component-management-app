@@ -387,7 +387,7 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
         try {
             if (selectProductScene == null && selectProductStage == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class
-                        .getResource("fxml/order-detail/main-orderDetail-add-selectProduct.fxml"));
+                        .getResource("fxml/order-detail/orderDetail-add-selectProduct.fxml"));
                 selectProductScene = new Scene(fxmlLoader.load());
                 selectProductStage = new Stage();
                 OrderDetailSelectProductController controller = fxmlLoader.getController();

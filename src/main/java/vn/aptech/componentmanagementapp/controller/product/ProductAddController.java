@@ -243,7 +243,7 @@ public class ProductAddController implements Initializable {
     void listProductButtonOnClick() {
         if (productView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-product.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product.fxml"));
                 productView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);

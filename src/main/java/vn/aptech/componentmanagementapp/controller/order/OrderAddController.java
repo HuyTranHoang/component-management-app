@@ -293,7 +293,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     void listOrderButtonOnClick() {
         if (orderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/main-order.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/order.fxml"));
                 orderView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -374,7 +374,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     void addOrderDetailsOnClick() {
         try {
             if (orderDetailScene == null && orderDetailStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order-detail/main-orderDetail-add.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order-detail/orderDetail-add.fxml"));
                 orderDetailScene = new Scene(fxmlLoader.load());
                 orderDetailStage = new Stage();
                 orderDetailStage.setTitle("Order Details");
@@ -401,7 +401,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     void selectCustomerOnClick() {
         try {
             if (selectCustomerScene == null && selectCustomerStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add-selectCustomer.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-add-selectCustomer.fxml"));
                 selectCustomerScene = new Scene(fxmlLoader.load());
                 selectCustomerStage = new Stage();
                 OrderAddSelectCustomerController controller = fxmlLoader.getController();

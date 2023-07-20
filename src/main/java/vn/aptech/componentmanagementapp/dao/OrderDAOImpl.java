@@ -127,8 +127,8 @@ public class OrderDAOImpl implements OrderDAO{
     public int getWeeklyNewOrder() {
         int count = 0;
         String query = "SELECT COUNT(*) AS new_orders_count FROM orders" +
-                " WHERE order_date >= DATE_TRUNC('week', CURRENT_DATE)" +
-                " AND order_date < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week';";
+                " WHERE created_at >= DATE_TRUNC('week', CURRENT_DATE)" +
+                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week';";
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next())

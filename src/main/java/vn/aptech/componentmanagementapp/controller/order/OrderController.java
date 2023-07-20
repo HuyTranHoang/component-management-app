@@ -277,7 +277,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-filter.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-filter.fxml"));
                 filterScene = new Scene(fxmlLoader.load());
                 filterStage = new Stage();
                 filterStage.setTitle("Filter Order");
@@ -331,7 +331,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     void addButtonOnClick() {
         if (addOrderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-add.fxml"));
                 addOrderView = fxmlLoader.load();
                 orderAddController = fxmlLoader.getController();
                 orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -361,7 +361,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     void showButtonOnClick() {
         if (showOrderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-show.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-show.fxml"));
                 showOrderView = fxmlLoader.load();
                 orderShowController = fxmlLoader.getController();
                 orderShowController.setAnchor_main_rightPanel(anchor_main_rightPanel);

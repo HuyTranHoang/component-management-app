@@ -262,7 +262,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     void selectCustomerOnClick() {
         try {
             if (selectCustomerScene == null && selectCustomerStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add-selectCustomer.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-add-selectCustomer.fxml"));
                 selectCustomerScene = new Scene(fxmlLoader.load());
                 selectCustomerStage = new Stage();
                 OrderAddSelectCustomerController controller = fxmlLoader.getController();
@@ -285,7 +285,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     void selectEmployeeOnClick() {
         try {
             if (selectEmployeeScene == null && selectEmployeeStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/main-order-add-selectEmployee.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-add-selectEmployee.fxml"));
                 selectEmployeeScene = new Scene(fxmlLoader.load());
                 selectEmployeeStage = new Stage();
                 OrderAddSelectEmployeeController controller = fxmlLoader.getController();
