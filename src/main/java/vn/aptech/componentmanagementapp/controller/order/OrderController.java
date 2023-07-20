@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.order;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -313,7 +313,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     }
 
     @FXML
-    void resetFilterIconClicked() {
+    public void resetFilterIconClicked() {
         if (filterController != null) {
             filterController.clearFilterButtonOnClick();
         }

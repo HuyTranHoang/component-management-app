@@ -22,4 +22,18 @@ module vn.aptech.componentmanagementapp {
     // Open the package to javafx.base
     opens vn.aptech.componentmanagementapp.model to javafx.base;
     exports vn.aptech.componentmanagementapp.model;
+    exports vn.aptech.componentmanagementapp.controller.category;
+    opens vn.aptech.componentmanagementapp.controller.category to javafx.fxml;
+    exports vn.aptech.componentmanagementapp.controller.customer;
+    opens vn.aptech.componentmanagementapp.controller.customer to javafx.fxml;
+    exports vn.aptech.componentmanagementapp.controller.supplier;
+    opens vn.aptech.componentmanagementapp.controller.supplier to javafx.fxml;
+    exports vn.aptech.componentmanagementapp.controller.dashboard;
+    opens vn.aptech.componentmanagementapp.controller.dashboard to javafx.fxml;
+    exports vn.aptech.componentmanagementapp.controller.product;
+    opens vn.aptech.componentmanagementapp.controller.product to javafx.fxml;
+    opens vn.aptech.componentmanagementapp.controller.order to javafx.fxml;
+    exports vn.aptech.componentmanagementapp.controller.order;
+    exports vn.aptech.componentmanagementapp.controller.orderdetail;
+    opens vn.aptech.componentmanagementapp.controller.orderdetail to javafx.fxml;
 }

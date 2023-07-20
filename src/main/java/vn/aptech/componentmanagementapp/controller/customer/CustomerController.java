@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.customer;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;

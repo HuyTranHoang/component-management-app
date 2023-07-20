@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.orderdetail;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
@@ -14,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;

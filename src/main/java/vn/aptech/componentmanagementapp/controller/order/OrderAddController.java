@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.order;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
@@ -28,6 +28,7 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
+import vn.aptech.componentmanagementapp.controller.orderdetail.OrderDetailController;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;

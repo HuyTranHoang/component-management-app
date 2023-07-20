@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.product;
 
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXTextField;

@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.order;
 
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -13,26 +13,26 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import vn.aptech.componentmanagementapp.model.Customer;
-import vn.aptech.componentmanagementapp.service.CustomerService;
+import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class OrderAddSelectCustomerController implements Initializable {
-    public interface CustomerSelectionCallback {
-        void onCustomerSelected(Customer customer);
+public class OrderAddSelectEmployeeController implements Initializable {
+    public interface EmployeeSelectionCallback {
+        void onEmployeeSelected(Employee employee);
     }
-    private CustomerSelectionCallback customerSelectionCallback;
+    private EmployeeSelectionCallback employeeSelectionCallback;
 
-    public void setCustomerSelectionCallback(CustomerSelectionCallback callback) {
-        this.customerSelectionCallback = callback;
+    public void setEmployeeSelectionCallback(EmployeeSelectionCallback callback) {
+        this.employeeSelectionCallback = callback;
     }
 
     //    List
-    private ObservableList<Customer> customers;
+    private ObservableList<Employee> employees;
     //  Pagination
     @FXML
     private Button firstPageButton;
@@ -44,26 +44,26 @@ public class OrderAddSelectCustomerController implements Initializable {
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
-    private PaginationHelper<Customer> paginationHelper;
+    private PaginationHelper<Employee> paginationHelper;
 
     // Customer Panel
     @FXML
-    private TableView<Customer> tableView;
+    private TableView<Employee> tableView;
     @FXML
-    private TableColumn<Customer, Long> tbc_id;
+    private TableColumn<Employee, Long> tbc_id;
     @FXML
-    private TableColumn<Customer, String> tbc_name;
+    private TableColumn<Employee, String> tbc_name;
     @FXML
-    private TableColumn<Customer, String> tbc_address;
+    private TableColumn<Employee, String> tbc_address;
     @FXML
-    private TableColumn<Customer, String> tbc_phone;
+    private TableColumn<Employee, String> tbc_phone;
     @FXML
-    private TableColumn<Customer, String> tbc_email;
+    private TableColumn<Employee, String> tbc_email;
 
     @FXML
-    private MFXTextField txt_customer_search;
+    private MFXTextField txt_employee_search;
     //Service
-    CustomerService customerService = new CustomerService();
+    EmployeeService employeeService = new EmployeeService();
 
     private Stage stage;
 
@@ -73,11 +73,11 @@ public class OrderAddSelectCustomerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        customers = FXCollections.observableArrayList(customerService.getAllCustomer());
+        employees = FXCollections.observableArrayList(employeeService.getAllEmployee());
         initTableView();
 
         paginationHelper = new PaginationHelper<>();
-        paginationHelper.setItems(customers);
+        paginationHelper.setItems(employees);
         paginationHelper.setTableView(tableView);
 
         paginationHelper.setPageButtonContainer(pageButtonContainer);
@@ -93,9 +93,9 @@ public class OrderAddSelectCustomerController implements Initializable {
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY
                     && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
-                Customer customer = tableView.getSelectionModel().getSelectedItem();
-                if (customerSelectionCallback != null) {
-                    customerSelectionCallback.onCustomerSelected(customer);
+                Employee employee = tableView.getSelectionModel().getSelectedItem();
+                if (employeeSelectionCallback != null) {
+                    employeeSelectionCallback.onEmployeeSelected(employee);
                     stage.close();
                 }
             }
@@ -130,31 +130,31 @@ public class OrderAddSelectCustomerController implements Initializable {
 
 
     private void searchCustomerOnAction() {
-        String searchText = txt_customer_search.getText().trim();
+        String searchText = txt_employee_search.getText().trim();
         if (!searchText.isEmpty()) {
-            List<Customer> filter = customers.stream()
-                    .filter(customer ->
-                            customer.getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                                    customer.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
-                                    customer.getPhone().toLowerCase().contains(searchText.toLowerCase()))
+            List<Employee> filter = employees.stream()
+                    .filter(employee ->
+                            employee.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                                    employee.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
+                                    employee.getPhone().toLowerCase().contains(searchText.toLowerCase()))
                     .toList();
 
-            ObservableList<Customer> filterCustomers = FXCollections.observableArrayList(filter);
+            ObservableList<Employee> filterCustomers = FXCollections.observableArrayList(filter);
 
             paginationHelper.setItems(filterCustomers);
             paginationHelper.showFirstPage();
         } else {
-            paginationHelper.setItems(customers);
+            paginationHelper.setItems(employees);
             paginationHelper.showFirstPage();
         }
     }
 
     private void initEnterKeyPressing() {
-        txt_customer_search.setOnKeyPressed(event -> {
+        txt_employee_search.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 searchCustomerOnAction();
             } else if (event.getCode() == KeyCode.ESCAPE) {
-                txt_customer_search.clear();
+                txt_employee_search.clear();
                 searchCustomerOnAction();
             }
         });
@@ -162,7 +162,7 @@ public class OrderAddSelectCustomerController implements Initializable {
 
     @FXML
     void resetFilterIconClicked() {
-        txt_customer_search.setText("");
+        txt_employee_search.setText("");
         searchCustomerOnAction();
     }
 }

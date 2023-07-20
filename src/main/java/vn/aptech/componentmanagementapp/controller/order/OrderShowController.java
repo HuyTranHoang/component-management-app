@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.order;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

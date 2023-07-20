@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.OrderShowController">
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.order.OrderShowController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
       <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listOrderButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ORDER LIST" AnchorPane.topAnchor="15.0">

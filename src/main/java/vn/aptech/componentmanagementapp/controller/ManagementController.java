@@ -11,6 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
+import vn.aptech.componentmanagementapp.controller.dashboard.DashboardController;
+import vn.aptech.componentmanagementapp.controller.order.OrderController;
+import vn.aptech.componentmanagementapp.controller.product.ProductController;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -52,8 +55,9 @@ public class ManagementController implements Initializable {
     private AnchorPane supplierView;
 
     // Controller
+    private DashboardController dashboardController;
     private ProductController productController;
-    private  OrderController orderController;
+    private OrderController orderController;
 
 
     //    Variable
@@ -73,6 +77,7 @@ public class ManagementController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/main-dashboard.fxml"));
             dashboardView = fxmlLoader.load();
+            dashboardController = fxmlLoader.getController();
             anchor_main_rightPanel.getChildren().add(dashboardView);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -102,6 +107,7 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/main-dashboard.fxml"));
                 dashboardView = fxmlLoader.load();
+                dashboardController = fxmlLoader.getController();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -109,11 +115,13 @@ public class ManagementController implements Initializable {
 
         Image image = null;
 
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/product.png");
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/dashboard.png");
         if (resourceURL != null) {
             String resourcePath = resourceURL.toExternalForm();
             image = new Image(resourcePath);
         }
+
+        dashboardController.updateBarChart();
 
         leftPanel_imageView.setImage(image);
 

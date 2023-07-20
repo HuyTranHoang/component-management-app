@@ -22,9 +22,9 @@
 //import javafx.stage.Stage;
 //import javafx.util.Callback;
 //import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-//import vn.aptech.componentmanagementapp.controller.OrderAddController;
-//import vn.aptech.componentmanagementapp.controller.OrderFilterController;
-//import vn.aptech.componentmanagementapp.controller.OrderShowController;
+//import vn.aptech.componentmanagementapp.controller.order.OrderAddController;
+//import vn.aptech.componentmanagementapp.controller.order.OrderFilterController;
+//import vn.aptech.componentmanagementapp.controller.order.OrderShowController;
 //import vn.aptech.componentmanagementapp.model.Customer;
 //import vn.aptech.componentmanagementapp.model.Employee;
 //import vn.aptech.componentmanagementapp.model.Order;
@@ -41,7 +41,7 @@
 //import java.util.List;
 //import java.util.ResourceBundle;
 //
-//public class OrderController implements Initializable, vn.aptech.componentmanagementapp.controller.OrderAddController.OrderAddCallback,
+//public class OrderController implements Initializable, vn.aptech.componentmanagementapp.controller.order.OrderAddController.OrderAddCallback,
 //        OrderFilterController.ViewResultCallback, OrderFilterController.ClearFilterCallback {
 //    // Sort and multi deleted
 //    @FXML

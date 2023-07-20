@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.order;
 
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -13,26 +13,26 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import vn.aptech.componentmanagementapp.model.Product;
-import vn.aptech.componentmanagementapp.service.ProductService;
+import vn.aptech.componentmanagementapp.model.Customer;
+import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class OrderDetailSelectProductController implements Initializable {
-    public interface ProductSelectionCallback {
-        void onProductSelected(Product product);
+public class OrderAddSelectCustomerController implements Initializable {
+    public interface CustomerSelectionCallback {
+        void onCustomerSelected(Customer customer);
     }
-    private ProductSelectionCallback productSelectionCallback;
+    private CustomerSelectionCallback customerSelectionCallback;
 
-    public void setProductSelectionCallback(ProductSelectionCallback callback) {
-        this.productSelectionCallback = callback;
+    public void setCustomerSelectionCallback(CustomerSelectionCallback callback) {
+        this.customerSelectionCallback = callback;
     }
 
     //    List
-    private ObservableList<Product> products;
+    private ObservableList<Customer> customers;
     //  Pagination
     @FXML
     private Button firstPageButton;
@@ -44,26 +44,26 @@ public class OrderDetailSelectProductController implements Initializable {
     private HBox pageButtonContainer;
     @FXML
     private Button previousButton;
-    private PaginationHelper<Product> paginationHelper;
+    private PaginationHelper<Customer> paginationHelper;
 
-    // Product Panel
+    // Customer Panel
     @FXML
-    private TableView<Product> tableView;
+    private TableView<Customer> tableView;
     @FXML
-    private TableColumn<Product, Long> tbc_id;
+    private TableColumn<Customer, Long> tbc_id;
     @FXML
-    private TableColumn<Product, String> tbc_productCode;
+    private TableColumn<Customer, String> tbc_name;
     @FXML
-    private TableColumn<Product, String> tbc_name;
+    private TableColumn<Customer, String> tbc_address;
     @FXML
-    private TableColumn<Product, Double> tbc_price;
+    private TableColumn<Customer, String> tbc_phone;
     @FXML
-    private TableColumn<Product, Integer> tbc_stockQuantity;
+    private TableColumn<Customer, String> tbc_email;
 
     @FXML
-    private MFXTextField txt_product_search;
+    private MFXTextField txt_customer_search;
     //Service
-    ProductService productService = new ProductService();
+    CustomerService customerService = new CustomerService();
 
     private Stage stage;
 
@@ -73,11 +73,11 @@ public class OrderDetailSelectProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        products = FXCollections.observableArrayList(productService.getAllProduct());
+        customers = FXCollections.observableArrayList(customerService.getAllCustomer());
         initTableView();
 
         paginationHelper = new PaginationHelper<>();
-        paginationHelper.setItems(products);
+        paginationHelper.setItems(customers);
         paginationHelper.setTableView(tableView);
 
         paginationHelper.setPageButtonContainer(pageButtonContainer);
@@ -93,9 +93,9 @@ public class OrderDetailSelectProductController implements Initializable {
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY
                     && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
-                Product product = tableView.getSelectionModel().getSelectedItem();
-                if (productSelectionCallback != null) {
-                    productSelectionCallback.onProductSelected(product);
+                Customer customer = tableView.getSelectionModel().getSelectedItem();
+                if (customerSelectionCallback != null) {
+                    customerSelectionCallback.onCustomerSelected(customer);
                     stage.close();
                 }
             }
@@ -105,10 +105,10 @@ public class OrderDetailSelectProductController implements Initializable {
 
     private void initTableView() {
         tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tbc_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        tbc_stockQuantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
+        tbc_address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        tbc_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
 
     }
     @FXML
@@ -129,39 +129,40 @@ public class OrderDetailSelectProductController implements Initializable {
     }
 
 
-    private void searchProductOnAction() {
-        String searchText = txt_product_search.getText().trim();
+    private void searchCustomerOnAction() {
+        String searchText = txt_customer_search.getText().trim();
         if (!searchText.isEmpty()) {
-            List<Product> filter = products.stream()
-                    .filter(product ->
-                            product.getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                                    product.getProductCode().toLowerCase().contains(searchText.toLowerCase()))
+            List<Customer> filter = customers.stream()
+                    .filter(customer ->
+                            customer.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                                    customer.getEmail().toLowerCase().contains(searchText.toLowerCase()) ||
+                                    customer.getPhone().toLowerCase().contains(searchText.toLowerCase()))
                     .toList();
 
-            ObservableList<Product> filterCustomers = FXCollections.observableArrayList(filter);
+            ObservableList<Customer> filterCustomers = FXCollections.observableArrayList(filter);
 
             paginationHelper.setItems(filterCustomers);
             paginationHelper.showFirstPage();
         } else {
-            paginationHelper.setItems(products);
+            paginationHelper.setItems(customers);
             paginationHelper.showFirstPage();
         }
     }
 
     private void initEnterKeyPressing() {
-        txt_product_search.setOnKeyPressed(event -> {
+        txt_customer_search.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                searchProductOnAction();
+                searchCustomerOnAction();
             } else if (event.getCode() == KeyCode.ESCAPE) {
-                txt_product_search.clear();
-                searchProductOnAction();
+                txt_customer_search.clear();
+                searchCustomerOnAction();
             }
         });
     }
 
     @FXML
     void resetFilterIconClicked() {
-        txt_product_search.setText("");
-        searchProductOnAction();
+        txt_customer_search.setText("");
+        searchCustomerOnAction();
     }
 }

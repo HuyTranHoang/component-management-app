@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.product;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
 
 public class ProductController implements Initializable,
         ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback, ProductFilterController.ClearFilterCallback {
@@ -333,7 +332,7 @@ public class ProductController implements Initializable,
     }
 
     @FXML
-    void resetFilterIconClicked() {
+    public void resetFilterIconClicked() {
         if (filterController != null) {
             filterController.clearFilterButtonOnClick();
         }

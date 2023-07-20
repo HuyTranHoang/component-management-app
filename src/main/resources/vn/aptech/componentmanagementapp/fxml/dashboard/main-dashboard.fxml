@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="dashboardView" prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.DashboardController">
+<AnchorPane fx:id="dashboardView" prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.dashboard.DashboardController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
       <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">

@@ -1,4 +1,4 @@
-package vn.aptech.componentmanagementapp.controller;
+package vn.aptech.componentmanagementapp.controller.dashboard;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,7 +30,7 @@ public class DashboardController implements Initializable {
         updateBarChart();
     }
 
-    private void updateBarChart() {
+    public void updateBarChart() {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
         dataSeries.setName("Total Amount");
 
