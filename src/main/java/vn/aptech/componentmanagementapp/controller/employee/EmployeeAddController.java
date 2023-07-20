@@ -512,7 +512,7 @@ public class EmployeeAddController implements Initializable {
             clearInput();
 
             // Show success message
-            lbl_successMessage.setText("Add new employee succesfully!!");
+            lbl_successMessage.setText("Add new employee successfully!!");
             lbl_successMessage.setVisible(true);
             new FadeIn(lbl_successMessage).play();
             // Hide the message after 4 seconds
