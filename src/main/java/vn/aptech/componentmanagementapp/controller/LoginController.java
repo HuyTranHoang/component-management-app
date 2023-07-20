@@ -162,11 +162,12 @@ public class LoginController implements Initializable {
                 .dependsOn("citizen_id", txt_forgot_citizen.textProperty())
                 .withMethod(context -> {
                     String citizenID = context.get("citizen_id");
-                    if (citizenID.isEmpty()) {
+                    if (citizenID.isEmpty())
                         context.error("Citizen ID can't be empty");
-                    } else if (!citizenID.matches("^\\d{12}$")) {
-                        context.error("Citizen ID must have 12 numbers");
-                    }
+                    else if (!citizenID.matches("\\d+"))
+                        context.error("Citizen Id can't have letters");
+                    else if(!citizenID.matches("^\\d{12}$"))
+                        context.error("Citizen Id must have 12 digits");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_forgot_citizenError);
@@ -179,9 +180,8 @@ public class LoginController implements Initializable {
                 .withMethod(context -> {
                     String newPassword = context.get("new_password");
                     String confirmPassword = context.get("confirm_new_password");
-                    if (!newPassword.equals(confirmPassword) && newPassword.length() > 8) {
+                    if (!newPassword.equals(confirmPassword) && newPassword.length() > 8)
                         context.error("Confirm password does not match");
-                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_reset_confirmNewPasswordError);
@@ -190,11 +190,12 @@ public class LoginController implements Initializable {
                 .dependsOn("new_password", txt_reset_newPassword.textProperty())
                 .withMethod(context -> {
                     String newPassword = context.get("new_password");
-                    if (newPassword.isEmpty()) {
-                        context.error("New password can'tbe empty");
-                    } else if (!newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[\\w\\d!@#$%^&*()\\-_=+\\[\\]{};:'\",.<>/?\\\\|`~]{8,}$")) {
-                        context.error("Must have at least 8 characters, contain letters and numbers");
-                    }
+                    if (newPassword.isEmpty())
+                        context.error("New password can't be empty");
+                    else if(newPassword.length() < 8 || newPassword.length() > 20)
+                        context.error("Password can't be less than 8 or greater than 20 characters");
+                    else if (!newPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
+                        context.error("Password must contain at least one number, lowercase letter, uppercase letter and one special character (@, $, %)");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_reset_newPasswordError);
