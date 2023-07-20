@@ -1,12 +1,15 @@
 package vn.aptech.componentmanagementapp.controller.employee;
 
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
@@ -86,7 +90,15 @@ public class EmployeeAddController implements Initializable {
     private Label lbl_error_salary;
 
     @FXML
+    private Label lbl_error_dateOfBirth;
+
+    @FXML
+    private Label lbl_error_dateOfHire;
+
+    @FXML
     private Label lbl_successMessage;
+
+
 
     @FXML
     private MFXTextField txt_address;
@@ -128,6 +140,7 @@ public class EmployeeAddController implements Initializable {
 
     // Truyền từ ngoài vào
     private TableView<Employee> tableView;
+
 
     public void setTableView(TableView<Employee> tableView) {
         this.tableView = tableView;
@@ -172,7 +185,7 @@ public class EmployeeAddController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
-                    else if (name.matches("\\D+"))
+                    else if (!name.matches("\\D+"))
                         context.error("Name can't have number");
                     else if (name.length() > 255)
                         context.error("Name length exceeds the maximum limit of 255 characters");
@@ -199,10 +212,10 @@ public class EmployeeAddController implements Initializable {
                     String phone = context.get("phone");
                     if (phone.isEmpty())
                         context.error("Phone can't be empty");
+                    else if(!phone.matches("\\d+"))
+                        context.error("Phone can't have letters");
                     else if (!phone.matches("^\\d{10}$"))
                         context.error("Phone must have 10 digits");
-                    else if(phone.matches("\\d+"))
-                        context.error("Phone can't have letters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_phone);
@@ -227,7 +240,7 @@ public class EmployeeAddController implements Initializable {
                     String salary = context.get("salary");
                     if (salary.isEmpty())
                         context.error("Salary can't be empty");
-                    else if(salary.matches("\\d+"))
+                    else if(!salary.matches("\\d+"))
                         context.error("Phone can't have letters");
                 })
                 .decoratingWith(this::labelDecorator)
@@ -255,34 +268,36 @@ public class EmployeeAddController implements Initializable {
                         context.error("Password can't be empty");
                     else if(password.length() < 8 || password.length() > 20)
                         context.error("Password can't be less than 8 or greater than 20 characters");
-                    else if (password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
+                    else if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
                         context.error("Password must contain at least one number, lowercase letter, uppercase letter and one special character (@, $, %)");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_password);
+
         validator.createCheck()
-                .dependsOn("dateOfBirth", txt_dateOfBirth.textProperty())
+                .dependsOn("dateOfBirth", txt_dateOfBirth.valueProperty())
                 .withMethod(context -> {
-                    String dateOfBirthStr = context.get("dateOfBirth");
-                    LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr);
-                    if(dateOfBirthStr.isEmpty())
+                    LocalDate dateOfBirth = context.get("dateOfBirth");
+                    if(dateOfBirth == null)
                         context.error("Date of birth can't be empty");
                     else if (dateOfBirth.isAfter(LocalDate.now().minusYears(18)))
                         context.error("You must be at least 18 years old");
-                });
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_dateOfBirth);
+
         validator.createCheck()
-                .dependsOn("dateOfHire", txt_dateOfHire.textProperty())
+                .dependsOn("dateOfHire", txt_dateOfHire.valueProperty())
                 .withMethod(context -> {
-                    String dateOfHireStr = context.get("dateOfHire");
-                    LocalDate dateOfHire = LocalDate.parse(dateOfHireStr);
-                   if(dateOfHireStr.isEmpty())
+                    LocalDate dateOfHire = context.get("dateOfHire");
+                   if(dateOfHire == null)
                        context.error("Date of hire can't be empty");
                    else if(dateOfHire.isBefore(LocalDate.now()))
                        context.error("Date of hire can't be in the past");
-                });
-
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_dateOfHire);
     }
-
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
             @Override
@@ -290,7 +305,6 @@ public class EmployeeAddController implements Initializable {
                 ((Label) target).setText(message.getText());
                 target.setVisible(true);
             }
-
             @Override
             public void remove(Node target) {
                 target.setVisible(false);
@@ -360,7 +374,27 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     void clearInput() {
-
+        txt_name.clear();
+        txt_address.clear();
+        txt_phone.clear();
+        txt_email.clear();
+        txt_salary.clear();
+        txt_citizenId.clear();
+        txt_password.clear();
+        cbb_department.selectFirst();
+        cbb_position.selectFirst();
+        clearValidateError();
+    }
+    private void clearValidateError() {
+        lbl_error_name.setVisible(false);
+        lbl_error_address.setVisible(false);
+        lbl_error_phone.setVisible(false);
+        lbl_error_email.setVisible(false);
+        lbl_error_salary.setVisible(false);
+        lbl_error_citizenId.setVisible(false);
+        lbl_error_password.setVisible(false);
+        lbl_error_department.setVisible(false);
+        lbl_error_position.setVisible(false);
     }
 
     @FXML
@@ -384,9 +418,41 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     void storeButtonOnClick() {
+        if (validator.validate()) {
+            Employee employee = new Employee();
+            employee.setName(txt_name.getText());
+            employee.setAddress(txt_address.getText());
+            employee.setPhone(txt_phone.getText());
+            employee.setEmail(txt_email.getText());
+            employee.setSalary(Double.parseDouble(txt_salary.getText()));
+            employee.setCitizenID(txt_citizenId.getText());
+            employee.setPassword(txt_password.getText());
+            Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();
+            if (selectedDepartment != null) {
+                employee.setDepartmentId(selectedDepartment.getId());
+            }
+            Position selectedPosition = cbb_position.getSelectionModel().getSelectedItem();
+            if (selectedPosition != null) {
+                employee.setPositionId(selectedPosition.getId());
+            }
+            employee.setDateOfBirth(txt_dateOfBirth.getValue());
+            employee.setDateOfHire(txt_dateOfHire.getValue());
+            employeeService.addEmployee(employee);
 
+
+            clearInput();
+
+            // Show success message
+            lbl_successMessage.setText("Add new employee succesfully!!");
+            lbl_successMessage.setVisible(true);
+            new FadeIn(lbl_successMessage).play();
+            // Hide the message after 4 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
+                new FadeOut(lbl_successMessage).play();
+            }));
+            timeline.play();
+        }
     }
-
     @FXML
     void updateButtonOnClick() {
 
