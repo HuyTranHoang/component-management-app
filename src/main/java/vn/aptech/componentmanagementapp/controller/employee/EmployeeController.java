@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -15,11 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.*;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +30,17 @@ import java.util.ResourceBundle;
 
 public class EmployeeController implements Initializable {
     @FXML
-    private MFXComboBox<?> cbb_orderBy;
+    private MFXComboBox<String> cbb_orderBy;
 
     @FXML
-    private MFXComboBox<?> cbb_sortBy;
+    private MFXComboBox<String> cbb_sortBy;
 
     @FXML
     private AnchorPane employeeView;
+
+    public void setEmployeeView(AnchorPane employeeView) {
+        this.employeeView = employeeView;
+    }
 
     @FXML
     private Label filter_noti_label;
@@ -91,6 +98,10 @@ public class EmployeeController implements Initializable {
     private final ArrayList<Long> selectedEmployeeIds = new ArrayList<>();
     // Service
     private EmployeeService employeeService = new EmployeeService();
+
+    // Cached views
+    private AnchorPane addEmployeeView;
+    private EmployeeAddController employeeAddController;
 
     private PaginationHelper<Employee> paginationHelper;
 
@@ -196,7 +207,27 @@ public class EmployeeController implements Initializable {
 
     @FXML
     void addButtonOnClick() {
+        if (addEmployeeView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee-add.fxml"));
+                addEmployeeView = fxmlLoader.load();
+                employeeAddController = fxmlLoader.getController();
+                employeeAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                employeeAddController.setEmployeeView(employeeView);
+                employeeAddController.setTableView(tableView);
 
+                // Pass the products list and set the ProductAddCallback
+//                employeeAddController.setProductAddCallback(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+//        employeeAddController.clearInput();
+//        employeeAddController.addMode();
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(addEmployeeView);
     }
 
     private void uncheckAllCheckboxes() {

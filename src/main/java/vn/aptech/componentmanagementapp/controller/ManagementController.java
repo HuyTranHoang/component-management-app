@@ -151,6 +151,7 @@ public class ManagementController implements Initializable {
                 productView = fxmlLoader.load();
                 productController = fxmlLoader.getController();
                 productController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                productController.setProductView(productView);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -189,6 +190,7 @@ public class ManagementController implements Initializable {
                 employeeView = fxmlLoader.load();
                 employeeController = fxmlLoader.getController();
                 employeeController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                employeeController.setEmployeeView(employeeView);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

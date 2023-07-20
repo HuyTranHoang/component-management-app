@@ -59,6 +59,14 @@ public class PaginationHelper<T> {
         tableView.setItems(pageItems);
     }
 
+    public void showCurrentPage() {
+        if (pageItems != null && pageItems.isEmpty()) {
+            showPreviousPage();
+        } else {
+            showPage(currentPageIndex);
+        }
+    }
+
     public void showPreviousPage() {
         if (currentPageIndex > 0) {
             currentPageIndex--;

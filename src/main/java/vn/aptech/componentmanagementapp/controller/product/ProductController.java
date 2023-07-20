@@ -110,6 +110,11 @@ public class ProductController implements Initializable,
     private AnchorPane addProductView;
     @FXML
     private AnchorPane productView;
+
+    public void setProductView(AnchorPane productView) {
+        this.productView = productView;
+    }
+
     private AnchorPane anchor_main_rightPanel; // Truyền từ Main controller vào
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
@@ -508,15 +513,16 @@ public class ProductController implements Initializable,
     public void reloadProduct() {
         products = FXCollections.observableArrayList(productService.getAllProduct());
         paginationHelper.setItems(products);
-        showFirstPage();
+//        showFirstPage();
+        paginationHelper.showCurrentPage();
     }
 
     @Override
     public void onClearFilterClicked() {
         products = FXCollections.observableArrayList(productService.getAllProduct());
         paginationHelper.setItems(products);
-        showFirstPage();
-
+//        showFirstPage();
+        paginationHelper.showCurrentPage();
         uncheckAllCheckboxes();
     }
 }
