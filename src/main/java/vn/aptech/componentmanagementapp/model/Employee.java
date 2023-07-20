@@ -1,5 +1,7 @@
 package vn.aptech.componentmanagementapp.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import vn.aptech.componentmanagementapp.dao.DepartmentDAO;
 import vn.aptech.componentmanagementapp.dao.DepartmentDAOImpl;
 import vn.aptech.componentmanagementapp.dao.PositionDAO;
@@ -9,7 +11,6 @@ import java.time.LocalDate;
 
 public class Employee extends User{
     private String password;
-
     private double salary;
     private String image;
     private String citizenID;
@@ -17,6 +18,21 @@ public class Employee extends User{
     private LocalDate dateOfHire;
     private Long departmentId;
     private Long positionId;
+
+    // For multi delete
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
 
     // Lazy-loaded Department and Position objects
     private Department department;
