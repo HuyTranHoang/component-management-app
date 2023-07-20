@@ -2,7 +2,9 @@ package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Customer;
 
+import java.time.LocalDate;
+
 
 public interface CustomerDAO extends BaseDAO<Customer>{
-    // Các phương thức cụ thể cho CustomerDAO ( Sort, search .. )
+    int getWeeklyNewCustomer();
 }

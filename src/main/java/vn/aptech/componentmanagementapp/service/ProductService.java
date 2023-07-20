@@ -35,4 +35,6 @@ public class ProductService {
     public void deleteProduct(long productId) {
         productDAO.delete(productId);
     }
+
+    public int getWeeklyNewProduct() { return productDAO.getWeeklyNewProduct(); }
 }

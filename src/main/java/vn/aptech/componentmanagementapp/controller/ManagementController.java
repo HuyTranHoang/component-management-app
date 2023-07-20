@@ -122,6 +122,7 @@ public class ManagementController implements Initializable {
         }
 
         dashboardController.updateBarChart();
+        dashboardController.updateWeeklySummery();
 
         leftPanel_imageView.setImage(image);
 

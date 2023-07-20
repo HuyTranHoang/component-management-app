@@ -144,4 +144,21 @@ public class ProductDAOImpl implements ProductDAO{
 
         return product;
     }
+
+    @Override
+    public int getWeeklyNewProduct() {
+        int count = 0;
+
+        String query = "SELECT COUNT(*) AS new_products_count FROM products" +
+                " WHERE created_at >= DATE_TRUNC('week', CURRENT_DATE)" +
+                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week';";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next())
+                count = rs.getInt("new_products_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

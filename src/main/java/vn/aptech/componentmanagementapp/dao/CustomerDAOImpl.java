@@ -4,6 +4,7 @@ import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,5 +110,22 @@ public class CustomerDAOImpl implements CustomerDAO{
         customer.setAddress(resultSet.getString("address"));
         customer.setPhone(resultSet.getString("phone"));
         customer.setEmail(resultSet.getString("email"));
+    }
+
+    @Override
+    public int getWeeklyNewCustomer() {
+        int count = 0;
+
+        String query = "SELECT COUNT(*) AS new_customers_count FROM customers" +
+                " WHERE created_at >= DATE_TRUNC('week', CURRENT_DATE)" +
+                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week';";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next())
+                count = rs.getInt("new_customers_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }

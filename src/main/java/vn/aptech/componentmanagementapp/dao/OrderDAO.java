@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface OrderDAO extends BaseDAO<Order> {
     long addReturnId(Order order);
-
     Map<LocalDate, Double> weeklyTotalAmounts(LocalDate startOfWeek, LocalDate endOfWeek);
+    int getWeeklyNewOrder();
 }

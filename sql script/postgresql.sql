@@ -5,7 +5,8 @@ CREATE TABLE customers
     name    VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone   VARCHAR(10)  NOT NULL,
-    email   VARCHAR(255)
+    email   VARCHAR(255),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE UNIQUE INDEX idx_unique_email
@@ -20,14 +21,16 @@ CREATE TABLE departments
 (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
-    description VARCHAR(255)
+    description VARCHAR(255),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE positions
 (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
-    description VARCHAR(255)
+    description VARCHAR(255),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE suppliers
@@ -35,17 +38,16 @@ CREATE TABLE suppliers
     id      SERIAL PRIMARY KEY,
     name    VARCHAR(255) NOT NULL,
     email   VARCHAR(255),
-    website VARCHAR(255)
+    website VARCHAR(255),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
-CREATE UNIQUE INDEX idx_unique_email
-    ON suppliers (email)
-    WHERE email IS NOT NULL AND email <> '';
 
 CREATE TABLE categories
 (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
-    description VARCHAR(255)
+    description VARCHAR(255),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE products
@@ -58,7 +60,8 @@ CREATE TABLE products
     month_of_warranty INTEGER,
     note              VARCHAR(255),
     supplier_id       BIGINT REFERENCES suppliers (id) ON DELETE CASCADE,
-    category_id       BIGINT REFERENCES categories (id) ON DELETE CASCADE
+    category_id       BIGINT REFERENCES categories (id) ON DELETE CASCADE,
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE INDEX idx_supplier_category
@@ -69,8 +72,8 @@ CREATE TABLE products_storage
     id              SERIAL PRIMARY KEY,
     import_quantity INTEGER NOT NULL,
     export_quantity INTEGER NOT NULL,
-    date_of_storage DATE    NOT NULL,
-    product_id      BIGINT REFERENCES products (id) ON DELETE CASCADE
+    product_id      BIGINT REFERENCES products (id) ON DELETE CASCADE,
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE INDEX idx_product
@@ -90,7 +93,8 @@ CREATE TABLE employees
     date_of_birth          DATE             NOT NULL,
     date_of_hire           DATE             NOT NULL,
     department_id          BIGINT REFERENCES departments (id),
-    position_id            BIGINT REFERENCES positions (id)
+    position_id            BIGINT REFERENCES positions (id),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE INDEX idx_department_position
@@ -106,7 +110,8 @@ CREATE TABLE orders
     total_amount      DOUBLE PRECISION NOT NULL,
     note              VARCHAR(255),
     customer_id       BIGINT REFERENCES customers (id) ON DELETE CASCADE,
-    employee_id       BIGINT REFERENCES employees (id)
+    employee_id       BIGINT REFERENCES employees (id),
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE INDEX idx_customer_employee
@@ -121,7 +126,8 @@ CREATE TABLE order_detail
     discount     INTEGER          NOT NULL,
     total_amount DOUBLE PRECISION NOT NULL,
     order_id     BIGINT REFERENCES orders (id) ON DELETE CASCADE,
-    product_id   BIGINT REFERENCES products (id) ON DELETE CASCADE
+    product_id   BIGINT REFERENCES products (id) ON DELETE CASCADE,
+    created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE INDEX idx_order_product
@@ -189,8 +195,8 @@ CREATE OR REPLACE FUNCTION insert_products_storage()
     RETURNS TRIGGER AS
 $$
 BEGIN
-    INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
-    VALUES (NEW.stock_quantity, 0, NOW(), NEW.id);
+    INSERT INTO products_storage (import_quantity, export_quantity, product_id)
+    VALUES (NEW.stock_quantity, 0, NEW.id);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -207,11 +213,11 @@ CREATE OR REPLACE FUNCTION update_products_storage()
 $$
 BEGIN
     IF NEW.stock_quantity > OLD.stock_quantity THEN
-        INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
-        VALUES (NEW.stock_quantity - OLD.stock_quantity, 0, NOW(), NEW.id);
+        INSERT INTO products_storage (import_quantity, export_quantity, product_id)
+        VALUES (NEW.stock_quantity - OLD.stock_quantity, 0, NEW.id);
     ELSIF NEW.stock_quantity < OLD.stock_quantity THEN
-        INSERT INTO products_storage (import_quantity, export_quantity, date_of_storage, product_id)
-        VALUES (0, OLD.stock_quantity - NEW.stock_quantity, NOW(), NEW.id);
+        INSERT INTO products_storage (import_quantity, export_quantity, product_id)
+        VALUES (0, OLD.stock_quantity - NEW.stock_quantity, NEW.id);
     END IF;
     RETURN NEW;
 END;

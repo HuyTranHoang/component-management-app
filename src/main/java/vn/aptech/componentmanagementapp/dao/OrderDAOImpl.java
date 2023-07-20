@@ -124,6 +124,22 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    public int getWeeklyNewOrder() {
+        int count = 0;
+        String query = "SELECT COUNT(*) AS new_orders_count FROM orders" +
+                " WHERE order_date >= DATE_TRUNC('week', CURRENT_DATE)" +
+                " AND order_date < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week';";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next())
+                count = rs.getInt("new_orders_count");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    @Override
     public void update(Order order) {
         String query = "UPDATE orders SET order_date = ?, delivery_date = ?, receive_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +
                 "customer_id = ?, employee_id = ? WHERE id = ?";

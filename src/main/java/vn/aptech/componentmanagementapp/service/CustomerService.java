@@ -32,4 +32,6 @@ public class CustomerService {
     public void deleteCustomer(long customerId) {
         customerDAO.delete(customerId);
     }
+
+    public int getWeeklyNewCustomer() { return customerDAO.getWeeklyNewCustomer(); };
 }
