@@ -241,7 +241,7 @@
                         <Button mnemonicParsing="false" onAction="#chooseImageButtonOnClick" text="Choose image" />
                         <ImageView fx:id="imageView_image" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/employee.png" />
+                              <Image url="@../../images/user.png" />
                            </image>
                            <VBox.margin>
                               <Insets top="20.0" />

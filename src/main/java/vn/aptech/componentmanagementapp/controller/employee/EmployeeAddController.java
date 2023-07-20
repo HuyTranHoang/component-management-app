@@ -34,6 +34,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -171,6 +172,11 @@ public class EmployeeAddController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
+                    else if (name.matches("\\D+"))
+                        context.error("Name can't have number");
+                    else if (name.length() > 255)
+                        context.error("Name length exceeds the maximum limit of 255 characters");
+
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_name);
@@ -181,6 +187,8 @@ public class EmployeeAddController implements Initializable {
                     String address = context.get("address");
                     if (address.isEmpty())
                         context.error("Address can't be empty");
+                    else if (address.length() > 255)
+                        context.error("Address length exceeds the maximum limit of 255 characters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_address);
@@ -191,6 +199,10 @@ public class EmployeeAddController implements Initializable {
                     String phone = context.get("phone");
                     if (phone.isEmpty())
                         context.error("Phone can't be empty");
+                    else if (!phone.matches("^\\d{10}$"))
+                        context.error("Phone must have 10 digits");
+                    else if(phone.matches("\\d+"))
+                        context.error("Phone can't have letters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_phone);
@@ -199,8 +211,12 @@ public class EmployeeAddController implements Initializable {
                 .dependsOn("email", txt_email.textProperty())
                 .withMethod(context -> {
                     String email = context.get("email");
-                    if (email.isEmpty())
+                    if(email.isEmpty())
                         context.error("Email can't be empty");
+                     else if (!email.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
+                        context.error("Please enter a valid email address");
+                     else if (email.length() > 255)
+                        context.error("Email length exceeds the maximum limit of 255 characters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_email);
@@ -211,6 +227,8 @@ public class EmployeeAddController implements Initializable {
                     String salary = context.get("salary");
                     if (salary.isEmpty())
                         context.error("Salary can't be empty");
+                    else if(salary.matches("\\d+"))
+                        context.error("Phone can't have letters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_salary);
@@ -221,6 +239,10 @@ public class EmployeeAddController implements Initializable {
                     String citizenId = context.get("citizenId");
                     if (citizenId.isEmpty())
                         context.error("Citizen Id can't be empty");
+                    else if (!citizenId.matches("\\d+"))
+                        context.error("Citizen Id can't have letters");
+                    else if(!citizenId.matches("^\\d{12}$"))
+                        context.error("Citizen Id must have 12 digits");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_citizenId);
@@ -231,11 +253,34 @@ public class EmployeeAddController implements Initializable {
                     String password = context.get("password");
                     if (password.isEmpty())
                         context.error("Password can't be empty");
+                    else if(password.length() < 8 || password.length() > 20)
+                        context.error("Password can't be less than 8 or greater than 20 characters");
+                    else if (password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
+                        context.error("Password must contain at least one number, lowercase letter, uppercase letter and one special character (@, $, %)");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_password);
+        validator.createCheck()
+                .dependsOn("dateOfBirth", txt_dateOfBirth.textProperty())
+                .withMethod(context -> {
+                    String dateOfBirthStr = context.get("dateOfBirth");
+                    LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr);
+                    if(dateOfBirthStr.isEmpty())
+                        context.error("Date of birth can't be empty");
+                    else if (dateOfBirth.isAfter(LocalDate.now().minusYears(18)))
+                        context.error("You must be at least 18 years old");
+                });
+        validator.createCheck()
+                .dependsOn("dateOfHire", txt_dateOfHire.textProperty())
+                .withMethod(context -> {
+                    String dateOfHireStr = context.get("dateOfHire");
+                    LocalDate dateOfHire = LocalDate.parse(dateOfHireStr);
+                   if(dateOfHireStr.isEmpty())
+                       context.error("Date of hire can't be empty");
+                   else if(dateOfHire.isBefore(LocalDate.now()))
+                       context.error("Date of hire can't be in the past");
+                });
 
-        // Validate date of birth lớn hơn 18 tuổi, date of hire hông được trong quá khứ
     }
 
     private Decoration labelDecorator(ValidationMessage message) {
