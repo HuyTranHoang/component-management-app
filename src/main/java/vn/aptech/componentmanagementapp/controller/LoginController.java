@@ -195,7 +195,7 @@ public class LoginController implements Initializable {
                     else if(newPassword.length() < 8 || newPassword.length() > 20)
                         context.error("Password can't be less than 8 or greater than 20 characters");
                     else if (!newPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
-                        context.error("Password must contain at least one number, lowercase letter, uppercase letter and one special character (@, $, %)");
+                        context.error("Password must contain number, uppercase and special characters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_reset_newPasswordError);

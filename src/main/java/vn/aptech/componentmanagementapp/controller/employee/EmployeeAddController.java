@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -14,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -27,7 +27,9 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.model.*;
+import vn.aptech.componentmanagementapp.model.Department;
+import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.model.Position;
 import vn.aptech.componentmanagementapp.service.DepartmentService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.PositionService;
@@ -130,8 +132,17 @@ public class EmployeeAddController implements Initializable {
     private ObservableList<Department> departments;
     private ObservableList<Position> positions;
 
+    private Employee currentEmployee;
+
     // Validator
     Validator validator = new Validator();
+    private Boolean isUpdate = false;
+
+    private ObservableList<Employee> employees;
+
+    public void setEmployees(ObservableList<Employee> employees) {
+        this.employees = employees;
+    }
 
     // Service
     private final EmployeeService employeeService = new EmployeeService();
@@ -161,6 +172,9 @@ public class EmployeeAddController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        txt_dateOfBirth.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_dateOfBirth.getLocale()));
+        txt_dateOfHire.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_dateOfHire.getLocale()));
+
         initComboBox();
         initValidator();
     }
@@ -185,8 +199,8 @@ public class EmployeeAddController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
-                    else if (!name.matches("\\D+"))
-                        context.error("Name can't have number");
+                    else if (name.matches("\\d+"))
+                        context.error("Name can't contain digits");
                     else if (name.length() > 255)
                         context.error("Name length exceeds the maximum limit of 255 characters");
 
@@ -212,10 +226,10 @@ public class EmployeeAddController implements Initializable {
                     String phone = context.get("phone");
                     if (phone.isEmpty())
                         context.error("Phone can't be empty");
-                    else if(!phone.matches("\\d+"))
-                        context.error("Phone can't have letters");
                     else if (!phone.matches("^\\d{10}$"))
                         context.error("Phone must have 10 digits");
+                    else if (isUpdate ? !isPhoneUniqueUpdate(employees, phone) : !isPhoneUnique(employees, phone))
+                        context.error("This phone number is already in the database");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_phone);
@@ -230,6 +244,9 @@ public class EmployeeAddController implements Initializable {
                         context.error("Please enter a valid email address");
                      else if (email.length() > 255)
                         context.error("Email length exceeds the maximum limit of 255 characters");
+                    else if (isUpdate ? !isEmailUniqueUpdate(employees, email) : !isEmailUnique(employees, email)) {
+                        context.error("This email is already in the database");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_email);
@@ -241,7 +258,7 @@ public class EmployeeAddController implements Initializable {
                     if (salary.isEmpty())
                         context.error("Salary can't be empty");
                     else if(!salary.matches("\\d+"))
-                        context.error("Phone can't have letters");
+                        context.error("Salary can't contain characters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_salary);
@@ -252,10 +269,10 @@ public class EmployeeAddController implements Initializable {
                     String citizenId = context.get("citizenId");
                     if (citizenId.isEmpty())
                         context.error("Citizen Id can't be empty");
-                    else if (!citizenId.matches("\\d+"))
-                        context.error("Citizen Id can't have letters");
                     else if(!citizenId.matches("^\\d{12}$"))
                         context.error("Citizen Id must have 12 digits");
+                    else if (isUpdate ? !isCitizenIdUniqueUpdate(employees, citizenId) : !isCitizenIdUnique(employees, citizenId))
+                        context.error("This citizen Id is already in the database");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_citizenId);
@@ -269,7 +286,7 @@ public class EmployeeAddController implements Initializable {
                     else if(password.length() < 8 || password.length() > 20)
                         context.error("Password can't be less than 8 or greater than 20 characters");
                     else if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
-                        context.error("Password must contain at least one number, lowercase letter, uppercase letter and one special character (@, $, %)");
+                        context.error("Password must contain number, uppercase and special characters");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_password);
@@ -281,7 +298,7 @@ public class EmployeeAddController implements Initializable {
                     if(dateOfBirth == null)
                         context.error("Date of birth can't be empty");
                     else if (dateOfBirth.isAfter(LocalDate.now().minusYears(18)))
-                        context.error("You must be at least 18 years old");
+                        context.error("Employee must be at least 18 years old");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_dateOfBirth);
@@ -298,6 +315,43 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_dateOfHire);
     }
+
+    private boolean isEmailUnique(List<Employee> employees, String txt_email) {
+        return employees.stream()
+                .noneMatch(employee -> employee.getEmail() != null && employee.getEmail().equals(txt_email));
+    }
+
+    private boolean isEmailUniqueUpdate(List<Employee> employees, String txt_email) {
+        String email = currentEmployee.getEmail();
+        return employees.stream()
+                .noneMatch(employee -> employee.getEmail() != null && employee.getEmail().equals(txt_email))
+                || txt_email.equals(email);
+    }
+
+    private boolean isPhoneUnique(List<Employee> employees, String txt_phone) {
+        return employees.stream()
+                .noneMatch(employee -> employee.getPhone() != null && employee.getPhone().equals(txt_phone));
+    }
+
+    private boolean isPhoneUniqueUpdate(List<Employee> employees, String txt_phone) {
+        String citizenId = currentEmployee.getCitizenID();
+        return employees.stream()
+                .noneMatch(employee -> employee.getPhone() != null && employee.getPhone().equals(txt_phone))
+                || txt_phone.equals(citizenId);
+    }
+
+    private boolean isCitizenIdUnique(List<Employee> employees, String txt_citizenId) {
+        return employees.stream()
+                .noneMatch(employee -> employee.getCitizenID() != null && employee.getCitizenID().equals(txt_citizenId));
+    }
+
+    private boolean isCitizenIdUniqueUpdate(List<Employee> employees, String txt_citizenId) {
+        String citizenId = currentEmployee.getCitizenID();
+        return employees.stream()
+                .noneMatch(employee -> employee.getCitizenID() != null && employee.getCitizenID().equals(txt_citizenId))
+                || txt_citizenId.equals(citizenId);
+    }
+
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
             @Override
@@ -329,7 +383,7 @@ public class EmployeeAddController implements Initializable {
 
 
     @FXML
-    private void saveImage() {
+    private String saveImage() {
         if (selectedImageFile != null) {
             try {
                 // Tạo URI từ đường dẫn tương đối của tấm hình đã chọn
@@ -345,7 +399,7 @@ public class EmployeeAddController implements Initializable {
                         System.out.println("Thư mục đã được tạo: " + directory.getAbsolutePath());
                     } else {
                         System.out.println("Không thể tạo thư mục lưu trữ tấm hình!");
-                        return;
+                        return "defaultImg.jpg";
                     }
                 }
 
@@ -360,16 +414,15 @@ public class EmployeeAddController implements Initializable {
                 Files.copy(selectedImageUri.toURL().openStream(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 // Lưu tên tấm hình vào cơ sở dữ liệu (giả sử bạn đã có cơ sở dữ liệu ở đây)
-                String imageName = uniqueFileName;
-                System.out.println("Tên tấm hình: " + imageName);
-                System.out.println("Lưu thành công!");
+                return uniqueFileName;
             } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Lưu thất bại: " + e.getMessage());
+                System.out.println("Lưu hình thất bại: " + e.getMessage());
             }
         } else {
-            System.out.println("Hãy chọn một tấm hình trước khi lưu!");
+            return "defaultImg.jpg";
         }
+
+        return null;
     }
 
     @FXML
@@ -412,11 +465,6 @@ public class EmployeeAddController implements Initializable {
     }
 
     @FXML
-    void listProductButtonOnClick() {
-
-    }
-
-    @FXML
     void storeButtonOnClick() {
         if (validator.validate()) {
             Employee employee = new Employee();
@@ -427,16 +475,23 @@ public class EmployeeAddController implements Initializable {
             employee.setSalary(Double.parseDouble(txt_salary.getText()));
             employee.setCitizenID(txt_citizenId.getText());
             employee.setPassword(txt_password.getText());
+
             Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();
             if (selectedDepartment != null) {
                 employee.setDepartmentId(selectedDepartment.getId());
             }
+
             Position selectedPosition = cbb_position.getSelectionModel().getSelectedItem();
             if (selectedPosition != null) {
                 employee.setPositionId(selectedPosition.getId());
             }
+
+            employee.setImage(saveImage());
+
             employee.setDateOfBirth(txt_dateOfBirth.getValue());
             employee.setDateOfHire(txt_dateOfHire.getValue());
+
+
             employeeService.addEmployee(employee);
 
 
@@ -458,4 +513,15 @@ public class EmployeeAddController implements Initializable {
 
     }
 
+    void updateMode() {
+        isUpdate = true;
+        hbox_addButtonGroup.setVisible(false);
+        hbox_updateButtonGroup.setVisible(true);
+    }
+
+    void addMode() {
+        isUpdate = false;
+        hbox_addButtonGroup.setVisible(true);
+        hbox_updateButtonGroup.setVisible(false);
+    }
 }

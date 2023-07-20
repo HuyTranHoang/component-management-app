@@ -140,7 +140,10 @@ public class EmployeeController implements Initializable {
         tbc_address.setCellValueFactory(new PropertyValueFactory<>("address"));
         tbc_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         tbc_email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        tbc_salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+//        tbc_salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        tbc_salary.setCellFactory(column -> new FormattedDoubleTableCell<>());
+        tbc_salary.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getSalary()));
 
         tbc_department.setCellValueFactory(cellData -> {
             Department department = cellData.getValue().getDepartment();
@@ -215,6 +218,7 @@ public class EmployeeController implements Initializable {
                 employeeAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
                 employeeAddController.setEmployeeView(employeeView);
                 employeeAddController.setTableView(tableView);
+                employeeAddController.setEmployees(employees);
 
                 // Pass the products list and set the ProductAddCallback
 //                employeeAddController.setProductAddCallback(this);
@@ -223,8 +227,8 @@ public class EmployeeController implements Initializable {
             }
         }
 
-//        employeeAddController.clearInput();
-//        employeeAddController.addMode();
+        employeeAddController.clearInput();
+        employeeAddController.addMode();
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addEmployeeView);
@@ -269,7 +273,7 @@ public class EmployeeController implements Initializable {
 
     @FXML
     void editButtonOnClick() {
-
+        employeeAddController.updateMode();
     }
 
     @FXML

@@ -4,7 +4,7 @@ CREATE TABLE customers
     id      SERIAL PRIMARY KEY,
     name    VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
-    phone   VARCHAR(10)  NOT NULL,
+    phone   VARCHAR(10)  NOT NULL UNIQUE,
     email   VARCHAR(255),
     created_at DATE NOT NULL DEFAULT CURRENT_DATE
 );
@@ -13,16 +13,13 @@ CREATE UNIQUE INDEX idx_unique_email
     ON customers (email)
     WHERE email IS NOT NULL AND email <> '';
 
-CREATE UNIQUE INDEX idx_unique_phone
-    ON customers (phone)
-    WHERE phone IS NOT NULL AND phone <> '';
-
 CREATE TABLE departments
 (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255),
     created_at DATE NOT NULL DEFAULT CURRENT_DATE
+
 );
 
 CREATE TABLE positions
@@ -84,7 +81,7 @@ CREATE TABLE employees
     id                     SERIAL PRIMARY KEY,
     name                   VARCHAR(255)     NOT NULL,
     address                VARCHAR(255)     NOT NULL,
-    phone                  VARCHAR(10)      NOT NULL,
+    phone                  VARCHAR(10)      NOT NULL UNIQUE,
     email                  VARCHAR(255)     NOT NULL UNIQUE,
     password               VARCHAR(255)     NOT NULL,
     salary                 DOUBLE PRECISION NOT NULL,
@@ -254,7 +251,7 @@ VALUES ('Nhân sự', 'Quản lý nhân viên trong công ty'),
 
 -- Position
 INSERT INTO positions (name, description)
-VALUES ('Truưởng phòng', ''),
+VALUES ('Trưởng phòng', ''),
        ('Quản lý', ''),
        ('Nhân viên', '');
 

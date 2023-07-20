@@ -179,8 +179,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txt_orderDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
-        txt_deliveryDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
-        txt_receiveDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_orderDate.getLocale()));
+        txt_deliveryDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_deliveryDate.getLocale()));
+        txt_receiveDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_receiveDate.getLocale()));
 
         initValidator();
         initEnterKeyPressing();

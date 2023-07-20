@@ -330,13 +330,12 @@ public class CustomerController implements Initializable {
                 .dependsOn("name", txt_name.textProperty())
                 .withMethod(context -> {
                     String customerName = context.get("name");
-                    if (customerName.isEmpty()) {
+                    if (customerName.isEmpty())
                         context.error("Name can't be empty");
-                    } else if (!customerName.matches("\\D+")) {
+                    else if (!customerName.matches("\\D+"))
                         context.error("Name can't have numbers");
-                    } else if (customerName.length() > 255) {
+                    else if (customerName.length() > 255)
                         context.error("Name length exceeds the maximum limit of 255 characters");
-                    }
 
                 })
                 .decoratingWith(this::labelDecorator)
@@ -346,11 +345,11 @@ public class CustomerController implements Initializable {
                 .dependsOn("address", txt_address.textProperty())
                 .withMethod(context -> {
                     String customerAddress = context.get("address");
-                    if (customerAddress.isEmpty()) {
+                    if (customerAddress.isEmpty())
                         context.error("Address can't be empty");
-                    } else if (customerAddress.length() > 255) {
+                    else if (customerAddress.length() > 255)
                         context.error("Address length exceeds the maximum limit of 255 characters");
-                    }
+
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerAddress);
@@ -359,13 +358,13 @@ public class CustomerController implements Initializable {
                 .dependsOn("email", txt_email.textProperty())
                 .withMethod(context -> {
                     String customerEmail = context.get("email");
-                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$")) {
+                    if (!customerEmail.matches("^(|([A-Za-z0-9._%+-]+@gmail\\.com))$"))
                         context.error("Please enter a valid email address");
-                    } else if (customerEmail.length() > 255) {
+                    else if (customerEmail.length() > 255)
                         context.error("Email length exceeds the maximum limit of 255 characters");
-                    } else if (isUpdate ? !isEmailUniqueUpdate(customers, customerEmail) : !isEmailUnique(customers, customerEmail)) {
+                    else if (isUpdate ? !isEmailUniqueUpdate(customers, customerEmail) : !isEmailUnique(customers, customerEmail))
                         context.error("This email is already in the database");
-                    }
+
 
                 })
                 .decoratingWith(this::labelDecorator)
@@ -375,13 +374,12 @@ public class CustomerController implements Initializable {
                 .dependsOn("phone", txt_phone.textProperty())
                 .withMethod(context -> {
                     String customerPhone = context.get("phone");
-                    if (customerPhone.isEmpty()) {
+                    if (customerPhone.isEmpty())
                         context.error("Phone can't be empty");
-                    } else if (!customerPhone.matches("^\\d{10}$")) {
+                    else if (!customerPhone.matches("^\\d{10}$"))
                         context.error("Phone must have 10 digits");
-                    } else if (isUpdate ? !isPhoneUniqueUpdate(customers, customerPhone) : !isPhoneUnique(customers, customerPhone)) {
+                    else if (isUpdate ? !isPhoneUniqueUpdate(customers, customerPhone) : !isPhoneUnique(customers, customerPhone))
                         context.error("This phone number is already in the database");
-                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerPhone);

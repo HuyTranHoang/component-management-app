@@ -60,7 +60,7 @@
                   </HBox>
                   <HBox fx:id="hbox_updateButtonGroup" layoutX="824.0" layoutY="580.0" spacing="15.0" visible="false">
                      <children>
-                        <MFXButton id="button-custom-clear" onAction="#listProductButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                        <MFXButton id="button-custom-clear" onAction="#listEmployeeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
