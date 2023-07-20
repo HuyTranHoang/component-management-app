@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EmployeeController implements Initializable {
+public class EmployeeController implements Initializable, EmployeeAddController.EmployeeAddCallback {
     @FXML
     private MFXComboBox<String> cbb_orderBy;
 
@@ -220,8 +220,7 @@ public class EmployeeController implements Initializable {
                 employeeAddController.setTableView(tableView);
                 employeeAddController.setEmployees(employees);
 
-                // Pass the products list and set the ProductAddCallback
-//                employeeAddController.setProductAddCallback(this);
+                employeeAddController.setEmployeeAddCallback(this);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -304,5 +303,11 @@ public class EmployeeController implements Initializable {
     @FXML
     void showPreviousPage() {
         paginationHelper.showPreviousPage();
+    }
+
+    @Override
+    public void onEmployeeAdded(Employee employee) {
+        employees.add(employee);
+        showLastPage();
     }
 }

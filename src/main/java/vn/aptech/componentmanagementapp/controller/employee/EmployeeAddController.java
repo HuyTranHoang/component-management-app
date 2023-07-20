@@ -27,9 +27,11 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
+import vn.aptech.componentmanagementapp.controller.product.ProductAddController;
 import vn.aptech.componentmanagementapp.model.Department;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Position;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.DepartmentService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.PositionService;
@@ -46,6 +48,15 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class EmployeeAddController implements Initializable {
+
+    // Call back add employee
+    public interface EmployeeAddCallback {
+        void onEmployeeAdded(Employee employee);
+    }
+    private EmployeeAddCallback employeeAddCallback;
+    public void setEmployeeAddCallback(EmployeeAddCallback employeeAddCallback) {
+        this.employeeAddCallback = employeeAddCallback;
+    }
 
     @FXML
     private MFXFilterComboBox<Department> cbb_department;
@@ -494,6 +505,9 @@ public class EmployeeAddController implements Initializable {
 
             employeeService.addEmployee(employee);
 
+            if (employeeAddCallback != null) {
+                employeeAddCallback.onEmployeeAdded(employee);
+            }
 
             clearInput();
 
