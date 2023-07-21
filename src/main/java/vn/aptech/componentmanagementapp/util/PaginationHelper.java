@@ -151,6 +151,13 @@ public class PaginationHelper<T> {
             ellipsisButtonEnd.setDisable(true);
             pageButtonContainer.getChildren().add(ellipsisButtonEnd);
         }
+
+        if (pageCount == 0) {
+            firstPageButton.setDisable(true);
+            previousButton.setDisable(true);
+            lastPageButton.setDisable(true);
+            nextButton.setDisable(true);
+        }
     }
 
     private void showPageByIndex(int pageIndex) {

@@ -2,7 +2,9 @@ package vn.aptech.componentmanagementapp.controller.order;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -28,6 +31,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 public class OrderFilterController implements Initializable, OrderAddSelectCustomerController.CustomerSelectionCallback,
@@ -114,6 +119,17 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     public void setFilter_noti_shape(Circle filter_noti_shape) {
         this.filter_noti_shape = filter_noti_shape;
     }
+
+    private MFXTextField txt_order_search;
+
+    public void setTxt_order_search(MFXTextField txt_order_search) {
+        this.txt_order_search = txt_order_search;
+    }
+
+    //    Debound for search text field
+    private Timer debounceTimer;
+    private boolean isInputPending = false;
+    private final long DEBOUNCE_DELAY = 1000; // Delay in milliseconds
 
     //    List
     private ObservableList<Order> orders;
@@ -241,6 +257,16 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 countFilter++;
             }
 
+            // Search
+            String searchText = txt_order_search.getText().trim();
+            if (!searchText.isEmpty()) {
+                filterOrder = filterOrder.stream()
+                        .filter(order -> order.getCustomer().getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                                order.getEmployee().getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                                order.getDeliveryLocation().toLowerCase().contains(searchText.toLowerCase()))
+                        .toList();
+            }
+
             if (viewResultCallback != null) {
                 viewResultCallback.onViewResultClicked(filterOrder);
             }
@@ -256,6 +282,44 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
 
             stage.close();
         }
+    }
+
+    void initSearchListen() {
+        txt_order_search.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                viewResultButtonOnClick();
+            else if (event.getCode() == KeyCode.ESCAPE) {
+                txt_order_search.clear();
+                viewResultButtonOnClick();
+            }
+        });
+
+        txt_order_search.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Clear the previous timer if it exists
+            if (debounceTimer != null) {
+                debounceTimer.cancel();
+            }
+
+            // Set the input pending flag to true
+            isInputPending = true;
+
+            // Create a new timer
+            debounceTimer = new Timer();
+            debounceTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // Check if there is a pending input
+                    if (isInputPending) {
+                        Platform.runLater(() -> {
+                            // Call the viewResultButtonOnClick method
+                            viewResultButtonOnClick();
+                            // Set the input pending flag to false
+                            isInputPending = false;
+                        });
+                    }
+                }
+            }, DEBOUNCE_DELAY);
+        });
     }
 
     @FXML

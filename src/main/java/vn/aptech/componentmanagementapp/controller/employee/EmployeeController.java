@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -128,6 +129,8 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
         paginationHelper.setItems(employees);
         paginationHelper.showFirstPage();
+
+        initEnterKeyPressing();
 //        initFilterStage();
 //        filterController.initSearchListen();
 //        initTableViewEvent();
@@ -247,12 +250,51 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
     @FXML
     void deleteContextOnClick() {
+        Employee selectedEmployee = tableView.getSelectionModel().getSelectedItem();
 
+        if (selectedEmployee == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a employee before deleting!");
+            alert.show();
+        } else {
+
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete selected employee? " +
+                    "If you delete, all order belong to that employee also get deleted.");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                employeeService.deleteEmployee(selectedEmployee.getId());
+                employees.remove(selectedEmployee);
+                tableView.getItems().remove(selectedEmployee); // Remove the product from the TableView
+                if (paginationHelper.getPageItems().isEmpty())
+                    showPreviousPage();
+            }
+        }
     }
 
     @FXML
-    void deleteSelectedProductOnClick() {
+    void deleteSelectedEmployeeOnClick() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Are you sure you want to delete " + selectedEmployeeIds.size() + " employees? " +
+                "If you delete, all orders belong to this employee also get deleted.");
+        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+            selectedEmployeeIds.forEach(aLong -> {
+                employeeService.deleteEmployee(aLong);
+                Employee employee = employees.stream()
+                        .filter(p -> p.getId() == aLong)
+                        .findFirst()
+                        .orElse(null);
 
+                employees.remove(employee);
+            });
+            showFirstPage();
+            tableView.refresh();
+        }
     }
 
     @FXML
@@ -290,6 +332,36 @@ public class EmployeeController implements Initializable, EmployeeAddController.
             anchor_main_rightPanel.getChildren().clear();
             anchor_main_rightPanel.getChildren().add(addEmployeeView);
         }
+    }
+
+    private void searchEmployeeOnAction() {
+        String searchText = txt_employee_search.getText().trim();
+        if (!searchText.isEmpty()) {
+            List<Employee> filter = employees.stream()
+                    .filter(employee -> employee.getName().toLowerCase().contains(searchText.toLowerCase())
+                            || employee.getEmail().toLowerCase().contains(searchText.toLowerCase())
+                            || employee.getPhone().toLowerCase().contains(searchText.toLowerCase()))
+                    .toList();
+
+            ObservableList<Employee> filterEmployee = FXCollections.observableArrayList(filter);
+
+            paginationHelper.setItems(filterEmployee);
+            paginationHelper.showFirstPage();
+        } else {
+            paginationHelper.setItems(employees);
+            paginationHelper.showFirstPage();
+        }
+    }
+
+    private void initEnterKeyPressing() {
+        txt_employee_search.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                searchEmployeeOnAction();
+            } else if (event.getCode() == KeyCode.ESCAPE) {
+                txt_employee_search.clear();
+                searchEmployeeOnAction();
+            }
+        });
     }
 
     @FXML

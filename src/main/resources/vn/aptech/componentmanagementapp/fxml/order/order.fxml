@@ -20,7 +20,7 @@
 <AnchorPane fx:id="orderView" prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.order.OrderController">
    <children>
       <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <MFXTextField fx:id="txt_order_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
+      <MFXTextField fx:id="txt_order_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search by delivery location, name" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>

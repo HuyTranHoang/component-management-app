@@ -254,7 +254,7 @@
                               <Font name="Segoe UI" size="14.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#chooseImageButtonOnClick" text="Choose image" />
+                        <Button mnemonicParsing="false" onAction="#chooseImageButtonOnClick" styleClass="btn-choose-image" text="Choose image" />
                         <ImageView fx:id="imageView_image" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/defaultImg.jpg" />

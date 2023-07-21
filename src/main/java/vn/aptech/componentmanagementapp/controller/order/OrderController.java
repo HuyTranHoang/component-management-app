@@ -168,7 +168,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         paginationHelper.showFirstPage();
 
         initFilterStage();
-        initEnterKeyPressing();
+        filterController.initSearchListen();
 
         Platform.runLater(() -> {
             loginEmployee = employeeService.getEmployeeById(currentEmployee.getId());
@@ -298,6 +298,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
                 filterController.setClearFilterCallback(this);
                 filterController.setFilter_noti_label(filter_noti_label);
                 filterController.setFilter_noti_shape(filter_noti_shape);
+                filterController.setTxt_order_search(txt_order_search);
 
                 filterStage.setScene(filterScene);
                 filterStage.setResizable(false);
@@ -462,35 +463,6 @@ public class OrderController implements Initializable, OrderAddController.OrderA
                     showPreviousPage();
             }
         }
-    }
-
-    private void searchOrderOnAction() {
-        String searchText = txt_order_search.getText().trim();
-        if (!searchText.isEmpty()) {
-            List<Order> filter = orders.stream()
-                    .filter(order -> order.getCustomer().getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                            order.getEmployee().getName().toLowerCase().contains(searchText.toLowerCase()))
-                    .toList();
-
-            ObservableList<Order> filterCustomers = FXCollections.observableArrayList(filter);
-
-            paginationHelper.setItems(filterCustomers);
-            paginationHelper.showFirstPage();
-        } else {
-            paginationHelper.setItems(orders);
-            paginationHelper.showFirstPage();
-        }
-    }
-
-    private void initEnterKeyPressing() {
-        txt_order_search.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                searchOrderOnAction();
-            } else if (event.getCode() == KeyCode.ESCAPE) {
-                txt_order_search.clear();
-                searchOrderOnAction();
-            }
-        });
     }
 
     @Override

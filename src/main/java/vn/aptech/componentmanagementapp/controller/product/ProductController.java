@@ -456,7 +456,7 @@ public class ProductController implements Initializable,
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedProductIds.size() + " product?");
+        confirmation.setContentText("Are you sure you want to delete " + selectedProductIds.size() + " products?");
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             selectedProductIds.forEach(aLong -> {
                 productService.deleteProduct(aLong);

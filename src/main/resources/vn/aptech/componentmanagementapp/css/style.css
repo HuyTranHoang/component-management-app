@@ -129,7 +129,8 @@
     -fx-font-family: 'Inter';
     -fx-font-weight: 800;
     -fx-font-size: 16px;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 
 #button-custom:hover,
@@ -148,6 +149,8 @@
     -fx-font-family: 'Inter';
     -fx-font-weight: 800;
     -fx-font-size: 16px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 #button-custom-clear:hover {
     -fx-background-color: #ff4040;
@@ -304,6 +307,15 @@
     -fx-border-width: 2px;
     -fx-border-color: #EE3B3B;
     -fx-text-fill: #EE3B3B;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.btn-choose-image {
+    -fx-background-color: #fff;
+    -fx-border-width: 2px;
+    -fx-border-color: #fff;
+    -fx-text-fill: -hbd-primary-color;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
 }

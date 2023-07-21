@@ -135,7 +135,7 @@
         </HBox>
         <HBox fx:id="hbox_confirmDelete" layoutX="434.0" layoutY="15.0" spacing="10.0" visible="false">
             <children>
-                <MFXButton onAction="#deleteSelectedProductOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+                <MFXButton onAction="#deleteSelectedEmployeeOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
                     <graphic>
                         <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
                     </graphic>
