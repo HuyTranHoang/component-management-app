@@ -111,6 +111,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         employee.setAddress(resultSet.getString("address"));
         employee.setPhone(resultSet.getString("phone"));
         employee.setEmail(resultSet.getString("email"));
+        employee.setPassword(resultSet.getString("password"));
         employee.setSalary(resultSet.getDouble("salary"));
         employee.setImage(resultSet.getString("image"));
         employee.setCitizenID(resultSet.getString("citizen_identification"));

@@ -257,7 +257,7 @@
                         <Button mnemonicParsing="false" onAction="#chooseImageButtonOnClick" text="Choose image" />
                         <ImageView fx:id="imageView_image" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/user.png" />
+                              <Image url="@../../images/defaultImg.jpg" />
                            </image>
                            <VBox.margin>
                               <Insets top="20.0" />
@@ -265,7 +265,6 @@
                         </ImageView>
                      </children>
                   </VBox>
-                  <Button layoutX="597.0" layoutY="514.0" mnemonicParsing="false" onAction="#saveImage" text="Save image" />
                </children>
             </AnchorPane>
          </children>

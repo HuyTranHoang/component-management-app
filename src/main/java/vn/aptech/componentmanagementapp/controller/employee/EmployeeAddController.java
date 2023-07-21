@@ -28,10 +28,7 @@ import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.controller.product.ProductAddController;
-import vn.aptech.componentmanagementapp.model.Department;
-import vn.aptech.componentmanagementapp.model.Employee;
-import vn.aptech.componentmanagementapp.model.Position;
-import vn.aptech.componentmanagementapp.model.Product;
+import vn.aptech.componentmanagementapp.model.*;
 import vn.aptech.componentmanagementapp.service.DepartmentService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.PositionService;
@@ -40,8 +37,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -144,6 +144,10 @@ public class EmployeeAddController implements Initializable {
     private ObservableList<Position> positions;
 
     private Employee currentEmployee;
+
+    public void setCurrentEmployee(Employee currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
 
     // Validator
     Validator validator = new Validator();
@@ -436,6 +440,18 @@ public class EmployeeAddController implements Initializable {
         return null;
     }
 
+    private void setImage(String filename) {
+        if (filename != null && !filename.isEmpty()) {
+            String imagePath = "images/employee/" + filename;
+            Image image = new Image(new File(imagePath).toURI().toString());
+            imageView_image.setImage(image);
+        } else {
+            // If the filename is null or empty, set a default image
+            Image defaultImage = new Image("path/to/defaultImg.jpg");
+            imageView_image.setImage(defaultImage);
+        }
+    }
+
     @FXML
     void clearInput() {
         txt_name.clear();
@@ -445,6 +461,10 @@ public class EmployeeAddController implements Initializable {
         txt_salary.clear();
         txt_citizenId.clear();
         txt_password.clear();
+
+        txt_dateOfBirth.clear();
+        txt_dateOfHire.clear();
+
         cbb_department.selectFirst();
         cbb_position.selectFirst();
         clearValidateError();
@@ -485,7 +505,7 @@ public class EmployeeAddController implements Initializable {
             employee.setEmail(txt_email.getText());
             employee.setSalary(Double.parseDouble(txt_salary.getText()));
             employee.setCitizenID(txt_citizenId.getText());
-            employee.setPassword(txt_password.getText());
+            employee.setPassword(hashSHA256(txt_password.getText()));
 
             Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();
             if (selectedDepartment != null) {
@@ -522,6 +542,28 @@ public class EmployeeAddController implements Initializable {
             timeline.play();
         }
     }
+
+    void editEmployee(Employee employee) {
+        txt_name.setText(employee.getName());
+        txt_address.setText(employee.getAddress());
+        txt_phone.setText(employee.getPhone());
+        txt_email.setText(employee.getEmail());
+        txt_salary.setText(String.valueOf(employee.getSalary()));
+        txt_citizenId.setText(employee.getCitizenID());
+        txt_password.setText(employee.getPassword());
+
+        txt_dateOfBirth.setValue(employee.getDateOfBirth());
+        txt_dateOfHire.setValue(employee.getDateOfHire());
+
+        Department department = employee.getDepartment();
+        cbb_department.getSelectionModel().selectItem(department);
+
+        Position position = employee.getPosition();
+        cbb_position.getSelectionModel().selectItem(position);
+
+        setImage(employee.getImage());
+    }
+
     @FXML
     void updateButtonOnClick() {
 
@@ -537,5 +579,24 @@ public class EmployeeAddController implements Initializable {
         isUpdate = false;
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
+    }
+
+    private String hashSHA256(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

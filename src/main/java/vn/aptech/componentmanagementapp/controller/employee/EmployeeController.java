@@ -272,7 +272,39 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
     @FXML
     void editButtonOnClick() {
-        employeeAddController.updateMode();
+        if (addEmployeeView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee-add.fxml"));
+                addEmployeeView = fxmlLoader.load();
+                employeeAddController = fxmlLoader.getController();
+                employeeAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
+                employeeAddController.setEmployeeView(employeeView);
+                employeeAddController.setTableView(tableView);
+                employeeAddController.setEmployees(employees);
+
+                employeeAddController.setEmployeeAddCallback(this);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        Employee selectedEmployee = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedEmployee == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select employee before edit!");
+            alert.show();
+        } else {
+            employeeAddController.clearInput();
+            employeeAddController.updateMode();
+            employeeAddController.editEmployee(selectedEmployee);
+            employeeAddController.setCurrentEmployee(selectedEmployee);
+
+            anchor_main_rightPanel.getChildren().clear();
+            anchor_main_rightPanel.getChildren().add(addEmployeeView);
+        }
     }
 
     @FXML

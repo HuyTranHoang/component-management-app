@@ -413,7 +413,6 @@ public class ProductController implements Initializable,
             anchor_main_rightPanel.getChildren().clear();
             anchor_main_rightPanel.getChildren().add(addProductView);
             productAddController.setRequestFocus();
-
         }
 
     }
