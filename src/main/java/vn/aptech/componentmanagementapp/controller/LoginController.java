@@ -192,8 +192,8 @@ public class LoginController implements Initializable {
                     String newPassword = context.get("new_password");
                     if (newPassword.isEmpty())
                         context.error("New password can't be empty");
-                    else if(newPassword.length() < 8 || newPassword.length() > 20)
-                        context.error("Password can't be less than 8 or greater than 20 characters");
+                    else if(newPassword.length() < 8)
+                        context.error("Password must be more than 8 characters");
                     else if (!newPassword.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
                         context.error("Password must contain number, uppercase and special characters");
                 })

@@ -27,7 +27,6 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.controller.product.ProductAddController;
 import vn.aptech.componentmanagementapp.model.*;
 import vn.aptech.componentmanagementapp.service.DepartmentService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
@@ -150,7 +149,7 @@ public class EmployeeAddController implements Initializable {
     }
 
     // Validator
-    Validator validator = new Validator();
+    Validator employeeValidator = new Validator();
     private Boolean isUpdate = false;
 
     private ObservableList<Employee> employees;
@@ -208,7 +207,7 @@ public class EmployeeAddController implements Initializable {
     }
 
     private void initValidator() {
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("name", txt_name.textProperty())
                 .withMethod(context -> {
                     String name = context.get("name");
@@ -223,7 +222,7 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_name);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("address", txt_address.textProperty())
                 .withMethod(context -> {
                     String address = context.get("address");
@@ -235,7 +234,7 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_address);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("phone", txt_phone.textProperty())
                 .withMethod(context -> {
                     String phone = context.get("phone");
@@ -249,7 +248,7 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_phone);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("email", txt_email.textProperty())
                 .withMethod(context -> {
                     String email = context.get("email");
@@ -266,7 +265,7 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_email);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("salary", txt_salary.textProperty())
                 .withMethod(context -> {
                     String salary = context.get("salary");
@@ -278,7 +277,7 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_salary);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("citizenId", txt_citizenId.textProperty())
                 .withMethod(context -> {
                     String citizenId = context.get("citizenId");
@@ -292,21 +291,24 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_citizenId);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("password", txt_password.textProperty())
                 .withMethod(context -> {
                     String password = context.get("password");
-                    if (password.isEmpty())
+                    String currentPassword = currentEmployee.getPassword();
+
+                    if (password.isEmpty()) {
                         context.error("Password can't be empty");
-                    else if(password.length() < 8 || password.length() > 20)
-                        context.error("Password can't be less than 8 or greater than 20 characters");
-                    else if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$"))
+                    } else if (password.length() < 8) {
+                        context.error("Password must be more than 8 characters");
+                    } else if (!password.equals(currentPassword) && !isPasswordStrong(password)) {
                         context.error("Password must contain number, uppercase and special characters");
+                    }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_password);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("dateOfBirth", txt_dateOfBirth.valueProperty())
                 .withMethod(context -> {
                     LocalDate dateOfBirth = context.get("dateOfBirth");
@@ -318,7 +320,7 @@ public class EmployeeAddController implements Initializable {
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_dateOfBirth);
 
-        validator.createCheck()
+        employeeValidator.createCheck()
                 .dependsOn("dateOfHire", txt_dateOfHire.valueProperty())
                 .withMethod(context -> {
                     LocalDate dateOfHire = context.get("dateOfHire");
@@ -349,10 +351,10 @@ public class EmployeeAddController implements Initializable {
     }
 
     private boolean isPhoneUniqueUpdate(List<Employee> employees, String txt_phone) {
-        String citizenId = currentEmployee.getCitizenID();
+        String phone = currentEmployee.getPhone();
         return employees.stream()
                 .noneMatch(employee -> employee.getPhone() != null && employee.getPhone().equals(txt_phone))
-                || txt_phone.equals(citizenId);
+                || txt_phone.equals(phone);
     }
 
     private boolean isCitizenIdUnique(List<Employee> employees, String txt_citizenId) {
@@ -365,6 +367,10 @@ public class EmployeeAddController implements Initializable {
         return employees.stream()
                 .noneMatch(employee -> employee.getCitizenID() != null && employee.getCitizenID().equals(txt_citizenId))
                 || txt_citizenId.equals(citizenId);
+    }
+
+    private boolean isPasswordStrong(String txt_password) {
+        return txt_password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$%])[A-Za-z\\d@$%]{8,}$");
     }
 
     private Decoration labelDecorator(ValidationMessage message) {
@@ -443,11 +449,21 @@ public class EmployeeAddController implements Initializable {
     private void setImage(String filename) {
         if (filename != null && !filename.isEmpty()) {
             String imagePath = "images/employee/" + filename;
-            Image image = new Image(new File(imagePath).toURI().toString());
-            imageView_image.setImage(image);
+            File file = new File(imagePath);
+
+            if (file.exists()) {
+                Image image = new Image(file.toURI().toString());
+                imageView_image.setImage(image);
+            } else {
+                // If the file doesn't exist, set a default image
+                String defaultImagePath = "images/employee/defaultImg.jpg";
+                Image defaultImage = new Image(new File(defaultImagePath).toURI().toString());
+                imageView_image.setImage(defaultImage);
+            }
         } else {
             // If the filename is null or empty, set a default image
-            Image defaultImage = new Image("path/to/defaultImg.jpg");
+            String defaultImagePath = "images/employee/defaultImg.jpg";
+            Image defaultImage = new Image(new File(defaultImagePath).toURI().toString());
             imageView_image.setImage(defaultImage);
         }
     }
@@ -467,6 +483,9 @@ public class EmployeeAddController implements Initializable {
 
         cbb_department.selectFirst();
         cbb_position.selectFirst();
+
+        setImage("defaultImg.jpg");
+
         clearValidateError();
     }
     private void clearValidateError() {
@@ -477,6 +496,10 @@ public class EmployeeAddController implements Initializable {
         lbl_error_salary.setVisible(false);
         lbl_error_citizenId.setVisible(false);
         lbl_error_password.setVisible(false);
+
+        lbl_error_dateOfBirth.setVisible(false);
+        lbl_error_dateOfHire.setVisible(false);
+
         lbl_error_department.setVisible(false);
         lbl_error_position.setVisible(false);
     }
@@ -497,7 +520,7 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     void storeButtonOnClick() {
-        if (validator.validate()) {
+        if (employeeValidator.validate()) {
             Employee employee = new Employee();
             employee.setName(txt_name.getText());
             employee.setAddress(txt_address.getText());
@@ -548,11 +571,16 @@ public class EmployeeAddController implements Initializable {
         txt_address.setText(employee.getAddress());
         txt_phone.setText(employee.getPhone());
         txt_email.setText(employee.getEmail());
-        txt_salary.setText(String.valueOf(employee.getSalary()));
+
+        txt_salary.setText(String.format("%.0f", employee.getSalary()));
+
         txt_citizenId.setText(employee.getCitizenID());
         txt_password.setText(employee.getPassword());
 
+        txt_dateOfBirth.setValue(employee.getDateOfBirth().minusDays(1)); // Trùng ngày thì nó không hiển thị, nên trừ 1 rồi set lại
         txt_dateOfBirth.setValue(employee.getDateOfBirth());
+
+        txt_dateOfHire.setValue(employee.getDateOfHire().minusDays(1));
         txt_dateOfHire.setValue(employee.getDateOfHire());
 
         Department department = employee.getDepartment();
@@ -566,7 +594,49 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     void updateButtonOnClick() {
+        if (employeeValidator.validate()) {
+            currentEmployee.setName(txt_name.getText());
+            currentEmployee.setAddress(txt_address.getText());
+            currentEmployee.setPhone(txt_phone.getText());
+            currentEmployee.setEmail(txt_email.getText());
+            currentEmployee.setSalary(Double.parseDouble(txt_salary.getText()));
+            currentEmployee.setCitizenID(txt_citizenId.getText());
+            currentEmployee.setPassword(hashSHA256(txt_password.getText()));
 
+            Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();
+            if (selectedDepartment != null) {
+                currentEmployee.setDepartmentId(selectedDepartment.getId());
+                currentEmployee.setDepartment(selectedDepartment);
+            }
+
+            Position selectedPosition = cbb_position.getSelectionModel().getSelectedItem();
+            if (selectedPosition != null) {
+                currentEmployee.setPositionId(selectedPosition.getId());
+                currentEmployee.setPosition(selectedPosition);
+            }
+
+            currentEmployee.setImage(saveImage());
+
+            currentEmployee.setDateOfBirth(txt_dateOfBirth.getValue());
+            currentEmployee.setDateOfHire(txt_dateOfHire.getValue());
+
+            employeeService.updateEmployee(currentEmployee);
+
+            lbl_successMessage.setText("Update employee succesfully!!");
+            lbl_successMessage.setVisible(true);
+            new FadeIn(lbl_successMessage).play();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
+                new FadeOut(lbl_successMessage).play();
+            }));
+            timeline.play();
+
+            int index = tableView.getItems().indexOf(currentEmployee);
+            if (index >= 0) {
+                tableView.getItems().set(index, currentEmployee);
+                tableView.refresh();
+            }
+
+        }
     }
 
     void updateMode() {

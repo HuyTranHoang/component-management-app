@@ -324,11 +324,13 @@ public class ProductAddController implements Initializable {
             Category selectedCategory = cbb_category.getSelectionModel().getSelectedItem();
             if (selectedCategory != null) {
                 currentProduct.setCategoryId(selectedCategory.getId());
+                currentProduct.setCategory(selectedCategory);
             }
 
             Supplier selectedSupplier = cbb_supplier.getSelectionModel().getSelectedItem();
             if (selectedSupplier != null) {
                 currentProduct.setSupplierId(selectedSupplier.getId());
+                currentProduct.setSupplier(selectedSupplier);
             }
 
             productService.updateProduct(currentProduct);
@@ -344,7 +346,7 @@ public class ProductAddController implements Initializable {
             timeline.play();
 
             int index = tableView.getItems().indexOf(currentProduct);
-            System.out.println(index);
+//            System.out.println(index);
             if (index >= 0) {
                 tableView.getItems().set(index, currentProduct);
             }

@@ -96,9 +96,9 @@ public class ProductController implements Initializable,
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, String> tbc_supplierId;
+    private TableColumn<Product, Supplier> tbc_supplierId;
     @FXML
-    private TableColumn<Product, String> tbc_categoryId;
+    private TableColumn<Product, Category> tbc_categoryId;
 
     private final ArrayList<Long> selectedProductIds = new ArrayList<>();
 
@@ -159,27 +159,9 @@ public class ProductController implements Initializable,
         tbc_monthOfWarranty.setCellValueFactory(new PropertyValueFactory<>("monthOfWarranty"));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
 
+        tbc_supplierId.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("category"));
 
-//        tbc_supplierId.setCellValueFactory(new PropertyValueFactory<>("supplierId"));
-//        tbc_categoryId.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
-
-        tbc_supplierId.setCellValueFactory(cellData -> {
-            Supplier supplier = cellData.getValue().getSupplier();
-            if (supplier != null) {
-                return new ReadOnlyObjectWrapper<>(supplier.getName());
-            } else {
-                return new ReadOnlyObjectWrapper<>("");
-            }
-        });
-
-        tbc_categoryId.setCellValueFactory(cellData -> {
-            Category category = cellData.getValue().getCategory();
-            if (category != null) {
-                return new ReadOnlyObjectWrapper<>(category.getName());
-            } else {
-                return new ReadOnlyObjectWrapper<>("");
-            }
-        });
 
         initCheckBox();
     }

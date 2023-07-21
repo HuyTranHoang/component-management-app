@@ -101,6 +101,10 @@ public class Employee extends User{
         this.positionId = positionId;
     }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public Department getDepartment() {
         if (department == null) {
             // Perform lazy loading for Department object
@@ -108,6 +112,10 @@ public class Employee extends User{
             department = departmentDAO.getById(departmentId);
         }
         return department;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public Position getPosition() {

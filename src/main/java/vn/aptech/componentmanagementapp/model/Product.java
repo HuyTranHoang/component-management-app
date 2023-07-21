@@ -110,6 +110,10 @@ public class Product {
         this.categoryId = categoryId;
     }
 
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
     public Supplier getSupplier() {
         if (supplier == null) {
             // Perform lazy loading for Category object
@@ -117,6 +121,10 @@ public class Product {
             supplier = supplierDAO.getById(supplierId);
         }
         return supplier;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Category getCategory() {

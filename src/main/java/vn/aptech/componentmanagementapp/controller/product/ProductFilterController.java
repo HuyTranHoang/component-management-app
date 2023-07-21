@@ -86,9 +86,9 @@ public class ProductFilterController implements Initializable {
     @FXML
     private TableColumn<Product, String> tbc_note;
     @FXML
-    private TableColumn<Product, String> tbc_suppliderId;
+    private TableColumn<Product, Supplier> tbc_suppliderId;
     @FXML
-    private TableColumn<Product, String> tbc_categoryId;
+    private TableColumn<Product, Category> tbc_categoryId;
 
 //    List product từ product controller
     private static ObservableList<Product> products;
@@ -131,7 +131,7 @@ public class ProductFilterController implements Initializable {
                                 TableColumn<Product, Double> tbc_price,
                                 TableColumn<Product, Integer> tbc_quantity, TableColumn<Product, Integer> tbc_monthOfWarranty,
                                 TableColumn<Product, String> tbc_note,
-                                TableColumn<Product, String> tbc_supplierId, TableColumn<Product, String> tbc_categoryId) {
+                                TableColumn<Product, Supplier> tbc_supplierId, TableColumn<Product, Category> tbc_categoryId) {
         this.tableView = tableView;
         this.tbc_id = tbc_id;
         this.tbc_productCode = tbc_productCode;

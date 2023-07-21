@@ -86,7 +86,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     @FXML
     private TableColumn<Employee, Double> tbc_salary;
     @FXML
-    private TableColumn<Employee, String> tbc_department;
+    private TableColumn<Employee, Department> tbc_department;
     @FXML
     private TableColumn<Employee, String> tbc_position;
 
@@ -145,23 +145,8 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         tbc_salary.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_salary.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getSalary()));
 
-        tbc_department.setCellValueFactory(cellData -> {
-            Department department = cellData.getValue().getDepartment();
-            if (department != null) {
-                return new ReadOnlyObjectWrapper<>(department.getName());
-            } else {
-                return new ReadOnlyObjectWrapper<>("");
-            }
-        });
-
-        tbc_position.setCellValueFactory(cellData -> {
-            Position position = cellData.getValue().getPosition();
-            if (position != null) {
-                return new ReadOnlyObjectWrapper<>(position.getName());
-            } else {
-                return new ReadOnlyObjectWrapper<>("");
-            }
-        });
+        tbc_department.setCellValueFactory(new PropertyValueFactory<>("department"));
+        tbc_position.setCellValueFactory(new PropertyValueFactory<>("position"));
 
         initCheckBox();
     }
