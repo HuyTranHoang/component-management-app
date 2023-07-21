@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -32,6 +33,7 @@ import vn.aptech.componentmanagementapp.util.PaginationHelper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -145,8 +147,8 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
         initFilterStage();
         filterController.initSearchListen();
-//        initTableViewEvent();
-//        initSort();
+        initTableViewEvent();
+        initSort();
     }
 
     private void initTableView() {
@@ -207,6 +209,43 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         });
 
     }
+
+    private void initTableViewEvent() {
+        tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+                editButtonOnClick();
+            }
+        });
+    }
+
+    private void initSort() {
+        cbb_sortBy.setItems(FXCollections.observableArrayList(List.of("Id", "Name", "Salary", "Department", "Position")));
+        cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+        // Add listeners to both ComboBoxes
+        cbb_sortBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+        cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+    }
+
+    private void applySorting() {
+        String sortBy = cbb_sortBy.getValue();
+        String orderBy = cbb_orderBy.getValue();
+        Comparator<Employee> comparator = switch (sortBy) {
+            case "Name" -> Comparator.comparing(Employee::getName);
+            case "Salary" -> Comparator.comparing(Employee::getSalary);
+            case "Department" -> Comparator.comparing(employee -> employee.getDepartment().getName());
+            case "Position" -> Comparator.comparing(employee -> employee.getPosition().getName());
+            default -> Comparator.comparing(Employee::getId);
+        };
+        // Check the selected value of cbb_orderBy and adjust the comparator accordingly
+        if ("DESC".equals(orderBy)) {
+            comparator = comparator.reversed();
+        }
+        // Sort the products list with the chosen comparator
+        FXCollections.sort(employees, comparator);
+        showFirstPage();
+    }
+
 
     @FXML
     void addButtonOnClick() {
@@ -386,7 +425,18 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     }
 
     @FXML
-    void resetFilterIconClicked() {
+    public void resetFilterIconClicked() {
+        if (filterController != null) {
+            filterController.clearFilterButtonOnClick();
+        }
+
+        cbb_sortBy.selectFirst();
+        cbb_orderBy.selectFirst();
+
+        employees = FXCollections.observableArrayList(employeeService.getAllEmployee());
+        paginationHelper.setItems(employees);
+
+        uncheckAllCheckboxes();
 
     }
 
@@ -420,6 +470,13 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     public void onViewResultClicked(List<Employee> filterEmployee) {
         paginationHelper.setItems(FXCollections.observableArrayList(filterEmployee));
         showFirstPage();
+    }
+
+    public void reloadEmployee() {
+        employees = FXCollections.observableArrayList(employeeService.getAllEmployee());
+        paginationHelper.setItems(employees);
+//        showFirstPage();
+        paginationHelper.showCurrentPage();
     }
 
     @Override

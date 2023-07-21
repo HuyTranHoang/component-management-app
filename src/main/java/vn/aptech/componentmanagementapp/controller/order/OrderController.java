@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
@@ -25,6 +26,7 @@ import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
@@ -35,6 +37,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -169,6 +172,8 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         initFilterStage();
         filterController.initSearchListen();
+        initTableViewEvent();
+        initSort();
 
         Platform.runLater(() -> {
             loginEmployee = employeeService.getEmployeeById(currentEmployee.getId());
@@ -274,6 +279,45 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         };
     }
 
+    private void initTableViewEvent() {
+        tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+                showButtonOnClick();
+            }
+        });
+    }
+
+    private void initSort() {
+        cbb_sortBy.setItems(FXCollections.observableArrayList(
+                List.of("Id", "Order date", "Delivery date", "Receive date", "Total amount", "Customer name", "Employee name")));
+        cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+        // Add listeners to both ComboBoxes
+        cbb_sortBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+        cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+    }
+
+    private void applySorting() {
+        String sortBy = cbb_sortBy.getValue();
+        String orderBy = cbb_orderBy.getValue();
+        Comparator<Order> comparator = switch (sortBy) {
+            case "Order date" -> Comparator.comparing(Order::getOrderDate);
+            case "Delivery date" -> Comparator.comparing(Order::getDeliveryDate);
+            case "Receive date" -> Comparator.comparing(Order::getReceiveDate);
+            case "Total amount" -> Comparator.comparing(Order::getTotalAmount);
+            case "Customer name" -> Comparator.comparing(order -> order.getCustomer().getName());
+            case "Employee name" -> Comparator.comparing(order -> order.getEmployee().getName());
+            default -> Comparator.comparing(Order::getId);
+        };
+        // Check the selected value of cbb_orderBy and adjust the comparator accordingly
+        if ("DESC".equals(orderBy)) {
+            comparator = comparator.reversed();
+        }
+        // Sort the products list with the chosen comparator
+        FXCollections.sort(orders, comparator);
+        showFirstPage();
+    }
+
     private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
@@ -318,8 +362,8 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         if (filterController != null) {
             filterController.clearFilterButtonOnClick();
         }
-//        cbb_sortBy.selectFirst();
-//        cbb_orderBy.selectFirst();
+        cbb_sortBy.selectFirst();
+        cbb_orderBy.selectFirst();
 
         orders = FXCollections.observableArrayList(orderService.getAllOrder());
         paginationHelper.setItems(orders);

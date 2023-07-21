@@ -204,8 +204,8 @@ public class ManagementController implements Initializable {
             image = new Image(resourcePath);
         }
 
-//        employeeController.reloadProduct(); // reload lại query mỗi lần quay lại
-//        employeeController.resetFilterIconClicked(); // reset lại filter
+        employeeController.reloadEmployee(); // reload lại query mỗi lần quay lại
+        employeeController.resetFilterIconClicked(); // reset lại filter
 
         leftPanel_imageView.setImage(image);
 
