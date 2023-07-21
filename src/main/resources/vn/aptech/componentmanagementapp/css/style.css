@@ -36,6 +36,10 @@
     -fx-text-fill: -hbd-primary-color;
 }
 
+#custom-textfield .floating-text {
+    -fx-background-color: #fff;
+    -fx-text-fill: -hbd-primary-color;
+}
 
 #custom-combobox .floating-text{
     -fx-background-color: #fff;

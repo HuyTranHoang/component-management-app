@@ -197,7 +197,7 @@ public class EmployeeAddController implements Initializable {
         List<Department> departmentList = departmentService.getAllDepartment();
         departments = FXCollections.observableArrayList(departmentList);
 
-        List<Position> positionList = positionService.getAllDepartment();
+        List<Position> positionList = positionService.getAllPosition();
         positions = FXCollections.observableArrayList(positionList);
 
         cbb_department.setItems(departments);

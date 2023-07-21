@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,7 +18,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
+import vn.aptech.componentmanagementapp.controller.order.OrderAddController;
+import vn.aptech.componentmanagementapp.controller.order.OrderFilterController;
+import vn.aptech.componentmanagementapp.controller.order.OrderShowController;
 import vn.aptech.componentmanagementapp.model.*;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
@@ -42,12 +48,6 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     public void setEmployeeView(AnchorPane employeeView) {
         this.employeeView = employeeView;
     }
-
-    @FXML
-    private Label filter_noti_label;
-
-    @FXML
-    private Circle filter_noti_shape;
 
     @FXML
     private Button firstPageButton;
@@ -100,8 +100,20 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     // Service
     private EmployeeService employeeService = new EmployeeService();
 
+    //    Filter Panel
+    private Scene filterScene;
+    private Stage filterStage;
+
+    @FXML
+    private Label filter_noti_label; // Truyền vào OrderFilterController để set visiable và text
+    @FXML
+    private Circle filter_noti_shape;
+
     // Cached views
     private AnchorPane addEmployeeView;
+
+    //    Controller to call clear filter function in this
+    private EmployeeFilterController filterController;
     private EmployeeAddController employeeAddController;
 
     private PaginationHelper<Employee> paginationHelper;
@@ -131,7 +143,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         paginationHelper.showFirstPage();
 
         initEnterKeyPressing();
-//        initFilterStage();
+        initFilterStage();
 //        filterController.initSearchListen();
 //        initTableViewEvent();
 //        initSort();
@@ -364,9 +376,43 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         });
     }
 
+    private void initFilterStage() {
+        try {
+            if (filterScene == null && filterStage == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee-filter.fxml"));
+                filterScene = new Scene(fxmlLoader.load());
+                filterStage = new Stage();
+                filterStage.setTitle("Filter Employee");
+                filterStage.initModality(Modality.APPLICATION_MODAL);
+
+                filterController = fxmlLoader.getController();
+                filterController.setEmployees(employees);
+
+                // Xử lý dữ liệu sau khi viewResultButtonOnClick() được gọi và nhận filterOrder
+                // ... thực hiện các thao tác khác với filterOrder ...
+//                filterController.setViewResultCallback(filterOrder -> {
+//                    paginationHelper.setItems(FXCollections.observableArrayList(filterOrder));
+//                    paginationHelper.showFirstPage();
+//                });
+
+                filterController.setStage(filterStage);
+//                filterController.setViewResultCallback(this);
+//                filterController.setClearFilterCallback(this);
+                filterController.setFilter_noti_label(filter_noti_label);
+                filterController.setFilter_noti_shape(filter_noti_shape);
+                filterController.setTxt_employee_search(txt_employee_search);
+
+                filterStage.setScene(filterScene);
+                filterStage.setResizable(false);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @FXML
     void filterButtonOnClick() {
-
+        filterStage.show();
     }
 
     @FXML

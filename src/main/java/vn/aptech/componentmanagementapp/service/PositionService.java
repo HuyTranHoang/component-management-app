@@ -13,7 +13,7 @@ public class PositionService {
         this.positionDAO = new PositionDAOImpl();
     }
 
-    public List<Position> getAllDepartment() {
+    public List<Position> getAllPosition() {
         return positionDAO.getAll();
     }
     public Position getPositionById(int positionId) {
