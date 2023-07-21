@@ -4,6 +4,7 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -143,6 +144,9 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        txt_fromDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_fromDate.getLocale()));
+        txt_toDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_toDate.getLocale()));
+
         ObservableList<String> typeOfDate =
                 FXCollections.observableArrayList(List.of("Order date", "Delivery date", "Receive date"));
         cbb_byTypeOfDate.setItems(typeOfDate);
