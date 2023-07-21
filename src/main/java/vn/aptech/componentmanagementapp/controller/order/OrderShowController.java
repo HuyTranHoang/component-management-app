@@ -1,6 +1,5 @@
 package vn.aptech.componentmanagementapp.controller.order;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +13,6 @@ import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.service.OrderDetailService;
-import vn.aptech.componentmanagementapp.util.ProductInfoView;
 import vn.aptech.componentmanagementapp.util.ProductInfoViewShow;
 
 import java.io.IOException;

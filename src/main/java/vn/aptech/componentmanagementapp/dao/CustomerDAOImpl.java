@@ -4,7 +4,6 @@ import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

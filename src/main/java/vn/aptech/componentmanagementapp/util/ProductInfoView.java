@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ProductInfoView extends VBox {
     private final Label lblProductName;
