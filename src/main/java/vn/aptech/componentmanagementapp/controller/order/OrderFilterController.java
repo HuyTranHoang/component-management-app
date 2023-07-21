@@ -193,6 +193,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         txt_fromDate.setValue(LocalDate.now());
         txt_toDate.setValue(LocalDate.now());
 
+        btn_toggleDate.setSelected(false);
 
         filter_noti_label.setVisible(false);
         filter_noti_shape.setVisible(false);

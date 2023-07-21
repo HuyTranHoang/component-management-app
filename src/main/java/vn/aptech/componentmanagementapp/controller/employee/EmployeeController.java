@@ -35,7 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class EmployeeController implements Initializable, EmployeeAddController.EmployeeAddCallback {
+public class EmployeeController implements Initializable, EmployeeAddController.EmployeeAddCallback,
+        EmployeeFilterController.ViewResultCallback, EmployeeFilterController.ClearFilterCallback {
     @FXML
     private MFXComboBox<String> cbb_orderBy;
 
@@ -142,9 +143,8 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         paginationHelper.setItems(employees);
         paginationHelper.showFirstPage();
 
-        initEnterKeyPressing();
         initFilterStage();
-//        filterController.initSearchListen();
+        filterController.initSearchListen();
 //        initTableViewEvent();
 //        initSort();
     }
@@ -346,36 +346,6 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         }
     }
 
-    private void searchEmployeeOnAction() {
-        String searchText = txt_employee_search.getText().trim();
-        if (!searchText.isEmpty()) {
-            List<Employee> filter = employees.stream()
-                    .filter(employee -> employee.getName().toLowerCase().contains(searchText.toLowerCase())
-                            || employee.getEmail().toLowerCase().contains(searchText.toLowerCase())
-                            || employee.getPhone().toLowerCase().contains(searchText.toLowerCase()))
-                    .toList();
-
-            ObservableList<Employee> filterEmployee = FXCollections.observableArrayList(filter);
-
-            paginationHelper.setItems(filterEmployee);
-            paginationHelper.showFirstPage();
-        } else {
-            paginationHelper.setItems(employees);
-            paginationHelper.showFirstPage();
-        }
-    }
-
-    private void initEnterKeyPressing() {
-        txt_employee_search.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                searchEmployeeOnAction();
-            } else if (event.getCode() == KeyCode.ESCAPE) {
-                txt_employee_search.clear();
-                searchEmployeeOnAction();
-            }
-        });
-    }
-
     private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
@@ -396,8 +366,8 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 //                });
 
                 filterController.setStage(filterStage);
-//                filterController.setViewResultCallback(this);
-//                filterController.setClearFilterCallback(this);
+                filterController.setViewResultCallback(this);
+                filterController.setClearFilterCallback(this);
                 filterController.setFilter_noti_label(filter_noti_label);
                 filterController.setFilter_noti_shape(filter_noti_shape);
                 filterController.setTxt_employee_search(txt_employee_search);
@@ -444,5 +414,20 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     public void onEmployeeAdded(Employee employee) {
         employees.add(employee);
         showLastPage();
+    }
+
+    @Override
+    public void onViewResultClicked(List<Employee> filterEmployee) {
+        paginationHelper.setItems(FXCollections.observableArrayList(filterEmployee));
+        showFirstPage();
+    }
+
+    @Override
+    public void onClearFilterClicked() {
+        employees = FXCollections.observableArrayList(employeeService.getAllEmployee());
+        paginationHelper.setItems(employees);
+        showFirstPage();
+
+        uncheckAllCheckboxes();
     }
 }
