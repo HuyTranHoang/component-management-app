@@ -279,13 +279,21 @@
 }
 
 .context-menu {
-    -fx-padding: 10px 0;
+    -fx-padding: 15px 0;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
 
 .menu-item {
-    -fx-padding: 0 40px 0 20px
+    -fx-padding: 2px 40px 2px 20px;
+    -fx-font-size: 13px;
+}
+
+.menu-item-borderTop {
+    -fx-padding: 2px 40px 2px 20px;
+    -fx-font-size: 13px;
+    -fx-border-width: 1px 0 0 0;
+    -fx-border-color: #000;
 }
 
 .menu-item:focused {
@@ -345,9 +353,10 @@
     -fx-bar-fill: -hbd-primary-color;
 }
 
-.avatar {
-    -fx-background-radius: 50%;
-    -fx-background-color: #ffffff;
-    -fx-border-color: #000000;
-    -fx-border-width: 2;
+.menu-button {
+    -fx-cursor: hand;
+    -fx-mark-color: #fff;
+}
+.menu-button > .arrow-button > .arrow {
+    -fx-shape: "M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z";
 }
