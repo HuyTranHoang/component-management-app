@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -328,6 +329,12 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
             stage.show();
         });
 
+        productInfoView.setRemoveButtonAction(event -> {
+                vbox_orderDetail.getChildren().remove(productInfoView);
+                orderDetails.remove(orderDetail);
+                updateTotalOrderAmount();
+        });
+
         vbox_orderDetail.getChildren().add(productInfoView);
     }
 
@@ -397,7 +404,19 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
                 orderDetailSelectProductController.setProductSelectionCallback(this);
                 orderDetailSelectProductController.setStage(selectProductStage);
                 selectProductStage.setTitle("Select customer");
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/product.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                selectProductStage.getIcons().add(image);
+
                 selectProductStage.initModality(Modality.APPLICATION_MODAL);
+
                 selectProductStage.setResizable(false);
 
                 selectProductStage.setScene(selectProductScene);

@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -338,6 +339,17 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 controller.setCustomerSelectionCallback(this);
                 controller.setStage(selectCustomerStage);
                 selectCustomerStage.setTitle("Select customer");
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/customer.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                selectCustomerStage.getIcons().add(image);
+
                 selectCustomerStage.initModality(Modality.APPLICATION_MODAL);
                 selectCustomerStage.setResizable(false);
 
@@ -360,7 +372,18 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 OrderAddSelectEmployeeController controller = fxmlLoader.getController();
                 controller.setEmployeeSelectionCallback(this);
                 controller.setStage(selectEmployeeStage);
-                selectEmployeeStage.setTitle("Select customer");
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/employee.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                selectEmployeeStage.getIcons().add(image);
+
+                selectEmployeeStage.setTitle("Select employee");
                 selectEmployeeStage.initModality(Modality.APPLICATION_MODAL);
                 selectEmployeeStage.setResizable(false);
 

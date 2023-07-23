@@ -83,13 +83,6 @@ public class ProductInfoView extends VBox {
         btnRemove = new Button("Remove");
         btnRemove.getStyleClass().add("btn-remove");
 
-        // Đặt sự kiện cho nút Remove
-        btnRemove.setOnAction(event -> {
-            // Xoá sản phẩm khỏi vbox_orderDetail
-            vbox_orderDetail.getChildren().remove(this);
-            orderDetails.remove(orderDetail);
-        });
-
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
@@ -149,5 +142,9 @@ public class ProductInfoView extends VBox {
 
     public void setEditButtonAction(EventHandler<ActionEvent> eventHandler) {
         btnEdit.setOnAction(eventHandler);
+    }
+
+    public void setRemoveButtonAction(EventHandler<ActionEvent> eventHandler) {
+        btnRemove.setOnAction(eventHandler);
     }
 }

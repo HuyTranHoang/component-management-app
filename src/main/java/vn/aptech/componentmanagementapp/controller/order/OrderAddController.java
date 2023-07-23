@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -395,6 +396,17 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 orderDetailScene = new Scene(fxmlLoader.load());
                 orderDetailStage = new Stage();
                 orderDetailStage.setTitle("Order Details");
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/order.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                orderDetailStage.getIcons().add(image);
+
                 orderDetailStage.initModality(Modality.APPLICATION_MODAL);
                 orderDetailStage.setResizable(false);
                 orderDetailController = fxmlLoader.getController();
@@ -425,6 +437,17 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 controller.setCustomerSelectionCallback(this);
                 controller.setStage(selectCustomerStage);
                 selectCustomerStage.setTitle("Select customer");
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/customer.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                selectCustomerStage.getIcons().add(image);
+
                 selectCustomerStage.initModality(Modality.APPLICATION_MODAL);
                 selectCustomerStage.setResizable(false);
 

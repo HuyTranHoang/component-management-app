@@ -242,7 +242,7 @@ public class ProductFilterController implements Initializable {
             countFilter++;
             tbc_note.setVisible(checkbox_note.isSelected());
         }
-        
+
         // Radio
         if (tggPrice.getSelectedToggle() != null) {
             RadioButton selectedRadio = (RadioButton) tggPrice.getSelectedToggle();
