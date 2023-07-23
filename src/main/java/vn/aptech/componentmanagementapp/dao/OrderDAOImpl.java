@@ -56,8 +56,8 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public void add(Order order) {
         String query = "INSERT INTO orders(order_date, delivery_date, receive_date, delivery_location, " +
-                "total_amount, note, customer_id, employee_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "total_amount, note, is_cancelled, customer_id, employee_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(order, statement);
             statement.executeUpdate();
@@ -76,8 +76,8 @@ public class OrderDAOImpl implements OrderDAO{
 
     public long addReturnId(Order order) {
         String query = "INSERT INTO orders(order_date, delivery_date, receive_date, delivery_location, " +
-                "total_amount, note, customer_id, employee_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "total_amount, note, is_cancelled, customer_id, employee_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(order, statement);
             statement.executeUpdate();
@@ -172,10 +172,10 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public void update(Order order) {
         String query = "UPDATE orders SET order_date = ?, delivery_date = ?, receive_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +
-                "customer_id = ?, employee_id = ? WHERE id = ?";
+                "is_cancelled = ?, customer_id = ?, employee_id = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statementInsertUpdate(order, statement);
-            statement.setLong(9, order.getId());
+            statement.setLong(10, order.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -200,8 +200,9 @@ public class OrderDAOImpl implements OrderDAO{
         statement.setString(4, order.getDeliveryLocation());
         statement.setDouble(5, order.getTotalAmount());
         statement.setString(6, order.getNote());
-        statement.setLong(7, order.getCustomerId());
-        statement.setLong(8, order.getEmployeeId());
+        statement.setBoolean(7, order.isCancelled());
+        statement.setLong(8, order.getCustomerId());
+        statement.setLong(9, order.getEmployeeId());
     }
 
     private void setOrder(Order order, ResultSet resultSet) throws SQLException {
@@ -212,6 +213,7 @@ public class OrderDAOImpl implements OrderDAO{
         order.setDeliveryLocation(resultSet.getString("delivery_location"));
         order.setTotalAmount(resultSet.getDouble("total_amount"));
         order.setNote(resultSet.getString("note"));
+        order.setCancelled(resultSet.getBoolean("is_cancelled"));
         order.setCustomerId(resultSet.getLong("customer_id"));
         order.setEmployeeId(resultSet.getLong("employee_id"));
     }

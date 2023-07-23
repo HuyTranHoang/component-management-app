@@ -17,6 +17,7 @@ public class Order {
     private String deliveryLocation;
     private double totalAmount;
     private String note;
+    private boolean isCancelled;
     private long customerId;
     private long employeeId;
 
@@ -94,6 +95,14 @@ public class Order {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
     }
 
     public long getCustomerId() {
