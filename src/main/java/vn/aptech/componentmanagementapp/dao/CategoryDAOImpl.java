@@ -34,7 +34,7 @@ public class CategoryDAOImpl implements CategoryDAO{
 
     @Override
     public List<Category> getAll() {
-        String query = "SELECT * FROM categories";
+        String query = "SELECT * FROM categories ORDER BY id";
         ArrayList<Category> categories = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();

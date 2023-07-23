@@ -34,7 +34,7 @@ public class ProductStorageImpl implements ProductStorageDAO{
 
     @Override
     public List<ProductStorage> getAll() {
-        String query = "SELECT * FROM products_storage";
+        String query = "SELECT * FROM products_storage ORDER BY id";
         ArrayList<ProductStorage> productStorages = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
@@ -53,8 +53,8 @@ public class ProductStorageImpl implements ProductStorageDAO{
 
     @Override
     public void add(ProductStorage productStorage) {
-        String query = "INSERT INTO products_storage(import_quantity, export_quantity, date_of_storage, product_id) " +
-                "VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO products_storage(import_quantity, export_quantity, product_id) " +
+                "VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statementInsertUpdate(productStorage, statement);
             statement.executeUpdate();
@@ -65,10 +65,10 @@ public class ProductStorageImpl implements ProductStorageDAO{
 
     @Override
     public void update(ProductStorage productStorage) {
-        String query = "UPDATE products_storage SET import_quantity = ?, export_quantity = ?, date_of_storage = ?, product_id = ? WHERE id = ?";
+        String query = "UPDATE products_storage SET import_quantity = ?, export_quantity = ?, product_id = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statementInsertUpdate(productStorage, statement);
-            statement.setLong(5, productStorage.getId());
+            statement.setLong(4, productStorage.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,15 +89,13 @@ public class ProductStorageImpl implements ProductStorageDAO{
     private void statementInsertUpdate(ProductStorage productStorage, PreparedStatement statement) throws SQLException{
         statement.setInt(1, productStorage.getImportQuantity());
         statement.setInt(2, productStorage.getExportQuantity());
-        statement.setDate(3, Date.valueOf(productStorage.getDateOfStorage()));
-        statement.setLong(4, productStorage.getImportQuantity());
+        statement.setLong(3, productStorage.getProductId());
     }
 
     private void setProductStorage(ProductStorage productStorage, ResultSet resultSet) throws SQLException {
         productStorage.setId(resultSet.getLong("id"));
         productStorage.setImportQuantity(resultSet.getInt("import_quantity"));
         productStorage.setExportQuantity(resultSet.getInt("export_quantity"));
-        productStorage.setDateOfStorage(resultSet.getDate("date_of_storage").toLocalDate());
         productStorage.setProductId(resultSet.getLong("product_id"));
     }
 }

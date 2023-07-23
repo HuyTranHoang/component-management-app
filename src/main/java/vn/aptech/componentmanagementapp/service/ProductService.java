@@ -5,6 +5,7 @@ import vn.aptech.componentmanagementapp.dao.ProductDAOImpl;
 import vn.aptech.componentmanagementapp.model.Product;
 
 import java.util.List;
+import java.util.Map;
 
 public class ProductService {
     private ProductDAO productDAO;
@@ -37,4 +38,16 @@ public class ProductService {
     }
 
     public int getWeeklyNewProduct() { return productDAO.getWeeklyNewProduct(); }
+
+    public void updateProductExportQuantity(Long productId, int exportQuantity) {
+        productDAO.updateExportQuantity(productId, exportQuantity);
+    }
+
+    public Map<Product, Integer> getProductTopMonthSellingByQuantity() {
+        return productDAO.productTopMonthSellingByQuantity();
+    }
+
+    public Map<Product, Double> getProductTopMonthSellingByRevenue() {
+        return productDAO.productTopMonthSellingByRevenue();
+    }
 }

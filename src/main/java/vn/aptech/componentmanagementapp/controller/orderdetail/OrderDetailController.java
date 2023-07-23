@@ -84,6 +84,9 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
     private int currentIndex;
     private ProductInfoView currentProductInfoView;
 
+    // Controller
+    OrderDetailSelectProductController orderDetailSelectProductController;
+
     // Cache view
     private Scene selectProductScene;
     private Stage selectProductStage;
@@ -390,9 +393,9 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
                         .getResource("fxml/order-detail/orderDetail-add-selectProduct.fxml"));
                 selectProductScene = new Scene(fxmlLoader.load());
                 selectProductStage = new Stage();
-                OrderDetailSelectProductController controller = fxmlLoader.getController();
-                controller.setProductSelectionCallback(this);
-                controller.setStage(selectProductStage);
+                orderDetailSelectProductController = fxmlLoader.getController();
+                orderDetailSelectProductController.setProductSelectionCallback(this);
+                orderDetailSelectProductController.setStage(selectProductStage);
                 selectProductStage.setTitle("Select customer");
                 selectProductStage.initModality(Modality.APPLICATION_MODAL);
                 selectProductStage.setResizable(false);
@@ -400,6 +403,7 @@ public class OrderDetailController implements Initializable, OrderDetailSelectPr
                 selectProductStage.setScene(selectProductScene);
             }
 
+            orderDetailSelectProductController.reloadProduct();
             selectProductStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -35,7 +35,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public List<Employee> getAll() {
-        String query = "SELECT * FROM employees";
+        String query = "SELECT * FROM employees ORDER BY id";
 
         ArrayList<Employee> employees = new ArrayList<>();
 

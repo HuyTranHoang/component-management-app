@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.controller.orderdetail;
 
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
+import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
@@ -107,7 +109,11 @@ public class OrderDetailSelectProductController implements Initializable {
         tbc_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tbc_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+//        tbc_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
+        tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
+
         tbc_stockQuantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
 
     }
@@ -163,5 +169,13 @@ public class OrderDetailSelectProductController implements Initializable {
     void resetFilterIconClicked() {
         txt_product_search.setText("");
         searchProductOnAction();
+    }
+
+    public void reloadProduct() {
+        txt_product_search.clear();
+
+        products = FXCollections.observableArrayList(productService.getAllProduct());
+        paginationHelper.setItems(products);
+        paginationHelper.showFirstPage();
     }
 }

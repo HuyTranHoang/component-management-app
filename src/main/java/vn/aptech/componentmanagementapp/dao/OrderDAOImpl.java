@@ -36,7 +36,7 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public List<Order> getAll() {
-        String query = "SELECT * FROM orders";
+        String query = "SELECT * FROM orders ORDER BY id";
         ArrayList<Order> orders = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
@@ -124,11 +124,11 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
-    public int getWeeklyNewOrder() {
+    public int weeklyNewOrder() {
         int count = 0;
         String query = "SELECT COUNT(*) AS new_orders_count FROM orders" +
                 " WHERE created_at >= DATE_TRUNC('week', CURRENT_DATE)" +
-                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week';";
+                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week'";
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next())
@@ -137,6 +137,36 @@ public class OrderDAOImpl implements OrderDAO{
             e.printStackTrace();
         }
         return count;
+    }
+
+    @Override
+    public double todayTotalAmount() {
+        double totalAmount = 0;
+        String query = "SELECT SUM(total_amount) AS total_amount_today FROM orders " +
+                "WHERE DATE(order_date) = CURRENT_DATE";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next())
+                totalAmount = rs.getDouble("total_amount_today");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalAmount;
+    }
+
+    @Override
+    public double yesterdayTotalAmount() {
+        double totalAmount = 0;
+        String query = "SELECT SUM(total_amount) AS total_amount_yesterday FROM orders " +
+                "WHERE DATE(order_date) = CURRENT_DATE - INTERVAL '1 day'";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet rs = statement.executeQuery(query);
+            if (rs.next())
+                totalAmount = rs.getDouble("total_amount_yesterday");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalAmount;
     }
 
     @Override

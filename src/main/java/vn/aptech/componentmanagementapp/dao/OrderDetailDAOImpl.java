@@ -32,7 +32,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO{
 
     @Override
     public List<OrderDetail> getAll() {
-        String query = "SELECT * FROM order_detail";
+        String query = "SELECT * FROM order_detail ORDER BY id";
         ArrayList<OrderDetail> orderDetails = new ArrayList<>();
 
         try(Statement statement = connection.createStatement();

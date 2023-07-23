@@ -34,7 +34,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public List<Customer> getAll() {
-        String query = "SELECT * FROM customers";
+        String query = "SELECT * FROM customers ORDER BY id";
         ArrayList<Customer> customers = new ArrayList<>();
 
         try(Statement statement = connection.createStatement();

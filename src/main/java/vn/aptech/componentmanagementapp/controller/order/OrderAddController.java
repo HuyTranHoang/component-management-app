@@ -35,6 +35,7 @@ import vn.aptech.componentmanagementapp.model.Order;
 import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
+import vn.aptech.componentmanagementapp.service.ProductService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -101,6 +102,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     private Label lbl_error_orderDetailEmpty;
 
     @FXML
+    private Label lbl_error_customerEmpty;
+
+    @FXML
     private Label lbl_successMessage;
 
     @FXML
@@ -137,6 +141,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     // Service
     private final OrderService orderService = new OrderService();
     private final OrderDetailService orderDetailService = new OrderDetailService();
+    private final ProductService productService = new ProductService();
 
     // Controller
     private OrderDetailController orderDetailController;
@@ -193,6 +198,14 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     }
 
     private void initValidator() {
+        orderAddValidator.createCheck()
+                    .withMethod(context -> {
+                        if (currentCustomer == null)
+                            context.error("Please select customer to store");
+                    })
+                    .decoratingWith(this::labelDecorator)
+                    .decorates(lbl_error_customerEmpty);
+
         orderAddValidator.createCheck()
                 .dependsOn("orderDate", txt_orderDate.valueProperty())
                 .withMethod(context -> {
@@ -325,6 +338,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
             orderDetails.forEach(orderDetail -> {
                 orderDetail.setOrderId(orderId);
                 orderDetailService.addOrderDetail(orderDetail);
+                productService.updateProductExportQuantity(orderDetail.getProductId(), orderDetail.getQuantity());
             });
 
             // Pass the newly added product to the callback
@@ -352,6 +366,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         txt_customerPhone.clear();
         txt_customerName.clear();
 //        txt_employeeId.clear();
+        currentCustomer = null;
+
         txt_deliveryLocation.clear();
         txt_note.clear();
 
@@ -365,6 +381,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         lbl_error_shipmentDate.setVisible(false);
         lbl_error_customerId.setVisible(false);
 //        lbl_error_employeeId.setVisible(false);
+        lbl_error_customerEmpty.setVisible(false);
         lbl_error_deliveryLocation.setVisible(false);
         lbl_error_note.setVisible(false);
         lbl_error_orderDetailEmpty.setVisible(false);

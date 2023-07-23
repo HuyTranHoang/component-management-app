@@ -4,8 +4,12 @@ import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDAOImpl implements ProductDAO{
 
@@ -34,7 +38,7 @@ public class ProductDAOImpl implements ProductDAO{
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT * FROM products";
+        String query = "SELECT * FROM products ORDER BY id";
         ArrayList<Product> products = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
@@ -161,4 +165,110 @@ public class ProductDAOImpl implements ProductDAO{
         }
         return count;
     }
+
+    @Override
+    public void updateExportQuantity(Long productId, int exportQuantity) {
+        try {
+            String selectQuery = "SELECT stock_quantity FROM products WHERE id = ?";
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+                selectStatement.setLong(1, productId);
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                int currentStockQuantity = 0;
+                if (resultSet.next()) {
+                    currentStockQuantity = resultSet.getInt("stock_quantity");
+                }
+
+                int newStockQuantity = currentStockQuantity - exportQuantity;
+
+                String updateQuery = "UPDATE products SET stock_quantity = ? WHERE id = ?";
+                try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                    updateStatement.setInt(1, newStockQuantity);
+                    updateStatement.setLong(2, productId);
+                    updateStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Map<Product, Integer> productTopMonthSellingByQuantity() {
+        Map<Product, Integer> productExportMap = new HashMap<>();
+
+        LocalDate currentDate = LocalDate.now();
+        Month currentMonth = currentDate.getMonth();
+        int currentYear = currentDate.getYear();
+
+        String query = "SELECT p.id AS product_id, p.name AS product_name, SUM(ps.export_quantity) AS total_export_quantity " +
+                "FROM products p " +
+                "INNER JOIN products_storage ps ON p.id = ps.product_id " +
+                "WHERE EXTRACT(MONTH FROM ps.created_at) = ? " +
+                "AND EXTRACT(YEAR FROM ps.created_at) = ? " +
+                "GROUP BY p.id, p.name " +
+                "ORDER BY total_export_quantity DESC " +
+                "LIMIT 5";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, currentMonth.getValue());
+            statement.setInt(2, currentYear);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    long productId = resultSet.getLong("product_id");
+                    int totalExportQuantity = resultSet.getInt("total_export_quantity");
+
+                    Product product = getById(productId);
+                    productExportMap.put(product, totalExportQuantity);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productExportMap;
+    }
+
+    @Override
+    public Map<Product, Double> productTopMonthSellingByRevenue() {
+        Map<Product, Double> productRevenueMap = new HashMap<>();
+
+        LocalDate currentDate = LocalDate.now();
+        Month currentMonth = currentDate.getMonth();
+        int currentYear = currentDate.getYear();
+
+        String query = "SELECT p.id AS product_id, p.name AS product_name, " +
+                "SUM(od.total_amount) AS total_revenue " +
+                "FROM products p " +
+                "INNER JOIN order_detail od ON p.id = od.product_id " +
+                "INNER JOIN orders o ON od.order_id = o.id " +
+                "WHERE EXTRACT(MONTH FROM o.order_date) = ? " +
+                "AND EXTRACT(YEAR FROM o.order_date) = ? " +
+                "GROUP BY p.id, p.name " +
+                "ORDER BY total_revenue DESC " +
+                "LIMIT 5";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, currentMonth.getValue());
+            statement.setInt(2, currentYear);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    long productId = resultSet.getLong("product_id");
+                    double totalRevenue = resultSet.getDouble("total_revenue");
+
+                    Product product = getById(productId);
+                    productRevenueMap.put(product, totalRevenue);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productRevenueMap;
+    }
+
+
 }

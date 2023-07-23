@@ -197,6 +197,14 @@
                         <Font name="Segoe UI" size="14.0" />
                      </font>
                   </MFXTextField>
+                  <Label fx:id="lbl_error_customerEmpty" layoutX="58.0" layoutY="622.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
                </children>
             </AnchorPane>
          </children>

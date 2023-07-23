@@ -40,6 +40,7 @@ public class OrderService {
     public Map<LocalDate, Double> getWeeklyTotalAmounts(LocalDate startOfWeek, LocalDate endOfWeek) {
         return orderDAO.weeklyTotalAmounts(startOfWeek, endOfWeek);
     }
-
-    public int getWeeklyNewOrder() { return orderDAO.getWeeklyNewOrder(); }
+    public int getWeeklyNewOrder() { return orderDAO.weeklyNewOrder(); }
+    public double getTodayTotalAmount() { return orderDAO.todayTotalAmount(); }
+    public double getYesterdayTotalAmount() { return orderDAO.yesterdayTotalAmount(); }
 }

@@ -34,7 +34,7 @@ public class DepartmentDAOImpl implements DepartmentDAO{
 
     @Override
     public List<Department> getAll() {
-        String query = "SELECT * FROM departments";
+        String query = "SELECT * FROM departments ORDER BY id";
         ArrayList<Department> departments = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();

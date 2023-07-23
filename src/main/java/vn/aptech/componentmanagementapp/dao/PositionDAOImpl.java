@@ -35,7 +35,7 @@ public class PositionDAOImpl implements PositionDAO{
 
     @Override
     public List<Position> getAll() {
-        String query = "SELECT * FROM positions";
+        String query = "SELECT * FROM positions ORDER BY id";
         ArrayList<Position> positions = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
