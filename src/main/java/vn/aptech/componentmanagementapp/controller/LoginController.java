@@ -50,6 +50,9 @@ public class LoginController implements Initializable {
     private AnchorPane anchor_rightPanel_reset;
 
     @FXML
+    private AnchorPane loginView;
+
+    @FXML
     private Label lbl_login_emailError;
 
     @FXML
@@ -260,6 +263,8 @@ public class LoginController implements Initializable {
 
                     scene.setOnMouseReleased(event -> stage.setOpacity(1));
                     ManagementController controller = fxmlLoader.getController();
+                    controller.setLoginView(loginView);
+                    controller.setLoginController(this);
                     controller.setCurrentEmployee(employeeService.getEmployeeById(loginInfo.getId()));
 
                     if (loginInfo.getDepartmentId() != 1)
@@ -388,5 +393,11 @@ public class LoginController implements Initializable {
     @FXML
     void minimizeButtonOnClick() {
         stage.setIconified(true);
+    }
+
+    public void clearInput() {
+        txt_login_email.clear();
+        txt_login_password.clear();
+        txt_login_email.requestFocus();
     }
 }

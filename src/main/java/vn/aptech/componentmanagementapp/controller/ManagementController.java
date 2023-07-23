@@ -5,8 +5,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -62,7 +64,23 @@ public class ManagementController implements Initializable {
     @FXML
     private Circle circle_avatar;
 
+    @FXML
+    private MenuButton menu_Avatar;
+
     // Cached views
+
+    LoginController loginController;
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
+    }
+
+    private AnchorPane loginView;
+
+    public void setLoginView(AnchorPane loginView) {
+        this.loginView = loginView;
+    }
+
     private AnchorPane dashboardView;
     private AnchorPane productView;
     private AnchorPane employeeView;
@@ -99,6 +117,7 @@ public class ManagementController implements Initializable {
             Platform.runLater(() -> {
                 dashboardController.setNameDate(currentEmployee.getName(), LocalDate.now());
                 setAvatar(currentEmployee.getImage());
+                menu_Avatar.setText(currentEmployee.getName());
             });
             anchor_main_rightPanel.getChildren().add(dashboardView);
         } catch (IOException e) {
@@ -139,6 +158,22 @@ public class ManagementController implements Initializable {
             stage.close();
         }
     }
+
+    @FXML
+    void logoutButtonOnClick() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirm");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Are you sure want to logout?");
+
+        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+            loginController.clearInput();
+            stage.setScene(loginView.getScene());
+            stage.centerOnScreen();
+        }
+    }
+
+
     @FXML
     void minimizeButtonOnClick() {
         stage.setIconified(true);
@@ -395,6 +430,11 @@ public class ManagementController implements Initializable {
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(categoryView);
+    }
+
+    @FXML
+    void reportListButtonOnClick() {
+
     }
 
     public void disableEmployee() {
