@@ -222,7 +222,7 @@ public class DashboardController implements Initializable {
         lbl_employeeName.setText(name);
 
         Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", locale);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE MMM dd, yyyy", locale);
         String formattedDate = date.format(dateFormatter);
 
         lbl_date.setText(formattedDate);
