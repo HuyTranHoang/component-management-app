@@ -10,6 +10,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.controller.dashboard.DashboardController;
@@ -19,6 +22,7 @@ import vn.aptech.componentmanagementapp.controller.product.ProductController;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -51,6 +55,12 @@ public class ManagementController implements Initializable {
 
     @FXML
     private MFXButton btn_leftPanel_categoryList;
+
+    @FXML
+    private HBox hbox_employeeInfo;
+
+    @FXML
+    private Circle circle_avatar;
 
     // Cached views
     private AnchorPane dashboardView;
@@ -86,10 +96,34 @@ public class ManagementController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
             dashboardView = fxmlLoader.load();
             dashboardController = fxmlLoader.getController();
-            Platform.runLater(() -> dashboardController.setNameDate(currentEmployee.getName(), LocalDate.now()));
+            Platform.runLater(() -> {
+                dashboardController.setNameDate(currentEmployee.getName(), LocalDate.now());
+                setAvatar(currentEmployee.getImage());
+            });
             anchor_main_rightPanel.getChildren().add(dashboardView);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    private void setAvatar(String filename) {
+        if (filename != null && !filename.isEmpty()) {
+            String imagePath = "images/employee/" + filename;
+            File file = new File(imagePath);
+
+            if (file.exists()) {
+                Image image = new Image(file.toURI().toString());
+                circle_avatar.setFill(new ImagePattern(image));
+            } else {
+                String defaultImagePath = "images/employee/defaultImg.jpg";
+                Image defaultImage = new Image(new File(defaultImagePath).toURI().toString());
+                circle_avatar.setFill(new ImagePattern(defaultImage));
+            }
+        } else {
+            String defaultImagePath = "images/employee/defaultImg.jpg";
+            Image defaultImage = new Image(new File(defaultImagePath).toURI().toString());
+            circle_avatar.setFill(new ImagePattern(defaultImage));
         }
     }
 

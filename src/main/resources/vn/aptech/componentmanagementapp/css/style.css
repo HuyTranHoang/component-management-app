@@ -344,3 +344,10 @@
 .default-color0.chart-bar {
     -fx-bar-fill: -hbd-primary-color;
 }
+
+.avatar {
+    -fx-background-radius: 50%;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+}

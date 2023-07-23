@@ -153,6 +153,7 @@ public class EmployeeAddController implements Initializable {
     // Validator
     Validator employeeValidator = new Validator();
     private Boolean isUpdate = false;
+    private Boolean isUploadNewImage = false;
 
     private ObservableList<Employee> employees;
 
@@ -401,6 +402,7 @@ public class EmployeeAddController implements Initializable {
         if (selectedImageFile != null) {
             Image image = new Image(selectedImageFile.toURI().toString());
             imageView_image.setImage(image);
+            isUploadNewImage = true;
         }
     }
 
@@ -456,6 +458,7 @@ public class EmployeeAddController implements Initializable {
             if (file.exists()) {
                 Image image = new Image(file.toURI().toString());
                 imageView_image.setImage(image);
+                selectedImageFile = file;
             } else {
                 // If the file doesn't exist, set a default image
                 String defaultImagePath = "images/employee/defaultImg.jpg";
@@ -565,6 +568,8 @@ public class EmployeeAddController implements Initializable {
                 new FadeOut(lbl_successMessage).play();
             }));
             timeline.play();
+
+            isUploadNewImage = false;
         }
     }
 
@@ -597,13 +602,17 @@ public class EmployeeAddController implements Initializable {
     @FXML
     void updateButtonOnClick() {
         if (employeeValidator.validate()) {
+
+            String currentPassword = currentEmployee.getPassword();
+
             currentEmployee.setName(txt_name.getText());
             currentEmployee.setAddress(txt_address.getText());
             currentEmployee.setPhone(txt_phone.getText());
             currentEmployee.setEmail(txt_email.getText());
             currentEmployee.setSalary(Double.parseDouble(txt_salary.getText()));
             currentEmployee.setCitizenID(txt_citizenId.getText());
-            currentEmployee.setPassword(hashSHA256(txt_password.getText()));
+            if (!currentPassword.equals(txt_password.getText()))
+                currentEmployee.setPassword(hashSHA256(txt_password.getText()));
 
             Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();
             if (selectedDepartment != null) {
@@ -617,7 +626,8 @@ public class EmployeeAddController implements Initializable {
                 currentEmployee.setPosition(selectedPosition);
             }
 
-            currentEmployee.setImage(saveImage());
+            if (isUploadNewImage)
+                currentEmployee.setImage(saveImage());
 
             currentEmployee.setDateOfBirth(txt_dateOfBirth.getValue());
             currentEmployee.setDateOfHire(txt_dateOfHire.getValue());
@@ -638,6 +648,7 @@ public class EmployeeAddController implements Initializable {
                 tableView.refresh();
             }
 
+            isUploadNewImage = false;
         }
     }
 
