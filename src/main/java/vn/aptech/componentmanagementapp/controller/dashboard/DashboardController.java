@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -35,9 +36,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private BarChart<Number, String> barChart_topSelling;
-
-    @FXML
-    private AnchorPane dashboardView;
 
     @FXML
     private Label lbl_newCustomer;
@@ -53,6 +51,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Label lbl_todaySaleAmount;
+
+    @FXML
+    private Label lbl_date;
+
+    @FXML
+    private Label lbl_employeeName;
 
     @FXML
     private Circle circle_saleCompare;
@@ -212,6 +216,16 @@ public class DashboardController implements Initializable {
 
     public double calculatePercentageChange(double todayTotalAmount, double yesterdayTotalAmount) {
         return (todayTotalAmount - yesterdayTotalAmount) / yesterdayTotalAmount * 100;
+    }
+
+    public void setNameDate(String name, LocalDate date) {
+        lbl_employeeName.setText(name);
+
+        Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", locale);
+        String formattedDate = date.format(dateFormatter);
+
+        lbl_date.setText(formattedDate);
     }
 
 }

@@ -199,7 +199,7 @@ public class CategoryController implements Initializable {
         };
 
         txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
-        txt_description.setOnKeyPressed(storeOrUpdateEventHandler);
+//        txt_description.setOnKeyPressed(storeOrUpdateEventHandler);
 
         txt_category_search.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

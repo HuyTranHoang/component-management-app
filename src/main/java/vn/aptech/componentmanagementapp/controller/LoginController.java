@@ -261,6 +261,10 @@ public class LoginController implements Initializable {
                     scene.setOnMouseReleased(event -> stage.setOpacity(1));
                     ManagementController controller = fxmlLoader.getController();
                     controller.setCurrentEmployee(employeeService.getEmployeeById(loginInfo.getId()));
+
+                    if (loginInfo.getDepartmentId() != 1)
+                        controller.disableEmployee();
+
                     controller.setStage(stage);
                     stage.setScene(scene);
                     stage.centerOnScreen();

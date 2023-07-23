@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -117,12 +119,12 @@
             </Label>
             <VBox layoutX="65.0" layoutY="443.0" prefHeight="298.0" prefWidth="1126.0" spacing="20.0" styleClass="item-dashboard" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <children>
-                  <BarChart fx:id="barChart_topSelling" alternativeRowFillVisible="false" animated="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="282.0" prefWidth="1139.0" verticalZeroLineVisible="false">
+                  <BarChart fx:id="barChart_topSelling" alternativeRowFillVisible="false" animated="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefHeight="282.0" prefWidth="1166.0" verticalZeroLineVisible="false">
                      <xAxis>
-                        <NumberAxis minorTickVisible="false" side="LEFT" />
+                        <NumberAxis animated="false" minorTickVisible="false" side="LEFT" />
                      </xAxis>
                      <yAxis>
-                        <CategoryAxis side="BOTTOM">
+                        <CategoryAxis animated="false" side="BOTTOM">
                            <tickLabelFont>
                               <Font size="12.0" />
                            </tickLabelFont></CategoryAxis>
@@ -172,7 +174,37 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <MFXComboBox fx:id="cbb_topSellingType" floatMode="DISABLED" layoutX="282.0" layoutY="401.0" prefHeight="32.0" prefWidth="250.0" />
+            <MFXComboBox fx:id="cbb_topSellingType" floatMode="DISABLED" layoutX="282.0" layoutY="401.0" prefHeight="32.0" style="-fx-border-color: #F4F4F4; -fx-background-color: #F4F4F4;" textLimit="20">
+               <textFill>
+                  <Color red="0.29019609093666077" green="0.3333333432674408" blue="0.6352941393852234" opacity="0.8700000047683716" />
+               </textFill>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXComboBox>
          </children></AnchorPane>
+      <HBox alignment="BOTTOM_LEFT" layoutX="14.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="33.0" prefWidth="871.0" spacing="3.0">
+         <children>
+            <Label text="Hello, " textFill="#4d3b3b">
+               <font>
+                  <Font name="Inter Bold" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_employeeName" text="employee name " textFill="#4a55a2">
+               <font>
+                  <Font name="Inter Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Label>
+            <Line endY="15.0" stroke="#979797" />
+            <Label fx:id="lbl_date" text="Thông tin thứ, ngày hiện tại" textFill="#979797">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

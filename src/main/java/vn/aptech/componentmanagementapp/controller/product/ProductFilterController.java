@@ -50,6 +50,8 @@ public class ProductFilterController implements Initializable {
     private ToggleGroup tggPrice;
     @FXML
     private MFXCheckbox checkbox_note;
+    @FXML
+    private MFXCheckbox checkbox_warranty;
 
     //    Chứa toggle button để filter category
     @FXML
@@ -69,27 +71,11 @@ public class ProductFilterController implements Initializable {
     private CategoryService categoryService = new CategoryService();
     private SupplierService supplierService = new SupplierService();
     //    TableView
-    @FXML
-    private TableView<Product> tableView;
-    @FXML
-    private TableColumn<Product, Long> tbc_id;
-    @FXML
-    private TableColumn<Product, String> tbc_productCode;
-    @FXML
-    private TableColumn<Product, String> tbc_name;
-    @FXML
-    private TableColumn<Product, Double> tbc_price;
-    @FXML
-    private TableColumn<Product, Integer> tbc_quantity;
-    @FXML
+
+
     private TableColumn<Product, Integer> tbc_monthOfWarranty;
     @FXML
     private TableColumn<Product, String> tbc_note;
-    @FXML
-    private TableColumn<Product, Supplier> tbc_suppliderId;
-    @FXML
-    private TableColumn<Product, Category> tbc_categoryId;
-
 //    List product từ product controller
     private static ObservableList<Product> products;
 
@@ -126,22 +112,10 @@ public class ProductFilterController implements Initializable {
         this.filter_noti_shape = filter_noti_shape;
         this.filter_noti_label = filter_noti_label;
     }
-    public void setProductTable(TableView<Product> tableView, TableColumn<Product, Long> tbc_id,
-                                TableColumn<Product, String> tbc_productCode, TableColumn<Product, String> tbc_name,
-                                TableColumn<Product, Double> tbc_price,
-                                TableColumn<Product, Integer> tbc_quantity, TableColumn<Product, Integer> tbc_monthOfWarranty,
-                                TableColumn<Product, String> tbc_note,
-                                TableColumn<Product, Supplier> tbc_supplierId, TableColumn<Product, Category> tbc_categoryId) {
-        this.tableView = tableView;
-        this.tbc_id = tbc_id;
-        this.tbc_productCode = tbc_productCode;
-        this.tbc_name = tbc_name;
-        this.tbc_price = tbc_price;
-        this.tbc_quantity = tbc_quantity;
+    public void setProductTable(TableColumn<Product, Integer> tbc_monthOfWarranty,
+                                TableColumn<Product, String> tbc_note) {
         this.tbc_monthOfWarranty = tbc_monthOfWarranty;
         this.tbc_note = tbc_note;
-        this.tbc_suppliderId = tbc_supplierId;
-        this.tbc_categoryId = tbc_categoryId;
     }
 
     @Override
@@ -259,10 +233,16 @@ public class ProductFilterController implements Initializable {
         int countFilter = 0; // Dùng để đếm số lượng filter xong gán thành text cho noti
 
         // Checkbox
-//        TODO: thêm những cột khác có thể hiện/ ẩn
-//        TODO: Sửa category id v supplier id thành tên trong table view
-        tbc_note.setVisible(checkbox_note.isSelected());
+        if (checkbox_warranty.isSelected()) {
+            countFilter++;
+            tbc_monthOfWarranty.setVisible(checkbox_warranty.isSelected());
+        }
 
+        if (checkbox_note.isSelected()) {
+            countFilter++;
+            tbc_note.setVisible(checkbox_note.isSelected());
+        }
+        
         // Radio
         if (tggPrice.getSelectedToggle() != null) {
             RadioButton selectedRadio = (RadioButton) tggPrice.getSelectedToggle();
@@ -344,6 +324,9 @@ public class ProductFilterController implements Initializable {
     @FXML
     void clearFilterButtonOnClick() {
         checkbox_note.setSelected(false);
+        checkbox_warranty.setSelected(false);
+        tbc_note.setVisible(false);
+        tbc_monthOfWarranty.setVisible(false);
 
         supplierSelectedToggleButtons.forEach(toggleButton -> toggleButton.setSelected(false));
         supplierSelectedToggleButtons.clear();

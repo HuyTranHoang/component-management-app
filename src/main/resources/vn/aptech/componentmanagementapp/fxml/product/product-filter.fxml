@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.scene.control.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
 <AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #fff;" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.product.ProductFilterController">
    <children>
       <AnchorPane layoutX="-1.0" layoutY="14.0" prefHeight="130.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -85,14 +90,15 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <AnchorPane layoutY="534.0" prefHeight="161.0" prefWidth="305.0">
+      <AnchorPane layoutY="549.0" prefHeight="128.0" prefWidth="305.0">
          <children>
             <Label layoutX="50.0" layoutY="7.0" text="Visible column" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="7.0">
                <font>
                   <Font name="Inter SemiBold" size="24.0" />
                </font>
             </Label>
-            <MFXCheckbox id="customRadio" fx:id="checkbox_note" layoutX="50.0" layoutY="44.0" text="Note" />
+            <MFXCheckbox id="customRadio" fx:id="checkbox_note" layoutX="50.0" layoutY="43.0" text="Note" />
+            <MFXCheckbox id="customRadio" fx:id="checkbox_warranty" layoutX="50.0" layoutY="71.0" text="Month of warranty" />
          </children>
       </AnchorPane>
    </children>

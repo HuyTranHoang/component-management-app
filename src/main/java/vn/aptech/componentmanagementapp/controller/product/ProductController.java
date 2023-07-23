@@ -288,8 +288,7 @@ public class ProductController implements Initializable,
                 filterController.setTxt_product_search(txt_product_search);
                 filterController.setProducts(products);
                 filterController.setFilter_noti(filter_noti_shape, filter_noti_label);
-                filterController.setProductTable(tableView, tbc_id, tbc_productCode, tbc_name, tbc_price,
-                        tbc_quantity, tbc_monthOfWarranty, tbc_note, tbc_supplierId, tbc_categoryId);
+                filterController.setProductTable(tbc_monthOfWarranty, tbc_note);
 
                 filterStage.setScene(filterScene);
                 filterStage.setResizable(false);

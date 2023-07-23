@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ManagementController implements Initializable {
@@ -84,6 +86,7 @@ public class ManagementController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
             dashboardView = fxmlLoader.load();
             dashboardController = fxmlLoader.getController();
+            Platform.runLater(() -> dashboardController.setNameDate(currentEmployee.getName(), LocalDate.now()));
             anchor_main_rightPanel.getChildren().add(dashboardView);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -358,6 +361,10 @@ public class ManagementController implements Initializable {
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(categoryView);
+    }
+
+    public void disableEmployee() {
+        btn_leftPanel_employeeList.setVisible(false);
     }
 
 }

@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -398,6 +399,18 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 //                    paginationHelper.setItems(FXCollections.observableArrayList(filterOrder));
 //                    paginationHelper.showFirstPage();
 //                });
+
+                Image image = null;
+
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/employee.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+
+                filterStage.getIcons().add(image);
+
+                filterStage.initModality(Modality.APPLICATION_MODAL);
 
                 filterController.setStage(filterStage);
                 filterController.setViewResultCallback(this);
