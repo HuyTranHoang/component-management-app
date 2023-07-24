@@ -24,6 +24,14 @@ public class ProductInfoView extends VBox {
     private Button btnEdit;
     private Button btnRemove;
 
+    public Button getBtnEdit() {
+        return btnEdit;
+    }
+
+    public Button getBtnRemove() {
+        return btnRemove;
+    }
+
     private VBox vbox_orderDetail;
 
     public void setVbox_orderDetail(VBox vbox_orderDetail) {

@@ -401,7 +401,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             }
         }
 
-        orderAddController.clearInput();
+        orderAddController.clearInputOrder();
 
         Employee employee = employeeService.getEmployeeById(loginEmployee.getId());
         orderAddController.setCurrentEmployee(employee);
