@@ -3,9 +3,11 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -138,5 +140,17 @@
             </VBox>
          </children>
       </AnchorPane>
+      <Label layoutX="50.0" layoutY="396.0" text="By status">
+         <font>
+            <Font name="Inter SemiBold" size="24.0" />
+         </font>
+      </Label>
+      <MFXToggleButton fx:id="btn_toggleStatus" layoutX="192.0" layoutY="391.0" text=" " />
+      <MFXRadioButton layoutX="50.0" layoutY="451.0" text="Success">
+         <toggleGroup>
+            <ToggleGroup fx:id="status" />
+         </toggleGroup>
+      </MFXRadioButton>
+      <MFXRadioButton layoutX="148.0" layoutY="451.0" text="Canceled" toggleGroup="$status" />
    </children>
 </AnchorPane>

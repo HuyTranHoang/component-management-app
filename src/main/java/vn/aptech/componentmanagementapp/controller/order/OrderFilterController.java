@@ -14,6 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
@@ -80,6 +83,12 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
 
     @FXML
     private MFXToggleButton btn_toggleDate;
+
+    @FXML
+    private MFXToggleButton btn_toggleStatus;
+
+    @FXML
+    private ToggleGroup status;
 
     @FXML
     private MFXComboBox<String> cbb_byTypeOfDate;
@@ -195,6 +204,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         txt_toDate.setValue(LocalDate.now());
 
         btn_toggleDate.setSelected(false);
+        btn_toggleStatus.setSelected(false);
 
         filter_noti_label.setVisible(false);
         filter_noti_shape.setVisible(false);
@@ -245,6 +255,24 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                                         || (receiveDate.isAfter(fromDate) && receiveDate.isBefore(toDate));
                             })
                             .collect(Collectors.toList());
+                }
+                countFilter++;
+            }
+
+            if (btn_toggleStatus.isSelected()) {
+                Toggle selectedToggle = status.getSelectedToggle();
+                if (selectedToggle != null) {
+                    RadioButton selectedRadioButton = (RadioButton) selectedToggle;
+                    String selectedValue = selectedRadioButton.getText();
+                    if (selectedValue.equals("Success")) {
+                        filterOrder = filterOrder.stream()
+                                .filter(order -> !order.isCancelled())
+                                .collect(Collectors.toList());
+                    } else {
+                        filterOrder = filterOrder.stream()
+                                .filter(Order::isCancelled)
+                                .collect(Collectors.toList());
+                    }
                 }
                 countFilter++;
             }
