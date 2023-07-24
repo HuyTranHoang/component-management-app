@@ -206,6 +206,7 @@ public class CustomerController implements Initializable {
             customerService.addCustomer(customer);
             customers.add(customer);
 
+            clearButtonOnClick();
 
             // Show success message
             lbl_successMessage.setText("Add new customer successfully!!");
@@ -215,6 +216,7 @@ public class CustomerController implements Initializable {
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
             showLastPage();
+
         }
     }
     @FXML
@@ -364,8 +366,6 @@ public class CustomerController implements Initializable {
                         context.error("Email length exceeds the maximum limit of 255 characters");
                     else if (isUpdate ? !isEmailUniqueUpdate(customers, customerEmail) : !isEmailUnique(customers, customerEmail))
                         context.error("This email is already in the database");
-
-
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_customerEmail);
@@ -387,7 +387,7 @@ public class CustomerController implements Initializable {
 
     private boolean isEmailUnique(List<Customer> customers, String txt_email) {
         return customers.stream()
-                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email));
+                .noneMatch(customer -> customer.getEmail() != null && customer.getEmail().equals(txt_email)) || txt_email.isEmpty();
     }
 
     private boolean isEmailUniqueUpdate(List<Customer> customers, String txt_email) {
@@ -399,7 +399,7 @@ public class CustomerController implements Initializable {
 
     private boolean isPhoneUnique(List<Customer> customers, String txt_phone) {
         return customers.stream()
-                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone));
+                .noneMatch(customer -> customer.getPhone() != null && customer.getPhone().equals(txt_phone)) || txt_phone.isEmpty();
     }
 
     private boolean isPhoneUniqueUpdate(List<Customer> customers, String txt_phone) {

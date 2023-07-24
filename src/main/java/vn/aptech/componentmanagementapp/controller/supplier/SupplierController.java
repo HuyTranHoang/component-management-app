@@ -281,12 +281,15 @@ public class SupplierController implements Initializable {
             supplierService.addSupplier(supplier);
             suppliers.add(supplier);
 
+            clearButtonOnClick();
+
             lbl_successMessage.setText("Add new supplier successfully!!");
             lbl_successMessage.setVisible(true);
             new FadeIn(lbl_successMessage).play();
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
             timeline.play();
             showLastPage();
+
         }
     }
     @FXML
@@ -475,7 +478,7 @@ public class SupplierController implements Initializable {
 
     private boolean isEmailUnique(List<Supplier> suppliers, String txt_email) {
         return suppliers.stream()
-                .noneMatch(supplier -> supplier.getEmail() != null && supplier.getEmail().equals(txt_email));
+                .noneMatch(supplier -> supplier.getEmail() != null && supplier.getEmail().equals(txt_email)) || txt_email.isEmpty();
     }
 
     private boolean isEmailUniqueUpdate(List<Supplier> suppliers, String txt_email) {

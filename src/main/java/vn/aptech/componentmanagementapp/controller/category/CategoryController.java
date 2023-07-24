@@ -218,6 +218,8 @@ public class CategoryController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
+                    else if (name.matches("\\d+"))
+                        context.error("Name can't contain digits");
                     else if (name.length() > 255)
                         context.error("Name length exceeds the maximum limit of 255 characters");
                 })
@@ -275,6 +277,8 @@ public class CategoryController implements Initializable {
             category.setDescription(txt_description.getText());
             categoryService.addCategory(category);
             categories.add(category);
+
+            clearButtonOnClick();
 
             lbl_successMessage.setText("Add new category successfully!!");
             lbl_successMessage.setVisible(true);
