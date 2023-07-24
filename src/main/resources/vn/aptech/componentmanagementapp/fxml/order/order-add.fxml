@@ -161,7 +161,7 @@
                            <children>
                               <HBox alignment="TOP_RIGHT" prefWidth="0.0">
                                  <children>
-                                    <MFXButton contentDisplay="RIGHT" onAction="#clearOrderDetail" text="Clear list">
+                                    <MFXButton fx:id="btn_clearList" contentDisplay="RIGHT" onAction="#clearOrderDetail" text="Clear list">
                                        <graphic>
                                           <FontIcon iconLiteral="fas-plus-circle" />
                                        </graphic>
@@ -511,7 +511,7 @@
                               <Font name="Inter Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_totalAmount" prefHeight="16.0" prefWidth="250.0" text="Total Amount" textFill="WHITE">
+                        <Label fx:id="lbl_totalAmount" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE">
                            <font>
                               <Font name="Inter Bold" size="18.0" />
                            </font>

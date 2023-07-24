@@ -170,6 +170,17 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    public void cancelOrder(long orderId) {
+        String query = "UPDATE orders SET is_cancelled = true WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, orderId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void update(Order order) {
         String query = "UPDATE orders SET order_date = ?, delivery_date = ?, receive_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +
                 "is_cancelled = ?, customer_id = ?, employee_id = ? WHERE id = ?";

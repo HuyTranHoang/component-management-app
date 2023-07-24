@@ -101,6 +101,10 @@ public class Order {
         return isCancelled;
     }
 
+    public boolean getIsCancelled() {
+        return isCancelled;
+    }
+
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
     }

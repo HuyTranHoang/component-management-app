@@ -42,8 +42,9 @@
                <TableColumn fx:id="tbc_deliveryLocation" prefWidth="200.0" sortable="false" text="Delivery location" />
                <TableColumn fx:id="tbc_totalAmount" prefWidth="125.0" sortable="false" text="Total amount" />
                <TableColumn fx:id="tbc_note" prefWidth="150.0" sortable="false" text="Note" />
-               <TableColumn fx:id="tbc_customerId" prefWidth="125.0" sortable="false" text="Customer name" />
-               <TableColumn fx:id="tbc_employeeId" prefWidth="125.0" sortable="false" text="Employee name" />
+               <TableColumn fx:id="tbc_isCancelled" prefWidth="75.0" sortable="false" text="isCancelled" />
+               <TableColumn fx:id="tbc_customerId" prefWidth="110.0" sortable="false" text="Customer name" />
+               <TableColumn fx:id="tbc_employeeId" prefWidth="110.0" sortable="false" text="Employee name" />
             </columns>
             <contextMenu>
                <ContextMenu>
@@ -113,7 +114,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </MFXButton>
-            <MFXButton onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="DELETE">
+            <MFXButton onAction="#deleteButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CANCEL">
                <font>
                   <Font name="Inter Bold" size="14.0" />
                </font>
@@ -128,7 +129,7 @@
       </HBox>
       <HBox fx:id="hbox_confirmDelete" layoutX="434.0" layoutY="15.0" spacing="10.0" visible="false">
          <children>
-            <MFXButton onAction="#deleteSelectedOrderOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
+            <MFXButton onAction="#deleteSelectedOrderOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM CANCEL">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
                </graphic>

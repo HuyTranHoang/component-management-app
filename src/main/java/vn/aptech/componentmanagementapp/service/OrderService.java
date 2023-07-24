@@ -43,4 +43,6 @@ public class OrderService {
     public int getWeeklyNewOrder() { return orderDAO.weeklyNewOrder(); }
     public double getTodayTotalAmount() { return orderDAO.todayTotalAmount(); }
     public double getYesterdayTotalAmount() { return orderDAO.yesterdayTotalAmount(); }
+
+    public void cancelOrder(long orderId) { orderDAO.cancelOrder(orderId); }
 }

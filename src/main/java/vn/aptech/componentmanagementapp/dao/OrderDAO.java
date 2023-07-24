@@ -11,4 +11,6 @@ public interface OrderDAO extends BaseDAO<Order> {
     int weeklyNewOrder();
     double todayTotalAmount();
     double yesterdayTotalAmount();
+
+    void cancelOrder(long orderId);
 }

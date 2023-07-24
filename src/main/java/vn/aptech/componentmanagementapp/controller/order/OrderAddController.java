@@ -2,13 +2,13 @@ package vn.aptech.componentmanagementapp.controller.order;
 
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,8 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,14 +28,12 @@ import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
-import vn.aptech.componentmanagementapp.controller.orderdetail.OrderDetailController;
 import vn.aptech.componentmanagementapp.controller.orderdetail.OrderDetailSelectProductController;
 import vn.aptech.componentmanagementapp.model.*;
 import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.ProductInfoView;
-import vn.aptech.componentmanagementapp.util.ProductInfoViewShow;
 
 import java.io.IOException;
 import java.net.URL;
@@ -235,6 +231,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     @FXML
     private MFXTextField txt_discount;
 
+    @FXML
+    private MFXButton btn_clearList;
+
 
     //  Validator
     private final Validator orderAddValidator = new Validator();
@@ -250,7 +249,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     private final ProductService productService = new ProductService();
 
     // Controller
-    private OrderDetailController orderDetailController;
     private OrderDetailSelectProductController orderDetailSelectProductController;
 
     // Cache order details
@@ -539,44 +537,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     }
 
     @FXML
-    void addOrderDetailsOnClick() {
-        try {
-            if (orderDetailScene == null && orderDetailStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order-detail/orderDetail-add.fxml"));
-                orderDetailScene = new Scene(fxmlLoader.load());
-                orderDetailStage = new Stage();
-                orderDetailStage.setTitle("Order Details");
-
-                Image image = null;
-
-                URL resourceURL = ComponentManagementApplication.class.getResource("images/order.png");
-                if (resourceURL != null) {
-                    String resourcePath = resourceURL.toExternalForm();
-                    image = new Image(resourcePath);
-                }
-
-                orderDetailStage.getIcons().add(image);
-
-                orderDetailStage.initModality(Modality.APPLICATION_MODAL);
-                orderDetailStage.setResizable(false);
-                orderDetailController = fxmlLoader.getController();
-                orderDetailController.setStage(orderDetailStage);
-                orderDetailController.setOrderDetails(orderDetails);
-                orderDetailController.setVbox_orderDetail(vbox_orderDetail);
-                orderDetailController.setLbl_totalAmount(lbl_totalAmount);
-
-                orderDetailStage.setScene(orderDetailScene);
-            }
-
-            orderDetailController.addMode();
-            orderDetailController.clearInput();
-            orderDetailStage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @FXML
     void selectCustomerOnClick() {
         try {
             if (selectCustomerScene == null && selectCustomerStage == null) {
@@ -800,6 +760,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
         hbox_storeButtonGroup.setVisible(false);
+
+        btn_clearList.setVisible(true);
     }
 
     public void updateMode() {
@@ -812,6 +774,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         hbox_addButtonGroup.setVisible(false);
         hbox_updateButtonGroup.setVisible(false);
         hbox_storeButtonGroup.setVisible(true);
+
+        btn_clearList.setVisible(false);
 
         anchor_inputOrderDetails.setVisible(false);
         anchor_showOrder.setVisible(true);

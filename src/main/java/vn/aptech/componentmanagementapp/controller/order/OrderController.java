@@ -80,6 +80,8 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     @FXML
     private TableColumn<Order, String> tbc_note;
     @FXML
+    private TableColumn<Order, Boolean> tbc_isCancelled;
+    @FXML
     private TableColumn<Order, String> tbc_customerId;
     @FXML
     private TableColumn<Order, String> tbc_employeeId;
@@ -189,6 +191,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         tbc_totalAmount.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_totalAmount.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getTotalAmount()));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
+        tbc_isCancelled.setCellValueFactory(new PropertyValueFactory<>("isCancelled"));
         tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
 
@@ -476,20 +479,10 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedOrderIds.size() + " order? " +
-                "If you delete, all order details belong to this order also get deleted.");
+        confirmation.setContentText("Are you sure you want to cancel " + selectedOrderIds.size() + " order?");
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-            selectedOrderIds.forEach(aLong -> {
-                orderService.deleteOrder(aLong);
-                Order order = orders.stream()
-                        .filter(p -> p.getId() == aLong)
-                        .findFirst()
-                        .orElse(null);
-                orders.remove(order);
-            });
-
-            showFirstPage();
-            tableView.refresh();
+            selectedOrderIds.forEach(orderService::cancelOrder);
+            resetFilterIconClicked();
         }
     }
 
@@ -508,14 +501,10 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
-            confirmation.setContentText("Are you sure you want to delete selected order? " +
-                    "If you delete, all order details belong to that order also get deleted.");
+            confirmation.setContentText("Are you sure you want to cancel selected order? ");
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-                orderService.deleteOrder(selectedOrder.getId());
-                orders.remove(selectedOrder);
-                tableView.getItems().remove(selectedOrder); // Remove the product from the TableView
-                if (paginationHelper.getPageItems().isEmpty())
-                    showPreviousPage();
+                orderService.cancelOrder(selectedOrder.getId());
+                resetFilterIconClicked();
             }
         }
     }
