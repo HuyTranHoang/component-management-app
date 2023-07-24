@@ -97,6 +97,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     //
     private Product currentProduct;
 
+    private OrderAddSelectCustomerController orderAddSelectCustomerController;
+
     //
 
 
@@ -543,9 +545,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-add-selectCustomer.fxml"));
                 selectCustomerScene = new Scene(fxmlLoader.load());
                 selectCustomerStage = new Stage();
-                OrderAddSelectCustomerController controller = fxmlLoader.getController();
-                controller.setCustomerSelectionCallback(this);
-                controller.setStage(selectCustomerStage);
+                orderAddSelectCustomerController = fxmlLoader.getController();
+                orderAddSelectCustomerController.setCustomerSelectionCallback(this);
+                orderAddSelectCustomerController.setStage(selectCustomerStage);
                 selectCustomerStage.setTitle("Select customer");
 
                 Image image = null;
@@ -563,7 +565,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
                 selectCustomerStage.setScene(selectCustomerScene);
             }
-
+            orderAddSelectCustomerController.reloadCustomer();
             selectCustomerStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
