@@ -165,4 +165,9 @@ public class OrderAddSelectCustomerController implements Initializable {
         txt_customer_search.setText("");
         searchCustomerOnAction();
     }
+
+    public void reloadCustomer() {
+        customers = FXCollections.observableArrayList(customerService.getAllCustomer());
+        tableView.setItems(customers);
+    }
 }
