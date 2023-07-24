@@ -59,6 +59,9 @@ public class ManagementController implements Initializable {
     private MFXButton btn_leftPanel_categoryList;
 
     @FXML
+    private MFXButton btn_leftPanel_reportList;
+
+    @FXML
     private HBox hbox_employeeInfo;
 
     @FXML
@@ -88,7 +91,7 @@ public class ManagementController implements Initializable {
     private AnchorPane orderView;
     private AnchorPane categoryView;
     private AnchorPane supplierView;
-
+    private AnchorPane reportView;
     // Controller
     private DashboardController dashboardController;
     private ProductController productController;
@@ -212,6 +215,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(dashboardView);
@@ -250,6 +254,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(productView);
@@ -289,6 +294,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(employeeView);
@@ -322,6 +328,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(customerView);
@@ -361,6 +368,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(orderView);
@@ -393,6 +401,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(supplierView);
@@ -427,6 +436,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_orderList.setId("button-custom-mainPanel");
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(categoryView);
@@ -434,7 +444,38 @@ public class ManagementController implements Initializable {
 
     @FXML
     void reportListButtonOnClick() {
+        if (reportView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report.fxml"));
+                reportView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
+        Image image = null;
+
+
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/report.png");
+
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(reportView);
     }
 
     public void disableEmployee() {

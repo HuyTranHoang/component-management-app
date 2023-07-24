@@ -47,4 +47,6 @@ module vn.aptech.componentmanagementapp {
     exports vn.aptech.componentmanagementapp.controller.supplier;
     opens vn.aptech.componentmanagementapp.controller.supplier to javafx.fxml;
 
+    exports vn.aptech.componentmanagementapp.controller.report;
+    opens vn.aptech.componentmanagementapp.controller.report to javafx.fxml;
 }
