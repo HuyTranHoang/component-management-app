@@ -486,6 +486,12 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
             timeline.play();
 
             clearInputOrder();
+
+            anchor_inputOrderDetails.setVisible(true);
+            anchor_showOrder.setVisible(false);
+
+            hbox_addButtonGroup.setVisible(true);
+            hbox_storeButtonGroup.setVisible(false);
         }
     }
 
@@ -493,6 +499,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     void clearInputOrder() { // Được gọi trước khi vào add view ở Order Add Controller
         anchor_order.setVisible(true);
         anchor_orderDetail.setVisible(false);
+
+        lbl_totalAmount.setText("...");
 
         txt_orderDate.setValue(LocalDate.now());
         txt_deliveryDate.setValue(LocalDate.now());
@@ -608,9 +616,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     }
 
     @FXML
-    void nextButtonOnClick() {
-        if (anchor_order.visibleProperty().get()) {
-            if(orderAddValidator.validate()){
+    void nextButtonOnClickOrder() {
+            if(orderAddValidator.validate()) {
                 currentOrder = new Order();
                 currentOrder.setOrderDate(txt_orderDate.getValue().atTime(LocalTime.now()));
                 currentOrder.setDeliveryDate(txt_deliveryDate.getValue().atTime(LocalTime.now()));
@@ -623,10 +630,12 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 anchor_order.setVisible(false);
                 anchor_orderDetail.setVisible(true);
             }
-        } else {
-            if (totalOrderDetailsValidator.validate())
-                storeMode();
-        }
+    }
+
+    @FXML
+    void nextButtonOnClickOrderDetail() {
+        if (totalOrderDetailsValidator.validate())
+            storeMode();
     }
 
     @FXML

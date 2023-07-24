@@ -97,7 +97,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" onAction="#nextButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="NEXT">
+                        <MFXButton id="button-custom" onAction="#nextButtonOnClickOrder" prefHeight="48.0" prefWidth="150.0" text="NEXT">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -185,7 +185,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
-                        <MFXButton id="button-custom" onAction="#nextButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="NEXT">
+                        <MFXButton id="button-custom" onAction="#nextButtonOnClickOrderDetail" prefHeight="48.0" prefWidth="150.0" text="NEXT">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
