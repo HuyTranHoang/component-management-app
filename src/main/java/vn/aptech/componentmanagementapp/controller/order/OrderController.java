@@ -80,7 +80,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     @FXML
     private TableColumn<Order, String> tbc_note;
     @FXML
-    private TableColumn<Order, Boolean> tbc_isCancelled;
+    private TableColumn<Order, String> tbc_isCancelled;
     @FXML
     private TableColumn<Order, String> tbc_customerId;
     @FXML
@@ -191,7 +191,13 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         tbc_totalAmount.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_totalAmount.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getTotalAmount()));
         tbc_note.setCellValueFactory(new PropertyValueFactory<>("note"));
-        tbc_isCancelled.setCellValueFactory(new PropertyValueFactory<>("isCancelled"));
+//        tbc_isCancelled.setCellValueFactory(new PropertyValueFactory<>("isCancelled"));
+        tbc_isCancelled.setCellValueFactory(orderBooleanCellDataFeatures -> {
+            boolean check = orderBooleanCellDataFeatures.getValue().isCancelled();
+            if(check)
+                return new ReadOnlyObjectWrapper<>("✅");
+            return new ReadOnlyObjectWrapper<>("");
+        });
         tbc_customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         tbc_employeeId.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
 
