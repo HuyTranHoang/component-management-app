@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
@@ -13,9 +12,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.controller.dashboard.DashboardController;
 import vn.aptech.componentmanagementapp.controller.employee.EmployeeController;
@@ -62,7 +64,25 @@ public class ManagementController implements Initializable {
     private MFXButton btn_leftPanel_reportList;
 
     @FXML
+    private MFXButton btn_subMenu_Employee;
+
+    @FXML
+    private MFXButton btn_subMenu_Order;
+
+    @FXML
+    private MFXButton btn_subMenu_Product;
+
+    @FXML
     private HBox hbox_employeeInfo;
+
+    @FXML
+    private VBox vbox_report_subMenu;
+
+    @FXML
+    private FontIcon icon_reportDown;
+
+    @FXML
+    private FontIcon icon_reportRight;
 
     @FXML
     private Circle circle_avatar;
@@ -91,7 +111,9 @@ public class ManagementController implements Initializable {
     private AnchorPane orderView;
     private AnchorPane categoryView;
     private AnchorPane supplierView;
-    private AnchorPane reportView;
+    private AnchorPane reportProductView;
+    private AnchorPane reportOrderView;
+    private AnchorPane reportEmployeeView;
     // Controller
     private DashboardController dashboardController;
     private ProductController productController;
@@ -184,6 +206,10 @@ public class ManagementController implements Initializable {
 
     @FXML
     void dashboardButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
         if (dashboardView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
@@ -194,19 +220,11 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/dashboard.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
+        setMenuImage("images/dashboard.png");
 
         dashboardController.updateBarChart();
         dashboardController.updateWeeklySummery();
         dashboardController.updateBarChartTopSelling();
-
-        leftPanel_imageView.setImage(image);
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel-selected");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -221,7 +239,11 @@ public class ManagementController implements Initializable {
         anchor_main_rightPanel.getChildren().add(dashboardView);
     }
     @FXML
-    void productListButtonOnClick() {
+    void productButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
         if (productView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product.fxml"));
@@ -234,18 +256,11 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/product.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
+        setMenuImage("images/product.png");
 
         productController.reloadProduct(); // reload lại query mỗi lần quay lại
         productController.resetFilterIconClicked(); // reset lại filter
 
-        leftPanel_imageView.setImage(image);
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel-selected");
@@ -261,7 +276,11 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
-    void employeeListButtonOnClick() {
+    void employeeButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
         if (employeeView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee.fxml"));
@@ -274,18 +293,10 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/employee.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
+        setMenuImage("images/employee.png");
 
         employeeController.reloadEmployee(); // reload lại query mỗi lần quay lại
         employeeController.resetFilterIconClicked(); // reset lại filter
-
-        leftPanel_imageView.setImage(image);
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -301,7 +312,11 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
-    void customerListButtonOnClick() {
+    void customerButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
         if (customerView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/customer/customer.fxml"));
@@ -311,15 +326,7 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/customer.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
-
-        leftPanel_imageView.setImage(image);
+        setMenuImage("images/customer.png");
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -335,7 +342,11 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
-    void orderListButtonOnClick() {
+    void orderButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
         if (orderView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order.fxml"));
@@ -348,18 +359,10 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/order.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
+        setMenuImage("images/order.png");
 
         orderController.reloadOrder();
         orderController.resetFilterIconClicked();
-
-        leftPanel_imageView.setImage(image);
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -374,7 +377,11 @@ public class ManagementController implements Initializable {
         anchor_main_rightPanel.getChildren().add(orderView);
     }
     @FXML
-    void supplierListButtonOnClick() {
+    void supplierButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
         if (supplierView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/supplier/supplier.fxml"));
@@ -384,15 +391,7 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/supplier.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
-
-        leftPanel_imageView.setImage(image);
+        setMenuImage("images/supplier.png");
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -407,7 +406,8 @@ public class ManagementController implements Initializable {
         anchor_main_rightPanel.getChildren().add(supplierView);
     }
     @FXML
-    void categoryListButtonOnClick() {
+    void categoryButtonOnClick() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
         if (categoryView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/category/category.fxml"));
@@ -417,17 +417,7 @@ public class ManagementController implements Initializable {
             }
         }
 
-        Image image = null;
-
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/category.png");
-
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
-
-        leftPanel_imageView.setImage(image);
+        setMenuImage("images/category.png");
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -443,27 +433,36 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
-    void reportListButtonOnClick() {
-        if (reportView == null) {
+    void hideReportSubMenu() {
+        icon_reportDown.setVisible(true);
+        icon_reportRight.setVisible(false);
+        vbox_report_subMenu.setVisible(false);
+    }
+
+    @FXML
+    void reportButtonOnClick() {
+        icon_reportDown.setVisible(false);
+        icon_reportRight.setVisible(true);
+        vbox_report_subMenu.setVisible(true);
+    }
+
+    @FXML
+    void reportProductButtonOnClick() {
+        icon_reportRight.setVisible(true);
+        btn_subMenu_Product.setId("button-custom-submenu-selected");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu");
+
+        if (reportProductView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report.fxml"));
-                reportView = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product.fxml"));
+                reportProductView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        Image image = null;
-
-
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/report.png");
-
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new Image(resourcePath);
-        }
-
-        leftPanel_imageView.setImage(image);
+        setMenuImage("images/report.png");
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -475,11 +474,91 @@ public class ManagementController implements Initializable {
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
-        anchor_main_rightPanel.getChildren().add(reportView);
+        anchor_main_rightPanel.getChildren().add(reportProductView);
+    }
+
+    @FXML
+    void reportOrderButtonOnClick() {
+        icon_reportRight.setVisible(true);
+        icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
+
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu");
+        btn_subMenu_Order.setId("button-custom-submenu-selected");
+
+        if (reportOrderView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-order.fxml"));
+                reportOrderView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        setMenuImage("images/report.png");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(reportOrderView);
+    }
+
+    @FXML
+    void reportEmployeeButtonOnClick() {
+        icon_reportRight.setVisible(true);
+        icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
+
+        btn_subMenu_Product.setId("button-custom-submenu");
+        btn_subMenu_Employee.setId("button-custom-submenu-selected");
+        btn_subMenu_Order.setId("button-custom-submenu");
+
+        if (reportEmployeeView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-employee.fxml"));
+                reportEmployeeView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        setMenuImage("images/report.png");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(reportEmployeeView);
     }
 
     public void disableEmployee() {
         btn_leftPanel_employeeList.setVisible(false);
+    }
+
+    private void setMenuImage(String imageUrl) {
+        Image image = null;
+        URL resourceURL = ComponentManagementApplication.class.getResource(imageUrl);
+
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new Image(resourcePath);
+        }
+
+        leftPanel_imageView.setImage(image);
     }
 
 }

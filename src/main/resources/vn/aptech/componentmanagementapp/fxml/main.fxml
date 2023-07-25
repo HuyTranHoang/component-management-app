@@ -33,7 +33,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_productList" alignment="BASELINE_LEFT" graphicTextGap="14.0" onAction="#productListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="PRODUCT">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_productList" alignment="BASELINE_LEFT" graphicTextGap="14.0" onAction="#productButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="PRODUCT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -47,7 +47,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_orderList" alignment="BASELINE_LEFT" graphicTextGap="20.0" onAction="#orderListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="ORDER">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_orderList" alignment="BASELINE_LEFT" graphicTextGap="20.0" onAction="#orderButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="ORDER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -58,7 +58,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_supplierList" alignment="BASELINE_LEFT" graphicTextGap="14.0" onAction="#supplierListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="SUPPLIER">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_supplierList" alignment="BASELINE_LEFT" graphicTextGap="14.0" onAction="#supplierButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="SUPPLIER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -69,7 +69,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_categoryList" alignment="BASELINE_LEFT" graphicTextGap="18.0" onAction="#categoryListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="CATEGORY">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_categoryList" alignment="BASELINE_LEFT" graphicTextGap="18.0" onAction="#categoryButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="CATEGORY">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -80,7 +80,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_customerList" alignment="BASELINE_LEFT" graphicTextGap="17.0" onAction="#customerListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="CUSTOMER">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_customerList" alignment="BASELINE_LEFT" graphicTextGap="17.0" onAction="#customerButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="CUSTOMER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -94,7 +94,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_employeeList" alignment="BASELINE_LEFT" graphicTextGap="18.0" onAction="#employeeListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="EMPLOYEE">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_employeeList" alignment="BASELINE_LEFT" graphicTextGap="18.0" onAction="#employeeButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="EMPLOYEE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -105,7 +105,7 @@
                         <Insets left="30.0" />
                      </padding>
                   </MFXButton>
-                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_reportList" alignment="BASELINE_LEFT" graphicTextGap="25.0" onAction="#reportListButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="REPORT">
+                  <MFXButton id="button-custom-mainPanel" fx:id="btn_leftPanel_reportList" alignment="BASELINE_LEFT" graphicTextGap="25.0" onAction="#reportButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="REPORT">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -141,9 +141,11 @@
                      </font>
                   </MenuButton>
                </children></HBox>
+            <FontIcon fx:id="icon_reportRight" iconColor="WHITE" iconLiteral="fas-angle-right" iconSize="16" layoutX="229.0" layoutY="690.0" visible="false" />
+            <FontIcon fx:id="icon_reportDown" iconColor="WHITE" iconLiteral="fas-angle-down" iconSize="16" layoutX="229.0" layoutY="690.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchor_main_rightPanel" layoutX="350.0" prefHeight="900.0" prefWidth="1250.0" />
+      <AnchorPane fx:id="anchor_main_rightPanel" layoutX="351.0" prefHeight="900.0" prefWidth="1250.0" />
       <Button fx:id="btnExit" layoutX="974.0" layoutY="9.0" mnemonicParsing="false" onAction="#exitButtonOnClick" prefWidth="40.0" styleClass="no-border-radius-main" textFill="#ee3b3b" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <graphic>
             <FontIcon iconColor="#d05656" iconLiteral="fas-times" iconSize="16" text="">
@@ -168,5 +170,33 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <FontIcon />
+      <VBox fx:id="vbox_report_subMenu" layoutX="250.0" layoutY="660.0" onMouseExited="#hideReportSubMenu" prefWidth="200.0" visible="false">
+         <children>
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_Product" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </MFXButton>
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_Order" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportOrderButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Order">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </MFXButton>
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_Employee" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportEmployeeButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Employee">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </MFXButton>
+         </children></VBox>
    </children>
 </AnchorPane>
