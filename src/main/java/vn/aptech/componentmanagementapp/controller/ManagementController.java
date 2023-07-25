@@ -68,7 +68,7 @@ public class ManagementController implements Initializable {
     private Circle circle_avatar;
 
     @FXML
-    private MenuButton menu_Avatar;
+    private MenuButton menu_employeeName;
 
     // Cached views
 
@@ -120,7 +120,7 @@ public class ManagementController implements Initializable {
             Platform.runLater(() -> {
                 dashboardController.setNameDate(currentEmployee.getName(), LocalDate.now());
                 setAvatar(currentEmployee.getImage());
-                menu_Avatar.setText(currentEmployee.getName());
+                menu_employeeName.setText(currentEmployee.getName());
             });
             anchor_main_rightPanel.getChildren().add(dashboardView);
         } catch (IOException e) {

@@ -1,9 +1,6 @@
 package vn.aptech.componentmanagementapp.controller.order;
 
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -19,6 +16,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
@@ -81,11 +79,30 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     @FXML
     private VBox vbox_employeeInfo;
 
-    @FXML
-    private MFXToggleButton btn_toggleDate;
 
     @FXML
-    private MFXToggleButton btn_toggleStatus;
+    private AnchorPane anchor_customer;
+
+    @FXML
+    private AnchorPane anchor_date;
+
+    @FXML
+    private AnchorPane anchor_employee;
+
+    @FXML
+    private AnchorPane anchor_status;
+
+    @FXML
+    private MFXCheckbox checkbox_customer;
+
+    @FXML
+    private MFXCheckbox checkbox_date;
+
+    @FXML
+    private MFXCheckbox checkbox_employee;
+
+    @FXML
+    private MFXCheckbox checkbox_status;
 
     @FXML
     private ToggleGroup status;
@@ -165,6 +182,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         txt_toDate.setValue(LocalDate.now());
 
         initValidator();
+        initCheckBoxEvent();
     }
 
     private void initValidator() {
@@ -174,7 +192,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 .withMethod(context -> {
                     LocalDate from = context.get("from");
                     LocalDate to = context.get("to");
-                    if (from.isAfter(to) && btn_toggleDate.isSelected()) {
+                    if (from.isAfter(to) && checkbox_date.isSelected()) {
                         context.error("'From' date must be before 'to' date");
                     }
                 })
@@ -203,8 +221,10 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         txt_fromDate.setValue(LocalDate.now());
         txt_toDate.setValue(LocalDate.now());
 
-        btn_toggleDate.setSelected(false);
-        btn_toggleStatus.setSelected(false);
+        checkbox_date.setSelected(false);
+        checkbox_customer.setSelected(false);
+        checkbox_employee.setSelected(false);
+        checkbox_status.setSelected(false);
 
         filter_noti_label.setVisible(false);
         filter_noti_shape.setVisible(false);
@@ -222,13 +242,31 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
         stage.close();
     }
 
+    private void initCheckBoxEvent() {
+        checkbox_date.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_date.setDisable(!newValue);
+        });
+
+        checkbox_customer.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_customer.setDisable(!newValue);
+        });
+
+        checkbox_employee.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_employee.setDisable(!newValue);
+        });
+
+        checkbox_status.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_status.setDisable(!newValue);
+        });
+    }
+
     @FXML
     void viewResultButtonOnClick() {
         if (validator.validate()) {
             List<Order> filterOrder = orders;
             int countFilter = 0;
 
-            if (btn_toggleDate.isSelected()) {
+            if (checkbox_date.isSelected()) {
                 LocalDate fromDate = txt_fromDate.getValue();
                 LocalDate toDate = txt_toDate.getValue();
                 String typeDate = cbb_byTypeOfDate.getSelectedItem();
@@ -259,7 +297,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 countFilter++;
             }
 
-            if (btn_toggleStatus.isSelected()) {
+            if (checkbox_status.isSelected()) {
                 Toggle selectedToggle = status.getSelectedToggle();
                 if (selectedToggle != null) {
                     RadioButton selectedRadioButton = (RadioButton) selectedToggle;
@@ -277,14 +315,14 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
                 countFilter++;
             }
 
-            if (currentCustomer != null) {
+            if (currentCustomer != null && checkbox_customer.isSelected()) {
                 filterOrder = filterOrder.stream()
                         .filter(order -> order.getCustomerId() == currentCustomer.getId())
                         .collect(Collectors.toList());
                 countFilter++;
             }
 
-            if (currentEmployee != null) {
+            if (currentEmployee != null && checkbox_employee.isSelected()) {
                 filterOrder = filterOrder.stream()
                         .filter(order -> order.getEmployeeId() == currentEmployee.getId())
                         .collect(Collectors.toList());

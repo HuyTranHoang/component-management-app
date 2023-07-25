@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
-<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -14,23 +14,23 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #fff;" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.order.OrderFilterController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #fff;" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.order.OrderFilterController">
    <children>
-      <AnchorPane prefHeight="146.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="anchor_date" disable="true" layoutY="90.0" prefHeight="116.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="90.0">
          <children>
-            <Label layoutX="66.0" layoutY="38.0" text="Search between dates" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+            <Label layoutX="66.0" layoutY="14.0" text="Date" AnchorPane.leftAnchor="50.0">
                <font>
-                  <Font name="Inter SemiBold" size="24.0" />
+                  <Font name="Inter SemiBold" size="18.0" />
                </font>
             </Label>
-            <HBox layoutX="50.0" layoutY="95.0" spacing="25.0">
+            <HBox layoutX="50.0" layoutY="75.0" spacing="25.0">
                <children>
                   <MFXComboBox id="custom-combobox" fx:id="cbb_byTypeOfDate" borderGap="0.0" floatMode="DISABLED" floatingText="By" floatingTextGap="15.0" prefHeight="40.0" prefWidth="200.0" />
                   <MFXDatePicker id="custom-date-picker" fx:id="txt_fromDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="From" />
                   <MFXDatePicker id="custom-date-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" />
                </children>
             </HBox>
-            <Label fx:id="lbl_error_from" layoutX="275.0" layoutY="147.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+            <Label fx:id="lbl_error_from" layoutX="275.0" layoutY="117.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
                <font>
                   <Font name="Inter Bold" size="13.0" />
                </font>
@@ -38,11 +38,10 @@
                   <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                </graphic>
             </Label>
-            <MFXToggleButton fx:id="btn_toggleDate" layoutX="322.0" layoutY="15.0" text=" " />
-            <Label layoutX="50.0" layoutY="73.0" text="By" textFill="#4a55a2" />
+            <Label layoutX="50.0" layoutY="53.0" text="By" textFill="#4a55a2" />
          </children>
       </AnchorPane>
-      <HBox layoutX="460.0" layoutY="427.0" spacing="15.0">
+      <HBox layoutX="461.0" layoutY="523.0" spacing="15.0">
          <children>
             <MFXButton id="filter-clear-button" onAction="#clearFilterButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="CLEAR FILTER">
                <cursor>
@@ -56,11 +55,11 @@
             </MFXButton>
          </children>
       </HBox>
-      <AnchorPane layoutY="150.0" prefWidth="800.0">
+      <AnchorPane fx:id="anchor_customer" disable="true" layoutY="223.0" prefWidth="800.0">
          <children>
-            <Label layoutX="66.0" layoutY="38.0" text="By customer" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+            <Label layoutX="66.0" layoutY="38.0" text="Customer" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
                <font>
-                  <Font name="Inter SemiBold" size="24.0" />
+                  <Font name="Inter SemiBold" size="18.0" />
                </font>
             </Label>
             <MFXButton id="button-custom" layoutX="48.0" layoutY="63.0" onAction="#selectCustomerOnClick" text="Select customer" />
@@ -98,11 +97,11 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="273.0" prefWidth="800.0">
+      <AnchorPane fx:id="anchor_employee" disable="true" layoutY="346.0" prefWidth="800.0">
          <children>
-            <Label layoutX="66.0" layoutY="38.0" text="By employee" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+            <Label layoutX="66.0" layoutY="38.0" text="Employee" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
                <font>
-                  <Font name="Inter SemiBold" size="24.0" />
+                  <Font name="Inter SemiBold" size="18.0" />
                </font>
             </Label>
             <MFXButton id="button-custom" layoutX="48.0" layoutY="63.0" onAction="#selectEmployeeOnClick" text="Select employee" />
@@ -140,17 +139,33 @@
             </VBox>
          </children>
       </AnchorPane>
-      <Label layoutX="50.0" layoutY="396.0" text="By status">
-         <font>
-            <Font name="Inter SemiBold" size="24.0" />
-         </font>
-      </Label>
-      <MFXToggleButton fx:id="btn_toggleStatus" layoutX="192.0" layoutY="391.0" text=" " />
-      <MFXRadioButton layoutX="50.0" layoutY="451.0" selected="true" text="Success">
-         <toggleGroup>
-            <ToggleGroup fx:id="status" />
-         </toggleGroup>
-      </MFXRadioButton>
-      <MFXRadioButton layoutX="148.0" layoutY="451.0" text="Canceled" toggleGroup="$status" />
+      <AnchorPane fx:id="anchor_status" disable="true" layoutX="36.0" layoutY="482.0" prefHeight="40.0" prefWidth="180.0">
+         <children>
+            <Label layoutX="14.0" layoutY="6.0" text="Status">
+               <font>
+                  <Font name="Inter SemiBold" size="24.0" />
+               </font>
+            </Label>
+            <MFXRadioButton layoutX="14.0" layoutY="47.0" selected="true" text="Success">
+               <toggleGroup>
+                  <ToggleGroup fx:id="status" />
+               </toggleGroup>
+            </MFXRadioButton>
+            <MFXRadioButton layoutX="117.0" layoutY="47.0" text="Canceled" toggleGroup="$status" />
+         </children>
+      </AnchorPane>
+      <HBox layoutX="47.0" layoutY="46.0" spacing="15.0">
+         <children>
+            <Label text="Filter by">
+               <font>
+                  <Font name="Inter SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <MFXCheckbox fx:id="checkbox_date" text="Date" />
+            <MFXCheckbox fx:id="checkbox_customer" text="Customer" />
+            <MFXCheckbox fx:id="checkbox_employee" text="Employee" />
+            <MFXCheckbox fx:id="checkbox_status" text="Status" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

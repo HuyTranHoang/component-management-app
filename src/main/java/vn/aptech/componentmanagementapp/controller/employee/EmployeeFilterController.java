@@ -1,9 +1,6 @@
 package vn.aptech.componentmanagementapp.controller.employee;
 
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import io.github.palexdev.materialfx.controls.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Decoration;
@@ -54,9 +52,6 @@ public class EmployeeFilterController implements Initializable {
 
 
     @FXML
-    private MFXToggleButton btn_toggleSalary;
-
-    @FXML
     private MFXComboBox<String> cbb_bySalary;
 
     @FXML
@@ -64,6 +59,24 @@ public class EmployeeFilterController implements Initializable {
 
     @FXML
     private MFXFilterComboBox<Position> cbb_position;
+
+    @FXML
+    private MFXCheckbox checkbox_department;
+
+    @FXML
+    private MFXCheckbox checkbox_position;
+
+    @FXML
+    private MFXCheckbox checkbox_salary;
+
+    @FXML
+    private AnchorPane anchor_department;
+
+    @FXML
+    private AnchorPane anchor_position;
+
+    @FXML
+    private AnchorPane anchor_salary;
 
     @FXML
     private Label lbl_error_salary;
@@ -121,6 +134,7 @@ public class EmployeeFilterController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initComboBox();
         initValidator();
+        initCheckBoxEvent();
     }
 
     private void initComboBox() {
@@ -130,16 +144,10 @@ public class EmployeeFilterController implements Initializable {
         cbb_bySalary.selectFirst();
 
         departments = FXCollections.observableArrayList(departmentService.getAllDepartment());
-        Department department = new Department();
-        department.setName("All");
-        departments.add(0, department);
         cbb_department.setItems(departments);
         cbb_department.selectFirst();
 
         positions = FXCollections.observableArrayList(positionService.getAllPosition());
-        Position position = new Position();
-        position.setName("All");
-        positions.add(0, position);
         cbb_position.setItems(positions);
         cbb_position.selectFirst();
     }
@@ -149,7 +157,7 @@ public class EmployeeFilterController implements Initializable {
                 .dependsOn("salaryAmount", txt_salaryAmount.textProperty())
                 .withMethod(context -> {
                     String salaryAmount = context.get("salaryAmount");
-                    if (btn_toggleSalary.isSelected())
+                    if (checkbox_salary.isSelected())
                         if (salaryAmount.isEmpty())
                             context.error("Salary amount can't be empty");
                         else if(!salaryAmount.matches("\\d+"))
@@ -173,13 +181,29 @@ public class EmployeeFilterController implements Initializable {
         };
     }
 
+    private void initCheckBoxEvent() {
+        checkbox_salary.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_salary.setDisable(!newValue);
+        });
+
+        checkbox_department.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_department.setDisable(!newValue);
+        });
+
+        checkbox_position.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            anchor_position.setDisable(!newValue);
+        });
+    }
+
     @FXML
     void clearFilterButtonOnClick() {
         cbb_bySalary.selectFirst();
         cbb_department.selectFirst();
         cbb_position.selectFirst();
 
-        btn_toggleSalary.setSelected(false);
+        checkbox_salary.setSelected(false);
+        checkbox_department.setSelected(false);
+        checkbox_position.setSelected(false);
 
         txt_salaryAmount.setText("0");
 
@@ -199,7 +223,7 @@ public class EmployeeFilterController implements Initializable {
             List<Employee> filterEmployee = employees;
             int countFilter = 0;
 
-            if (btn_toggleSalary.isSelected()) {
+            if (checkbox_salary.isSelected()) {
                 Double salaryAmount = Double.parseDouble(txt_salaryAmount.getText());
                 String typeDate = cbb_bySalary.getSelectedItem();
 
@@ -215,14 +239,14 @@ public class EmployeeFilterController implements Initializable {
                 countFilter++;
             }
 
-            if (cbb_department.getSelectedIndex() != 0) {
+            if (checkbox_department.isSelected()) {
                 filterEmployee = filterEmployee.stream()
                         .filter(employee -> employee.getDepartment().getName().equals(cbb_department.getText()))
                         .collect(Collectors.toList());
                 countFilter++;
             }
 
-            if (cbb_position.getSelectedIndex() != 0) {
+            if (checkbox_position.isSelected()) {
                 filterEmployee = filterEmployee.stream()
                         .filter(employee -> employee.getPosition().getName().equals(cbb_position.getText()))
                         .collect(Collectors.toList());
