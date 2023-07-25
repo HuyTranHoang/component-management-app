@@ -30,9 +30,14 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <HBox fx:id="hbox_updateButtonGroup" layoutX="413.0" layoutY="685.0" spacing="15.0">
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="290.0" layoutY="684.0" spacing="15.0">
                      <children>
                         <MFXButton id="button-custom-clear" onAction="#listOrderButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#exportButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="EXPORT PDF">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

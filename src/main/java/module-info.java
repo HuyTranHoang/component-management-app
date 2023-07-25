@@ -14,6 +14,8 @@ module vn.aptech.componentmanagementapp {
 
     requires AnimateFX;
 
+    requires org.apache.pdfbox;
+
     opens vn.aptech.componentmanagementapp to javafx.fxml;
     exports vn.aptech.componentmanagementapp;
     opens vn.aptech.componentmanagementapp.controller to javafx.fxml;
