@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.Product;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ProductDAO extends BaseDAO<Product> {
@@ -12,4 +13,6 @@ public interface ProductDAO extends BaseDAO<Product> {
     Map<Product, Integer> productTopMonthSellingByQuantity();
 
     Map<Product, Double> productTopMonthSellingByRevenue();
+
+    List<Product> getByQuantityBelow(int quantity);
 }

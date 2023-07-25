@@ -50,4 +50,8 @@ public class ProductService {
     public Map<Product, Double> getProductTopMonthSellingByRevenue() {
         return productDAO.productTopMonthSellingByRevenue();
     }
+
+    public List<Product> getProductByQuantityBelow(int quantity) {
+        return productDAO.getByQuantityBelow(quantity);
+    }
 }

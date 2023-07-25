@@ -270,5 +270,26 @@ public class ProductDAOImpl implements ProductDAO{
         return productRevenueMap;
     }
 
+    @Override
+    public List<Product> getByQuantityBelow(int quantity) {
+        List<Product> products = new ArrayList<>();
+
+        String query = "SELECT * FROM products WHERE stock_quantity <= ? ORDER BY stock_quantity DESC";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, quantity);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Product product = new Product();
+                    setProduct(product, resultSet);
+                    products.add(product);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
 
 }

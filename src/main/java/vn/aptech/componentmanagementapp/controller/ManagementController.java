@@ -449,6 +449,9 @@ public class ManagementController implements Initializable {
     @FXML
     void reportProductButtonOnClick() {
         icon_reportRight.setVisible(true);
+        icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
+
         btn_subMenu_Product.setId("button-custom-submenu-selected");
         btn_subMenu_Employee.setId("button-custom-submenu");
         btn_subMenu_Order.setId("button-custom-submenu");
