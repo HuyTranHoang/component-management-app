@@ -19,6 +19,7 @@ import vn.aptech.componentmanagementapp.model.Department;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Position;
 import vn.aptech.componentmanagementapp.service.DepartmentService;
+import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.PositionService;
 
 import java.net.URL;
@@ -33,6 +34,8 @@ public class EmployeeFilterController implements Initializable {
     public interface ViewResultCallback {
         void onViewResultClicked(List<Employee> filterEmployee);
     }
+
+    private EmployeeService employeeService = new EmployeeService();
 
     private ViewResultCallback viewResultCallback;
 
@@ -220,7 +223,7 @@ public class EmployeeFilterController implements Initializable {
     @FXML
     void viewResultButtonOnClick() {
         if (validator.validate()) {
-            List<Employee> filterEmployee = employees;
+            List<Employee> filterEmployee = employeeService.getAllEmployee();
             int countFilter = 0;
 
             if (checkbox_salary.isSelected()) {

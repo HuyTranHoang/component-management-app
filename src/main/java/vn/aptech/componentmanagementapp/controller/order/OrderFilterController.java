@@ -28,6 +28,7 @@ import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.service.OrderService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -162,6 +163,8 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     //    List
     private ObservableList<Order> orders;
 
+    private OrderService orderService = new OrderService();
+
     public void setOrders(ObservableList<Order> orders) {
         this.orders = orders;
     }
@@ -263,7 +266,7 @@ public class OrderFilterController implements Initializable, OrderAddSelectCusto
     @FXML
     void viewResultButtonOnClick() {
         if (validator.validate()) {
-            List<Order> filterOrder = orders;
+            List<Order> filterOrder = orderService.getAllOrder();
             int countFilter = 0;
 
             if (checkbox_date.isSelected()) {
