@@ -298,7 +298,9 @@ public class EmployeeAddController implements Initializable {
                 .dependsOn("password", txt_password.textProperty())
                 .withMethod(context -> {
                     String password = context.get("password");
-                    String currentPassword = currentEmployee.getPassword();
+                    String currentPassword = "";
+                    if (currentEmployee != null)
+                        currentPassword = currentEmployee.getPassword();
 
                     if (password.isEmpty()) {
                         context.error("Password can't be empty");
@@ -329,8 +331,6 @@ public class EmployeeAddController implements Initializable {
                     LocalDate dateOfHire = context.get("dateOfHire");
                    if(dateOfHire == null)
                        context.error("Date of hire can't be empty");
-                   else if(dateOfHire.isBefore(LocalDate.now()))
-                       context.error("Date of hire can't be in the past");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_dateOfHire);

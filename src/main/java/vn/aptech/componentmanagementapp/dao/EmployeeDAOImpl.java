@@ -58,9 +58,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         String query = "INSERT INTO employees(name, address, phone, email, password, salary, image, " +
                 "citizen_identification, date_of_birth, date_of_hire, department_id, position_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try(PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statementInsertUpdate(employee, statement);
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    long generatedId = generatedKeys.getLong(1);
+                    employee.setId(generatedId);
+                } else {
+                    throw new SQLException("Adding customer failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
