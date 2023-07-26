@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.skin.LabeledSkinBase;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -112,7 +113,11 @@ public class EmployeeAddController implements Initializable {
     @FXML
     private Label lbl_successMessage;
 
+    @FXML
+    private Label lbl_error_newPassword;
 
+    @FXML
+    private Label lbl_error_confirmPassword;
 
     @FXML
     private MFXTextField txt_address;
@@ -134,6 +139,12 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     private MFXPasswordField txt_password;
+
+    @FXML
+    private MFXPasswordField txt_newPassword;
+
+    @FXML
+    private MFXPasswordField txt_confirmPassword;
 
     @FXML
     private MFXTextField txt_phone;
@@ -298,20 +309,30 @@ public class EmployeeAddController implements Initializable {
                 .dependsOn("password", txt_password.textProperty())
                 .withMethod(context -> {
                     String password = context.get("password");
-                    String currentPassword = "";
-                    if (currentEmployee != null)
-                        currentPassword = currentEmployee.getPassword();
-
-                    if (password.isEmpty()) {
-                        context.error("Password can't be empty");
-                    } else if (password.length() < 8) {
-                        context.error("Password must be more than 8 characters");
-                    } else if (!password.equals(currentPassword) && !isPasswordStrong(password)) {
-                        context.error("Password must contain number, uppercase and special characters");
+                    if (!isUpdate) {
+                        if (password.isEmpty()) {
+                            context.error("Password can't be empty");
+                        } else if (password.length() < 8) {
+                            context.error("Password must be more than 8 characters");
+                        } else if (!isPasswordStrong(password)) {
+                            context.error("Password must contain number, uppercase and special characters");
+                        }
                     }
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_password);
+
+        employeeValidator.createCheck()
+                .dependsOn("password", txt_password.textProperty())
+                .dependsOn("confirm_password", txt_confirmPassword.textProperty())
+                .withMethod(context -> {
+                    String password = context.get("password");
+                    String confirmPassword = context.get("confirm_password");
+                    if (!password.equals(confirmPassword) && password.length() > 8)
+                        context.error("Confirm password does not match");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_confirmPassword);
 
         employeeValidator.createCheck()
                 .dependsOn("dateOfBirth", txt_dateOfBirth.valueProperty())
@@ -482,6 +503,7 @@ public class EmployeeAddController implements Initializable {
         txt_salary.clear();
         txt_citizenId.clear();
         txt_password.clear();
+        txt_confirmPassword.clear();
 
         txt_dateOfBirth.clear();
         txt_dateOfHire.clear();
@@ -582,7 +604,6 @@ public class EmployeeAddController implements Initializable {
         txt_salary.setText(String.format("%.0f", employee.getSalary()));
 
         txt_citizenId.setText(employee.getCitizenID());
-        txt_password.setText(employee.getPassword());
 
         txt_dateOfBirth.setValue(employee.getDateOfBirth().minusDays(1)); // Trùng ngày thì nó không hiển thị, nên trừ 1 rồi set lại
         txt_dateOfBirth.setValue(employee.getDateOfBirth());
@@ -603,15 +624,13 @@ public class EmployeeAddController implements Initializable {
     void updateButtonOnClick() {
         if (employeeValidator.validate()) {
 
-            String currentPassword = currentEmployee.getPassword();
-
             currentEmployee.setName(txt_name.getText());
             currentEmployee.setAddress(txt_address.getText());
             currentEmployee.setPhone(txt_phone.getText());
             currentEmployee.setEmail(txt_email.getText());
             currentEmployee.setSalary(Double.parseDouble(txt_salary.getText()));
             currentEmployee.setCitizenID(txt_citizenId.getText());
-            if (!currentPassword.equals(txt_password.getText()))
+            if (!txt_password.getText().isEmpty())
                 currentEmployee.setPassword(hashSHA256(txt_password.getText()));
 
             Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();

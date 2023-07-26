@@ -36,7 +36,7 @@
          <children>
             <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
                <children>
-                  <Label fx:id="lbl_successMessage" layoutX="827.0" layoutY="526.0" text="Add new employee succesfully!!" textFill="#70da6a" visible="false">
+                  <Label fx:id="lbl_successMessage" layoutX="844.0" layoutY="546.0" text="Add new employee succesfully!!" textFill="#70da6a" visible="false">
                      <font>
                         <Font name="Inter Bold" size="18.0" />
                      </font>
@@ -169,14 +169,49 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox layoutX="484.0" layoutY="55.0" prefHeight="322.0" prefWidth="380.0" spacing="12.0">
+                  <VBox layoutX="484.0" layoutY="34.0" prefHeight="471.0" prefWidth="380.0" spacing="12.0">
                      <children>
-                        <MFXPasswordField fx:id="txt_password" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Password (*)" prefHeight="48.0" prefWidth="380.0" promptText="Password">
+                        <MFXFilterComboBox fx:id="cbb_department" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Department (*)" prefHeight="48.0" prefWidth="380.0">
                            <font>
                               <Font name="Segoe UI" size="14.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXFilterComboBox>
+                        <Label fx:id="lbl_error_department" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXFilterComboBox fx:id="cbb_position" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Position (*)" prefHeight="48.0" prefWidth="380.0">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXFilterComboBox>
+                        <Label fx:id="lbl_error_position" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXPasswordField id="textfield-padding" fx:id="txt_password" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Password (*)" prefHeight="48.0" prefWidth="380.0" promptText="Password">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
                         </MFXPasswordField>
-                        <Label fx:id="lbl_error_password" prefHeight="40.0" prefWidth="350.0" text="Lỗi nè" textFill="#e57c23" visible="false" wrapText="true">
+                        <Label fx:id="lbl_error_password" prefHeight="16.0" prefWidth="350.0" text="Lỗi nè" textFill="#e57c23" visible="false" wrapText="true">
                            <font>
                               <Font name="Inter Bold" size="13.0" />
                            </font>
@@ -184,31 +219,15 @@
                               <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                            </graphic>
                         </Label>
-                        <MFXFilterComboBox fx:id="cbb_department" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Department (*)" prefHeight="40.0" prefWidth="380.0">
+                        <MFXPasswordField id="textfield-padding" fx:id="txt_confirmPassword" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Confirm Password (*)" prefHeight="48.0" prefWidth="380.0" promptText="Confirm Password">
                            <font>
                               <Font name="Segoe UI" size="14.0" />
                            </font>
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
-                        </MFXFilterComboBox>
-                        <Label fx:id="lbl_error_department" prefHeight="40.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
-                           <font>
-                              <Font name="Inter Bold" size="13.0" />
-                           </font>
-                           <graphic>
-                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-                           </graphic>
-                        </Label>
-                        <MFXFilterComboBox fx:id="cbb_position" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Position (*)" prefHeight="40.0" prefWidth="380.0">
-                           <font>
-                              <Font name="Segoe UI" size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                        </MFXFilterComboBox>
-                        <Label fx:id="lbl_error_position" prefHeight="40.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                        </MFXPasswordField>
+                        <Label fx:id="lbl_error_confirmPassword" prefHeight="16.0" prefWidth="350.0" text="Lỗi nè" textFill="#e57c23" visible="false" wrapText="true">
                            <font>
                               <Font name="Inter Bold" size="13.0" />
                            </font>
