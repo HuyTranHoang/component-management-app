@@ -191,7 +191,7 @@ public class CategoryController implements Initializable {
         EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (hbox_addGroup.visibleProperty().get()) {
-                    storeButtonOnClick();
+                    saveButtonOnClick();
                 } else {
                     updateButtonOnClick();
                 }
@@ -270,7 +270,7 @@ public class CategoryController implements Initializable {
     }
 
     @FXML
-    void storeButtonOnClick() {
+    void saveButtonOnClick() {
         if (validator.validate()) {
             Category category = new Category();
             category.setName(txt_name.getText());

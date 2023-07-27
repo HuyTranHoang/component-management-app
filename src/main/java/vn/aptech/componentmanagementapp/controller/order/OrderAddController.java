@@ -459,7 +459,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
 
     @FXML
-    void storeButtonOnClick(){
+    void saveButtonOnClick(){
         if(orderAddValidator.validate()){
             double totalAmount = 0;
             for (OrderDetail orderDetail: orderDetails) {

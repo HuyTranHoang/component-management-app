@@ -254,7 +254,7 @@ public class ProductAddController implements Initializable {
     }
 
     @FXML
-    void storeButtonOnClick() {
+    void saveButtonOnClick() {
         if (productValidator.validate()) {
             Product product = new Product();
             product.setProductCode(txt_productCode.getText());
@@ -390,7 +390,7 @@ public class ProductAddController implements Initializable {
         EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (hbox_addButtonGroup.visibleProperty().get()) {
-                    storeButtonOnClick();
+                    saveButtonOnClick();
                 } else {
                     updateButtonOnClick();
                 }

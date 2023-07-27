@@ -198,7 +198,7 @@ public class SupplierController implements Initializable {
         EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (hbox_addGroup.visibleProperty().get()) {
-                    storeButtonOnClick();
+                    saveButtonOnClick();
                 } else {
                     updateButtonOnClick();
                 }
@@ -272,7 +272,7 @@ public class SupplierController implements Initializable {
         };
     }
     @FXML
-    void storeButtonOnClick() {
+    void saveButtonOnClick() {
         if (validator.validate()) {
             Supplier supplier = new Supplier();
             supplier.setName(txt_name.getText());

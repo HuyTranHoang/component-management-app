@@ -196,7 +196,7 @@ public class CustomerController implements Initializable {
 
     }
     @FXML
-    void storeButtonOnClick(){
+    void saveButtonOnClick(){
         if(customerValidator.validate()){
             Customer customer = new Customer();
             customer.setName(txt_name.getText());
@@ -445,7 +445,7 @@ public class CustomerController implements Initializable {
         EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 if (hbox_addGroup.visibleProperty().get()) {
-                    storeButtonOnClick();
+                    saveButtonOnClick();
                 } else {
                     updateButtonOnClick();
                 }

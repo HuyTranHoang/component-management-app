@@ -17,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.control.skin.LabeledSkinBase;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -546,7 +545,7 @@ public class EmployeeAddController implements Initializable {
     }
 
     @FXML
-    void storeButtonOnClick() {
+    void saveButtonOnClick() {
         if (employeeValidator.validate()) {
             Employee employee = new Employee();
             employee.setName(txt_name.getText());
