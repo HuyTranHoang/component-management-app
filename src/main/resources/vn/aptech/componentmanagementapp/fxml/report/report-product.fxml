@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -55,6 +57,19 @@
                </children>
             </HBox>
             <MFXComboBox fx:id="cbb_belowQuantity" caretVisible="false" floatMode="DISABLED" layoutX="296.0" layoutY="14.0" />
+            <MFXComboBox fx:id="cbb_orderBy" animated="false" floatMode="DISABLED" layoutX="576.0" layoutY="12.0" prefHeight="32.0" style="-fx-border-color: #F4F4F4; -fx-background-color: #F4F4F4;" textLimit="5">
+               <textFill>
+                  <Color red="0.29019609093666077" green="0.3333333432674408" blue="0.6352941393852234" opacity="0.8700000047683716" />
+               </textFill>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXComboBox>
+            <Label layoutX="463.0" layoutY="20.0" text="Sort by quantity">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Label layoutX="10.0" layoutY="14.0" text="PRODUCT REPORT" textFill="#4a55a2">
@@ -62,5 +77,37 @@
             <Font name="Inter Bold" size="26.0" />
          </font>
       </Label>
+      <VBox layoutX="866.0" layoutY="224.0" prefHeight="329.0" prefWidth="362.0">
+         <children>
+            <HBox prefWidth="362.0" spacing="10.0">
+               <children>
+                  <Label text="Total products:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_totalProduct" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefWidth="362.0" spacing="10.0">
+               <children>
+                  <Label text="Total products about out of stock:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_totalProductOutOfStock" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

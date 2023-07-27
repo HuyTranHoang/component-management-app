@@ -6,9 +6,12 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,10 +22,7 @@ import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ProductReportController implements Initializable {
 
@@ -42,7 +42,16 @@ public class ProductReportController implements Initializable {
     private Button previousButton;
 
     @FXML
+    private Label lbl_totalProduct;
+
+    @FXML
+    private Label lbl_totalProductOutOfStock;
+
+    @FXML
     private MFXComboBox<String> cbb_belowQuantity;
+
+    @FXML
+    private MFXComboBox<String> cbb_orderBy;
 
     @FXML
     private TableView<Product> tableView;
@@ -84,6 +93,7 @@ public class ProductReportController implements Initializable {
         paginationHelper.showFirstPage();
 
         initComboBox();
+        initComboBoxEvent();
 
     }
 
@@ -104,7 +114,13 @@ public class ProductReportController implements Initializable {
         cbb_belowQuantity.setItems(FXCollections.observableArrayList(list));
         cbb_belowQuantity.selectFirst();
 
-        cbb_belowQuantity.valueProperty().addListener((observable, oldValue, newValue) -> {
+        List<String> orderList = List.of("ASC", "DESC");
+        cbb_orderBy.setItems(FXCollections.observableArrayList(orderList));
+        cbb_orderBy.selectFirst();
+    }
+
+    private void initComboBoxEvent() {
+        EventHandler<ActionEvent> comboBoxEventHandler = event -> {
             String belowQuantity = cbb_belowQuantity.getValue();
             products = switch (belowQuantity) {
                 case "Below 10" -> FXCollections.observableArrayList(productService.getProductByQuantityBelow(10));
@@ -112,10 +128,25 @@ public class ProductReportController implements Initializable {
                 default -> FXCollections.observableArrayList(productService.getProductByQuantityBelow(5));
             };
 
+            String order = cbb_orderBy.getValue();
+            if (order == null) {
+                return;
+            }
+
+            if (order.equals("DESC"))
+                Collections.reverse(products);
+
+            lbl_totalProduct.setText(String.valueOf(productService.getAllProduct().size()));
+            lbl_totalProductOutOfStock.setText(String.valueOf(products.size()));
+
             paginationHelper.setItems(products);
             showFirstPage();
-        });
+        };
+
+        cbb_belowQuantity.setOnAction(comboBoxEventHandler);
+        cbb_orderBy.setOnAction(comboBoxEventHandler);
     }
+
 
     @FXML
     void showFirstPage() {
