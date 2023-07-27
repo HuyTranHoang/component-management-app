@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.controller.report;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,6 +88,7 @@ public class ProductReportController implements Initializable {
     }
 
     private void initTableView() {
+
         tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
