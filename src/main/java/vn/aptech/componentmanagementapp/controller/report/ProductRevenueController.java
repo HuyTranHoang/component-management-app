@@ -10,12 +10,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import net.synedra.validatorfx.Decoration;
+import net.synedra.validatorfx.ValidationMessage;
+import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
@@ -89,6 +93,15 @@ public class ProductRevenueController implements Initializable {
     // Map
     private Map<Product, Double> productRevenueMap = new HashMap<>();
 
+    //Validator
+    private final Validator validator = new Validator();
+
+    @FXML
+    private Label lbl_error_fromDate;
+
+    @FXML
+    private Label lbl_error_toDate;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LocalDate firstDayOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
@@ -104,6 +117,8 @@ public class ProductRevenueController implements Initializable {
 
         paginationHelper = new PaginationHelper<>();
         initTableView();
+
+        initValidator();
 
         paginationHelper.setTableView(tableView);
         paginationHelper.setPageButtonContainer(pageButtonContainer);
@@ -121,6 +136,45 @@ public class ProductRevenueController implements Initializable {
         txt_fromDate.setValue(firstDayOfMonth);
         txt_toDate.setValue(lastDayOfMonth);
 
+
+
+    }
+    private void initValidator() {
+        validator.createCheck()
+                .dependsOn("fromDate", txt_fromDate.valueProperty())
+                .dependsOn("toDate",txt_toDate.valueProperty())
+                .withMethod(context -> {
+                    LocalDate fromDate = context.get("fromDate");
+                    LocalDate toDate =  context.get("toDate");
+                    if (fromDate.isAfter(toDate))
+                        context.error("From date can't be after to date");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_fromDate);
+
+        validator.createCheck()
+                .dependsOn("toDate",txt_toDate.valueProperty())
+                .withMethod(context -> {
+                    LocalDate toDate =  context.get("toDate");
+                    if (toDate.isBefore(LocalDate.now()))
+                        context.error("To date cannot be in the past");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_toDate);
+    }
+    private Decoration labelDecorator(ValidationMessage message) {
+        return new Decoration() {
+            @Override
+            public void add(Node target) {
+                ((Label) target).setText(message.getText());
+                target.setVisible(true);
+            }
+
+            @Override
+            public void remove(Node target) {
+                target.setVisible(false);
+            }
+        };
     }
 
     private void initTableView() {
@@ -136,19 +190,21 @@ public class ProductRevenueController implements Initializable {
 
     @FXML
     void viewButtonOnClick() {
-        LocalDate fromDate = txt_fromDate.getValue();
-        LocalDate toDate = txt_toDate.getValue();
-        productRevenueMap = productService.getProductTopMonthSellingByRevenueFromTo(fromDate, toDate);
+        if(validator.validate()){
+            LocalDate fromDate = txt_fromDate.getValue();
+            LocalDate toDate = txt_toDate.getValue();
+            productRevenueMap = productService.getProductTopMonthSellingByRevenueFromTo(fromDate, toDate);
 
-        for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
-            Product product = entry.getKey();
-            Double revenue = entry.getValue();
-            product.setRevenue(revenue);
-            products.add(product);
+            for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
+                Product product = entry.getKey();
+                Double revenue = entry.getValue();
+                product.setRevenue(revenue);
+                products.add(product);
+            }
+
+            paginationHelper.setItems(products);
+            paginationHelper.showFirstPage();
         }
-
-        paginationHelper.setItems(products);
-        paginationHelper.showFirstPage();
     }
 
     @FXML
