@@ -449,17 +449,21 @@ public class EmployeeAddController implements Initializable {
                 }
 
                 String originalName = selectedImageFile.getName();
-                String extension = originalName.substring(originalName.lastIndexOf("."));
-                String uniqueFileName = UUID.randomUUID() + extension;
 
-                // Đường dẫn tới tấm hình mới trong thư mục lưu trữ
-                String destinationPath = directoryPath + uniqueFileName;
-                File destination = new File(destinationPath);
+                if (!originalName.equals("defaultImg.jpg")) {
+                    String extension = originalName.substring(originalName.lastIndexOf("."));
+                    String uniqueFileName = UUID.randomUUID() + extension;
 
-                Files.copy(selectedImageUri.toURL().openStream(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    // Đường dẫn tới tấm hình mới trong thư mục lưu trữ
+                    String destinationPath = directoryPath + uniqueFileName;
+                    File destination = new File(destinationPath);
 
-                // Lưu tên tấm hình vào cơ sở dữ liệu (giả sử bạn đã có cơ sở dữ liệu ở đây)
-                return uniqueFileName;
+                    Files.copy(selectedImageUri.toURL().openStream(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    return uniqueFileName;
+                }
+
+                return originalName;
+
             } catch (IOException e) {
                 System.out.println("Lưu hình thất bại: " + e.getMessage());
             }
