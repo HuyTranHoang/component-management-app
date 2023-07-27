@@ -220,7 +220,7 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <AnchorPane fx:id="anchor_inputOrderDetails" layoutX="56.0" layoutY="65.0" visible="false">
+                  <AnchorPane fx:id="anchor_inputOrderDetails" layoutX="56.0" layoutY="65.0">
                      <children>
                         <MFXTextField id="textfield-padding" fx:id="txt_quantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Quantity (*)" layoutY="469.0" prefHeight="48.0" prefWidth="250.0" promptText="Quantity" text="1">
                            <font>
@@ -357,7 +357,7 @@
                         <FontIcon iconColor="WHITE" iconLiteral="bi-arrow-return-right" iconSize="20" layoutX="48.0" layoutY="358.0" wrappingWidth="20.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="anchor_showOrder" layoutX="75.0" layoutY="96.0" prefHeight="473.0" prefWidth="517.0" style="-fx-background-color: #fff; -fx-background-radius: 3px; -fx-border-radius: 3px;">
+                  <AnchorPane fx:id="anchor_showOrder" layoutX="75.0" layoutY="96.0" prefHeight="473.0" prefWidth="517.0" style="-fx-background-color: #fff; -fx-background-radius: 3px; -fx-border-radius: 3px;" visible="false">
                      <children>
                         <VBox layoutX="3.0" layoutY="71.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
                            <children>
