@@ -271,6 +271,40 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
+    public Map<Product, Double> productTopMonthSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate) {
+        Map<Product, Double> productRevenueMap = new HashMap<>();
+
+        String query = "SELECT p.id AS product_id, p.name AS product_name, " +
+                "SUM(od.total_amount) AS total_revenue " +
+                "FROM products p " +
+                "INNER JOIN order_detail od ON p.id = od.product_id " +
+                "INNER JOIN orders o ON od.order_id = o.id " +
+                "WHERE o.order_date BETWEEN ? AND ? " +
+                "GROUP BY p.id, p.name " +
+                "ORDER BY total_revenue DESC " +
+                "LIMIT 5";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    long productId = resultSet.getLong("product_id");
+                    double totalRevenue = resultSet.getDouble("total_revenue");
+
+                    Product product = getById(productId);
+                    productRevenueMap.put(product, totalRevenue);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productRevenueMap;
+    }
+
+    @Override
     public List<Product> getByQuantityBelow(int quantity) {
         List<Product> products = new ArrayList<>();
 

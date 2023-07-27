@@ -1,8 +1,8 @@
 package vn.aptech.componentmanagementapp.controller.report;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,15 +16,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
-public class ProductReportController implements Initializable {
+public class ProductRevenueController implements Initializable {
 
     @FXML
     private Button firstPageButton;
@@ -40,6 +43,12 @@ public class ProductReportController implements Initializable {
 
     @FXML
     private Button previousButton;
+
+    @FXML
+    private MFXDatePicker txt_fromDate;
+
+    @FXML
+    private MFXDatePicker txt_toDate;
 
     @FXML
     private Label lbl_totalProduct;
@@ -66,7 +75,8 @@ public class ProductReportController implements Initializable {
     private TableColumn<Product, String> tbc_productCode;
 
     @FXML
-    private TableColumn<Product, Integer> tbc_quantity;
+    private TableColumn<Product, Double> tbc_revenue;
+
 
     private PaginationHelper<Product> paginationHelper;
 
@@ -74,10 +84,24 @@ public class ProductReportController implements Initializable {
     private ProductService productService = new ProductService();
 
     // List
-    private ObservableList<Product> products;
+    private ObservableList<Product> products = FXCollections.observableArrayList();
+
+    // Map
+    private Map<Product, Double> productRevenueMap = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        LocalDate firstDayOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate lastDayOfMonth = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+        productRevenueMap = productService.getProductTopMonthSellingByRevenueFromTo(firstDayOfMonth, lastDayOfMonth);
+
+        for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
+            Product product = entry.getKey();
+            Double revenue = entry.getValue();
+            product.setRevenue(revenue);
+            products.add(product);
+        }
+
         paginationHelper = new PaginationHelper<>();
         initTableView();
 
@@ -87,66 +111,45 @@ public class ProductReportController implements Initializable {
         paginationHelper.setPreviousButton(previousButton);
         paginationHelper.setNextButton(nextButton);
         paginationHelper.setLastPageButton(lastPageButton);
-        List<Product> productList = productService.getProductByQuantityBelow(5);
-        products = FXCollections.observableArrayList(productList);
+
         paginationHelper.setItems(products);
         paginationHelper.showFirstPage();
 
-        initComboBox();
-        initComboBoxEvent();
+        txt_fromDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_fromDate.getLocale()));
+        txt_toDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_toDate.getLocale()));
+
+        txt_fromDate.setValue(firstDayOfMonth);
+        txt_toDate.setValue(lastDayOfMonth);
 
     }
 
     private void initTableView() {
-
         tbc_productCode.setCellValueFactory(new PropertyValueFactory<>("productCode"));
         tbc_name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         tbc_price.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_price.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getPrice()));
 
-        tbc_quantity.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
-
+        tbc_revenue.setCellFactory(column -> new FormattedDoubleTableCell<>());
+        tbc_revenue.setCellValueFactory(new PropertyValueFactory<>("revenue"));
     }
 
-    private void initComboBox() {
-        List<String> list = List.of("Below 5", "Below 10", "Out of stock");
-        cbb_belowQuantity.setItems(FXCollections.observableArrayList(list));
-        cbb_belowQuantity.selectFirst();
+    @FXML
+    void viewButtonOnClick() {
+        LocalDate fromDate = txt_fromDate.getValue();
+        LocalDate toDate = txt_toDate.getValue();
+        productRevenueMap = productService.getProductTopMonthSellingByRevenueFromTo(fromDate, toDate);
 
-        List<String> orderList = List.of("ASC", "DESC");
-        cbb_orderBy.setItems(FXCollections.observableArrayList(orderList));
-        cbb_orderBy.selectFirst();
+        for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
+            Product product = entry.getKey();
+            Double revenue = entry.getValue();
+            product.setRevenue(revenue);
+            products.add(product);
+        }
+
+        paginationHelper.setItems(products);
+        paginationHelper.showFirstPage();
     }
-
-    private void initComboBoxEvent() {
-        EventHandler<ActionEvent> comboBoxEventHandler = event -> {
-            String belowQuantity = cbb_belowQuantity.getValue();
-            products = switch (belowQuantity) {
-                case "Below 10" -> FXCollections.observableArrayList(productService.getProductByQuantityBelow(10));
-                case "Out of stock" -> FXCollections.observableArrayList(productService.getProductByQuantityBelow(0));
-                default -> FXCollections.observableArrayList(productService.getProductByQuantityBelow(5));
-            };
-
-            String order = cbb_orderBy.getValue();
-            if (order == null) {
-                return;
-            }
-
-            if (order.equals("DESC"))
-                Collections.reverse(products);
-
-            lbl_totalProduct.setText(String.valueOf(productService.getAllProduct().size()));
-            lbl_totalProductOutOfStock.setText(String.valueOf(products.size()));
-
-            paginationHelper.setItems(products);
-            showFirstPage();
-        };
-
-        cbb_belowQuantity.setOnAction(comboBoxEventHandler);
-        cbb_orderBy.setOnAction(comboBoxEventHandler);
-    }
-
 
     @FXML
     void showFirstPage() {

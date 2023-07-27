@@ -4,6 +4,7 @@ import vn.aptech.componentmanagementapp.dao.ProductDAO;
 import vn.aptech.componentmanagementapp.dao.ProductDAOImpl;
 import vn.aptech.componentmanagementapp.model.Product;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -53,5 +54,9 @@ public class ProductService {
 
     public List<Product> getProductByQuantityBelow(int quantity) {
         return productDAO.getByQuantityBelow(quantity);
+    }
+
+    public Map<Product, Double> getProductTopMonthSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate) {
+        return productDAO.productTopMonthSellingByRevenueFromTo(fromDate, toDate);
     }
 }

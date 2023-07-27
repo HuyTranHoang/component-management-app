@@ -64,13 +64,16 @@ public class ManagementController implements Initializable {
     private MFXButton btn_leftPanel_reportList;
 
     @FXML
-    private MFXButton btn_subMenu_Employee;
+    private MFXButton btn_subMenu_employee;
 
     @FXML
-    private MFXButton btn_subMenu_Order;
+    private MFXButton btn_subMenu_order;
 
     @FXML
-    private MFXButton btn_subMenu_Product;
+    private MFXButton btn_subMenu_productQuantity;
+
+    @FXML
+    private MFXButton btn_subMenu_productRevenue;
 
     @FXML
     private HBox hbox_employeeInfo;
@@ -111,7 +114,8 @@ public class ManagementController implements Initializable {
     private AnchorPane orderView;
     private AnchorPane categoryView;
     private AnchorPane supplierView;
-    private AnchorPane reportProductView;
+    private AnchorPane reportProductQuantityView;
+    private AnchorPane reportProductRevenueView;
     private AnchorPane reportOrderView;
     private AnchorPane reportEmployeeView;
     // Controller
@@ -206,10 +210,7 @@ public class ManagementController implements Initializable {
 
     @FXML
     void dashboardButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
+
         if (dashboardView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
@@ -226,6 +227,8 @@ public class ManagementController implements Initializable {
         dashboardController.updateWeeklySummery();
         dashboardController.updateBarChartTopSelling();
 
+        resetSubmenu();
+
         btn_leftPanel_dashboard.setId("button-custom-mainPanel-selected");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_employeeList.setId("button-custom-mainPanel");
@@ -240,10 +243,6 @@ public class ManagementController implements Initializable {
     }
     @FXML
     void productButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
         if (productView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product.fxml"));
@@ -261,6 +260,7 @@ public class ManagementController implements Initializable {
         productController.reloadProduct(); // reload lại query mỗi lần quay lại
         productController.resetFilterIconClicked(); // reset lại filter
 
+        resetSubmenu();
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel-selected");
@@ -277,10 +277,6 @@ public class ManagementController implements Initializable {
 
     @FXML
     void employeeButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
         if (employeeView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee.fxml"));
@@ -298,6 +294,8 @@ public class ManagementController implements Initializable {
         employeeController.reloadEmployee(); // reload lại query mỗi lần quay lại
         employeeController.resetFilterIconClicked(); // reset lại filter
 
+        resetSubmenu();
+
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_employeeList.setId("button-custom-mainPanel-selected");
@@ -313,10 +311,6 @@ public class ManagementController implements Initializable {
 
     @FXML
     void customerButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
         if (customerView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/customer/customer.fxml"));
@@ -327,6 +321,8 @@ public class ManagementController implements Initializable {
         }
 
         setMenuImage("images/customer.png");
+
+        resetSubmenu();
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -343,10 +339,6 @@ public class ManagementController implements Initializable {
 
     @FXML
     void orderButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
         if (orderView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order.fxml"));
@@ -364,6 +356,8 @@ public class ManagementController implements Initializable {
         orderController.reloadOrder();
         orderController.resetFilterIconClicked();
 
+        resetSubmenu();
+
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_employeeList.setId("button-custom-mainPanel");
@@ -378,10 +372,6 @@ public class ManagementController implements Initializable {
     }
     @FXML
     void supplierButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
         if (supplierView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/supplier/supplier.fxml"));
@@ -392,6 +382,8 @@ public class ManagementController implements Initializable {
         }
 
         setMenuImage("images/supplier.png");
+
+        resetSubmenu();
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -407,7 +399,6 @@ public class ManagementController implements Initializable {
     }
     @FXML
     void categoryButtonOnClick() {
-        icon_reportDown.setFill(Paint.valueOf("#fff"));
         if (categoryView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/category/category.fxml"));
@@ -418,6 +409,8 @@ public class ManagementController implements Initializable {
         }
 
         setMenuImage("images/category.png");
+
+        resetSubmenu();
 
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
         btn_leftPanel_productList.setId("button-custom-mainPanel");
@@ -447,19 +440,20 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
-    void reportProductButtonOnClick() {
+    void reportProductQuantityButtonOnClick() {
         icon_reportRight.setVisible(true);
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
-        btn_subMenu_Product.setId("button-custom-submenu-selected");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu");
+        btn_subMenu_productQuantity.setId("button-custom-submenu-selected");
+        btn_subMenu_productRevenue.setId("button-custom-submenu");
+        btn_subMenu_employee.setId("button-custom-submenu");
+        btn_subMenu_order.setId("button-custom-submenu");
 
-        if (reportProductView == null) {
+        if (reportProductQuantityView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product.fxml"));
-                reportProductView = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product-quantity.fxml"));
+                reportProductQuantityView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -477,7 +471,42 @@ public class ManagementController implements Initializable {
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
-        anchor_main_rightPanel.getChildren().add(reportProductView);
+        anchor_main_rightPanel.getChildren().add(reportProductQuantityView);
+    }
+
+    @FXML
+    void reportProductRevenueButtonOnClick() {
+        icon_reportRight.setVisible(true);
+        icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
+
+        btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productRevenue.setId("button-custom-submenu-selected");
+        btn_subMenu_employee.setId("button-custom-submenu");
+        btn_subMenu_order.setId("button-custom-submenu");
+
+        if (reportProductRevenueView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product-revenue.fxml"));
+                reportProductRevenueView = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        setMenuImage("images/report.png");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(reportProductRevenueView);
     }
 
     @FXML
@@ -486,9 +515,10 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu");
-        btn_subMenu_Order.setId("button-custom-submenu-selected");
+        btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productRevenue.setId("button-custom-submenu");
+        btn_subMenu_employee.setId("button-custom-submenu");
+        btn_subMenu_order.setId("button-custom-submenu-selected");
 
         if (reportOrderView == null) {
             try {
@@ -520,9 +550,10 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
-        btn_subMenu_Product.setId("button-custom-submenu");
-        btn_subMenu_Employee.setId("button-custom-submenu-selected");
-        btn_subMenu_Order.setId("button-custom-submenu");
+        btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productRevenue.setId("button-custom-submenu");
+        btn_subMenu_employee.setId("button-custom-submenu-selected");
+        btn_subMenu_order.setId("button-custom-submenu");
 
         if (reportEmployeeView == null) {
             try {
@@ -562,6 +593,14 @@ public class ManagementController implements Initializable {
         }
 
         leftPanel_imageView.setImage(image);
+    }
+
+    private void resetSubmenu() {
+        icon_reportDown.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productRevenue.setId("button-custom-submenu");
+        btn_subMenu_employee.setId("button-custom-submenu");
+        btn_subMenu_order.setId("button-custom-submenu");
     }
 
 }

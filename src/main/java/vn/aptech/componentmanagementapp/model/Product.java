@@ -37,6 +37,9 @@ public class Product {
         return selected;
     }
 
+    // For report
+    private Double revenue;
+
 
     public long getId() {
         return id;
@@ -92,6 +95,14 @@ public class Product {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Double getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Double revenue) {
+        this.revenue = revenue;
     }
 
     public long getSupplierId() {

@@ -173,7 +173,7 @@
       <FontIcon />
       <VBox fx:id="vbox_report_subMenu" layoutX="250.0" layoutY="660.0" onMouseExited="#hideReportSubMenu" prefWidth="200.0" visible="false">
          <children>
-            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_Product" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product">
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_productQuantity" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductQuantityButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product quantity">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -181,7 +181,7 @@
                   <Insets left="30.0" />
                </padding>
             </MFXButton>
-            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_Order" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportOrderButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Order">
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_productRevenue" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductRevenueButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product revenue">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -189,7 +189,15 @@
                   <Insets left="30.0" />
                </padding>
             </MFXButton>
-            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_Employee" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportEmployeeButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Employee">
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_order" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportOrderButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Order">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </MFXButton>
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_employee" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportEmployeeButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Employee">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
