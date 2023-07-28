@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
@@ -121,6 +123,10 @@ public class ManagementController implements Initializable {
     private AnchorPane reportProductRevenueView;
     private AnchorPane reportOrderView;
     private AnchorPane reportEmployeeView;
+
+    // Change Password Panel
+    private Scene changePasswordScene;
+    private Stage changePasswordStage;
     // Controller
     private DashboardController dashboardController;
     private ProductController productController;
@@ -158,6 +164,7 @@ public class ManagementController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        initChangePasswordStage();
 
     }
 
@@ -208,10 +215,38 @@ public class ManagementController implements Initializable {
         }
     }
 
+
+    @FXML
+    private void initChangePasswordStage() {
+        if (changePasswordScene == null && changePasswordStage == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/change-password.fxml"));
+                changePasswordScene = new Scene(fxmlLoader.load());
+                changePasswordStage = new Stage();
+                changePasswordStage.setTitle("Change Password");
+                changePasswordStage.initModality(Modality.APPLICATION_MODAL);
+                changePasswordStage.setScene(changePasswordScene);
+                changePasswordStage.setResizable(false);
+
+                Image image = null;
+                URL resourceURL = ComponentManagementApplication.class.getResource("images/password.png");
+                if (resourceURL != null) {
+                    String resourcePath = resourceURL.toExternalForm();
+                    image = new Image(resourcePath);
+                }
+                changePasswordStage.getIcons().add(image);
+                changePasswordStage.initModality(Modality.APPLICATION_MODAL);
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     @FXML
     void changePasswordButtonOnClick() {
+        changePasswordStage.show();
     }
-
 
     @FXML
     void minimizeButtonOnClick() {

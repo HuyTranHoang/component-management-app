@@ -55,6 +55,10 @@
     -fx-background-color: #F4F4F4;
     -fx-text-fill: -hbd-primary-color;
 }
+#change-changePassword .floating-text{
+    -fx-background-color: #F4F4F4;
+    -fx-text-fill: -hbd-primary-color;
+}
 
 /*Close and mimimize button*/
 .no-border-radius {
