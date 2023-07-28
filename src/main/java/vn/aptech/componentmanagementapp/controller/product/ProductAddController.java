@@ -72,6 +72,8 @@ public class ProductAddController implements Initializable {
     private Label lbl_error_monthOfWarranty;
     @FXML
     private Label lbl_error_note;
+    @FXML
+    private Label lbl_title;
 
     // Add Product Panel
     @FXML
@@ -379,11 +381,15 @@ public class ProductAddController implements Initializable {
     void updateMode() {
         hbox_addButtonGroup.setVisible(false);
         hbox_updateButtonGroup.setVisible(true);
+
+        lbl_title.setText("UPDATE PRODUCT");
     }
 
     void addMode() {
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
+
+        lbl_title.setText("ADD NEW PRODUCT");
     }
 
     private void initEnterKeyPressing() {

@@ -113,10 +113,10 @@ public class EmployeeAddController implements Initializable {
     private Label lbl_successMessage;
 
     @FXML
-    private Label lbl_error_newPassword;
+    private Label lbl_error_confirmPassword;
 
     @FXML
-    private Label lbl_error_confirmPassword;
+    private Label lbl_title;
 
     @FXML
     private MFXTextField txt_address;
@@ -678,12 +678,16 @@ public class EmployeeAddController implements Initializable {
         isUpdate = true;
         hbox_addButtonGroup.setVisible(false);
         hbox_updateButtonGroup.setVisible(true);
+
+        lbl_title.setText("UPDATE EMPLOYEE");
     }
 
     void addMode() {
         isUpdate = false;
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
+
+        lbl_title.setText("ADD NEW EMPLOYEE");
     }
 
     private String hashSHA256(String input) {

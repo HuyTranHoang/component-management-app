@@ -133,6 +133,7 @@
                   <Circle fx:id="circle_avatar" fill="DODGERBLUE" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
                   <MenuButton fx:id="menu_employeeName" mnemonicParsing="false" prefHeight="39.0" styleClass="main-background-color" text="Thái Bảo" textFill="WHITE">
                     <items>
+                       <MenuItem mnemonicParsing="false" onAction="#changePasswordButtonOnClick" text="Change password" />
                       <MenuItem mnemonicParsing="false" onAction="#logoutButtonOnClick" text="Log out" />
                         <MenuItem mnemonicParsing="false" onAction="#exitButtonOnClick" text="Exit" />
                     </items>

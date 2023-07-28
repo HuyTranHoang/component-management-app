@@ -288,7 +288,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label layoutX="28.0" layoutY="15.0" text="ADD NEW EMPLOYEE" textFill="#4a55a2">
+      <Label fx:id="lbl_title" layoutX="28.0" layoutY="15.0" text="ADD NEW EMPLOYEE" textFill="#4a55a2">
          <font>
             <Font name="Inter Bold" size="26.0" />
          </font>

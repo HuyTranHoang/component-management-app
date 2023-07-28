@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -205,6 +206,10 @@ public class ManagementController implements Initializable {
             stage.setScene(loginView.getScene());
             stage.centerOnScreen();
         }
+    }
+
+    @FXML
+    void changePasswordButtonOnClick() {
     }
 
 
@@ -616,5 +621,6 @@ public class ManagementController implements Initializable {
         btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
     }
+
 
 }
