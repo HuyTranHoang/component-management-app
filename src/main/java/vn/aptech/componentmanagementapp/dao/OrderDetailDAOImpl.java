@@ -1,11 +1,15 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.OrderDetail;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO{
     private Connection connection = DatabaseConnection.getConnection();
@@ -135,5 +139,36 @@ public class OrderDetailDAOImpl implements OrderDetailDAO{
         }
 
         return orderDetails;
+    }
+
+    @Override
+    public Map<String, Double> getTotalAmountByCategory(LocalDate fromDate, LocalDate toDate) {
+        Map<String, Double> totalAmountMap = new HashMap<>();
+
+        String query = "SELECT c.name AS category_name, SUM(od.total_amount) AS total_amount_sold " +
+                "FROM order_detail od " +
+                "JOIN products p ON od.product_id = p.id " +
+                "JOIN categories c ON p.category_id = c.id " +
+                "JOIN orders o on o.id = od.order_id " +
+                "WHERE o.order_date BETWEEN ? AND ? " +
+                "GROUP BY c.name;";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String categoryName = resultSet.getString("category_name");
+                    double totalAmount = resultSet.getDouble("total_amount_sold");
+
+                    totalAmountMap.put(categoryName, totalAmount);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalAmountMap;
     }
 }

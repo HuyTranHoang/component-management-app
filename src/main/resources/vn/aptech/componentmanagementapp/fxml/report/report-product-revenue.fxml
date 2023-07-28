@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -56,6 +58,24 @@
                   </Button>
                </children>
             </HBox>
+            <MFXComboBox fx:id="cbb_orderBy" animated="false" floatMode="DISABLED" layoutX="704.0" layoutY="14.0" prefHeight="32.0" style="-fx-border-color: #F4F4F4; -fx-background-color: #F4F4F4;" textLimit="5">
+               <textFill>
+                  <Color red="0.29019609093666077" green="0.3333333432674408" blue="0.6352941393852234" opacity="0.8700000047683716" />
+               </textFill>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </MFXComboBox>
+            <Label layoutX="595.0" layoutY="18.0" text="Sort by revenue">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_fromTo" layoutX="205.0" layoutY="20.0" text="from 28-07-2023 to 29-07-2023">
+               <font>
+                  <Font name="System Italic" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Label layoutX="10.0" layoutY="14.0" text="PRODUCT REPORT" textFill="#4a55a2">
@@ -65,25 +85,17 @@
       </Label>
       <AnchorPane layoutX="866.0" layoutY="133.0" prefHeight="249.0" prefWidth="376.0">
          <children>
-            <MFXDatePicker id="custom-date-picker" fx:id="txt_fromDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="From" layoutX="14.0" layoutY="17.0" />
-            <Label fx:id="lbl_error_fromDate" layoutX="15.0" layoutY="60.0" prefHeight="30.0" prefWidth="200.0" text="Lỗi" textFill="#e57c23" visible="false">
+            <MFXDatePicker id="report-picker" fx:id="txt_fromDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="From" layoutX="14.0" layoutY="17.0" />
+            <Label fx:id="lbl_error_fromDate" layoutX="15.0" layoutY="60.0" prefHeight="30.0" prefWidth="300.0" text="Lỗi" textFill="#e57c23" visible="false">
                <font>
-                  <Font name="Inter Bold" size="13.0" />
+                  <Font name="Inter Regular" size="13.0" />
                </font>
                <graphic>
                   <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
                </graphic>
             </Label>
-            <MFXDatePicker id="custom-date-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" layoutX="14.0" layoutY="118.0" />
-            <MFXButton layoutX="14.0" layoutY="210.0" onAction="#viewButtonOnClick" prefHeight="25.0" prefWidth="82.0" text="View" />
-            <Label fx:id="lbl_error_toDate" layoutX="15.0" layoutY="160.0" prefHeight="30.0" prefWidth="200.0" text="Lỗi" textFill="#e57c23" visible="false">
-               <font>
-                  <Font name="Inter Bold" size="13.0" />
-               </font>
-               <graphic>
-                  <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
-               </graphic>
-            </Label>
+            <MFXDatePicker id="report-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" layoutX="14.0" layoutY="118.0" />
+            <MFXButton layoutX="14.0" layoutY="210.0" onAction="#viewButtonOnClick" prefHeight="25.0" prefWidth="82.0" style="-fx-border-color: #4A55A2; -fx-border-radius: 5px;" text="View" />
          </children>
       </AnchorPane>
       <PieChart fx:id="pieChart" layoutX="855.0" layoutY="404.0" prefHeight="417.0" prefWidth="382.0" />

@@ -23,6 +23,7 @@ import vn.aptech.componentmanagementapp.controller.dashboard.DashboardController
 import vn.aptech.componentmanagementapp.controller.employee.EmployeeController;
 import vn.aptech.componentmanagementapp.controller.order.OrderController;
 import vn.aptech.componentmanagementapp.controller.product.ProductController;
+import vn.aptech.componentmanagementapp.controller.report.ProductRevenueController;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
@@ -123,6 +124,8 @@ public class ManagementController implements Initializable {
     private ProductController productController;
     private EmployeeController employeeController;
     private OrderController orderController;
+
+    private ProductRevenueController productRevenueController;
 
 
     //    Variable
@@ -491,6 +494,7 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product-revenue.fxml"));
                 reportProductRevenueView = fxmlLoader.load();
+                productRevenueController = fxmlLoader.getController();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -509,6 +513,8 @@ public class ManagementController implements Initializable {
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportProductRevenueView);
+
+        productRevenueController.viewButtonOnClick(); // reset data
     }
 
     @FXML

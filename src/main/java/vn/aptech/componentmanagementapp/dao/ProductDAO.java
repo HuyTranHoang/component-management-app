@@ -16,6 +16,5 @@ public interface ProductDAO extends BaseDAO<Product> {
     Map<Product, Double> productTopMonthSellingByRevenue();
 
     Map<Product, Double> productTopMonthSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate);
-
     List<Product> getByQuantityBelow(int quantity);
 }

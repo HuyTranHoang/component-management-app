@@ -47,6 +47,11 @@
 }
 
 #custom-date-picker .floating-text{
+    -fx-background-color: #F4F4F4;
+    -fx-text-fill: -hbd-primary-color;
+}
+
+#report-picker .floating-text{
     -fx-background-color: #fff;
     -fx-text-fill: -hbd-primary-color;
 }
