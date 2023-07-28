@@ -281,8 +281,7 @@ public class ProductDAOImpl implements ProductDAO{
                 "INNER JOIN orders o ON od.order_id = o.id " +
                 "WHERE o.order_date BETWEEN ? AND ? " +
                 "GROUP BY p.id, p.name " +
-                "ORDER BY total_revenue DESC " +
-                "LIMIT 5";
+                "ORDER BY total_revenue DESC";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setDate(1, java.sql.Date.valueOf(fromDate));
