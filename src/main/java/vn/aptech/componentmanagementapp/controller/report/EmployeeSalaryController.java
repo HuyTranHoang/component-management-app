@@ -130,8 +130,15 @@ public class EmployeeSalaryController implements Initializable{
             comparator = comparator.reversed();
         }
 
-        if (orderBy.equals("DESC"))
-            Collections.reverse(employees);
+        FXCollections.sort(employees, comparator);
+        showFirstPage();
+    }
+
+    @FXML
+    public void reloadEmployee() {
+        employees = FXCollections.observableArrayList(employeeService.getAllEmployee());
+        paginationHelper.setItems(employees);
+        applySorting();
 
         double sumSalary = 0;
         for (Employee employee: employees) {
@@ -142,8 +149,6 @@ public class EmployeeSalaryController implements Initializable{
         lbl_totalEmployee.setText(String.valueOf(employees.size()));
         lbl_totalEmployeeSalary.setText(decimalFormat.format(sumSalary));
         lbl_averageEmployeeSalary.setText(decimalFormat.format(averageSalary));
-        FXCollections.sort(employees, comparator);
-        showFirstPage();
     }
 
     @FXML
