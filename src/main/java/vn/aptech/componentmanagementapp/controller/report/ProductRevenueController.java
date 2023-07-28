@@ -2,12 +2,11 @@ package vn.aptech.componentmanagementapp.controller.report;
 
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXRadioButton;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -25,14 +24,27 @@ import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProductRevenueController implements Initializable {
+
+    @FXML
+    private ToggleGroup tgg_type;
+
+    @FXML
+    private MFXRadioButton rbtn_byRevenue;
+
+    @FXML
+    private MFXRadioButton rbtn_bySoldAmount;
+
+    @FXML
+    private Label lbl_reportTitle;
+
+    @FXML
+    private Label lbl_sortBy;
 
     @FXML
     private Button firstPageButton;
@@ -74,6 +86,9 @@ public class ProductRevenueController implements Initializable {
     private TableColumn<Product, Double> tbc_revenue;
 
     @FXML
+    private TableColumn<Product, Integer> tbc_soldAmount;
+
+    @FXML
     private PieChart pieChart;
 
     @FXML
@@ -86,11 +101,13 @@ public class ProductRevenueController implements Initializable {
     private final OrderDetailService orderDetailService = new OrderDetailService();
 
     // List
-    private ObservableList<Product> products = FXCollections.observableArrayList();
+    private final ObservableList<Product> products = FXCollections.observableArrayList();
 
     // Map
     private Map<Product, Double> productRevenueMap = new HashMap<>();
+    private Map<Product, Integer> productQuantityMap = new HashMap<>();
     private Map<String, Double> totalAmountByCategory = new HashMap<>();
+    private Map<String, Integer> totalQuantityByCategory = new HashMap<>();
     private final ArrayList<PieChart.Data> pieChartData = new ArrayList<>();
 
     //Validator
@@ -126,8 +143,6 @@ public class ProductRevenueController implements Initializable {
         initTableView();
         initComboBox();
         initSort();
-
-
 
         paginationHelper.setItems(products);
         lbl_fromTo.setText("from " + dateTimeFormatter.format(firstDayOfMonth) + " to " + dateTimeFormatter.format(lastDayOfMonth));
@@ -172,6 +187,8 @@ public class ProductRevenueController implements Initializable {
 
         tbc_revenue.setCellFactory(column -> new FormattedDoubleTableCell<>());
         tbc_revenue.setCellValueFactory(new PropertyValueFactory<>("revenue"));
+
+        tbc_soldAmount.setCellValueFactory(new PropertyValueFactory<>("soldAmount"));
     }
 
     @FXML
@@ -180,35 +197,76 @@ public class ProductRevenueController implements Initializable {
             LocalDate fromDate = txt_fromDate.getValue();
             LocalDate toDate = txt_toDate.getValue();
 
-            // Tableview
-            productRevenueMap = productService.getProductTopMonthSellingByRevenueFromTo(fromDate, toDate.plusDays(1));
+
+
+            RadioButton selectedRadio = (RadioButton) tgg_type.getSelectedToggle();
+            String selectedType = selectedRadio.getText();
+
 
             products.clear();
+            if (selectedType.equals("By revenue")) {
+                productRevenueMap = productService.getProductTopSellingByRevenueFromTo(fromDate, toDate.plusDays(1));
+                for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
+                    Product product = entry.getKey();
+                    Double revenue = entry.getValue();
+                    product.setRevenue(revenue);
+                    products.add(product);
+                }
+                tbc_revenue.setVisible(true);
+                tbc_soldAmount.setVisible(false);
 
-            for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
-                Product product = entry.getKey();
-                Double revenue = entry.getValue();
-                product.setRevenue(revenue);
-                products.add(product);
+                // Pie chart
+                totalAmountByCategory = orderDetailService.getOrderDetailTotalAmountByCategory(fromDate, toDate.plusDays(1));
+                pieChartData.clear();
+                pieChart.getData().clear();
+
+                double sumTotal = 0;
+                for (Map.Entry<String, Double> entry : totalAmountByCategory.entrySet()) {
+                    pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+                    sumTotal += entry.getValue();
+                }
+                pieChart.getData().addAll(pieChartData);
+                double finalSumTotal = sumTotal;
+                pieChart.getData().forEach(data -> {
+                    String percentage = String.format("%.2f%%", (data.getPieValue() / finalSumTotal * 100));
+                    Tooltip tooltip = new Tooltip(percentage);
+                    Tooltip.install(data.getNode(), tooltip);
+                });
+
+                lbl_reportTitle.setText("Top products revenue");
+                lbl_sortBy.setText("Sort by revenue");
+            } else {
+                productQuantityMap = productService.getProductTopSellingByQuantityFromTo(fromDate, toDate.plusDays(1));
+                for (Map.Entry<Product, Integer> entry : productQuantityMap.entrySet()) {
+                    Product product = entry.getKey();
+                    Integer soldAmount = entry.getValue();
+                    product.setSoldAmount(soldAmount);
+                    products.add(product);
+                }
+                tbc_revenue.setVisible(false);
+                tbc_soldAmount.setVisible(true);
+
+                // Pie chart
+                totalQuantityByCategory = orderDetailService.getOrderDetailTotalQuantityByCategory(fromDate, toDate.plusDays(1));
+                pieChartData.clear();
+                pieChart.getData().clear();
+
+                double sumTotal = 0;
+                for (Map.Entry<String, Integer> entry : totalQuantityByCategory.entrySet()) {
+                    pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+                    sumTotal += entry.getValue();
+                }
+                pieChart.getData().addAll(pieChartData);
+                double finalSumTotal = sumTotal;
+                pieChart.getData().forEach(data -> {
+                    String percentage = String.format("%.2f%%", (data.getPieValue() / finalSumTotal * 100));
+                    Tooltip tooltip = new Tooltip(percentage);
+                    Tooltip.install(data.getNode(), tooltip);
+                });
+
+                lbl_reportTitle.setText("Top products sold amount");
+                lbl_sortBy.setText("Sort by sold amount");
             }
-
-            // Pie chart
-            totalAmountByCategory = orderDetailService.getOrderDetailTotalAmountByCategory(fromDate, toDate.plusDays(1));
-            pieChartData.clear();
-            pieChart.getData().clear();
-
-            double sumTotal = 0;
-            for (Map.Entry<String, Double> entry : totalAmountByCategory.entrySet()) {
-                pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
-                sumTotal += entry.getValue();
-            }
-            pieChart.getData().addAll(pieChartData);
-            double finalSumTotal = sumTotal;
-            pieChart.getData().forEach(data -> {
-                String percentage = String.format("%.2f%%", (data.getPieValue() / finalSumTotal * 100));
-                Tooltip tooltip = new Tooltip(percentage);
-                Tooltip.install(data.getNode(), tooltip);
-            });
 
             paginationHelper.setItems(products);
             applySorting();
@@ -220,7 +278,7 @@ public class ProductRevenueController implements Initializable {
     }
 
     private void initDataTableView(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth) {
-        productRevenueMap = productService.getProductTopMonthSellingByRevenueFromTo(firstDayOfMonth, lastDayOfMonth.plusDays(1));
+        productRevenueMap = productService.getProductTopSellingByRevenueFromTo(firstDayOfMonth, lastDayOfMonth.plusDays(1));
 
         for (Map.Entry<Product, Double> entry : productRevenueMap.entrySet()) {
             Product product = entry.getKey();
@@ -262,12 +320,21 @@ public class ProductRevenueController implements Initializable {
 
     private void applySorting() {
         String orderBy = cbb_orderBy.getValue();
-        Comparator<Product> comparator = Comparator.comparing(Product::getRevenue);
-        // Check the selected value of cbb_orderBy and adjust the comparator accordingly
-        if ("DESC".equals(orderBy)) {
-            comparator = comparator.reversed();
+        RadioButton selectedRadio = (RadioButton) tgg_type.getSelectedToggle();
+        String selectedType = selectedRadio.getText();
+        Comparator<Product> comparator;
+        if (selectedType.equals("By revenue")) {
+            comparator = Comparator.comparing(Product::getRevenue);
+            if ("DESC".equals(orderBy)) {
+                comparator = comparator.reversed();
+            }
+        } else {
+            comparator = Comparator.comparing(Product::getSoldAmount);
+            if ("DESC".equals(orderBy)) {
+                comparator = comparator.reversed();
+            }
         }
-        // Sort the products list with the chosen comparator
+
         FXCollections.sort(products, comparator);
         showFirstPage();
     }

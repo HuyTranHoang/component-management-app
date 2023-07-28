@@ -204,8 +204,10 @@ public class ProductDAOImpl implements ProductDAO{
         String query = "SELECT p.id AS product_id, p.name AS product_name, SUM(ps.export_quantity) AS total_export_quantity " +
                 "FROM products p " +
                 "INNER JOIN products_storage ps ON p.id = ps.product_id " +
-                "WHERE EXTRACT(MONTH FROM ps.created_at) = ? " +
-                "AND EXTRACT(YEAR FROM ps.created_at) = ? " +
+                "JOIN order_detail od on p.id = od.product_id " +
+                "JOIN orders o on od.order_id = o.id " +
+                "WHERE EXTRACT(MONTH FROM o.order_date) = ? " +
+                "AND EXTRACT(YEAR FROM o.order_date) = ? " +
                 "GROUP BY p.id, p.name " +
                 "ORDER BY total_export_quantity DESC " +
                 "LIMIT 5";
@@ -214,6 +216,39 @@ public class ProductDAOImpl implements ProductDAO{
 
             statement.setInt(1, currentMonth.getValue());
             statement.setInt(2, currentYear);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    long productId = resultSet.getLong("product_id");
+                    int totalExportQuantity = resultSet.getInt("total_export_quantity");
+
+                    Product product = getById(productId);
+                    productExportMap.put(product, totalExportQuantity);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productExportMap;
+    }
+
+    @Override
+    public Map<Product, Integer> productTopSellingByQuantityFromTo(LocalDate fromDate, LocalDate toDate) {
+        Map<Product, Integer> productExportMap = new HashMap<>();
+
+        String query = "SELECT p.id AS product_id, p.name AS product_name, SUM(ps.export_quantity) AS total_export_quantity " +
+                "FROM products p " +
+                "JOIN products_storage ps ON p.id = ps.product_id " +
+                "JOIN order_detail od on p.id = od.product_id " +
+                "JOIN orders o on od.order_id = o.id " +
+                "WHERE o.order_date BETWEEN ? AND ? " +
+                "GROUP BY p.id, p.name " +
+                "ORDER BY total_export_quantity DESC";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -271,7 +306,7 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
-    public Map<Product, Double> productTopMonthSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate) {
+    public Map<Product, Double> productTopSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate) {
         Map<Product, Double> productRevenueMap = new HashMap<>();
 
         String query = "SELECT p.id AS product_id, p.name AS product_name, " +

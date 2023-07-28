@@ -171,4 +171,35 @@ public class OrderDetailDAOImpl implements OrderDetailDAO{
 
         return totalAmountMap;
     }
+
+    @Override
+    public Map<String, Integer> getTotalQuantityByCategory(LocalDate fromDate, LocalDate toDate) {
+        Map<String, Integer> totalQuantityMap = new HashMap<>();
+
+        String query = "SELECT c.name AS category_name, SUM(od.quantity) AS total_quantity_sold " +
+                "FROM order_detail od " +
+                "JOIN products p ON od.product_id = p.id " +
+                "JOIN categories c ON p.category_id = c.id " +
+                "JOIN orders o on o.id = od.order_id " +
+                "WHERE o.order_date BETWEEN ? AND ? " +
+                "GROUP BY c.name;";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String categoryName = resultSet.getString("category_name");
+                    int quantity = resultSet.getInt("total_quantity_sold");
+
+                    totalQuantityMap.put(categoryName, quantity);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalQuantityMap;
+    }
 }

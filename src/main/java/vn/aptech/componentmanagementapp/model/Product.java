@@ -39,6 +39,7 @@ public class Product {
 
     // For report
     private Double revenue;
+    private Integer soldAmount;
 
 
     public long getId() {
@@ -103,6 +104,14 @@ public class Product {
 
     public void setRevenue(Double revenue) {
         this.revenue = revenue;
+    }
+
+    public Integer getSoldAmount() {
+        return soldAmount;
+    }
+
+    public void setSoldAmount(Integer soldAmount) {
+        this.soldAmount = soldAmount;
     }
 
     public long getSupplierId() {

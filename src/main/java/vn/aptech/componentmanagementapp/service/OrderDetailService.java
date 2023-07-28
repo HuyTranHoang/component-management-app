@@ -40,4 +40,8 @@ public class OrderDetailService {
     public Map<String, Double> getOrderDetailTotalAmountByCategory(LocalDate fromDate, LocalDate toDate) {
         return orderDetailDAO.getTotalAmountByCategory(fromDate, toDate);
     }
+
+    public Map<String, Integer> getOrderDetailTotalQuantityByCategory(LocalDate fromDate, LocalDate toDate) {
+        return orderDetailDAO.getTotalQuantityByCategory(fromDate, toDate);
+    }
 }

@@ -48,15 +48,21 @@ public class ProductService {
         return productDAO.productTopMonthSellingByQuantity();
     }
 
+    public Map<Product, Integer> getProductTopSellingByQuantityFromTo(LocalDate fromDate, LocalDate toDate) {
+        return productDAO.productTopSellingByQuantityFromTo(fromDate, toDate);
+    }
+
     public Map<Product, Double> getProductTopMonthSellingByRevenue() {
         return productDAO.productTopMonthSellingByRevenue();
+    }
+
+    public Map<Product, Double> getProductTopSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate) {
+        return productDAO.productTopSellingByRevenueFromTo(fromDate, toDate);
     }
 
     public List<Product> getProductByQuantityBelow(int quantity) {
         return productDAO.getByQuantityBelow(quantity);
     }
 
-    public Map<Product, Double> getProductTopMonthSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate) {
-        return productDAO.productTopMonthSellingByRevenueFromTo(fromDate, toDate);
-    }
+
 }

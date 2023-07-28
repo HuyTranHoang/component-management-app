@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface OrderDetailDAO extends BaseDAO<OrderDetail> {
     List<OrderDetail> getAllByOrderId(long orderId);
-
     Map<String, Double> getTotalAmountByCategory(LocalDate fromDate, LocalDate toDate);
+    Map<String, Integer> getTotalQuantityByCategory(LocalDate fromDate, LocalDate toDate);
 }

@@ -8,13 +8,18 @@ import java.util.Map;
 
 public interface ProductDAO extends BaseDAO<Product> {
     Product getByName(String name);
+
     int getWeeklyNewProduct();
+
     void updateExportQuantity(Long productId, int exportQuantity);
 
     Map<Product, Integer> productTopMonthSellingByQuantity();
 
+    Map<Product, Integer> productTopSellingByQuantityFromTo(LocalDate fromDate, LocalDate toDate);
+
     Map<Product, Double> productTopMonthSellingByRevenue();
 
-    Map<Product, Double> productTopMonthSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate);
+    Map<Product, Double> productTopSellingByRevenueFromTo(LocalDate fromDate, LocalDate toDate);
+
     List<Product> getByQuantityBelow(int quantity);
 }
