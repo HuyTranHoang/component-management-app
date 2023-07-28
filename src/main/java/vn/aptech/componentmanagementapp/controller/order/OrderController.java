@@ -481,7 +481,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     }
 
     @FXML
-    void deleteSelectedOrderOnClick() {
+    void cancelSelectedOrderOnClick() {
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
@@ -493,7 +493,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     }
 
     @FXML
-    void deleteContextOnClick() {
+    void cancelContextOnClick() {
         Order selectedOrder = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedOrder == null) {

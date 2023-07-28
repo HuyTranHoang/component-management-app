@@ -102,7 +102,7 @@ public class OrderDAOImpl implements OrderDAO{
     public Map<LocalDate, Double> weeklyTotalAmounts(LocalDate startOfWeek, LocalDate endOfWeek) {
         Map<LocalDate, Double> list = new HashMap<>();
         String query = "SELECT DATE(order_date) AS order_date, SUM(total_amount) AS total_amount_per_day" +
-                " FROM orders WHERE order_date >= ? AND order_date < ?" +
+                " FROM orders WHERE order_date >= ? AND order_date < ? AND is_cancelled = FALSE" +
                 " GROUP BY DATE(order_date) ORDER BY order_date";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -128,7 +128,7 @@ public class OrderDAOImpl implements OrderDAO{
         int count = 0;
         String query = "SELECT COUNT(*) AS new_orders_count FROM orders" +
                 " WHERE created_at >= DATE_TRUNC('week', CURRENT_DATE)" +
-                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week'";
+                " AND created_at < DATE_TRUNC('week', CURRENT_DATE) + INTERVAL '1 week' AND is_cancelled = FALSE";
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next())
@@ -143,7 +143,7 @@ public class OrderDAOImpl implements OrderDAO{
     public double todayTotalAmount() {
         double totalAmount = 0;
         String query = "SELECT SUM(total_amount) AS total_amount_today FROM orders " +
-                "WHERE DATE(order_date) = CURRENT_DATE";
+                "WHERE DATE(order_date) = CURRENT_DATE AND is_cancelled = FALSE";
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next())
@@ -158,7 +158,7 @@ public class OrderDAOImpl implements OrderDAO{
     public double yesterdayTotalAmount() {
         double totalAmount = 0;
         String query = "SELECT SUM(total_amount) AS total_amount_yesterday FROM orders " +
-                "WHERE DATE(order_date) = CURRENT_DATE - INTERVAL '1 day'";
+                "WHERE DATE(order_date) = CURRENT_DATE - INTERVAL '1 day' AND is_cancelled = FALSE";
         try (Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(query);
             if (rs.next())

@@ -50,7 +50,7 @@
                <ContextMenu>
                   <items>
                      <MenuItem mnemonicParsing="false" onAction="#showButtonOnClick" text="Show" />
-                     <MenuItem mnemonicParsing="false" onAction="#deleteContextOnClick" text="Delete" />
+                     <MenuItem mnemonicParsing="false" onAction="#cancelContextOnClick" text="Cancel" />
                   </items>
                </ContextMenu>
             </contextMenu>
@@ -129,7 +129,7 @@
       </HBox>
       <HBox fx:id="hbox_confirmDelete" layoutX="434.0" layoutY="15.0" spacing="10.0" visible="false">
          <children>
-            <MFXButton onAction="#deleteSelectedOrderOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM CANCEL">
+            <MFXButton onAction="#cancelSelectedOrderOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM CANCEL">
                <graphic>
                   <FontIcon iconColor="WHITE" iconLiteral="far-edit" />
                </graphic>

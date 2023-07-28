@@ -184,14 +184,13 @@ public class DashboardController implements Initializable {
         DecimalFormat compareDecimalFormat = new DecimalFormat("#,##0.00'%'");
 
         double todayTotalAmount = orderService.getTodayTotalAmount();
+        lbl_todaySaleAmount.setText(decimalFormat.format(todayTotalAmount));
+
         double yesterdayTotalAmount = orderService.getYesterdayTotalAmount();
 
 
         if (yesterdayTotalAmount != 0) {
             double percentChange = calculatePercentageChange(todayTotalAmount, yesterdayTotalAmount);
-
-            lbl_todaySaleAmount.setText(decimalFormat.format(todayTotalAmount));
-
             String formattedPercentage;
             if (percentChange >= 0) {
                 formattedPercentage = "+" + compareDecimalFormat.format(percentChange);

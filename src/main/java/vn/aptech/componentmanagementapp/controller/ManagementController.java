@@ -224,8 +224,10 @@ public class ManagementController implements Initializable {
         setMenuImage("images/dashboard.png");
 
         dashboardController.updateBarChart();
+        dashboardController.updateTodayCompare();
         dashboardController.updateWeeklySummery();
         dashboardController.updateBarChartTopSelling();
+
 
         resetSubmenu();
 
