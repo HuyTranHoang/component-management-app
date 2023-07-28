@@ -488,24 +488,36 @@ public class CustomerController implements Initializable {
 
     @FXML
     void deleteSelectedCustomerOnClick() {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirm");
-        confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedCustomerIds.size() + " customer? " +
-                "If you delete, all orders belong to this customer also get deleted.");
-        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-            selectedCustomerIds.forEach(aLong -> {
-                customerService.deleteCustomer(aLong);
-                Customer customer = customers.stream()
-                        .filter(p -> p.getId() == aLong)
-                        .findFirst()
-                        .orElse(null);
-                customers.remove(customer);
-            });
+        if (selectedCustomerIds.isEmpty()) {
+            Alert confirmation = new Alert(Alert.AlertType.WARNING);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Please select checkbox customer you want to delete.");
+            confirmation.show();
+        } else {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete " + selectedCustomerIds.size() + " customer? " +
+                    "If you delete, all orders belong to this customer also get deleted.");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                selectedCustomerIds.forEach(aLong -> {
+                    customerService.deleteCustomer(aLong);
+                    Customer customer = customers.stream()
+                            .filter(p -> p.getId() == aLong)
+                            .findFirst()
+                            .orElse(null);
+                    customers.remove(customer);
+                    paginationHelper.getPageItems().remove(customer);
+                });
 
-            addButtonOnClick();
-            showFirstPage();
-            tableView.refresh();
+                addButtonOnClick();
+                uncheckAllCheckboxes();
+
+                paginationHelper.showCurrentPage();
+
+                tableView.refresh();
+            }
         }
     }
 

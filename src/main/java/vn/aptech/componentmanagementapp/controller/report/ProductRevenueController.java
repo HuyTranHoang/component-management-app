@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -81,6 +82,9 @@ public class ProductRevenueController implements Initializable {
     @FXML
     private TableColumn<Product, Double> tbc_revenue;
 
+    @FXML
+    private PieChart pieChart;
+
 
     private PaginationHelper<Product> paginationHelper;
 
@@ -118,8 +122,6 @@ public class ProductRevenueController implements Initializable {
         paginationHelper = new PaginationHelper<>();
         initTableView();
 
-        initValidator();
-
         paginationHelper.setTableView(tableView);
         paginationHelper.setPageButtonContainer(pageButtonContainer);
         paginationHelper.setFirstPageButton(firstPageButton);
@@ -136,7 +138,8 @@ public class ProductRevenueController implements Initializable {
         txt_fromDate.setValue(firstDayOfMonth);
         txt_toDate.setValue(lastDayOfMonth);
 
-
+        initValidator();
+        initPieChart();
 
     }
     private void initValidator() {
@@ -151,16 +154,6 @@ public class ProductRevenueController implements Initializable {
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_fromDate);
-
-        validator.createCheck()
-                .dependsOn("toDate",txt_toDate.valueProperty())
-                .withMethod(context -> {
-                    LocalDate toDate =  context.get("toDate");
-                    if (toDate.isBefore(LocalDate.now()))
-                        context.error("To date cannot be in the past");
-                })
-                .decoratingWith(this::labelDecorator)
-                .decorates(lbl_error_toDate);
     }
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
@@ -205,6 +198,14 @@ public class ProductRevenueController implements Initializable {
             paginationHelper.setItems(products);
             paginationHelper.showFirstPage();
         }
+    }
+
+    private void initPieChart() {
+        ArrayList<PieChart.Data> pieChartData = new ArrayList<>();
+        pieChartData.add(new PieChart.Data("Dữ liệu A", 25.0));
+        pieChartData.add(new PieChart.Data("Dữ liệu B", 40.0));
+        pieChartData.add(new PieChart.Data("Dữ liệu C", 35.0));
+        pieChart.getData().addAll(pieChartData);
     }
 
     @FXML

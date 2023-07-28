@@ -324,24 +324,34 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
     @FXML
     void deleteSelectedEmployeeOnClick() {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirm");
-        confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedEmployeeIds.size() + " employees? " +
-                "If you delete, all orders belong to this employee also get deleted.");
-        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-            selectedEmployeeIds.forEach(aLong -> {
-                employeeService.deleteEmployee(aLong);
-                Employee employee = employees.stream()
-                        .filter(p -> p.getId() == aLong)
-                        .findFirst()
-                        .orElse(null);
+        if (selectedEmployeeIds.isEmpty()) {
+            Alert confirmation = new Alert(Alert.AlertType.WARNING);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Please select checkbox employee you want to delete.");
+            confirmation.show();
+        } else {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete " + selectedEmployeeIds.size() + " employees? " +
+                    "If you delete, all orders belong to this employee also get deleted.");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                selectedEmployeeIds.forEach(aLong -> {
+                    employeeService.deleteEmployee(aLong);
+                    Employee employee = employees.stream()
+                            .filter(p -> p.getId() == aLong)
+                            .findFirst()
+                            .orElse(null);
 
-                employees.remove(employee);
-            });
-            showFirstPage();
-            tableView.refresh();
+                    employees.remove(employee);
+                    paginationHelper.getPageItems().remove(employee);
+                });
+                paginationHelper.showCurrentPage();
+                tableView.refresh();
+            }
         }
+
     }
 
     @FXML

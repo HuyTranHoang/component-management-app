@@ -451,29 +451,39 @@ public class ProductController implements Initializable,
 
     @FXML
     void deleteSelectedProductOnClick() {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirm");
-        confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedProductIds.size() + " products?");
-        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-            selectedProductIds.forEach(aLong -> {
-                productService.deleteProduct(aLong);
-                Product product = products.stream()
-                        .filter(p -> p.getId() == aLong)
-                        .findFirst()
-                        .orElse(null);
+        if (selectedProductIds.isEmpty()) {
+            Alert confirmation = new Alert(Alert.AlertType.WARNING);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Please select checkbox product you want to delete.");
+            confirmation.show();
+        } else {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete " + selectedProductIds.size() + " products?");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                selectedProductIds.forEach(aLong -> {
+                    productService.deleteProduct(aLong);
+                    Product product = products.stream()
+                            .filter(p -> p.getId() == aLong)
+                            .findFirst()
+                            .orElse(null);
 
-                products.remove(product);
-                filterController.filterRemoveProduct(product);
-
-            });
+                    products.remove(product);
+//                    filterController.filterRemoveProduct(product);
+                    paginationHelper.getPageItems().remove(product);
+                    tableView.refresh();
+                });
 
 //            products = FXCollections.observableArrayList(productService.getAllProduct());
 //            filterController.setProducts(products);
 //            resetFilterIconClicked();
 
-            showFirstPage();
+                paginationHelper.showCurrentPage();
+            }
         }
+
     }
 
     private void uncheckAllCheckboxes() {

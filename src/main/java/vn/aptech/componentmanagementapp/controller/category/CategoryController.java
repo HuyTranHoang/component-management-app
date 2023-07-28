@@ -365,25 +365,35 @@ public class CategoryController implements Initializable {
 
     @FXML
     void deleteSelectedCategoryOnClick() {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirm");
-        confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedCategoryIds.size() + " category? " +
-                "If you delete, all products belong to this category also get deleted.");
-        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-            selectedCategoryIds.forEach(aLong -> {
-                categoryService.deleteCategory(aLong);
-                Category category = categories.stream()
-                        .filter(p -> p.getId() == aLong)
-                        .findFirst()
-                        .orElse(null);
-                categories.remove(category);
-            });
+        if (selectedCategoryIds.isEmpty()) {
+            Alert confirmation = new Alert(Alert.AlertType.WARNING);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Please select checkbox category you want to delete.");
+            confirmation.show();
+        } else {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete " + selectedCategoryIds.size() + " category? " +
+                    "If you delete, all products belong to this category also get deleted.");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                selectedCategoryIds.forEach(aLong -> {
+                    categoryService.deleteCategory(aLong);
+                    Category category = categories.stream()
+                            .filter(p -> p.getId() == aLong)
+                            .findFirst()
+                            .orElse(null);
+                    categories.remove(category);
+                    paginationHelper.getPageItems().remove(category);
+                });
 
-            addButtonOnClick();
-            showFirstPage();
-            tableView.refresh();
+                addButtonOnClick();
+                paginationHelper.showCurrentPage();
+                tableView.refresh();
+            }
         }
+
     }
 
     @FXML

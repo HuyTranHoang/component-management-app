@@ -75,7 +75,7 @@
                </graphic>
             </Label>
             <MFXDatePicker id="custom-date-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" layoutX="14.0" layoutY="118.0" />
-            <MFXButton layoutX="14.0" layoutY="210.0" onAction="#viewButtonOnClick" text="View" />
+            <MFXButton layoutX="14.0" layoutY="210.0" onAction="#viewButtonOnClick" prefHeight="25.0" prefWidth="82.0" text="View" />
             <Label fx:id="lbl_error_toDate" layoutX="15.0" layoutY="160.0" prefHeight="30.0" prefWidth="200.0" text="Lỗi" textFill="#e57c23" visible="false">
                <font>
                   <Font name="Inter Bold" size="13.0" />
@@ -86,6 +86,6 @@
             </Label>
          </children>
       </AnchorPane>
-      <PieChart layoutX="855.0" layoutY="404.0" prefHeight="417.0" prefWidth="382.0" />
+      <PieChart fx:id="pieChart" layoutX="855.0" layoutY="404.0" prefHeight="417.0" prefWidth="382.0" />
    </children>
 </AnchorPane>

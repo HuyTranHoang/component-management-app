@@ -399,25 +399,35 @@ public class SupplierController implements Initializable {
 
     @FXML
     void deleteSelectedSupplierOnClick() {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirm");
-        confirmation.setHeaderText(null);
-        confirmation.setContentText("Are you sure you want to delete " + selectedSupplierIds.size() + " supplier? " +
-                "If you delete, all products belong to this supplier also get deleted.");
-        if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
-            selectedSupplierIds.forEach(aLong -> {
-                supplierService.deleteSupplier(aLong);
-                Supplier supplier = suppliers.stream()
-                        .filter(p -> p.getId() == aLong)
-                        .findFirst()
-                        .orElse(null);
-                suppliers.remove(supplier);
-            });
+        if (selectedSupplierIds.isEmpty()) {
+            Alert confirmation = new Alert(Alert.AlertType.WARNING);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Please select checkbox supplier you want to delete.");
+            confirmation.show();
+        } else {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("Are you sure you want to delete " + selectedSupplierIds.size() + " supplier? " +
+                    "If you delete, all products belong to this supplier also get deleted.");
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                selectedSupplierIds.forEach(aLong -> {
+                    supplierService.deleteSupplier(aLong);
+                    Supplier supplier = suppliers.stream()
+                            .filter(p -> p.getId() == aLong)
+                            .findFirst()
+                            .orElse(null);
+                    suppliers.remove(supplier);
+                    paginationHelper.getPageItems().remove(supplier);
+                });
 
-            addButtonOnClick();
-            showFirstPage();
-            tableView.refresh();
+                addButtonOnClick();
+                paginationHelper.showCurrentPage();
+                tableView.refresh();
+            }
         }
+
     }
     private void searchSupplierOnAction() {
         String searchText = txt_supplier_search.getText().trim();
