@@ -64,6 +64,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Label layoutX="6.0" layoutY="17.0" text="Employees salary">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Label layoutX="10.0" layoutY="14.0" text="EMPLOYEE REPORT" textFill="#4a55a2">
@@ -89,7 +94,7 @@
             </HBox>
             <HBox prefWidth="362.0" spacing="10.0">
                <children>
-                  <Label text="Total employees salary:">
+                  <Label text="Total salary to be paid this month:">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -103,7 +108,7 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="36.0" prefWidth="362.0" spacing="10.0">
                <children>
-                  <Label text="Total salary to be paid this month:">
+                  <Label text="Employee's average salary">
                      <font>
                         <Font size="16.0" />
                      </font>

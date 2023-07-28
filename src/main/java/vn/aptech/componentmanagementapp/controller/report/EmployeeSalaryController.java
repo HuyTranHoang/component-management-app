@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import vn.aptech.componentmanagementapp.model.Employee;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -22,6 +23,7 @@ import vn.aptech.componentmanagementapp.util.PaginationHelper;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -74,7 +76,7 @@ public class EmployeeSalaryController implements Initializable{
 
     private ObservableList<Employee> employees;
 
-    private DecimalFormat decimalFormat = new DecimalFormat();
+    private DecimalFormat decimalFormat = new DecimalFormat("#,##0₫");
 
 
     @Override
@@ -97,7 +99,7 @@ public class EmployeeSalaryController implements Initializable{
         paginationHelper.showFirstPage();
 
         initComboBox();
-        initComboBoxEvent();
+        initSort();
     }
 
     private void initTableView() {
@@ -115,49 +117,34 @@ public class EmployeeSalaryController implements Initializable{
         cbb_orderBy.selectFirst();
     }
 
-    private void initComboBoxEvent() {
-        EventHandler<ActionEvent> comboBoxEventHandler = event -> {
-            String employee = cbb_orderBy.getValue();
-            if (employee == null) {
-                return;
-            }
-
-            if (employee.equals("DESC"))
-                Collections.reverse(employees);
-
-            double sumTotal = 0;
-            for (Employee employee1: employees) {
-                sumTotal = sumTotal + employee1.getSalary();
-            }
-
-            double averageSalary = 0;
-            for (Employee employee1: employees) {
-                averageSalary = sumTotal/employeeService.getAllEmployee().size();
-            }
-
-            lbl_totalEmployee.setText(String.valueOf(employeeService.getAllEmployee().size()));
-            lbl_totalEmployeeSalary.setText(decimalFormat.format(sumTotal));
-            lbl_averageEmployeeSalary.setText(decimalFormat.format(averageSalary));
-
-            paginationHelper.setItems(employees);
-            showFirstPage();
-        };
-
-        cbb_orderBy.setOnAction(comboBoxEventHandler);
+    private void initSort() {
+        cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+        // Add listeners to both ComboBoxes
+        cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
     }
 
+    private void applySorting() {
+        String orderBy = cbb_orderBy.getValue();
+        Comparator<Employee> comparator = Comparator.comparing(Employee::getSalary);
+        if ("DESC".equals(orderBy)) {
+            comparator = comparator.reversed();
+        }
 
+        if (orderBy.equals("DESC"))
+            Collections.reverse(employees);
 
+        double sumSalary = 0;
+        for (Employee employee: employees) {
+            sumSalary += employee.getSalary();
+        }
+        double averageSalary = sumSalary/employees.size();
 
-
-
-
-
-
-
-
-
-
+        lbl_totalEmployee.setText(String.valueOf(employees.size()));
+        lbl_totalEmployeeSalary.setText(decimalFormat.format(sumSalary));
+        lbl_averageEmployeeSalary.setText(decimalFormat.format(averageSalary));
+        FXCollections.sort(employees, comparator);
+        showFirstPage();
+    }
 
     @FXML
     void showFirstPage() {
