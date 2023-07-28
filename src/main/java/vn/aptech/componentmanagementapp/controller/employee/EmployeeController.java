@@ -347,6 +347,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
                     employees.remove(employee);
                     paginationHelper.getPageItems().remove(employee);
                 });
+                uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
                 tableView.refresh();
             }

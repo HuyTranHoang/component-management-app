@@ -389,6 +389,7 @@ public class CategoryController implements Initializable {
                 });
 
                 addButtonOnClick();
+                uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
                 tableView.refresh();
             }

@@ -513,9 +513,7 @@ public class CustomerController implements Initializable {
 
                 addButtonOnClick();
                 uncheckAllCheckboxes();
-
                 paginationHelper.showCurrentPage();
-
                 tableView.refresh();
             }
         }

@@ -488,6 +488,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         confirmation.setContentText("Are you sure you want to cancel " + selectedOrderIds.size() + " order?");
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             selectedOrderIds.forEach(orderService::cancelOrder);
+            uncheckAllCheckboxes();
             resetFilterIconClicked();
         }
     }

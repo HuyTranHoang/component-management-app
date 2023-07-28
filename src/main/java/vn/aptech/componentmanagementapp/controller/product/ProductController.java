@@ -473,14 +473,14 @@ public class ProductController implements Initializable,
                     products.remove(product);
 //                    filterController.filterRemoveProduct(product);
                     paginationHelper.getPageItems().remove(product);
-                    tableView.refresh();
                 });
 
 //            products = FXCollections.observableArrayList(productService.getAllProduct());
 //            filterController.setProducts(products);
 //            resetFilterIconClicked();
-
+                uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
+                tableView.refresh();
             }
         }
 

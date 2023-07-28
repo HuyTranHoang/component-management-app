@@ -423,6 +423,7 @@ public class SupplierController implements Initializable {
                 });
 
                 addButtonOnClick();
+                uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
                 tableView.refresh();
             }
