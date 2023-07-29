@@ -109,9 +109,6 @@ public class LoginController implements Initializable {
         initForgotValidator();
         initResetValidator();
         initEnterKeyPressing();
-
-        loadLoginInfo();
-
     }
 
     private void loadLoginInfo() {
@@ -242,6 +239,7 @@ public class LoginController implements Initializable {
     @FXML
     void loginButtonOnClick() {
         if (loginValidator.validate()) {
+            loadLoginInfo(); // load lại login info
             String email = txt_login_email.getText();
             String password = hashSHA256(txt_login_password.getText());
             LoginInfo loginInfo = loginInfoMap.get(email);
@@ -270,6 +268,8 @@ public class LoginController implements Initializable {
 
                     if (loginInfo.getDepartmentId() != 1)
                         controller.disableEmployee();
+
+                    clearLogin();
 
                     controller.setStage(stage);
                     stage.setScene(scene);
@@ -315,6 +315,7 @@ public class LoginController implements Initializable {
     @FXML
     void resetButtonOnClick() {
         if (forgotValidator.validate()) {
+            loadLoginInfo();
             String citizen_id = txt_forgot_citizen.getText();
             Optional<LoginInfo> optionalLoginInfo = loginInfoMap.values().stream()
                     .filter(loginInfo -> loginInfo.getCitizenId().equals(citizen_id))
