@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import vn.aptech.componentmanagementapp.controller.ChangePasswordController;
 import vn.aptech.componentmanagementapp.controller.LoginController;
 
 import java.io.IOException;

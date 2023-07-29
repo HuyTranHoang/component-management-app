@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -26,6 +25,7 @@ import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
+import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -301,40 +301,21 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         Employee selectedEmployee = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedEmployee == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a employee before deleting!");
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText("Please select a employee before deleting!");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            alert.setGraphic(image);
-            alert.show();
+            SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
+            error.show();
         } else {
-
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete selected employee? " +
                     "If you delete, all order belong to that employee also get deleted.");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            confirmation.setGraphic(image);
+            SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 employeeService.deleteEmployee(selectedEmployee.getId());
                 employees.remove(selectedEmployee);
@@ -348,22 +329,13 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     @FXML
     void deleteSelectedEmployeeOnClick() {
         if (selectedEmployeeIds.isEmpty()) {
-            Alert confirmation = new Alert(Alert.AlertType.WARNING);
-            confirmation.setTitle("Confirm");
-            confirmation.setHeaderText(null);
-            confirmation.setContentText("Please select checkbox employee you want to delete.");
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Confirm");
+            error.setHeaderText(null);
+            error.setContentText("Please select checkbox employee you want to delete.");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            confirmation.setGraphic(image);
-            confirmation.show();
+            SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
+            error.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
@@ -371,16 +343,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
             confirmation.setContentText("Are you sure you want to delete " + selectedEmployeeIds.size() + " employees? " +
                     "If you delete, all orders belong to this employee also get deleted.");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            confirmation.setGraphic(image);
+            SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 selectedEmployeeIds.forEach(aLong -> {
                     employeeService.deleteEmployee(aLong);
@@ -421,23 +384,13 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         Employee selectedEmployee = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedEmployee == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select employee before edit!");
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText("Please select employee before edit!");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            alert.setGraphic(image);
-
-            alert.show();
+            SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
+            error.show();
         } else {
             employeeAddController.clearInput();
             employeeAddController.updateMode();

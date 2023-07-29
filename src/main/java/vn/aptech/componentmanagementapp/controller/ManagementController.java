@@ -29,6 +29,7 @@ import vn.aptech.componentmanagementapp.controller.report.EmployeeSalaryControll
 import vn.aptech.componentmanagementapp.controller.report.ProductRevenueController;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
+import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.io.File;
 import java.io.IOException;
@@ -192,15 +193,8 @@ public class ManagementController implements Initializable {
         confirmation.setHeaderText(null);
         confirmation.setContentText("Are you sure want to exit?");
 
-        ImageView image = null;
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new ImageView(resourcePath);
-        }
-        image.setFitHeight(50);
-        image.setFitWidth(50);
-        confirmation.setGraphic(image);
+        SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
+
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             DatabaseConnection.closeConnection(DatabaseConnection.getConnection());
             stage.close();
@@ -214,16 +208,8 @@ public class ManagementController implements Initializable {
         confirmation.setHeaderText(null);
         confirmation.setContentText("Are you sure want to logout?");
 
-        ImageView image = null;
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new ImageView(resourcePath);
-        }
-        image.setFitHeight(50);
-        image.setFitWidth(50);
+        SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
 
-        confirmation.setGraphic(image);
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             loginController.clearInput();
             stage.setScene(loginView.getScene());

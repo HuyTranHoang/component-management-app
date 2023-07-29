@@ -18,7 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,6 +34,7 @@ import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.ProductInfoView;
+import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -657,7 +657,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
                 if (newQuantity > stockQuantity) {
                     // Hiển thị cảnh báo khi newQuantity vượt quá stockQuantity
-                    showAlert("Error", "Not enough stock available!", Alert.AlertType.ERROR);
+                    showAlert();
                     return;
                 }
 
@@ -697,22 +697,13 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     }
 
     // Hiển thị cảnh báo
-    private void showAlert(String title, String content, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
+    private void showAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
         alert.setHeaderText(null);
-        alert.setContentText(content);
+        alert.setContentText("Not enough stock available!");
 
-        ImageView image = null;
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new ImageView(resourcePath);
-        }
-        image.setFitHeight(50);
-        image.setFitWidth(50);
-
-        alert.setGraphic(image);
+        SetImageAlert.setIconAlert(alert, SetImageAlert.ERROR);
 
         alert.showAndWait();
     }

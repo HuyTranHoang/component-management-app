@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -28,6 +27,7 @@ import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
+import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -380,22 +380,13 @@ public class ProductController implements Initializable,
         Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select product before edit!");
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText("Please select product before edit!");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            alert.setGraphic(image);
-            alert.show();
+            SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
+            error.show();
         } else {
             productAddController.clearInput();
             productAddController.updateMode();
@@ -415,22 +406,13 @@ public class ProductController implements Initializable,
         Product selectedProduct = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a product before deleting!");
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText(null);
+            error.setContentText("Please select a product before deleting!");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            alert.setGraphic(image);
-            alert.show();
+            SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
+            error.show();
         } else {
 
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -438,16 +420,7 @@ public class ProductController implements Initializable,
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete selected product?");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            confirmation.setGraphic(image);
+            SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 productService.deleteProduct(selectedProduct.getId());
                 products.remove(selectedProduct);
@@ -486,38 +459,20 @@ public class ProductController implements Initializable,
     @FXML
     void deleteSelectedProductOnClick() {
         if (selectedProductIds.isEmpty()) {
-            Alert confirmation = new Alert(Alert.AlertType.WARNING);
-            confirmation.setTitle("Confirm");
-            confirmation.setHeaderText(null);
-            confirmation.setContentText("Please select checkbox product you want to delete.");
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Confirm");
+            error.setHeaderText(null);
+            error.setContentText("Please select checkbox product you want to delete.");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            confirmation.setGraphic(image);
-            confirmation.show();
+            SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
+            error.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete " + selectedProductIds.size() + " products?");
 
-            ImageView image = null;
-            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-            if (resourceURL != null) {
-                String resourcePath = resourceURL.toExternalForm();
-                image = new ImageView(resourcePath);
-            }
-            image.setFitHeight(50);
-            image.setFitWidth(50);
-
-            confirmation.setGraphic(image);
+            SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 selectedProductIds.forEach(aLong -> {
                     productService.deleteProduct(aLong);

@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +22,7 @@ import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.LoginInfo;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
+import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.io.IOException;
 import java.net.URL;
@@ -385,21 +385,14 @@ public class LoginController implements Initializable {
         confirmation.setHeaderText(null);
         confirmation.setContentText("Are you sure you want to exit?");
 
-        ImageView image = null;
-        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
-        if (resourceURL != null) {
-            String resourcePath = resourceURL.toExternalForm();
-            image = new ImageView(resourcePath);
-        }
-        image.setFitHeight(50);
-        image.setFitWidth(50);
+        SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
 
-        confirmation.setGraphic(image);
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             DatabaseConnection.closeConnection(DatabaseConnection.getConnection());
             stage.close();
         }
     }
+
 
     @FXML
     void minimizeButtonOnClick() {

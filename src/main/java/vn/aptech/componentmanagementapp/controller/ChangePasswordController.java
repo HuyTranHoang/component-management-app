@@ -1,22 +1,18 @@
 package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXTextField;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
-import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
-
+import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -91,16 +87,8 @@ public class ChangePasswordController implements Initializable {
                 information.setHeaderText(null);
                 information.setContentText("Change password successfully!!!!!");
 
-                ImageView image = null;
-                URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/success.png");
-                if (resourceURL != null) {
-                    String resourcePath = resourceURL.toExternalForm();
-                    image = new ImageView(resourcePath);
-                }
-                image.setFitHeight(50);
-                image.setFitWidth(50);
+                SetImageAlert.setIconAlert(information, SetImageAlert.SUCCESS);
 
-                information.setGraphic(image);
                 information.show();
             } else {
                 System.out.println("Something went wrong");

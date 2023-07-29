@@ -1,7 +1,6 @@
 package vn.aptech.componentmanagementapp.dao;
 
 import vn.aptech.componentmanagementapp.model.OrderDetail;
-import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
