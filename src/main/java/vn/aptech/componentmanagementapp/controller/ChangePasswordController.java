@@ -1,11 +1,14 @@
 package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
@@ -70,6 +73,7 @@ public class ChangePasswordController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initChangeValidator();
+        initEnterKeyPressing();
     }
 
     @FXML
@@ -180,5 +184,18 @@ public class ChangePasswordController implements Initializable {
         lbl_error_currentPassword.setVisible(false);
         lbl_error_newPassword.setVisible(false);
         lbl_error_confirmPassword.setVisible(false);
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> changePasswordEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                changePasswordButtonClick();
+            }
+        };
+
+        txt_currentPassword.setOnKeyPressed(changePasswordEventHandler);
+        txt_newPassword.setOnKeyPressed(changePasswordEventHandler);
+        txt_confirmPassword.setOnKeyPressed(changePasswordEventHandler);
+
     }
 }
