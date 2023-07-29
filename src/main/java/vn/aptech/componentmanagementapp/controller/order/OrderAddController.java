@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -701,6 +702,18 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
+
+        ImageView image = null;
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new ImageView(resourcePath);
+        }
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+
+        alert.setGraphic(image);
+
         alert.showAndWait();
     }
 

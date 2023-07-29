@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.service.CategoryService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -322,8 +324,19 @@ public class CategoryController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Please select category before edit!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
+
         } else {
             updateMode();
             txt_name.setText(currentCategory.getName());
@@ -366,17 +379,40 @@ public class CategoryController implements Initializable {
     @FXML
     void deleteSelectedCategoryOnClick() {
         if (selectedCategoryIds.isEmpty()) {
-            Alert confirmation = new Alert(Alert.AlertType.WARNING);
-            confirmation.setTitle("Confirm");
-            confirmation.setHeaderText(null);
-            confirmation.setContentText("Please select checkbox category you want to delete.");
-            confirmation.show();
+            Alert warning = new Alert(Alert.AlertType.WARNING);
+            warning.setTitle("Confirm");
+            warning.setHeaderText(null);
+            warning.setContentText("Please select checkbox category you want to delete.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            warning.setGraphic(image);
+
+            warning.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete " + selectedCategoryIds.size() + " category? " +
                     "If you delete, all products belong to this category also get deleted.");
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
+
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 selectedCategoryIds.forEach(aLong -> {
                     categoryService.deleteCategory(aLong);
@@ -406,6 +442,18 @@ public class CategoryController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select a category before deleting!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
+
             alert.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -413,6 +461,18 @@ public class CategoryController implements Initializable {
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete selected category? " +
                     "If you delete, all products belong to that category also get deleted.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
+
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 categoryService.deleteCategory(selectedCategory.getId());
                 categories.remove(selectedCategory);

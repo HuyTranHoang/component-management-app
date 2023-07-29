@@ -2,7 +2,6 @@ package vn.aptech.componentmanagementapp.controller;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -164,8 +163,6 @@ public class ManagementController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        initChangePasswordStage();
-
     }
 
     private void setAvatar(String filename) {
@@ -195,6 +192,15 @@ public class ManagementController implements Initializable {
         confirmation.setHeaderText(null);
         confirmation.setContentText("Are you sure want to exit?");
 
+        ImageView image = null;
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new ImageView(resourcePath);
+        }
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+        confirmation.setGraphic(image);
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             DatabaseConnection.closeConnection(DatabaseConnection.getConnection());
             stage.close();
@@ -208,6 +214,16 @@ public class ManagementController implements Initializable {
         confirmation.setHeaderText(null);
         confirmation.setContentText("Are you sure want to logout?");
 
+        ImageView image = null;
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new ImageView(resourcePath);
+        }
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+
+        confirmation.setGraphic(image);
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             loginController.clearInput();
             stage.setScene(loginView.getScene());
@@ -217,9 +233,9 @@ public class ManagementController implements Initializable {
 
 
     @FXML
-    private void initChangePasswordStage() {
-        if (changePasswordScene == null && changePasswordStage == null) {
-            try {
+    void changePasswordButtonOnClick() {
+        try {
+            if (changePasswordScene == null && changePasswordStage == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/change-password.fxml"));
                 changePasswordScene = new Scene(fxmlLoader.load());
                 changePasswordStage = new Stage();
@@ -227,6 +243,12 @@ public class ManagementController implements Initializable {
                 changePasswordStage.initModality(Modality.APPLICATION_MODAL);
                 changePasswordStage.setScene(changePasswordScene);
                 changePasswordStage.setResizable(false);
+
+                Platform.runLater(() -> {
+                    ChangePasswordController changePasswordController = fxmlLoader.getController();
+                    changePasswordController.setCurrentEmployee(currentEmployee);
+                    changePasswordController.setStage(changePasswordStage);
+                });
 
                 Image image = null;
                 URL resourceURL = ComponentManagementApplication.class.getResource("images/password.png");
@@ -236,16 +258,11 @@ public class ManagementController implements Initializable {
                 }
                 changePasswordStage.getIcons().add(image);
                 changePasswordStage.initModality(Modality.APPLICATION_MODAL);
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
+            changePasswordStage.show();
+        } catch (IOException e) {
+                throw new RuntimeException(e);
         }
-    }
-    @FXML
-    void changePasswordButtonOnClick() {
-        changePasswordStage.show();
     }
 
     @FXML
