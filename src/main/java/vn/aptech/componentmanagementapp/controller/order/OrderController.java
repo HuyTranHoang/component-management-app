@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -443,6 +444,17 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select order before edit!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
         } else {
             orderShowController.setCurrentOrder(selectedOrder);
@@ -486,6 +498,17 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         confirmation.setTitle("Confirm");
         confirmation.setHeaderText(null);
         confirmation.setContentText("Are you sure you want to cancel " + selectedOrderIds.size() + " order?");
+
+        ImageView image = null;
+        URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+        if (resourceURL != null) {
+            String resourcePath = resourceURL.toExternalForm();
+            image = new ImageView(resourcePath);
+        }
+        image.setFitHeight(50);
+        image.setFitWidth(50);
+
+        confirmation.setGraphic(image);
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             selectedOrderIds.forEach(orderService::cancelOrder);
             uncheckAllCheckboxes();
@@ -502,6 +525,17 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select a customer before deleting!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
         } else {
 
@@ -509,6 +543,18 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to cancel selected order? ");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
+
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 orderService.cancelOrder(selectedOrder.getId());
                 resetFilterIconClicked();

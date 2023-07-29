@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import vn.aptech.componentmanagementapp.controller.ChangePasswordController;
 import vn.aptech.componentmanagementapp.controller.LoginController;
 
 import java.io.IOException;
@@ -19,7 +20,6 @@ public class ComponentManagementApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         LoginController controller = fxmlLoader.getController();
         controller.setStage(stage);
-
         scene.setOnMousePressed(event -> {
             x = event.getSceneX();
             y = event.getSceneY();

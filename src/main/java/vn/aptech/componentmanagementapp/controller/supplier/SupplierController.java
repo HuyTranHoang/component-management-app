@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.SupplierService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -334,6 +336,17 @@ public class SupplierController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select supplier before edit!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
         } else {
             updateMode();
@@ -379,6 +392,17 @@ public class SupplierController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select a supplier before deleting!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -386,6 +410,17 @@ public class SupplierController implements Initializable {
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete selected supplier? " +
                     "If you delete, all products belong to that supplier also get deleted.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 supplierService.deleteSupplier(selectedSupplier.getId());
                 suppliers.remove(selectedSupplier);
@@ -404,6 +439,17 @@ public class SupplierController implements Initializable {
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
             confirmation.setContentText("Please select checkbox supplier you want to delete.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
             confirmation.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -411,6 +457,17 @@ public class SupplierController implements Initializable {
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete " + selectedSupplierIds.size() + " supplier? " +
                     "If you delete, all products belong to this supplier also get deleted.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 selectedSupplierIds.forEach(aLong -> {
                     supplierService.deleteSupplier(aLong);

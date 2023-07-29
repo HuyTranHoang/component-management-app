@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -252,6 +254,17 @@ public class CustomerController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select a customer before deleting!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
         } else {
 
@@ -260,6 +273,18 @@ public class CustomerController implements Initializable {
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete selected customer? " +
                     "If you delete, all orders belong to that customers also get deleted.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
+
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 customerService.deleteCustomer(selectedCustomer.getId());
                 customers.remove(selectedCustomer);
@@ -278,6 +303,17 @@ public class CustomerController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please select customer before edit!");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/error.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            alert.setGraphic(image);
             alert.show();
         } else {
             updateMode();
@@ -493,6 +529,17 @@ public class CustomerController implements Initializable {
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
             confirmation.setContentText("Please select checkbox customer you want to delete.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/warning.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
             confirmation.show();
         } else {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
@@ -500,6 +547,17 @@ public class CustomerController implements Initializable {
             confirmation.setHeaderText(null);
             confirmation.setContentText("Are you sure you want to delete " + selectedCustomerIds.size() + " customer? " +
                     "If you delete, all orders belong to this customer also get deleted.");
+
+            ImageView image = null;
+            URL resourceURL = ComponentManagementApplication.class.getResource("images/alert/confirmation.png");
+            if (resourceURL != null) {
+                String resourcePath = resourceURL.toExternalForm();
+                image = new ImageView(resourcePath);
+            }
+            image.setFitHeight(50);
+            image.setFitWidth(50);
+
+            confirmation.setGraphic(image);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 selectedCustomerIds.forEach(aLong -> {
                     customerService.deleteCustomer(aLong);
