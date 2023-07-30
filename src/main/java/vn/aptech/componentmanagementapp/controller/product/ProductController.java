@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProductController implements Initializable,
-        ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback, ProductFilterController.ClearFilterCallback {
+        ProductFilterController.FilterCallback, ProductAddController.ProductAddCallback {
 
 //    Product Panel
     private ObservableList<Product> products;
@@ -292,11 +292,14 @@ public class ProductController implements Initializable,
 
                 filterStage.initModality(Modality.APPLICATION_MODAL);
 
+                filterStage.setOnShowing(event -> {
+                    filterController.updateSelectedButtonsLabel();
+                });
+
                 filterController = fxmlLoader.getController();
 
                 filterController.setStage(filterStage);
                 filterController.setTxt_product_search(txt_product_search);
-                filterController.setProducts(products);
                 filterController.setFilter_noti(filter_noti_shape, filter_noti_label);
                 filterController.setProductTable(tbc_monthOfWarranty, tbc_note);
 
@@ -304,17 +307,18 @@ public class ProductController implements Initializable,
                 filterStage.setResizable(false);
 
                 filterController.setFilterCallback(this);
-                filterController.setClearFilterCallback(this);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public void reloadFilter() {
+        if (filterScene != null && filterStage != null)
+            filterController.reloadFilter();
+    }
     @FXML
     void filterButtonOnClick() {
-        filterController.setProducts(products);
-        filterController.reloadFilter();
         filterStage.show();
     }
 
@@ -334,9 +338,6 @@ public class ProductController implements Initializable,
 
         cbb_sortBy.selectFirst();
         cbb_orderBy.selectFirst();
-
-        products = FXCollections.observableArrayList(productService.getAllProduct());
-        paginationHelper.setItems(products);
 
         uncheckAllCheckboxes();
     }
@@ -433,7 +434,6 @@ public class ProductController implements Initializable,
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 productService.deleteProduct(selectedProduct.getId());
                 products.remove(selectedProduct);
-                filterController.filterRemoveProduct(selectedProduct);
                 tableView.getItems().remove(selectedProduct); // Remove the product from the TableView
                 tableView.refresh();
 
@@ -534,14 +534,6 @@ public class ProductController implements Initializable,
         paginationHelper.showCurrentPage();
     }
 
-    @Override
-    public void onClearFilterClicked() {
-        products = FXCollections.observableArrayList(productService.getAllProduct());
-        paginationHelper.setItems(products);
-//        showFirstPage();
-        paginationHelper.showCurrentPage();
-        uncheckAllCheckboxes();
-    }
 
     @FXML
     void hideNoti() {

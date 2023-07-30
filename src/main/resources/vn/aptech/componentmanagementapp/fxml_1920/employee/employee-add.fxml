@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.employee.EmployeeAddController">
+   <children>
+      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listEmployeeButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="EMPLOYEE LIST" AnchorPane.topAnchor="15.0">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="22.0" layoutY="36.0" prefHeight="720.0" prefWidth="1210.0" styleClass="main-background-color">
+               <children>
+                  <HBox fx:id="hbox_addButtonGroup" layoutX="824.0" layoutY="580.0" spacing="15.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#clearInput" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#saveButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="SAVE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="824.0" layoutY="580.0" spacing="15.0" visible="false">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#listEmployeeButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <VBox layoutX="45.0" layoutY="55.0" prefHeight="645.0" prefWidth="380.0" spacing="12.0">
+                     <children>
+                        <MFXTextField id="textfield-padding" fx:id="txt_name" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Name (*)" prefHeight="48.0" prefWidth="380.0" promptText="Name">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXTextField>
+                        <Label fx:id="lbl_error_name" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXTextField id="textfield-padding" fx:id="txt_address" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Address (*)" prefHeight="48.0" prefWidth="380.0" promptText="Address">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <Label fx:id="lbl_error_address" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXTextField id="textfield-padding" fx:id="txt_phone" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Phone (*)" prefHeight="48.0" prefWidth="380.0" promptText="Phone">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <Label fx:id="lbl_error_phone" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXTextField id="textfield-padding" fx:id="txt_email" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Email (*)" prefHeight="48.0" prefWidth="380.0" promptText="Email">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <Label fx:id="lbl_error_email" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXTextField id="textfield-padding" fx:id="txt_salary" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Salary (*)" prefHeight="48.0" prefWidth="380.0" promptText="Salary">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <Label fx:id="lbl_error_salary" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXTextField id="textfield-padding" fx:id="txt_citizenId" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Citizen Id (*)" prefHeight="48.0" prefWidth="380.0" promptText="Citizen Id">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <Label fx:id="lbl_error_citizenId" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="484.0" layoutY="34.0" prefHeight="471.0" prefWidth="380.0" spacing="12.0">
+                     <children>
+                        <MFXFilterComboBox fx:id="cbb_department" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Department (*)" prefHeight="48.0" prefWidth="380.0">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXFilterComboBox>
+                        <Label fx:id="lbl_error_department" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXFilterComboBox fx:id="cbb_position" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Position (*)" prefHeight="48.0" prefWidth="380.0">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXFilterComboBox>
+                        <Label fx:id="lbl_error_position" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXPasswordField id="textfield-padding" fx:id="txt_password" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Password (*)" prefHeight="48.0" prefWidth="380.0" promptText="Password">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXPasswordField>
+                        <Label fx:id="lbl_error_password" prefHeight="16.0" prefWidth="350.0" text="Lỗi nè" textFill="#e57c23" visible="false" wrapText="true">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXPasswordField id="textfield-padding" fx:id="txt_confirmPassword" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Confirm Password (*)" prefHeight="48.0" prefWidth="380.0" promptText="Confirm Password">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXPasswordField>
+                        <Label fx:id="lbl_error_confirmPassword" prefHeight="16.0" prefWidth="350.0" text="Lỗi nè" textFill="#e57c23" visible="false" wrapText="true">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="912.0" layoutY="55.0" prefHeight="315.0" prefWidth="281.0" spacing="12.0">
+                     <children>
+                        <MFXDatePicker fx:id="txt_dateOfBirth" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Date of birth (*)" prefHeight="48.0" promptText="Date of birth">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXDatePicker>
+                        <Label fx:id="lbl_error_dateOfBirth" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXDatePicker fx:id="txt_dateOfHire" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Date of hire (*)" prefHeight="48.0" promptText="Date of hire">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </MFXDatePicker>
+                        <Label fx:id="lbl_error_dateOfHire" prefHeight="16.0" prefWidth="380.0" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <Label text="Image" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" onAction="#chooseImageButtonOnClick" styleClass="btn-choose-image" text="Choose image" />
+                        <ImageView fx:id="imageView_image" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/defaultImg.jpg" />
+                           </image>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </ImageView>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Label fx:id="lbl_title" layoutX="28.0" layoutY="15.0" text="ADD NEW EMPLOYEE" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="26.0" />
+         </font>
+      </Label>
+      <HBox fx:id="hbox_noti" alignment="CENTER" layoutX="900.0" layoutY="55.0" onMouseClicked="#hideNoti" prefHeight="61.0" prefWidth="351.0" spacing="10.0" styleClass="hbox-noti" visible="false">
+         <children>
+            <ImageView fitHeight="29.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/alert/success.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <VBox alignment="CENTER_LEFT" prefHeight="59.0" prefWidth="277.0">
+               <children>
+                  <Label prefHeight="23.0" prefWidth="380.0" text="Success!">
+                     <font>
+                        <Font name="Inter Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_successMessage" prefHeight="23.0" prefWidth="380.0" text="Cancel order successfully">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

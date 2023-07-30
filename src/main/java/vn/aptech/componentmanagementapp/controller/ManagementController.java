@@ -309,6 +309,7 @@ public class ManagementController implements Initializable {
 
         productController.reloadProduct(); // reload lại query mỗi lần quay lại
         productController.resetFilterIconClicked(); // reset lại filter
+        productController.reloadFilter();
 
         resetSubmenu();
 

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.order.OrderShowController">
+   <children>
+      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listOrderButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ORDER LIST" AnchorPane.topAnchor="15.0">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
+               <children>
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="290.0" layoutY="684.0" spacing="15.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#listOrderButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#exportButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="EXPORT PDF">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <MFXScrollPane layoutX="654.0" layoutY="96.0" prefHeight="591.0" prefWidth="526.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;">
+                     <content>
+                        <VBox fx:id="vbox_orderDetail" prefHeight="200.0" prefWidth="510.0" />
+                     </content>
+                  </MFXScrollPane>
+                  <Label layoutX="814.0" layoutY="32.0" text="ORDER DETAILS" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <HBox layoutX="654.0" layoutY="696.0" prefWidth="526.0" spacing="15.0">
+                     <children>
+                        <Label text="Total amount:" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_totalAmount" textFill="WHITE">
+                           <font>
+                              <Font name="Inter Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox layoutX="60.0" layoutY="100.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="130.0" text="Order date: " textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_orderDate" alignment="CENTER" prefHeight="30.0" text="20/20/2020" textFill="WHITE">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="130.0" text="Delivery date:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_deliveryDate" alignment="CENTER" prefHeight="30.0" text="20/20/2020" textFill="WHITE">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="130.0" text="Receive date:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_receiveDate" alignment="CENTER" prefHeight="30.0" text="20/20/2020" textFill="WHITE">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="60.0" layoutY="230.0" prefHeight="65.0" prefWidth="510.0" spacing="5.0">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="160.0" text="Customer phone:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_customerPhone" alignment="CENTER" prefHeight="30.0" text="0708924234" textFill="WHITE">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="160.0" text="Customer name:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_customerName" alignment="CENTER" prefHeight="30.0" text="Trần Hoàng Huy" textFill="WHITE">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="60.0" layoutY="330.0" prefHeight="65.0" prefWidth="510.0" spacing="5.0">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="160.0" text="Employee name:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_EmployeeName" alignment="CENTER" prefHeight="30.0" text="Thái Bảo" textFill="WHITE">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="60.0" layoutY="408.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="510.0" spacing="10.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="160.0" text="Delivery location:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_deliveryLocation" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="355.0" text="Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="55.0" layoutY="508.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="510.0" spacing="10.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="160.0" text="Note:" textFill="#c5dff8">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_note" alignment="TOP_LEFT" prefHeight="95.0" prefWidth="540.0" text="Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="16.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Label layoutX="28.0" layoutY="15.0" text="ORDER INFORMATION" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="26.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

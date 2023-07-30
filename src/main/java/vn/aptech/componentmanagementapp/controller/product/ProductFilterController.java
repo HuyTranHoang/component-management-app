@@ -18,6 +18,7 @@ import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.CategoryService;
+import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.service.SupplierService;
 
 import java.net.URL;
@@ -35,15 +36,6 @@ public class ProductFilterController implements Initializable {
         this.filterCallback = filterCallback;
     }
 
-    public interface ClearFilterCallback {
-        void onClearFilterClicked();
-    }
-
-    private ClearFilterCallback clearFilterCallback;
-
-    public void setClearFilterCallback(ClearFilterCallback callback) {
-        this.clearFilterCallback = callback;
-    }
 
     //    Dùng để filter những cột nào hiển thị trên table
     @FXML
@@ -64,20 +56,19 @@ public class ProductFilterController implements Initializable {
     //  Chứa data được lấy từ database
     private ObservableList<Category> categories;
     private ObservableList<Supplier> suppliers;
+
     //  Chứa danh sách những nút được selected ( Khi án thì sẽ add vào list này )
     List<ToggleButton> categorySelectedToggleButtons = new ArrayList<>();
     List<ToggleButton> supplierSelectedToggleButtons = new ArrayList<>();
     //    Service
+    private ProductService productService = new ProductService();
     private CategoryService categoryService = new CategoryService();
     private SupplierService supplierService = new SupplierService();
+
     //    TableView
-
-
     private TableColumn<Product, Integer> tbc_monthOfWarranty;
     @FXML
     private TableColumn<Product, String> tbc_note;
-//    List product từ product controller
-    private static ObservableList<Product> products;
 
 //    Debound for search text field
     private Timer debounceTimer;
@@ -102,10 +93,6 @@ public class ProductFilterController implements Initializable {
 
     public void setTxt_product_search(MFXTextField txt_product_search) {
         this.txt_product_search = txt_product_search;
-    }
-
-    public void setProducts(ObservableList<Product> products) {
-        ProductFilterController.products = products;
     }
 
     public void setFilter_noti(Circle filter_noti_shape, Label filter_noti_label) {
@@ -150,7 +137,7 @@ public class ProductFilterController implements Initializable {
         });
     }
 
-    private void updateSelectedButtonsLabel() {
+    public void updateSelectedButtonsLabel() {
         flowPanel_selectedFilter.getChildren().clear(); // Clear the existing labels
 
         addLabelsForSelectedToggleButtons(categorySelectedToggleButtons);
@@ -229,17 +216,21 @@ public class ProductFilterController implements Initializable {
 
     @FXML
     void viewResultButtonOnClick() {
-        List<Product> filteredProducts = products;
+        List<Product> filteredProducts = productService.getAllProduct();
         int countFilter = 0; // Dùng để đếm số lượng filter xong gán thành text cho noti
 
         // Checkbox
         if (checkbox_warranty.isSelected()) {
             countFilter++;
             tbc_monthOfWarranty.setVisible(checkbox_warranty.isSelected());
+        } else {
+            tbc_monthOfWarranty.setVisible(checkbox_warranty.isSelected());
         }
 
         if (checkbox_note.isSelected()) {
             countFilter++;
+            tbc_note.setVisible(checkbox_note.isSelected());
+        } else {
             tbc_note.setVisible(checkbox_note.isSelected());
         }
 
@@ -249,26 +240,24 @@ public class ProductFilterController implements Initializable {
             String selectedPrice = selectedRadio.getText();
 
             filteredProducts = switch (selectedPrice) {
-                case "Below 2,000,000" -> products.stream()
+                case "Below 2,000,000" -> filteredProducts.stream()
                         .filter(product -> product.getPrice() < 2000000)
                         .collect(Collectors.toList());
-                case "2,000,0000 - 5,000,000" -> products.stream()
+                case "2,000,0000 - 5,000,000" -> filteredProducts.stream()
                         .filter(product -> product.getPrice() >= 2000000 && product.getPrice() <= 5000000)
                         .collect(Collectors.toList());
-                case "5,000,0000 - 10,000,000" -> products.stream()
+                case "5,000,0000 - 10,000,000" -> filteredProducts.stream()
                         .filter(product -> product.getPrice() >= 5000000 && product.getPrice() <= 10000000)
                         .collect(Collectors.toList());
-                case "10,000,000 - 20,000,000" -> products.stream()
+                case "10,000,000 - 20,000,000" -> filteredProducts.stream()
                         .filter(product -> product.getPrice() >= 10000000 && product.getPrice() <= 20000000)
                         .collect(Collectors.toList());
-                default -> products.stream()
+                default -> filteredProducts.stream()
                         .filter(product -> product.getPrice() > 20000000)
                         .collect(Collectors.toList());
             };
 
             countFilter++;
-        } else {
-            filteredProducts = new ArrayList<>(products); // Original list
         }
 
         // Category
@@ -344,11 +333,7 @@ public class ProductFilterController implements Initializable {
 
         txt_product_search.clear(); // Clear search text
 
-        if (clearFilterCallback != null) {
-            clearFilterCallback.onClearFilterClicked();
-        }
-
-        stage.close();
+        viewResultButtonOnClick();
     }
 
     void initSearchListen() {
@@ -387,13 +372,6 @@ public class ProductFilterController implements Initializable {
                 }
             }, DEBOUNCE_DELAY);
         });
-    }
-
-    void filterRemoveProduct(Product product) {
-        products.remove(product);
-    }
-    void filterAddProduct(Product product) {
-        products.add(product);
     }
 
     public void reloadFilter() {

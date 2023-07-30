@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.order.OrderAddController">
+   <children>
+      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+      <MFXButton layoutX="437.0" layoutY="15.0" onAction="#listOrderButtonOnClick" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ORDER LIST" AnchorPane.topAnchor="15.0">
+         <graphic>
+            <FontIcon iconColor="WHITE" iconLiteral="fas-list" />
+         </graphic>
+         <font>
+            <Font name="Inter Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane fx:id="anchor_order" layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
+               <children>
+                  <MFXDatePicker fx:id="txt_orderDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Order date (*)" layoutX="58.0" layoutY="115.0" prefHeight="48.0" prefWidth="200.0" promptText="Order date">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXDatePicker fx:id="txt_deliveryDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery date (*)" layoutX="58.0" layoutY="225.0" prefHeight="48.0" prefWidth="200.0" promptText="Delivery date">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXDatePicker fx:id="txt_receiveDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Receive date (*)" layoutX="58.0" layoutY="335.0" prefHeight="48.0" prefWidth="200.0" promptText="Receive date">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXDatePicker>
+                  <MFXTextField id="textfield-padding" fx:id="txt_deliveryLocation" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Delivery location (*)" layoutX="58.0" layoutY="445.0" prefHeight="48.0" prefWidth="549.0" promptText="Delivery location">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField id="textfield-padding" fx:id="txt_note" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Note" layoutX="58.0" layoutY="550.0" prefHeight="48.0" prefWidth="549.0" promptText="Note">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label fx:id="lbl_error_orderDate" layoutX="58.0" layoutY="175.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_deliveryLocation" layoutX="58.0" layoutY="505.0" prefHeight="16.0" prefWidth="501.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_note" layoutX="68.0" layoutY="612.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <HBox layoutX="248.0" layoutY="685.0" spacing="15.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#clearInputOrder" prefHeight="48.0" prefWidth="150.0" text="CLEAR">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#nextButtonOnClickOrder" prefHeight="48.0" prefWidth="150.0" text="NEXT">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <Label fx:id="lbl_error_deliveryDate" layoutX="58.0" layoutY="285.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <Label fx:id="lbl_error_shipmentDate" layoutX="58.0" layoutY="395.0" prefHeight="16.0" prefWidth="280.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerName" allowEdit="false" animated="false" borderGap="0.0" editable="false" floatMode="ABOVE" floatingText="Customer name (*)" layoutX="353.0" layoutY="225.0" onMouseClicked="#selectCustomerOnClick" prefHeight="48.0" prefWidth="250.0" promptText="Click to select">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <MFXTextField id="textfield-padding-disable" fx:id="txt_employeeName" allowEdit="false" animated="false" borderGap="0.0" caretVisible="false" editable="false" floatMode="ABOVE" floatingText="Employee name" layoutX="353.0" layoutY="335.0" prefHeight="48.0" prefWidth="250.0" promptText="Employee name">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                     <textFill>
+                        <Color red="0.29019609093666077" green="0.3333333432674408" blue="0.6352941393852234" opacity="0.8700000047683716" />
+                     </textFill>
+                  </MFXTextField>
+                  <Label fx:id="lbl_error_customerId" layoutX="353.0" layoutY="285.0" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <MFXTextField id="textfield-padding" fx:id="txt_customerPhone" allowEdit="false" animated="false" borderGap="0.0" editable="false" floatMode="ABOVE" floatingText="Customer phone (*)" layoutX="353.0" layoutY="115.0" onMouseClicked="#selectCustomerOnClick" prefHeight="48.0" prefWidth="250.0" promptText="Click to select">
+                     <font>
+                        <Font name="Segoe UI" size="14.0" />
+                     </font>
+                  </MFXTextField>
+                  <Label fx:id="lbl_error_customerEmpty" layoutX="58.0" layoutY="622.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                     <font>
+                        <Font name="Inter Bold" size="13.0" />
+                     </font>
+                     <graphic>
+                        <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                     </graphic>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchor_orderDetail" layoutX="22.0" layoutY="-1.0" prefHeight="785.0" prefWidth="1210.0" styleClass="main-background-color">
+               <children>
+                  <MFXScrollPane layoutX="654.0" layoutY="96.0" prefHeight="591.0" prefWidth="526.0" style="-fx-border-radius: 10px; -fx-background-radius: 10px;">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="510.0">
+                           <children>
+                              <HBox alignment="TOP_RIGHT" prefWidth="0.0">
+                                 <children>
+                                    <MFXButton fx:id="btn_clearList" contentDisplay="RIGHT" onAction="#clearOrderDetail" text="Clear list">
+                                       <graphic>
+                                          <FontIcon iconLiteral="fas-plus-circle" />
+                                       </graphic>
+                                    </MFXButton>
+                                 </children>
+                              </HBox>
+                              <VBox fx:id="vbox_orderDetail" prefHeight="200.0" prefWidth="100.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </MFXScrollPane>
+                  <Label layoutX="814.0" layoutY="32.0" text="ORDER DETAILS" textFill="WHITE">
+                     <font>
+                        <Font name="Inter Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <HBox fx:id="hbox_addButtonGroup" layoutX="277.0" layoutY="687.0" spacing="15.0">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#clearInputOrderDetail" prefHeight="48.0" prefWidth="150.0" text="CLEAR INPUT">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#nextButtonOnClickOrderDetail" prefHeight="48.0" prefWidth="150.0" text="NEXT">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbox_updateButtonGroup" layoutX="277.0" layoutY="687.0" spacing="15.0" visible="false">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hbox_storeButtonGroup" layoutX="277.0" layoutY="687.0" spacing="15.0" visible="false">
+                     <children>
+                        <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <MFXButton id="button-custom" onAction="#saveButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="SAVE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <AnchorPane fx:id="anchor_inputOrderDetails" layoutX="56.0" layoutY="65.0">
+                     <children>
+                        <MFXTextField id="textfield-padding" fx:id="txt_quantity" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Quantity (*)" layoutY="469.0" prefHeight="48.0" prefWidth="250.0" promptText="Quantity" text="1">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXTextField>
+                        <MFXTextField id="textfield-padding" fx:id="txt_discount" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Discount (*)" layoutX="280.0" layoutY="469.0" prefHeight="48.0" prefWidth="250.0" promptText="Discount" text="0">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </MFXTextField>
+                        <MFXButton id="button-custom" layoutX="80.0" layoutY="338.0" onAction="#selectProductOnClick" prefHeight="38.0" prefWidth="221.0" text="Select product">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <Label fx:id="lbl_error_quantity" layoutY="525.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="lbl_error_discount" layoutX="280.0" layoutY="525.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <VBox layoutY="31.0" prefHeight="300.0" prefWidth="536.0" spacing="15.0" style="-fx-background-color: #fff; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-border-color: #4A55A2;">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefWidth="120.0" text="Name:" textFill="#4a55a2" wrapText="true">
+                                       <font>
+                                          <Font name="Inter Bold" size="16.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lbl_productName" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" wrapText="true">
+                                       <font>
+                                          <Font name="Inter Regular" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="5.0" top="15.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefWidth="120.0" text="Price:" textFill="#4a55a2" wrapText="true">
+                                       <font>
+                                          <Font name="Inter Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_productPrice" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0">
+                                       <font>
+                                          <Font name="Inter Regular" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefWidth="220.0" text="Discount amount:" textFill="#4a55a2" wrapText="true">
+                                       <font>
+                                          <Font name="Inter Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_productPrice_discount" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" textFill="#f88b2b">
+                                       <font>
+                                          <Font name="Inter Regular" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefWidth="220.0" text="Total amount:" textFill="#4a55a2" wrapText="true">
+                                       <font>
+                                          <Font name="Inter Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_productTotalAmount" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="320.0" textFill="#f88b2b">
+                                       <font>
+                                          <Font name="Inter Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Label alignment="TOP_LEFT" prefHeight="20.0" prefWidth="320.0" text="Selected product info" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Inter Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_error_product" layoutX="80.0" layoutY="405.0" prefHeight="16.0" prefWidth="250.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <Label fx:id="lbl_error_orderDetailEmpty" layoutY="541.0" prefHeight="16.0" prefWidth="380.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+                           <font>
+                              <Font name="Inter Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+                           </graphic>
+                        </Label>
+                        <MFXButton id="button-custom" layoutX="330.0" layoutY="338.0" onAction="#addButtonOnClick" prefHeight="38.0" prefWidth="200.0" text="ADD TO LIST">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                        <FontIcon iconColor="WHITE" iconLiteral="bi-arrow-return-right" iconSize="20" layoutX="48.0" layoutY="358.0" wrappingWidth="20.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="anchor_showOrder" layoutX="75.0" layoutY="96.0" prefHeight="473.0" prefWidth="517.0" style="-fx-background-color: #fff; -fx-background-radius: 3px; -fx-border-radius: 3px;" visible="false">
+                     <children>
+                        <VBox layoutX="3.0" layoutY="71.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="130.0" text="Order date: ">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showOrderDate" alignment="CENTER" prefHeight="30.0" text="20/20/2020">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="130.0" text="Delivery date:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showDeliveryDate" alignment="CENTER" prefHeight="30.0" text="20/20/2020">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="130.0" text="Receive date:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showReceiveDate" alignment="CENTER" prefHeight="30.0" text="20/20/2020">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="3.0" layoutY="177.0" prefHeight="65.0" prefWidth="510.0" spacing="5.0">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="160.0" text="Customer phone:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showCustomerPhone" alignment="CENTER" prefHeight="30.0" text="0708924234">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="160.0" text="Customer name:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showCustomerName" alignment="CENTER" prefHeight="30.0" text="Trần Hoàng Huy">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="3.0" layoutY="258.0" prefHeight="65.0" prefWidth="510.0" spacing="5.0">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="160.0" text="Employee name:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showEmployeeName" alignment="CENTER" prefHeight="30.0" text="Thái Bảo">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="3.0" layoutY="316.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="510.0" spacing="10.0">
+                                 <children>
+                                    <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="174.0" text="Delivery location:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showDeliveryLocation" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="355.0" text="Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh" wrapText="true">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="4.0" layoutY="416.0" prefHeight="100.0" prefWidth="510.0" spacing="5.0">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="510.0" spacing="10.0">
+                                 <children>
+                                    <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="160.0" text="Note:">
+                                       <font>
+                                          <Font name="Segoe UI Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lbl_showNote" alignment="TOP_LEFT" prefHeight="95.0" prefWidth="540.0" text="Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh Quận 1 Hồ Chí Minh" wrapText="true">
+                                       <font>
+                                          <Font name="Segoe UI" size="16.0" />
+                                       </font>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <HBox.margin>
+                                          <Insets top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </VBox>
+                        <Label layoutX="14.0" layoutY="14.0" text="Review invoice" textFill="#4a55a2">
+                           <font>
+                              <Font name="Inter Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <HBox layoutX="654.0" layoutY="700.0" prefHeight="23.0" prefWidth="526.0">
+                     <children>
+                        <Label fx:id="lbl_totalAmount" prefHeight="23.0" prefWidth="150.0" text="Total Amount: " textFill="WHITE">
+                           <font>
+                              <Font name="Inter Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_totalAmount" prefHeight="16.0" prefWidth="250.0" text="..." textFill="WHITE">
+                           <font>
+                              <Font name="Inter Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Label layoutX="28.0" layoutY="15.0" text="ADD NEW ORDER" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="26.0" />
+         </font>
+      </Label>
+      <HBox fx:id="hbox_noti" alignment="CENTER" layoutX="900.0" layoutY="55.0" onMouseClicked="#hideNoti" prefHeight="61.0" prefWidth="351.0" spacing="10.0" styleClass="hbox-noti" visible="false">
+         <children>
+            <ImageView fitHeight="29.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/alert/success.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <VBox alignment="CENTER_LEFT" prefHeight="59.0" prefWidth="277.0">
+               <children>
+                  <Label prefHeight="23.0" prefWidth="380.0" text="Success!">
+                     <font>
+                        <Font name="Inter Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_successMessage" prefHeight="23.0" prefWidth="380.0" text="Add new order successfully">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #fff;" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.employee.EmployeeFilterController">
+   <children>
+      <AnchorPane fx:id="anchor_salary" disable="true" layoutY="81.0" prefHeight="119.0" prefWidth="800.0" AnchorPane.topAnchor="81.0">
+         <children>
+            <Label layoutX="66.0" layoutY="38.0" text="Salary" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Inter SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <HBox layoutX="50.0" layoutY="75.0" spacing="25.0">
+               <children>
+                  <MFXComboBox id="custom-combobox" fx:id="cbb_bySalary" borderGap="0.0" floatMode="DISABLED" floatingText="By" floatingTextGap="15.0" prefHeight="40.0" prefWidth="200.0" />
+                  <MFXTextField id="custom-textfield" fx:id="txt_salaryAmount" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Amount" prefHeight="40.0" prefWidth="200.0" text="0" />
+               </children>
+            </HBox>
+            <Label layoutX="50.0" layoutY="53.0" text="Salary is" textFill="#4a55a2" />
+            <Label fx:id="lbl_error_salary" layoutX="492.0" layoutY="87.0" prefHeight="16.0" prefWidth="237.0" text="Lỗi nè" textFill="#e57c23" visible="false">
+               <font>
+                  <Font name="Inter Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+               </graphic>
+            </Label>
+         </children>
+      </AnchorPane>
+      <HBox layoutX="460.0" layoutY="427.0" spacing="15.0">
+         <children>
+            <MFXButton id="filter-clear-button" onAction="#clearFilterButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="CLEAR FILTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton id="button-custom" onAction="#viewResultButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="VIEW RESULT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="anchor_department" disable="true" layoutY="200.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="66.0" layoutY="38.0" text="Department" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font name="Inter SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <MFXFilterComboBox id="custom-combobox" fx:id="cbb_department" animated="false" borderGap="0.0" floatMode="DISABLED" floatingText="Department" floatingTextGap="20.0" layoutX="50.0" layoutY="60.0" prefHeight="40.0" prefWidth="297.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anchor_position" disable="true" layoutY="300.0" prefHeight="90.0" prefWidth="436.0">
+         <children>
+            <Label layoutX="50.0" layoutY="14.0" text="Position" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font name="Inter SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <MFXFilterComboBox id="custom-combobox" fx:id="cbb_position" animated="false" borderGap="0.0" floatMode="DISABLED" floatingText="Position" layoutX="50.0" layoutY="50.0" prefHeight="40.0" prefWidth="297.0" />
+         </children>
+      </AnchorPane>
+      <HBox layoutX="51.0" layoutY="53.0" spacing="15.0">
+         <children>
+            <Label text="Filter by">
+               <font>
+                  <Font name="Inter SemiBold" size="18.0" />
+               </font>
+            </Label>
+            <MFXCheckbox fx:id="checkbox_salary" text="Salary" />
+            <MFXCheckbox fx:id="checkbox_department" text="Department" />
+            <MFXCheckbox fx:id="checkbox_position" text="Position" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

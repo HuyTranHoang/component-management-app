@@ -272,8 +272,10 @@ public class LoginController implements Initializable {
                     clearLogin();
 
                     controller.setStage(stage);
+                    stage.setMaximized(true);
+//                    stage.setFullScreen(true);
                     stage.setScene(scene);
-                    stage.centerOnScreen();
+//                    stage.centerOnScreen();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
