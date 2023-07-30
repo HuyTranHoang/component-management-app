@@ -230,6 +230,8 @@ public class ProductController implements Initializable,
     private void initSort() {
         cbb_sortBy.setItems(FXCollections.observableArrayList(List.of("Id", "Name", "Price", "Quantity")));
         cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+        cbb_sortBy.selectFirst();
+        cbb_orderBy.selectFirst();
         // Add listeners to both ComboBoxes
         cbb_sortBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
         cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
@@ -328,6 +330,7 @@ public class ProductController implements Initializable,
         products = FXCollections.observableArrayList(filteredProducts);
         paginationHelper.setItems(products);
         showFirstPage();
+        applySorting();
     }
 
     @FXML
