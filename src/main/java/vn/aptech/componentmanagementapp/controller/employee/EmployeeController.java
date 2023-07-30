@@ -1,7 +1,11 @@
 package vn.aptech.componentmanagementapp.controller.employee;
 
+import animatefx.animation.FadeInRight;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Department;
 import vn.aptech.componentmanagementapp.model.Employee;
@@ -93,6 +98,10 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
     @FXML
     private MFXTextField txt_employee_search;
+
+    @FXML
+    private HBox hbox_noti;
+    private Timeline timeline;
 
     // List
     private ObservableList<Employee> employees;
@@ -322,6 +331,10 @@ public class EmployeeController implements Initializable, EmployeeAddController.
                 tableView.getItems().remove(selectedEmployee); // Remove the product from the TableView
                 if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
             }
         }
     }
@@ -355,6 +368,11 @@ public class EmployeeController implements Initializable, EmployeeAddController.
                     employees.remove(employee);
                     paginationHelper.getPageItems().remove(employee);
                 });
+
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
                 uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
                 tableView.refresh();
@@ -515,5 +533,11 @@ public class EmployeeController implements Initializable, EmployeeAddController.
         showFirstPage();
 
         uncheckAllCheckboxes();
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 }

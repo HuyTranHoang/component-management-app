@@ -1,7 +1,11 @@
 package vn.aptech.componentmanagementapp.controller.order;
 
+import animatefx.animation.FadeInRight;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,6 +26,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
@@ -94,6 +99,9 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     private HBox hbox_addEditDelete;
     @FXML
     private HBox hbox_confirmDelete;
+    @FXML
+    private HBox hbox_noti;
+    private Timeline timeline;
     //    List
     private ObservableList<Order> orders;
 
@@ -388,7 +396,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         orders = FXCollections.observableArrayList(orderService.getAllOrder());
         paginationHelper.setItems(orders);
-        showFirstPage();
+        paginationHelper.showCurrentPage();
 
         uncheckAllCheckboxes();
     }
@@ -495,6 +503,11 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             selectedOrderIds.forEach(orderService::cancelOrder);
             uncheckAllCheckboxes();
             resetFilterIconClicked();
+
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+            timeline.play();
         }
     }
 
@@ -506,7 +519,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Error");
             error.setHeaderText(null);
-            error.setContentText("Please select a customer before deleting!");
+            error.setContentText("Please select a order to cancel!");
 
             SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
             error.show();
@@ -521,6 +534,11 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 orderService.cancelOrder(selectedOrder.getId());
                 resetFilterIconClicked();
+
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
             }
         }
     }
@@ -542,7 +560,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     public void onClearFilterClicked() {
         orders = FXCollections.observableArrayList(orderService.getAllOrder());
         paginationHelper.setItems(orders);
-        showFirstPage();
+        paginationHelper.showCurrentPage();
 
         uncheckAllCheckboxes();
     }
@@ -550,6 +568,12 @@ public class OrderController implements Initializable, OrderAddController.OrderA
     public void reloadOrder() {
         orders = FXCollections.observableArrayList(orderService.getAllOrder());
         paginationHelper.setItems(orders);
-        showFirstPage();
+        paginationHelper.showCurrentPage();
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 }

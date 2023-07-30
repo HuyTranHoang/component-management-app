@@ -1,7 +1,6 @@
 package vn.aptech.componentmanagementapp.controller.category;
 
-import animatefx.animation.FadeIn;
-import animatefx.animation.FadeOut;
+import animatefx.animation.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -61,6 +60,11 @@ public class CategoryController implements Initializable {
 
     @FXML
     private HBox hbox_updateGroup;
+
+    @FXML
+    private HBox hbox_noti;
+
+    private Timeline timeline;
 
     @FXML
     private Button lastPageButton;
@@ -282,9 +286,9 @@ public class CategoryController implements Initializable {
             clearButtonOnClick();
 
             lbl_successMessage.setText("Add new category successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
             showLastPage();
         }
@@ -298,9 +302,9 @@ public class CategoryController implements Initializable {
             categoryService.updateCategory(currentCategory);
 
             lbl_successMessage.setText("Update category successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
             int index = tableView.getItems().indexOf(currentCategory);
             if (index >= 0) {
@@ -398,6 +402,12 @@ public class CategoryController implements Initializable {
                     paginationHelper.getPageItems().remove(category);
                 });
 
+                lbl_successMessage.setText("Delete category successfully!!");
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
+
                 addButtonOnClick();
                 uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
@@ -434,6 +444,13 @@ public class CategoryController implements Initializable {
                 tableView.getItems().remove(selectedCategory); // Remove the product from the TableView
                 if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+
+                lbl_successMessage.setText("Delete category successfully!!");
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
+
                 addButtonOnClick();
             }
         }
@@ -475,6 +492,12 @@ public class CategoryController implements Initializable {
     void resetFilterIconClicked() {
         txt_category_search.setText("");
         searchCategoryOnAction();
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 
 }

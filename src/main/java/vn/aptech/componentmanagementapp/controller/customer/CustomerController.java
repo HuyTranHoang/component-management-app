@@ -1,7 +1,9 @@
 package vn.aptech.componentmanagementapp.controller.customer;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOut;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -85,6 +87,9 @@ public class CustomerController implements Initializable {
     private HBox hbox_addGroup;
     @FXML
     private HBox hbox_updateGroup;
+    @FXML
+    private HBox hbox_noti;
+    private Timeline timeline;
     @FXML
     private Label lbl_text;
     //Service
@@ -211,10 +216,9 @@ public class CustomerController implements Initializable {
 
             // Show success message
             lbl_successMessage.setText("Add new customer successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 3 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
             showLastPage();
 
@@ -231,10 +235,9 @@ public class CustomerController implements Initializable {
 
             // Show success message
             lbl_successMessage.setText("Update customer successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 3 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
 
             int index = tableView.getItems().indexOf(currentCustomer);
@@ -272,6 +275,11 @@ public class CustomerController implements Initializable {
                 tableView.getItems().remove(selectedCustomer); // Remove the product from the TableView
                 if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+                lbl_successMessage.setText("Delete customer successfully");
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
                 addButtonOnClick();
             }
         }
@@ -523,6 +531,12 @@ public class CustomerController implements Initializable {
                     paginationHelper.getPageItems().remove(customer);
                 });
 
+                lbl_successMessage.setText("Delete customer successfully");
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
+
                 addButtonOnClick();
                 uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
@@ -555,6 +569,12 @@ public class CustomerController implements Initializable {
     void resetFilterIconClicked() {
         txt_customer_search.setText("");
         searchCustomerOnAction();
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 
 }

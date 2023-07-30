@@ -313,7 +313,7 @@ CREATE TABLE public.orders (
     total_amount double precision NOT NULL,
     note character varying(255),
     is_cancelled boolean DEFAULT false,
-    customer_id bigint,
+    customer_id bigint ,
     employee_id bigint,
     created_at date DEFAULT CURRENT_DATE NOT NULL
 );
@@ -1329,7 +1329,7 @@ ALTER TABLE ONLY public.orders
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_employee_id_fkey FOREIGN KEY (employee_id) REFERENCES public.employees(id);
+    ADD CONSTRAINT orders_employee_id_fkey FOREIGN KEY (employee_id) REFERENCES public.employees(id) ON DELETE CASCADE ;
 
 
 --

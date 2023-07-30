@@ -1,7 +1,9 @@
 package vn.aptech.componentmanagementapp.controller.order;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOut;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -237,6 +239,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     @FXML
     private MFXButton btn_clearList;
 
+    @FXML
+    private HBox hbox_noti;
+    private Timeline timeline;
 
     //  Validator
     private final Validator orderAddValidator = new Validator();
@@ -482,10 +487,9 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
             // Show success message
             lbl_successMessage.setText("Add new order successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 4 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
 
             clearInputOrder();
@@ -927,5 +931,11 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     @FXML
     void test() {
         System.out.println(orderDetails);
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 }

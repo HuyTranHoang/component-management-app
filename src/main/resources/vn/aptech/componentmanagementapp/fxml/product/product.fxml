@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
@@ -10,8 +11,11 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -160,5 +164,31 @@
                 </MFXButton>
             </children>
         </HBox>
+      <HBox fx:id="hbox_noti" alignment="CENTER" layoutX="900.0" layoutY="55.0" onMouseClicked="#hideNoti" prefHeight="61.0" prefWidth="351.0" spacing="10.0" styleClass="hbox-noti" visible="false">
+         <children>
+            <ImageView fitHeight="29.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/alert/success.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <VBox alignment="CENTER_LEFT" prefHeight="59.0" prefWidth="277.0">
+               <children>
+                  <Label prefHeight="23.0" prefWidth="380.0" text="Success!">
+                     <font>
+                        <Font name="Inter Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_successMessage" prefHeight="23.0" prefWidth="380.0" text="Delete product successfully">
+                     <font>
+                        <Font name="Inter Regular" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

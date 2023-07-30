@@ -10,6 +10,10 @@ public class PaginationHelper<T> {
     private static final int ITEMS_PER_PAGE = 26;
     private int currentPageIndex = 0;
 
+    public int getCurrentPageIndex() {
+        return currentPageIndex;
+    }
+
     private ObservableList<T> items;
     private ObservableList<T> pageItems;
     private TableView<T> tableView;

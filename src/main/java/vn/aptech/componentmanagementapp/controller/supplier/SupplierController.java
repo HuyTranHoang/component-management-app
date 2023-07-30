@@ -1,7 +1,9 @@
 package vn.aptech.componentmanagementapp.controller.supplier;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOut;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -119,6 +121,11 @@ public class SupplierController implements Initializable {
 
     @FXML
     private HBox hbox_updateGroup;
+
+    @FXML
+    private HBox hbox_noti;
+
+    private Timeline timeline;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -285,9 +292,9 @@ public class SupplierController implements Initializable {
             clearButtonOnClick();
 
             lbl_successMessage.setText("Add new supplier successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
             showLastPage();
 
@@ -302,9 +309,9 @@ public class SupplierController implements Initializable {
             supplierService.updateSupplier(currentSupplier);
 
             lbl_successMessage.setText("Update supplier successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOut(lbl_successMessage).play()));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
             int index = tableView.getItems().indexOf(currentSupplier);
             if (index >= 0) {
@@ -399,6 +406,12 @@ public class SupplierController implements Initializable {
                 tableView.getItems().remove(selectedSupplier); // Remove the product from the TableView
                 if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+
+                lbl_successMessage.setText("Delete supplier successfully!!");
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
                 addButtonOnClick();
             }
         }
@@ -432,6 +445,12 @@ public class SupplierController implements Initializable {
                     suppliers.remove(supplier);
                     paginationHelper.getPageItems().remove(supplier);
                 });
+
+                lbl_successMessage.setText("Delete supplier successfully!!");
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
 
                 addButtonOnClick();
                 uncheckAllCheckboxes();
@@ -508,6 +527,12 @@ public class SupplierController implements Initializable {
         return suppliers.stream()
                 .noneMatch(supplier -> supplier.getEmail() != null && supplier.getEmail().equals(txt_email))
                 || txt_email.equals(email);
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 }
 

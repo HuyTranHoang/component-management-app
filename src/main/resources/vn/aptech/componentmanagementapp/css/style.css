@@ -397,3 +397,9 @@
 .menu-button > .arrow-button > .arrow {
     -fx-shape: "M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z";
 }
+
+.hbox-noti {
+    -fx-background-color: #fff;
+    -fx-border-color:  #19ab34;
+    -fx-border-width: 0 0 0 3px;
+}

@@ -1,7 +1,9 @@
 package vn.aptech.componentmanagementapp.controller.product;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOut;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
@@ -98,6 +100,11 @@ public class ProductAddController implements Initializable {
     private HBox hbox_addButtonGroup;
     @FXML
     private HBox hbox_updateButtonGroup;
+    @FXML
+    private HBox hbox_noti;
+
+    private Timeline timeline;
+
     // Current Product for edit/update
     private Product currentProduct;
     private TableView<Product> tableView; // Truyền từ Product controller vào
@@ -287,14 +294,10 @@ public class ProductAddController implements Initializable {
 
             // Show success message
             lbl_successMessage.setText("Add new product succesfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 4 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
-                new FadeOut(lbl_successMessage).play();
-            }));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
-
         }
     }
 
@@ -339,12 +342,9 @@ public class ProductAddController implements Initializable {
 
             // Show success message
             lbl_successMessage.setText("Update product succesfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 3 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-                new FadeOut(lbl_successMessage).play();
-            }));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
 
             int index = tableView.getItems().indexOf(currentProduct);
@@ -414,6 +414,12 @@ public class ProductAddController implements Initializable {
 
     void setRequestFocus() {
         txt_productCode.requestFocus();
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 
 

@@ -1,7 +1,11 @@
 package vn.aptech.componentmanagementapp.controller.product;
 
+import animatefx.animation.FadeInRight;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Product;
@@ -52,6 +57,10 @@ public class ProductController implements Initializable,
     private HBox hbox_addEditDelete;
     @FXML
     private HBox hbox_confirmDelete;
+    @FXML
+    private HBox hbox_noti;
+
+    private Timeline timeline;
 
 
 //    Filter Panel
@@ -430,6 +439,11 @@ public class ProductController implements Initializable,
 
                 if (paginationHelper.getPageItems().isEmpty())
                     showPreviousPage();
+
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
             }
         }
     }
@@ -452,8 +466,6 @@ public class ProductController implements Initializable,
         uncheckAllCheckboxes();
         tableView.refresh();
     }
-
-
 
 
     @FXML
@@ -489,6 +501,11 @@ public class ProductController implements Initializable,
 //            products = FXCollections.observableArrayList(productService.getAllProduct());
 //            filterController.setProducts(products);
 //            resetFilterIconClicked();
+                hbox_noti.setVisible(true);
+                new FadeInRight(hbox_noti).play();
+                timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
+                timeline.play();
+
                 uncheckAllCheckboxes();
                 paginationHelper.showCurrentPage();
                 tableView.refresh();
@@ -524,5 +541,11 @@ public class ProductController implements Initializable,
 //        showFirstPage();
         paginationHelper.showCurrentPage();
         uncheckAllCheckboxes();
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 }

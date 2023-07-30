@@ -1,7 +1,9 @@
 package vn.aptech.componentmanagementapp.controller.employee;
 
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOut;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -150,6 +152,10 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     private MFXTextField txt_salary;
+
+    @FXML
+    private HBox hbox_noti;
+    private Timeline timeline;
     // List
     private ObservableList<Department> departments;
     private ObservableList<Position> positions;
@@ -586,12 +592,9 @@ public class EmployeeAddController implements Initializable {
 
             // Show success message
             lbl_successMessage.setText("Add new employee successfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            // Hide the message after 4 seconds
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
-                new FadeOut(lbl_successMessage).play();
-            }));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
 
             isUploadNewImage = false;
@@ -657,11 +660,9 @@ public class EmployeeAddController implements Initializable {
             employeeService.updateEmployee(currentEmployee);
 
             lbl_successMessage.setText("Update employee succesfully!!");
-            lbl_successMessage.setVisible(true);
-            new FadeIn(lbl_successMessage).play();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
-                new FadeOut(lbl_successMessage).play();
-            }));
+            hbox_noti.setVisible(true);
+            new FadeInRight(hbox_noti).play();
+            timeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> new FadeOutRight(hbox_noti).play()));
             timeline.play();
 
             int index = tableView.getItems().indexOf(currentEmployee);
@@ -707,5 +708,11 @@ public class EmployeeAddController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @FXML
+    void hideNoti() {
+        timeline.stop();
+        new FadeOutRight(hbox_noti).play();
     }
 }
