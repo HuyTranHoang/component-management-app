@@ -45,4 +45,12 @@ public class OrderService {
     public double getYesterdayTotalAmount() { return orderDAO.yesterdayTotalAmount(); }
 
     public void cancelOrder(long orderId) { orderDAO.cancelOrder(orderId); }
+
+    public int getCountOrder(LocalDate fromDate, LocalDate toDate) { return orderDAO.countOrder(fromDate, toDate); }
+
+    public double getSumTotalAmount(LocalDate fromDate, LocalDate toDate) { return orderDAO.sumTotalAmount(fromDate, toDate); }
+
+    public int getCountCustomer(LocalDate fromDate, LocalDate toDate) { return orderDAO.countCustomer(fromDate, toDate); }
+
+    public int getCountCanceledOrder(LocalDate fromDate, LocalDate toDate) { return orderDAO.countCanceledOrder(fromDate, toDate); }
 }

@@ -1,6 +1,7 @@
 package vn.aptech.componentmanagementapp.controller.category;
 
-import animatefx.animation.*;
+import animatefx.animation.FadeInRight;
+import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

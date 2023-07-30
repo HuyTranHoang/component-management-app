@@ -1,8 +1,6 @@
 package vn.aptech.componentmanagementapp.controller.employee;
 
-import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInRight;
-import animatefx.animation.FadeOut;
 import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;

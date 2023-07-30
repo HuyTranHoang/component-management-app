@@ -1,8 +1,6 @@
 package vn.aptech.componentmanagementapp.controller.order;
 
-import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInRight;
-import animatefx.animation.FadeOut;
 import animatefx.animation.FadeOutRight;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;

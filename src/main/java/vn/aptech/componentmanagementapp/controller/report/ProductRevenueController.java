@@ -115,7 +115,7 @@ public class ProductRevenueController implements Initializable {
     @FXML
     private Label lbl_error_fromDate;
 
-    // Formator
+    // Formatter
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override

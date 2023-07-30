@@ -181,6 +181,82 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    public int countOrder(LocalDate fromDate, LocalDate toDate) {
+        int countOrder = 0;
+        String query = "SELECT COUNT(*) AS total_orders FROM orders " +
+                "WHERE order_date >= ? AND order_date < ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    countOrder = resultSet.getInt("total_orders");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  countOrder;
+    }
+
+    @Override
+    public double sumTotalAmount(LocalDate fromDate, LocalDate toDate) {
+        double sumTotalAmount = 0;
+        String query = "SELECT SUM(total_amount) AS total_amount_sum FROM orders " +
+                "WHERE order_date >= ? AND order_date < ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    sumTotalAmount = resultSet.getDouble("total_amount_sum");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sumTotalAmount;
+    }
+
+    @Override
+    public int countCustomer(LocalDate fromDate, LocalDate toDate) {
+        int countCustomer = 0;
+        String query = "SELECT COUNT(DISTINCT customer_id) AS total_unique_customers FROM orders " +
+                "WHERE order_date >= ? AND order_date < ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    countCustomer = resultSet.getInt("total_unique_customers");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  countCustomer;
+    }
+
+    @Override
+    public int countCanceledOrder(LocalDate fromDate, LocalDate toDate) {
+        int countCanceledOrder = 0;
+        String query = "SELECT COUNT(*) AS total_cancelled_orders FROM orders " +
+                "WHERE is_cancelled = true AND order_date >= ? AND order_date < ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    countCanceledOrder = resultSet.getInt("total_cancelled_orders");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  countCanceledOrder;
+    }
+
+    @Override
     public void update(Order order) {
         String query = "UPDATE orders SET order_date = ?, delivery_date = ?, receive_date = ?, delivery_location = ?, total_amount = ?, note = ?, " +
                 "is_cancelled = ?, customer_id = ?, employee_id = ? WHERE id = ?";

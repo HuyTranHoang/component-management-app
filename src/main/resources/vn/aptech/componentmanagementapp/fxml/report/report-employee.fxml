@@ -76,9 +76,9 @@
             <Font name="Inter Bold" size="26.0" />
          </font>
       </Label>
-      <VBox layoutX="866.0" layoutY="224.0" prefHeight="329.0" prefWidth="362.0">
+      <VBox layoutX="866.0" layoutY="224.0" prefHeight="329.0" prefWidth="362.0" spacing="5.0">
          <children>
-            <HBox prefWidth="362.0" spacing="10.0">
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
                <children>
                   <Label text="Total employees:">
                      <font>
@@ -92,7 +92,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox prefWidth="362.0" spacing="10.0">
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
                <children>
                   <Label text="Total salary to be paid this month:">
                      <font>
@@ -106,9 +106,9 @@
                   </Label>
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="36.0" prefWidth="362.0" spacing="10.0">
+            <HBox layoutX="10.0" layoutY="36.0" prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
                <children>
-                  <Label text="Employee's average salary">
+                  <Label text="Employee's average salary:">
                      <font>
                         <Font size="16.0" />
                      </font>

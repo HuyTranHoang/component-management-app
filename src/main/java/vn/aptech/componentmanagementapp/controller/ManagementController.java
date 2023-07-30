@@ -575,7 +575,7 @@ public class ManagementController implements Initializable {
 
         if (reportOrderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-order.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-order-statistics.fxml"));
                 reportOrderView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);

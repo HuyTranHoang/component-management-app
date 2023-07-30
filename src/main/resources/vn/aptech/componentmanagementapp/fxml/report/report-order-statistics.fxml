@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.report.OrderStatisticController">
+   <children>
+      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
+      <Label layoutX="10.0" layoutY="14.0" text="ORDER REPORT" textFill="#4a55a2">
+         <font>
+            <Font name="Inter Bold" size="26.0" />
+         </font>
+      </Label>
+      <VBox layoutX="29.0" layoutY="163.0" prefHeight="329.0" prefWidth="362.0" spacing="5.0">
+         <children>
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
+               <children>
+                  <Label text="Total order:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_totalOrder" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
+               <children>
+                  <Label text="Total revenue:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_totalRevenue" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
+               <children>
+                  <Label text="Average revenue per order:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_averageRevenueOrder" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
+               <children>
+                  <Label text="Total number of customers:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_totalCustomer" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
+               <children>
+                  <Label text="Average revenue per customer:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_averageRevenueCustomer" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefWidth="362.0" spacing="10.0" styleClass="hbox_label_report">
+               <children>
+                  <Label text="Total number of canceled order:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_totalOrderCanceled" text="total">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="477.0" layoutY="117.0" prefHeight="249.0" prefWidth="376.0">
+         <children>
+            <MFXDatePicker id="report-picker" fx:id="txt_fromDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="From" layoutX="14.0" layoutY="17.0" />
+            <Label fx:id="lbl_error_fromDate" layoutX="15.0" layoutY="60.0" prefHeight="30.0" prefWidth="300.0" text="Lỗi" textFill="#e57c23" visible="false">
+               <font>
+                  <Font name="Inter Regular" size="13.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+               </graphic>
+            </Label>
+            <MFXDatePicker id="report-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" layoutX="14.0" layoutY="118.0" />
+            <MFXButton layoutX="14.0" layoutY="210.0" onAction="#viewButtonOnClick" prefHeight="25.0" prefWidth="82.0" style="-fx-border-color: #4A55A2; -fx-border-radius: 5px;" text="View" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="26.0" layoutY="117.0" text="Order summery">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_fromTo" layoutX="195.0" layoutY="121.0" text="from 28-07-2023 to 29-07-2023">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

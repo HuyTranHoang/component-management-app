@@ -403,3 +403,8 @@
     -fx-border-color:  #19ab34;
     -fx-border-width: 0 0 0 3px;
 }
+
+.hbox_label_report {
+    -fx-border-color: #59a9ff;
+    -fx-border-width: 0 0 1px 0;
+}
