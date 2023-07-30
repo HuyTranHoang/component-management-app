@@ -61,6 +61,7 @@ public class PaginationHelper<T> {
 
         pageItems = FXCollections.observableArrayList(items.subList(startIndex, endIndex));
         tableView.setItems(pageItems);
+        tableView.refresh();
     }
 
     public void showCurrentPage() {
@@ -68,6 +69,7 @@ public class PaginationHelper<T> {
             showPreviousPage();
         } else {
             showPage(currentPageIndex);
+            tableView.refresh();
         }
     }
 
@@ -76,6 +78,7 @@ public class PaginationHelper<T> {
             currentPageIndex--;
             showPage(currentPageIndex);
             updatePageButtons();
+            tableView.refresh();
         }
     }
 
@@ -85,6 +88,7 @@ public class PaginationHelper<T> {
             currentPageIndex++;
             showPage(currentPageIndex);
             updatePageButtons();
+            tableView.refresh();
         }
     }
 
@@ -92,6 +96,7 @@ public class PaginationHelper<T> {
         currentPageIndex = 0;
         showPage(currentPageIndex);
         updatePageButtons();
+        tableView.refresh();
     }
 
     public void showLastPage() {
@@ -99,6 +104,7 @@ public class PaginationHelper<T> {
         currentPageIndex = maxPageIndex;
         showPage(currentPageIndex);
         updatePageButtons();
+        tableView.refresh();
     }
 
     private void updatePageButtons() {
@@ -169,6 +175,7 @@ public class PaginationHelper<T> {
             currentPageIndex = pageIndex;
             showPage(currentPageIndex);
             updatePageButtons();
+            tableView.refresh();
         }
     }
 
