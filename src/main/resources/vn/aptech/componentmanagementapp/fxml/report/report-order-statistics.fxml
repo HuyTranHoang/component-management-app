@@ -119,6 +119,14 @@
             </Label>
             <MFXDatePicker id="report-picker" fx:id="txt_toDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="To" layoutX="14.0" layoutY="118.0" />
             <MFXButton layoutX="14.0" layoutY="210.0" onAction="#viewButtonOnClick" prefHeight="25.0" prefWidth="82.0" style="-fx-border-color: #4A55A2; -fx-border-radius: 5px;" text="View" />
+            <Label fx:id="lbl_error_toDate" layoutX="15.0" layoutY="163.0" prefHeight="30.0" prefWidth="300.0" text="Lỗi" textFill="#e57c23">
+               <font>
+                  <Font name="Inter Regular" size="13.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#e57c23" iconLiteral="fas-times-circle" />
+               </graphic>
+            </Label>
          </children>
       </AnchorPane>
       <Label layoutX="26.0" layoutY="117.0" text="Order summery">

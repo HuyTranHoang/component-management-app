@@ -30,6 +30,9 @@ public class OrderStatisticController implements Initializable {
     private Label lbl_error_fromDate;
 
     @FXML
+    private Label lbl_error_toDate;
+
+    @FXML
     private Label lbl_fromTo;
 
     @FXML
@@ -97,13 +100,28 @@ public class OrderStatisticController implements Initializable {
                 .dependsOn("fromDate", txt_fromDate.valueProperty())
                 .dependsOn("toDate",txt_toDate.valueProperty())
                 .withMethod(context -> {
+                    String regex = "^\\d{2}/\\d{2}/\\d{4}$";
+                    String formDateString = txt_fromDate.getText();
                     LocalDate fromDate = context.get("fromDate");
                     LocalDate toDate =  context.get("toDate");
-                    if (fromDate.isAfter(toDate))
+                    if (!formDateString.matches(regex))
+                        context.error("Incorrect date format");
+                    else if (fromDate.isAfter(toDate))
                         context.error("From date can't be after to date");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_fromDate);
+
+        validator.createCheck()
+                .dependsOn("toDate",txt_toDate.valueProperty())
+                .withMethod(context -> {
+                    String regex = "^\\d{2}/\\d{2}/\\d{4}$";
+                    String toDate = txt_toDate.getText();
+                    if (!toDate.matches(regex))
+                        context.error("Incorrect date format");
+                })
+                .decoratingWith(this::labelDecorator)
+                .decorates(lbl_error_toDate);
     }
     private Decoration labelDecorator(ValidationMessage message) {
         return new Decoration() {
