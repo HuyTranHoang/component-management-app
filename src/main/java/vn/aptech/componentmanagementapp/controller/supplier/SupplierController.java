@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.controller.supplier;
 
 import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOutRight;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.SupplierService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -29,6 +31,7 @@ import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -125,6 +128,12 @@ public class SupplierController implements Initializable {
 
     private Timeline timeline;
 
+    // Sort
+    @FXML
+    private MFXComboBox<String> cbb_orderBy;
+    @FXML
+    private MFXComboBox<String> cbb_sortBy;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         suppliers = FXCollections.observableArrayList(supplierService.getAllSupplier());
@@ -144,6 +153,7 @@ public class SupplierController implements Initializable {
 
         initValidator();
         initEnterKeyPressing();
+        initSort();
 
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY
@@ -276,6 +286,32 @@ public class SupplierController implements Initializable {
                 target.setVisible(false);
             }
         };
+    }
+    private void initSort() {
+        cbb_sortBy.setItems(FXCollections.observableArrayList(List.of("Id", "Name", "Email", "Website")));
+        cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+
+        // Add listeners to both ComboBoxes
+        cbb_sortBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+        cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+    }
+
+    private void applySorting() {
+        String sortBy = cbb_sortBy.getValue();
+        String orderBy = cbb_orderBy.getValue();
+        Comparator<Supplier> comparator = switch (sortBy) {
+            case "Name" -> Comparator.comparing(Supplier::getName);
+            case "Email" -> Comparator.comparing(Supplier::getEmail);
+            case "Website" -> Comparator.comparing(Supplier::getWebsite);
+            default -> Comparator.comparing(Supplier::getId);
+        };
+        // Check the selected value of cbb_orderBy and adjust the comparator accordingly
+        if ("DESC".equals(orderBy)) {
+            comparator = comparator.reversed();
+        }
+        // Sort the products list with the chosen comparator
+        FXCollections.sort(suppliers, comparator);
+        showFirstPage();
     }
     @FXML
     void saveButtonOnClick() {

@@ -2,6 +2,7 @@ package vn.aptech.componentmanagementapp.controller.customer;
 
 import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOutRight;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,6 +23,7 @@ import javafx.util.Duration;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
+import vn.aptech.componentmanagementapp.model.Category;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.service.CustomerService;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
@@ -29,6 +31,7 @@ import vn.aptech.componentmanagementapp.util.SetImageAlert;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -117,6 +120,12 @@ public class CustomerController implements Initializable {
     @FXML
     private HBox hbox_confirmDelete;
 
+    // Sort
+    @FXML
+    private MFXComboBox<String> cbb_orderBy;
+    @FXML
+    private MFXComboBox<String> cbb_sortBy;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         customers = FXCollections.observableArrayList(customerService.getAllCustomer());
@@ -138,6 +147,7 @@ public class CustomerController implements Initializable {
         initValidator();
 
         initEnterKeyPressing();
+        initSort();
 
         // Double click thì edit
         tableView.setOnMouseClicked(event -> {
@@ -198,6 +208,33 @@ public class CustomerController implements Initializable {
             }
         });
 
+    }
+    private void initSort() {
+        cbb_sortBy.setItems(FXCollections.observableArrayList(List.of("Id", "Name", "Address","Phone","Email")));
+        cbb_orderBy.setItems(FXCollections.observableArrayList(List.of("ASC", "DESC")));
+
+        // Add listeners to both ComboBoxes
+        cbb_sortBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+        cbb_orderBy.valueProperty().addListener((observable, oldValue, newValue) -> applySorting());
+    }
+
+    private void applySorting() {
+        String sortBy = cbb_sortBy.getValue();
+        String orderBy = cbb_orderBy.getValue();
+        Comparator<Customer> comparator = switch (sortBy) {
+            case "Name" -> Comparator.comparing(Customer::getName);
+            case "Address" -> Comparator.comparing(Customer::getAddress);
+            case "Phone" -> Comparator.comparing(Customer::getPhone);
+            case "Email" -> Comparator.comparing(Customer::getEmail);
+            default -> Comparator.comparing(Customer::getId);
+        };
+        // Check the selected value of cbb_orderBy and adjust the comparator accordingly
+        if ("DESC".equals(orderBy)) {
+            comparator = comparator.reversed();
+        }
+        // Sort the products list with the chosen comparator
+        FXCollections.sort(customers, comparator);
+        showFirstPage();
     }
     @FXML
     void saveButtonOnClick(){
