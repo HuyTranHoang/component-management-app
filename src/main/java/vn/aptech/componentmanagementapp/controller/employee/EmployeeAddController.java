@@ -11,6 +11,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
@@ -208,6 +211,7 @@ public class EmployeeAddController implements Initializable {
 
         initComboBox();
         initValidator();
+        initEnterKeyPressing();
     }
 
     private void initComboBox() {
@@ -412,6 +416,24 @@ public class EmployeeAddController implements Initializable {
                 target.setVisible(false);
             }
         };
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                saveButtonOnClick();
+            } else if (event.getCode() == KeyCode.ESCAPE)
+                listEmployeeButtonOnClick();
+        };
+
+        txt_name.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_address.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_phone.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_email.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_salary.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_citizenId.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_password.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_confirmPassword.setOnKeyPressed(storeOrUpdateEventHandler);
     }
 
     @FXML
@@ -678,6 +700,9 @@ public class EmployeeAddController implements Initializable {
         hbox_addButtonGroup.setVisible(false);
         hbox_updateButtonGroup.setVisible(true);
 
+        txt_password.setVisible(false);
+        txt_confirmPassword.setVisible(false);
+
         lbl_title.setText("UPDATE EMPLOYEE");
     }
 
@@ -685,6 +710,9 @@ public class EmployeeAddController implements Initializable {
         isUpdate = false;
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
+
+        txt_password.setVisible(true);
+        txt_confirmPassword.setVisible(true);
 
         lbl_title.setText("ADD NEW EMPLOYEE");
     }
@@ -706,6 +734,10 @@ public class EmployeeAddController implements Initializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    void setRequestFocus() {
+        txt_name.requestFocus();
     }
 
     @FXML

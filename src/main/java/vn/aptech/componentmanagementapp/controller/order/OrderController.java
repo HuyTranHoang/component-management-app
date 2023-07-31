@@ -419,6 +419,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         }
 
         orderAddController.clearInputOrder();
+        orderAddController.setRequestFocus();
 
         Employee employee = employeeService.getEmployeeById(loginEmployee.getId());
         orderAddController.setCurrentEmployee(employee);

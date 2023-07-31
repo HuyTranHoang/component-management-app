@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +19,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -273,7 +276,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         txt_receiveDate.setConverterSupplier(() -> new DateStringConverter("dd/MM/yyyy", txt_receiveDate.getLocale()));
 
         initValidator();
-//        initEnterKeyPressing();
+        initEnterKeyPressing();
         initEvent();
 
         Platform.runLater(() -> txt_employeeName.setText(currentEmployee.getName()));
@@ -416,6 +419,21 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 target.setVisible(false);
             }
         };
+    }
+
+    private void initEnterKeyPressing() {
+        EventHandler<KeyEvent> storeOrUpdateEventHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                nextButtonOnClickOrder();
+            } else if (event.getCode() == KeyCode.ESCAPE)
+                listOrderButtonOnClick();
+        };
+
+        txt_orderDate.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_deliveryDate.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_receiveDate.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_deliveryLocation.setOnKeyPressed(storeOrUpdateEventHandler);
+        txt_note.setOnKeyPressed(storeOrUpdateEventHandler);
     }
 
 
@@ -852,6 +870,10 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     @FXML
     void test() {
         System.out.println(orderDetails);
+    }
+
+    void setRequestFocus() {
+        txt_orderDate.requestFocus();
     }
 
     @FXML

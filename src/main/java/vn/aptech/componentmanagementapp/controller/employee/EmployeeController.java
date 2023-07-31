@@ -276,6 +276,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addEmployeeView);
+        employeeAddController.setRequestFocus();
     }
 
     private void uncheckAllCheckboxes() {
