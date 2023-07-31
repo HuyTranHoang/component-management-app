@@ -152,7 +152,7 @@ public class ManagementController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/dashboard/dashboard.fxml"));
             dashboardView = fxmlLoader.load();
             dashboardController = fxmlLoader.getController();
             Platform.runLater(() -> {
@@ -222,7 +222,7 @@ public class ManagementController implements Initializable {
     void changePasswordButtonOnClick() {
         try {
             if (changePasswordScene == null && changePasswordStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/change-password.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/change-password.fxml"));
                 changePasswordScene = new Scene(fxmlLoader.load());
                 changePasswordStage = new Stage();
                 changePasswordStage.setTitle("Change Password");
@@ -261,7 +261,7 @@ public class ManagementController implements Initializable {
 
         if (dashboardView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/dashboard/dashboard.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/dashboard/dashboard.fxml"));
                 dashboardView = fxmlLoader.load();
                 dashboardController = fxmlLoader.getController();
             } catch (IOException e) {
@@ -295,7 +295,7 @@ public class ManagementController implements Initializable {
     void productButtonOnClick() {
         if (productView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/product.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/product/product.fxml"));
                 productView = fxmlLoader.load();
                 productController = fxmlLoader.getController();
                 productController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -330,7 +330,7 @@ public class ManagementController implements Initializable {
     void employeeButtonOnClick() {
         if (employeeView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/employee/employee.fxml"));
                 employeeView = fxmlLoader.load();
                 employeeController = fxmlLoader.getController();
                 employeeController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -364,7 +364,7 @@ public class ManagementController implements Initializable {
     void customerButtonOnClick() {
         if (customerView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/customer/customer.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/customer/customer.fxml"));
                 customerView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -392,7 +392,7 @@ public class ManagementController implements Initializable {
     void orderButtonOnClick() {
         if (orderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/order/order.fxml"));
                 orderView = fxmlLoader.load();
                 orderController = fxmlLoader.getController();
                 orderController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -425,7 +425,7 @@ public class ManagementController implements Initializable {
     void supplierButtonOnClick() {
         if (supplierView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/supplier/supplier.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/supplier/supplier.fxml"));
                 supplierView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -452,7 +452,7 @@ public class ManagementController implements Initializable {
     void categoryButtonOnClick() {
         if (categoryView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/category/category.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/category/category.fxml"));
                 categoryView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -503,7 +503,7 @@ public class ManagementController implements Initializable {
 
         if (reportProductQuantityView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product-quantity.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-product-quantity.fxml"));
                 reportProductQuantityView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -538,7 +538,7 @@ public class ManagementController implements Initializable {
 
         if (reportProductRevenueView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-product-revenue.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-product-revenue.fxml"));
                 reportProductRevenueView = fxmlLoader.load();
                 productRevenueController = fxmlLoader.getController();
             } catch (IOException e) {
@@ -576,7 +576,7 @@ public class ManagementController implements Initializable {
 
         if (reportOrderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-order-statistics.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-order-statistics.fxml"));
                 reportOrderView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -611,7 +611,7 @@ public class ManagementController implements Initializable {
 
         if (reportEmployeeView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/report/report-employee.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-employee.fxml"));
                 reportEmployeeView = fxmlLoader.load();
                 employeeSalaryController = fxmlLoader.getController();
             } catch (IOException e) {

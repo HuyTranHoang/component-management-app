@@ -146,7 +146,7 @@ public class OrderShowController implements Initializable {
     void listOrderButtonOnClick() {
         if (orderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/order.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/product/order.fxml"));
                 orderView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);

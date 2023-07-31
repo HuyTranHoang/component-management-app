@@ -17,17 +17,17 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.report.ProductRevenueController">
+<AnchorPane prefHeight="1080.0" prefWidth="1569.0" stylesheets="@../../css/style_1920.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.report.ProductRevenueController">
    <children>
-      <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-      <AnchorPane layoutX="33.0" layoutY="78.0" prefHeight="794.0" prefWidth="856.0" AnchorPane.leftAnchor="10.0">
+      <Line endX="1569.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" />
+      <AnchorPane layoutX="33.0" layoutY="78.0" prefHeight="794.0" prefWidth="856.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="90.0">
          <children>
             <Label fx:id="lbl_reportTitle" layoutX="8.0" layoutY="14.0" text="Top products revenue">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="tableView" layoutY="57.0" prefHeight="684.0" prefWidth="828.0">
+            <TableView fx:id="tableView" layoutY="57.0" prefHeight="860.0" prefWidth="828.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <columns>
                   <TableColumn fx:id="tbc_productCode" prefWidth="125.0" sortable="false" text="Product Code" />
                   <TableColumn fx:id="tbc_name" prefWidth="420.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
@@ -36,7 +36,7 @@
                   <TableColumn fx:id="tbc_soldAmount" prefWidth="150.0" sortable="false" text="Sold amount" visible="false" />
                </columns>
             </TableView>
-            <HBox alignment="CENTER" layoutY="753.0" prefHeight="35.0" prefWidth="828.0" spacing="10.0">
+            <HBox alignment="CENTER" layoutX="14.0" layoutY="931.0" prefHeight="35.0" prefWidth="828.0" spacing="10.0">
                <children>
                   <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
                      <graphic>
@@ -86,7 +86,7 @@
             <Font name="Inter Bold" size="26.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="866.0" layoutY="133.0" prefHeight="249.0" prefWidth="376.0">
+      <AnchorPane layoutX="884.0" layoutY="155.0" prefHeight="249.0" prefWidth="376.0">
          <children>
             <MFXDatePicker id="report-picker" fx:id="txt_fromDate" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="From" layoutX="14.0" layoutY="17.0" />
             <Label fx:id="lbl_error_fromDate" layoutX="15.0" layoutY="60.0" prefHeight="30.0" prefWidth="300.0" text="Lỗi" textFill="#e57c23" visible="false">
@@ -107,6 +107,6 @@
             <MFXRadioButton id="customRadio" fx:id="rbtn_bySoldAmount" layoutX="144.0" layoutY="172.0" text="By sold amount " toggleGroup="$tgg_type" />
          </children>
       </AnchorPane>
-      <PieChart fx:id="pieChart" layoutX="855.0" layoutY="404.0" prefHeight="417.0" prefWidth="382.0" title="Percentage based on category" />
+      <PieChart fx:id="pieChart" layoutX="884.0" layoutY="457.0" prefHeight="550.0" prefWidth="512.0" title="Percentage based on category" />
    </children>
 </AnchorPane>

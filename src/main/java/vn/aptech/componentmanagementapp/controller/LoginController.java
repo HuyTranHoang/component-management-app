@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import net.synedra.validatorfx.Decoration;
 import net.synedra.validatorfx.ValidationMessage;
@@ -246,21 +248,21 @@ public class LoginController implements Initializable {
 
             if (loginInfo != null && loginInfo.getPassword().equals(password)) {
                 try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/main.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/main.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
 
-                    scene.setOnMousePressed(event -> {
-                        x = event.getSceneX();
-                        y = event.getSceneY();
-                    });
-
-                    scene.setOnMouseDragged(event -> {
-                        stage.setX(event.getScreenX() - x);
-                        stage.setY(event.getScreenY() - y);
-                        stage.setOpacity(.9);
-                    });
-
-                    scene.setOnMouseReleased(event -> stage.setOpacity(1));
+//                    scene.setOnMousePressed(event -> {
+//                        x = event.getSceneX();
+//                        y = event.getSceneY();
+//                    });
+//
+//                    scene.setOnMouseDragged(event -> {
+//                        stage.setX(event.getScreenX() - x);
+//                        stage.setY(event.getScreenY() - y);
+//                        stage.setOpacity(.9);
+//                    });
+//
+//                    scene.setOnMouseReleased(event -> stage.setOpacity(1));
                     ManagementController controller = fxmlLoader.getController();
                     controller.setLoginView(loginView);
                     controller.setLoginController(this);
@@ -272,10 +274,25 @@ public class LoginController implements Initializable {
                     clearLogin();
 
                     controller.setStage(stage);
-                    stage.setMaximized(true);
 //                    stage.setFullScreen(true);
                     stage.setScene(scene);
 //                    stage.centerOnScreen();
+
+                    // Lấy kích thước màn hình
+                    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+
+                    // Lấy kích thước taskbar
+                    double taskbarHeight = screenBounds.getHeight() - Screen.getPrimary().getBounds().getHeight();
+
+                    // Tính toán vị trí trung tâm mới của cửa sổ, trừ đi chiều cao của taskbar
+                    double centerX = screenBounds.getMinX() + screenBounds.getWidth() / 2;
+                    double centerY = screenBounds.getMinY() + (screenBounds.getHeight() - taskbarHeight) / 2;
+
+                    // Đặt vị trí mới cho cửa sổ
+                    stage.setX(centerX - stage.getWidth() / 2);
+                    stage.setY(centerY - stage.getHeight() / 2);
+
+                    stage.setMaximized(true);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

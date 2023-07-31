@@ -257,7 +257,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     void addButtonOnClick() {
         if (addEmployeeView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee-add.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/employee/employee-add.fxml"));
                 addEmployeeView = fxmlLoader.load();
                 employeeAddController = fxmlLoader.getController();
                 employeeAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -385,7 +385,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     void editButtonOnClick() {
         if (addEmployeeView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee-add.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/employee/employee-add.fxml"));
                 addEmployeeView = fxmlLoader.load();
                 employeeAddController = fxmlLoader.getController();
                 employeeAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
@@ -423,7 +423,7 @@ public class EmployeeController implements Initializable, EmployeeAddController.
     private void initFilterStage() {
         try {
             if (filterScene == null && filterStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee-filter.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/employee/employee-filter.fxml"));
                 filterScene = new Scene(fxmlLoader.load());
                 filterStage = new Stage();
                 filterStage.setTitle("Filter Employee");

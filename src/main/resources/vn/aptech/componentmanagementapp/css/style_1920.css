@@ -295,12 +295,13 @@
 .table-view .column-header,
 .filler {
     -fx-background-color: transparent;
-    -fx-size: 30px;
+    -fx-size: 32px;
 }
 
 .table-view .column-header .label {
     -fx-text-fill: #fff;
     -fx-font-family: "Arial";
+    -fx-font-size: 13px;
 }
 
 .scroll-bar {

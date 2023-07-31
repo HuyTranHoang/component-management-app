@@ -451,7 +451,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     void listOrderButtonOnClick() {
         if (orderView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/product/order.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/product/order.fxml"));
                 orderView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -553,7 +553,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     void selectCustomerOnClick() {
         try {
             if (selectCustomerScene == null && selectCustomerStage == null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/order/order-add-selectCustomer.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/order/order-add-selectCustomer.fxml"));
                 selectCustomerScene = new Scene(fxmlLoader.load());
                 selectCustomerStage = new Stage();
                 orderAddSelectCustomerController = fxmlLoader.getController();

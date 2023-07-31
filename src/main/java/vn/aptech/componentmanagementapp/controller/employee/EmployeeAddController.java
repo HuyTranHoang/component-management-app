@@ -230,8 +230,8 @@ public class EmployeeAddController implements Initializable {
                     String name = context.get("name");
                     if (name.isEmpty())
                         context.error("Name can't be empty");
-                    else if (name.matches("\\d+"))
-                        context.error("Name can't contain digits");
+                    else if (!name.matches("\\D+"))
+                        context.error("Name can't have numbers");
                     else if (name.length() > 255)
                         context.error("Name length exceeds the maximum limit of 255 characters");
 
@@ -542,7 +542,7 @@ public class EmployeeAddController implements Initializable {
     void listEmployeeButtonOnClick() {
         if (employeeView == null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml/employee/employee.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/employee/employee.fxml"));
                 employeeView = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);

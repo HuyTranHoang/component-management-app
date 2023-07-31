@@ -21,39 +21,39 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane fx:id="employeeView" prefHeight="900.0" prefWidth="1250.0" stylesheets="@../../css/style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.employee.EmployeeController">
+<AnchorPane fx:id="employeeView" prefHeight="1080.0" prefWidth="1569.0" stylesheets="@../../css/style_1920.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vn.aptech.componentmanagementapp.controller.employee.EmployeeController">
     <children>
-        <Line endX="1250.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="65.0" />
-        <MFXTextField fx:id="txt_employee_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="300.0" promptText="Search by name, phone, email" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
+        <Line endX="1569.0" stroke="#a0bfe0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" />
+        <MFXTextField fx:id="txt_employee_search" animated="false" floatMode="DISABLED" layoutX="47.0" layoutY="14.0" prefHeight="35.0" prefWidth="340.0" promptText="Search by name, phone, email" styleClass="search-bar" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="14.0">
             <font>
                 <Font name="Inter Regular" size="14.0" />
             </font>
         </MFXTextField>
         <FontIcon iconLiteral="fas-search" iconSize="14" layoutX="29.0" layoutY="37.0" text="" />
-        <FontIcon iconColor="#4a55a2" iconLiteral="fas-filter" iconSize="25" layoutX="340.0" layoutY="42.0" onMouseClicked="#filterButtonOnClick" text="">
+        <FontIcon iconColor="#4a55a2" iconLiteral="fas-filter" iconSize="25" layoutX="380.0" layoutY="42.0" onMouseClicked="#filterButtonOnClick" text="">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </FontIcon>
-        <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="380.0" layoutY="42.0" onMouseClicked="#resetFilterIconClicked">
+        <FontIcon iconColor="#4a55a2" iconLiteral="fas-undo" iconSize="25" layoutX="420.0" layoutY="42.0" onMouseClicked="#resetFilterIconClicked">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </FontIcon>
-        <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="361.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
-        <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
-        <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <TableView fx:id="tableView" prefHeight="719.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <Circle fx:id="filter_noti_shape" fill="#e57c23" layoutX="401.0" layoutY="21.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
+        <Label fx:id="filter_noti_label" alignment="CENTER" contentDisplay="CENTER" layoutX="393.0" layoutY="12.0" prefHeight="17.0" prefWidth="17.0" text="3" textFill="WHITE" visible="false" />
+        <AnchorPane layoutX="14.0" layoutY="88.0" prefHeight="791.0" prefWidth="1221.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0">
+            <TableView fx:id="tableView" prefHeight="915.0" prefWidth="1210.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                 <columns>
                     <TableColumn fx:id="tbc_checkbox" editable="false" prefWidth="40.0" resizable="false" sortable="false" visible="false" />
                     <TableColumn fx:id="tbc_id" prefWidth="75.0" sortable="false" text="Id" />
-                    <TableColumn fx:id="tbc_name" prefWidth="180.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
-                    <TableColumn fx:id="tbc_address" prefWidth="165.0" sortable="false" text="Address" />
-                    <TableColumn fx:id="tbc_phone" prefWidth="150.0" sortable="false" text="Phone" />
-                    <TableColumn fx:id="tbc_email" prefWidth="165.0" sortable="false" text="Email" />
-               <TableColumn fx:id="tbc_salary" prefWidth="165.0" sortable="false" text="Salary" />
-                    <TableColumn fx:id="tbc_department" prefWidth="155.0" sortable="false" text="Department" />
-                    <TableColumn fx:id="tbc_position" prefWidth="155.0" sortable="false" text="Position" />
+                    <TableColumn fx:id="tbc_name" prefWidth="250.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
+                    <TableColumn fx:id="tbc_address" prefWidth="250.0" sortable="false" text="Address" />
+                    <TableColumn fx:id="tbc_phone" prefWidth="175.0" sortable="false" text="Phone" />
+                    <TableColumn fx:id="tbc_email" prefWidth="175.0" sortable="false" text="Email" />
+               <TableColumn fx:id="tbc_salary" prefWidth="175.0" sortable="false" text="Salary" />
+                    <TableColumn fx:id="tbc_department" prefWidth="175.0" sortable="false" text="Department" />
+                    <TableColumn fx:id="tbc_position" prefWidth="175.0" sortable="false" text="Position" />
                 </columns>
                 <contextMenu>
                     <ContextMenu>
@@ -64,7 +64,7 @@
                     </ContextMenu>
                 </contextMenu>
             </TableView>
-            <HBox alignment="CENTER" layoutX="259.0" layoutY="731.0" prefHeight="35.0" prefWidth="734.0" spacing="10.0">
+            <HBox alignment="CENTER" layoutX="408.0" layoutY="931.0" prefHeight="35.0" prefWidth="734.0" spacing="10.0">
                 <children>
                     <Button fx:id="firstPageButton" mnemonicParsing="false" onAction="#showFirstPage" styleClass="pagination-button">
                         <graphic>
@@ -90,17 +90,17 @@
                 </children>
             </HBox>
         </AnchorPane>
-        <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" floatMode="BORDER" floatingText="Sort by" layoutX="786.0" layoutY="12.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
+        <MFXComboBox id="custom-combobox" fx:id="cbb_sortBy" animated="false" floatMode="BORDER" floatingText="Sort by" layoutX="826.0" layoutY="12.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
             <font>
                 <Font name="Inter Regular" size="13.0" />
             </font>
         </MFXComboBox>
-        <MFXComboBox id="custom-combobox" fx:id="cbb_orderBy" floatMode="BORDER" floatingText="Order by" layoutX="949.0" layoutY="19.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
+        <MFXComboBox id="custom-combobox" fx:id="cbb_orderBy" animated="false" floatMode="BORDER" floatingText="Order by" layoutX="989.0" layoutY="19.0" prefHeight="40.0" prefWidth="150.0" AnchorPane.topAnchor="15.0">
             <font>
                 <Font name="Inter Regular" size="13.0" />
             </font>
         </MFXComboBox>
-        <HBox fx:id="hbox_addEditDelete" layoutX="434.0" layoutY="15.0" spacing="10.0">
+        <HBox fx:id="hbox_addEditDelete" layoutX="474.0" layoutY="15.0" spacing="10.0">
             <children>
                 <MFXButton onAction="#addButtonOnClick" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="ADD">
                     <graphic>
@@ -137,7 +137,7 @@
                 </MFXButton>
             </children>
         </HBox>
-        <HBox fx:id="hbox_confirmDelete" layoutX="434.0" layoutY="15.0" spacing="10.0" visible="false">
+        <HBox fx:id="hbox_confirmDelete" layoutX="474.0" layoutY="15.0" spacing="10.0" visible="false">
             <children>
                 <MFXButton onAction="#deleteSelectedEmployeeOnClick" prefHeight="35.0" prefWidth="200.0" style="-fx-background-color: #4A55A2; -fx-text-fill: #fff;" text="CONFIRM DELETE">
                     <graphic>
@@ -163,7 +163,7 @@
                 </MFXButton>
             </children>
         </HBox>
-      <HBox fx:id="hbox_noti" alignment="CENTER" layoutX="900.0" layoutY="55.0" onMouseClicked="#hideNoti" prefHeight="61.0" prefWidth="351.0" spacing="10.0" styleClass="hbox-noti" visible="false">
+      <HBox fx:id="hbox_noti" alignment="CENTER" layoutX="900.0" layoutY="55.0" onMouseClicked="#hideNoti" prefHeight="61.0" prefWidth="351.0" spacing="10.0" styleClass="hbox-noti" visible="false" AnchorPane.rightAnchor="0.0">
          <children>
             <ImageView fitHeight="29.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
