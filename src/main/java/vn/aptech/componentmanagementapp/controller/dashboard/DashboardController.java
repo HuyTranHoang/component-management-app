@@ -23,10 +23,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DashboardController implements Initializable {
 
@@ -149,11 +146,14 @@ public class DashboardController implements Initializable {
                 dataSeries.getData().add(new XYChart.Data<>(quantity, product.getName()));
             }
 
-            dataSeries.getData().sort((data1, data2) -> {
-                double xValue1 = data1.getXValue().doubleValue();
-                double xValue2 = data2.getXValue().doubleValue();
-                return Double.compare(xValue1, xValue2);
-            });
+            dataSeries.getData().sort(Comparator.comparingDouble(value -> value.getXValue().intValue()));
+
+//            dataSeries.getData().sort((data1, data2) -> {
+//                int xValue1 = data1.getXValue().intValue();
+//                int xValue2 = data2.getXValue().intValue();
+//                return Integer.compare(xValue1, xValue2);
+//            });
+
             barChart_topSelling.getData().add(dataSeries);
         } else {
             Map<Product, Double> productTopSellingMap = productService.getProductTopMonthSellingByRevenue();
@@ -164,18 +164,20 @@ public class DashboardController implements Initializable {
 
             for (Map.Entry<Product, Double> entry : productTopSellingMap.entrySet()) {
                 Product product = entry.getKey();
-                double revenue = entry.getValue();
+                Double revenue = entry.getValue();
                 dataSeries.getData().add(new XYChart.Data<>(revenue, product.getName()));
             }
 
-            dataSeries.getData().sort((data1, data2) -> {
-                double xValue1 = data1.getXValue().doubleValue();
-                double xValue2 = data2.getXValue().doubleValue();
-                return Double.compare(xValue1, xValue2);
-            });
+            dataSeries.getData().sort(Comparator.comparingDouble(value -> value.getXValue().doubleValue()));
+
+//            dataSeries.getData().sort((data1, data2) -> {
+//                double xValue1 = data1.getXValue();
+//                double xValue2 = data2.getXValue();
+//                return Double.compare(xValue1, xValue2);
+//            });
+
             barChart_topSelling.getData().add(dataSeries);
         }
-
     }
 
     public void updateTodayCompare() {

@@ -207,7 +207,7 @@ public class ProductDAOImpl implements ProductDAO{
                 "JOIN order_detail od on p.id = od.product_id " +
                 "JOIN orders o on od.order_id = o.id " +
                 "WHERE EXTRACT(MONTH FROM o.order_date) = ? " +
-                "AND EXTRACT(YEAR FROM o.order_date) = ? " +
+                "AND EXTRACT(YEAR FROM o.order_date) = ? AND is_cancelled = FALSE " +
                 "GROUP BY p.id, p.name " +
                 "ORDER BY total_export_quantity DESC " +
                 "LIMIT 5";
@@ -280,7 +280,7 @@ public class ProductDAOImpl implements ProductDAO{
                 "INNER JOIN order_detail od ON p.id = od.product_id " +
                 "INNER JOIN orders o ON od.order_id = o.id " +
                 "WHERE EXTRACT(MONTH FROM o.order_date) = ? " +
-                "AND EXTRACT(YEAR FROM o.order_date) = ? " +
+                "AND EXTRACT(YEAR FROM o.order_date) = ? AND is_cancelled = FALSE " +
                 "GROUP BY p.id, p.name " +
                 "ORDER BY total_revenue DESC " +
                 "LIMIT 5";
