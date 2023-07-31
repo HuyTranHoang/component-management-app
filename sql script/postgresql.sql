@@ -50,7 +50,7 @@ CREATE TABLE categories
 CREATE TABLE products
 (
     id                SERIAL PRIMARY KEY,
-    product_code      VARCHAR(255),
+    product_code      VARCHAR(255) NOT NULL UNIQUE,
     name              VARCHAR(255)     NOT NULL,
     price             DOUBLE PRECISION NOT NULL,
     stock_quantity    INTEGER          NOT NULL,

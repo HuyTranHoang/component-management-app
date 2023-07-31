@@ -393,7 +393,7 @@ ALTER SEQUENCE public.positions_id_seq OWNED BY public.positions.id;
 
 CREATE TABLE public.products (
     id integer NOT NULL,
-    product_code character varying(255),
+    product_code character varying(255) NOT NULL UNIQUE,
     name character varying(255) NOT NULL,
     price double precision NOT NULL,
     stock_quantity integer NOT NULL,
