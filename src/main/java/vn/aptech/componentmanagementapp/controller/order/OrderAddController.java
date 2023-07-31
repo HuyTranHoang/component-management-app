@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -87,17 +88,8 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
     private AnchorPane anchor_main_rightPanel;
     private AnchorPane orderView;
-
-    private TableView<Order> tableView;
     private Order currentOrder;
-
-    public void setCurrentOrder(Order currentOrder) {
-        this.currentOrder = currentOrder;
-    }
-
-    //
     private Product currentProduct;
-
     private OrderAddSelectCustomerController orderAddSelectCustomerController;
 
     //
@@ -132,9 +124,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     private HBox hbox_addButtonGroup;
 
     @FXML
-    private HBox hbox_updateButtonGroup;
-
-    @FXML
     private HBox hbox_storeButtonGroup;
 
     @FXML
@@ -166,13 +155,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
     @FXML
     private Label lbl_showReceiveDate;
-
-    // Current index order details for update
-    private int currentIndex;
-    private ProductInfoView currentProductInfoView;
-
-    //
-
 
     @FXML
     private Label lbl_error_customerId;
@@ -258,8 +240,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     private OrderDetailSelectProductController orderDetailSelectProductController;
 
     // Cache order details
-    private Scene orderDetailScene;
-    private Stage orderDetailStage;
     private Scene selectProductScene;
     private Stage selectProductStage;
 
@@ -269,10 +249,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     private Customer currentCustomer;
     private Employee currentEmployee;
 
-    public void setCurrentCustomer(Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
-    }
-
     public void setCurrentEmployee(Employee currentEmployee) {
         this.currentEmployee = currentEmployee;
     }
@@ -280,7 +256,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     @FXML
     private VBox vbox_orderDetail;
     // List order details
-    private List<OrderDetail> orderDetails = new ArrayList<>();
+    private final List<OrderDetail> orderDetails = new ArrayList<>();
 
     public void setAnchor_main_rightPanel(AnchorPane anchor_main_rightPanel) {
         this.anchor_main_rightPanel = anchor_main_rightPanel;
@@ -290,9 +266,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         this.orderView = orderView;
     }
 
-    public void setTableView(TableView<Order> tableView) {
-        this.tableView = tableView;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -639,8 +612,23 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
     @FXML
     void nextButtonOnClickOrderDetail() {
-        if (totalOrderDetailsValidator.validate())
-            storeMode();
+        if (currentProduct != null) {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Confirm");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("There are products currently selected but not yet added to the list, do you want to continue?");
+
+            SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
+            if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
+                if (totalOrderDetailsValidator.validate())
+                    storeMode();
+            }
+        } else {
+            if (totalOrderDetailsValidator.validate())
+                storeMode();
+        }
+
+
     }
 
     @FXML
@@ -712,8 +700,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
     private void updateProductInfoView(OrderDetail existingOrderDetail) {
         for (Node node : vbox_orderDetail.getChildren()) {
-            if (node instanceof ProductInfoView) {
-                ProductInfoView productView = (ProductInfoView) node;
+            if (node instanceof ProductInfoView productView) {
                 if (productView.getLblProductName().getText().equals(existingOrderDetail.getName())) {
                     productView.getLblProductQuantity().setText(String.valueOf(existingOrderDetail.getQuantity()));
                     productView.getLblProductTotalAmount().setText(decimalFormat.format(existingOrderDetail.getTotalAmount()));
@@ -734,27 +721,6 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         productInfoView.setVbox_orderDetail(vbox_orderDetail);
         productInfoView.setOrderDetail(orderDetail);
         productInfoView.setOrderDetails(orderDetails);
-        productInfoView.setEditButtonAction(event -> {
-            updateMode();
-            currentIndex = vbox_orderDetail.getChildren().indexOf(productInfoView);
-            currentProductInfoView = productInfoView;
-            currentProduct = productService.getProductByName(productInfoView.getLblProductName().getText());
-            if (orderDetailsValidator.validate()) {
-                double ePrice = currentProduct.getPrice();
-                int eQuantity = Integer.parseInt(productInfoView.getLblProductQuantity().getText());
-                double eDiscount = Double.parseDouble(productInfoView.getLblProductDiscount().getText()) / 100 * ePrice;
-                double eTotalDiscount = Double.parseDouble(productInfoView.getLblProductDiscount().getText()) / 100 * ePrice * eQuantity;
-                double eTotalAmount = (ePrice - eDiscount) * eQuantity;
-
-                lbl_productName.setText(currentProduct.getName());
-                lbl_productPrice.setText(decimalFormat.format(ePrice));
-                lbl_productPrice_discount.setText("- " + decimalFormat.format(eTotalDiscount));
-                lbl_productTotalAmount.setText(decimalFormat.format(eTotalAmount));
-                txt_quantity.setText(String.valueOf(eQuantity));
-                txt_discount.setText(String.valueOf(productInfoView.getLblProductDiscount().getText()));
-            }
-        });
-
         productInfoView.setRemoveButtonAction(event -> {
             vbox_orderDetail.getChildren().remove(productInfoView);
             orderDetails.remove(orderDetail);
@@ -775,21 +741,14 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
 
     public void addMode() {
         hbox_addButtonGroup.setVisible(true);
-        hbox_updateButtonGroup.setVisible(false);
         hbox_storeButtonGroup.setVisible(false);
 
         btn_clearList.setVisible(true);
     }
 
-    public void updateMode() {
-        hbox_addButtonGroup.setVisible(false);
-        hbox_updateButtonGroup.setVisible(true);
-        hbox_storeButtonGroup.setVisible(false);
-    }
 
     public void storeMode() {
         hbox_addButtonGroup.setVisible(false);
-        hbox_updateButtonGroup.setVisible(false);
         hbox_storeButtonGroup.setVisible(true);
 
         btn_clearList.setVisible(false);
@@ -798,45 +757,12 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
         anchor_showOrder.setVisible(true);
 
         for (Node node : vbox_orderDetail.getChildren()) {
-            if (node instanceof ProductInfoView) {
-                ProductInfoView productView = (ProductInfoView) node;
-                productView.getBtnEdit().setVisible(false);
+            if (node instanceof ProductInfoView productView) {
                 productView.getBtnRemove().setVisible(false);
             }
         }
 
         setInformation();
-    }
-
-    @FXML
-    void updateButtonOnClick() {
-        if (orderDetailsValidator.validate()) {
-            OrderDetail orderDetail = orderDetails.get(currentIndex);
-            double price = currentProduct.getPrice();
-            int quantity = Integer.parseInt(txt_quantity.getText());
-            int discount = Integer.parseInt(txt_discount.getText());
-            double discountPrice = Double.parseDouble(txt_discount.getText()) / 100 * price;
-            double totalAmount = (price - discountPrice) * quantity;
-
-            orderDetail.setName(currentProduct.getName());
-            orderDetail.setPrice(price);
-            orderDetail.setQuantity(quantity);
-            orderDetail.setDiscount(discount);
-            orderDetail.setTotalAmount(totalAmount);
-            orderDetail.setProductId(currentProduct.getId());
-
-            ProductInfoView productInfoView = currentProductInfoView;
-            productInfoView.getLblProductName().setText(currentProduct.getName());
-            productInfoView.getLblProductPrice().setText(decimalFormat.format(price));
-            productInfoView.getLblProductDiscount().setText(String.valueOf(discount));
-            productInfoView.getLblProductQuantity().setText(String.valueOf(quantity));
-            productInfoView.getLblProductTotalAmount().setText(decimalFormat.format(totalAmount));
-            productInfoView.setVbox_orderDetail(vbox_orderDetail);
-            productInfoView.setOrderDetail(orderDetail);
-            productInfoView.setOrderDetails(orderDetails);
-            clearInputOrderDetail();
-            addMode();
-        }
     }
 
     @FXML
@@ -850,9 +776,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
             addMode();
 
             for (Node node : vbox_orderDetail.getChildren()) {
-                if (node instanceof ProductInfoView) {
-                    ProductInfoView productView = (ProductInfoView) node;
-                    productView.getBtnEdit().setVisible(true);
+                if (node instanceof ProductInfoView productView) {
                     productView.getBtnRemove().setVisible(true);
                 }
             }

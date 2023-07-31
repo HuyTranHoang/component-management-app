@@ -410,7 +410,6 @@ public class OrderController implements Initializable, OrderAddController.OrderA
                 orderAddController = fxmlLoader.getController();
                 orderAddController.setAnchor_main_rightPanel(anchor_main_rightPanel);
                 orderAddController.setOrderView(orderView);
-                orderAddController.setTableView(tableView);
                 orderAddController.setCurrentEmployee(currentEmployee);
 
                 orderAddController.setOrderAddCallback(this);

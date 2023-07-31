@@ -186,20 +186,6 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <HBox fx:id="hbox_updateButtonGroup" layoutX="277.0" layoutY="687.0" spacing="15.0" visible="false">
-                     <children>
-                        <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                        <MFXButton id="button-custom" onAction="#updateButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="UPDATE">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                     </children>
-                  </HBox>
                   <HBox fx:id="hbox_storeButtonGroup" layoutX="277.0" layoutY="687.0" spacing="15.0" visible="false">
                      <children>
                         <MFXButton id="button-custom-clear" onAction="#backButtonOnClick" prefHeight="48.0" prefWidth="150.0" text="BACK">

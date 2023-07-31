@@ -48,11 +48,11 @@
                     <TableColumn fx:id="tbc_checkbox" editable="false" prefWidth="40.0" resizable="false" sortable="false" visible="false" />
                     <TableColumn fx:id="tbc_id" prefWidth="75.0" sortable="false" text="Id" />
                     <TableColumn fx:id="tbc_productCode" prefWidth="120.0" sortable="false" text="Product Code" />
-                    <TableColumn fx:id="tbc_name" prefWidth="400.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
+                    <TableColumn fx:id="tbc_name" prefWidth="440.0" sortable="false" style="-fx-alignment: center-left;" text="Name" />
                     <TableColumn fx:id="tbc_price" prefWidth="150.0" sortable="false" text="Price " />
                     <TableColumn fx:id="tbc_quantity" prefWidth="120.0" sortable="false" text="Quantity" />
-                    <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="140.0" sortable="false" text="Month of warranty" />
-                    <TableColumn fx:id="tbc_note" prefWidth="150.0" sortable="false" text="Note" />
+                    <TableColumn fx:id="tbc_monthOfWarranty" prefWidth="140.0" sortable="false" text="Month of warranty" visible="false" />
+                    <TableColumn fx:id="tbc_note" prefWidth="150.0" sortable="false" text="Note" visible="false" />
                     <TableColumn fx:id="tbc_supplierId" prefWidth="175.0" sortable="false" text="Supplider Name" />
                     <TableColumn fx:id="tbc_categoryId" prefWidth="175.0" sortable="false" text="Category Name" />
                 </columns>

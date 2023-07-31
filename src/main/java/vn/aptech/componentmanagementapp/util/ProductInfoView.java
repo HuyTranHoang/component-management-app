@@ -21,12 +21,7 @@ public class ProductInfoView extends VBox {
     private final Label lblProductTotalAmount;
     private final Label lblProductQuantity;
 
-    private Button btnEdit;
     private Button btnRemove;
-
-    public Button getBtnEdit() {
-        return btnEdit;
-    }
 
     public Button getBtnRemove() {
         return btnRemove;
@@ -86,8 +81,6 @@ public class ProductInfoView extends VBox {
         lblProductQuantity = new Label();
         lblProductTotalAmount = new Label();
 
-        btnEdit = new Button("Edit");
-        btnEdit.getStyleClass().add("btn-edit");
         btnRemove = new Button("Remove");
         btnRemove.getStyleClass().add("btn-remove");
 
@@ -108,7 +101,6 @@ public class ProductInfoView extends VBox {
 
         gridPane.add(createLabelHBox("Price:", lblProductPrice), 0, 1);
         gridPane.add(createLabelHBox("Quantity:", lblProductQuantity), 1, 1);
-        gridPane.add(btnEdit, 2, 1);
 
         gridPane.add(createLabelHBox("Discount (%):", lblProductDiscount), 0, 2);
         gridPane.add(createLabelHBox("Total:", lblProductTotalAmount), 1, 2);
@@ -146,10 +138,6 @@ public class ProductInfoView extends VBox {
         VBox vbox = new VBox(5);
         vbox.getChildren().addAll(lblLabel, label);
         return vbox;
-    }
-
-    public void setEditButtonAction(EventHandler<ActionEvent> eventHandler) {
-        btnEdit.setOnAction(eventHandler);
     }
 
     public void setRemoveButtonAction(EventHandler<ActionEvent> eventHandler) {
