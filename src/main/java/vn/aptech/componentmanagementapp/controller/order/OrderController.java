@@ -419,7 +419,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         }
 
         orderAddController.clearInputOrder();
-        orderAddController.setRequestFocus();
+
 
         Employee employee = employeeService.getEmployeeById(loginEmployee.getId());
         orderAddController.setCurrentEmployee(employee);
@@ -427,7 +427,7 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(addOrderView);
-//        productAddController.setRequestFocus();
+        orderAddController.setRequestFocus();
     }
 
 

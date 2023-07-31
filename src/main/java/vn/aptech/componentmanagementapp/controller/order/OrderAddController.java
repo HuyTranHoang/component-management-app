@@ -873,7 +873,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
     }
 
     void setRequestFocus() {
-        txt_orderDate.requestFocus();
+        txt_deliveryLocation.requestFocus();
     }
 
     @FXML
