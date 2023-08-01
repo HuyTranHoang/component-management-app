@@ -26,6 +26,8 @@ import vn.aptech.componentmanagementapp.controller.employee.EmployeeController;
 import vn.aptech.componentmanagementapp.controller.order.OrderController;
 import vn.aptech.componentmanagementapp.controller.product.ProductController;
 import vn.aptech.componentmanagementapp.controller.report.EmployeeSalaryController;
+import vn.aptech.componentmanagementapp.controller.report.OrderStatisticController;
+import vn.aptech.componentmanagementapp.controller.report.ProductQuantityController;
 import vn.aptech.componentmanagementapp.controller.report.ProductRevenueController;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
@@ -58,6 +60,9 @@ public class ManagementController implements Initializable {
 
     @FXML
     private MFXButton btn_leftPanel_dashboard;
+
+    @FXML
+    private MFXButton btn_leftPanel_dashboardHR;
 
     @FXML
     private MFXButton btn_leftPanel_supplierList;
@@ -167,8 +172,10 @@ public class ManagementController implements Initializable {
     private EmployeeController employeeController;
     private OrderController orderController;
 
+    private ProductQuantityController productQuantityController;
     private ProductRevenueController productRevenueController;
     private EmployeeSalaryController employeeSalaryController;
+    private OrderStatisticController orderStatisticController;
 
 
     //    Variable
@@ -326,6 +333,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_reportList.setId("button-custom-mainPanel");
         btn_leftPanel_reportListHR.setId("button-custom-mainPanel");
 
+        btn_leftPanel_dashboardHR.setId("button-custom-mainPanel-selected");
+
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(dashboardView);
     }
@@ -394,7 +403,7 @@ public class ManagementController implements Initializable {
 //        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
 //        btn_leftPanel_reportList.setId("button-custom-mainPanel");
 
-        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_dashboardHR.setId("button-custom-mainPanel");
         btn_leftPanel_employeeList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_reportListHR.setId("button-custom-mainPanel");
 
@@ -570,6 +579,7 @@ public class ManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-product-quantity.fxml"));
                 reportProductQuantityView = fxmlLoader.load();
+                productQuantityController = fxmlLoader.getController();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -586,6 +596,10 @@ public class ManagementController implements Initializable {
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+
+        productQuantityController.reloadProduct();
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportProductQuantityView);
@@ -611,6 +625,7 @@ public class ManagementController implements Initializable {
         btn_subMenu_employeeHR.setId("button-custom-submenu");
         btn_subMenu_orderHR.setId("button-custom-submenu");
 
+
         if (reportProductRevenueView == null) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-product-revenue.fxml"));
@@ -632,6 +647,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportProductRevenueView);
@@ -680,6 +697,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
 
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportOrderView);
     }
@@ -725,6 +744,8 @@ public class ManagementController implements Initializable {
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
         btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
 
         employeeSalaryController.reloadEmployee();
 

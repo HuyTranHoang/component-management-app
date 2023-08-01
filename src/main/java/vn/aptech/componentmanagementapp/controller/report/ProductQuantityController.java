@@ -116,7 +116,7 @@ public class ProductQuantityController implements Initializable {
 
         List<String> orderList = List.of("ASC", "DESC");
         cbb_orderBy.setItems(FXCollections.observableArrayList(orderList));
-        cbb_orderBy.selectFirst();
+        cbb_orderBy.selectLast();
     }
 
     private void initComboBoxEvent() {
@@ -133,7 +133,7 @@ public class ProductQuantityController implements Initializable {
                 return;
             }
 
-            if (order.equals("DESC"))
+            if (order.equals("ASC"))
                 Collections.reverse(products);
 
             lbl_totalProduct.setText(String.valueOf(productService.getAllProduct().size()));
@@ -145,6 +145,15 @@ public class ProductQuantityController implements Initializable {
 
         cbb_belowQuantity.setOnAction(comboBoxEventHandler);
         cbb_orderBy.setOnAction(comboBoxEventHandler);
+    }
+
+    public void reloadProduct() {
+        cbb_belowQuantity.selectFirst();
+        cbb_orderBy.selectLast();
+        List<Product> productList = productService.getProductByQuantityBelow(5);
+        products = FXCollections.observableArrayList(productList);
+        paginationHelper.setItems(products);
+        paginationHelper.showFirstPage();
     }
 
 
