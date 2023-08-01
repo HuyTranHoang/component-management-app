@@ -24,7 +24,7 @@
                <children>
                   <AnchorPane prefHeight="57.0" prefWidth="440.0">
                      <children>
-                        <Label alignment="CENTER" graphicTextGap="15.0" layoutX="243.0" layoutY="9.0" prefWidth="266.0" text="Weekly Order Total Amount">
+                        <Label alignment="CENTER" graphicTextGap="15.0" layoutX="243.0" layoutY="9.0" prefWidth="266.0" text="Weekly Order Total Revenue">
                            <font>
                               <Font name="Inter Bold" size="18.0" />
                            </font>

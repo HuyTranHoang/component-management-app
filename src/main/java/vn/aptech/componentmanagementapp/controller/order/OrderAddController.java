@@ -584,7 +584,7 @@ public class OrderAddController implements Initializable, OrderAddSelectCustomer
                 orderDetailSelectProductController = fxmlLoader.getController();
                 orderDetailSelectProductController.setProductSelectionCallback(this);
                 orderDetailSelectProductController.setStage(selectProductStage);
-                selectProductStage.setTitle("Select customer");
+                selectProductStage.setTitle("Select product");
 
                 Image image = null;
 
