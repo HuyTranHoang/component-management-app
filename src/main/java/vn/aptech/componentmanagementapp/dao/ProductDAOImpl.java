@@ -167,6 +167,33 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
+    public void updateImportQuantity(Long productId, int importQuantity) {
+        try {
+            String selectQuery = "SELECT stock_quantity FROM products WHERE id = ?";
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+                selectStatement.setLong(1, productId);
+                ResultSet resultSet = selectStatement.executeQuery();
+
+                int currentStockQuantity = 0;
+                if (resultSet.next()) {
+                    currentStockQuantity = resultSet.getInt("stock_quantity");
+                }
+
+                int newStockQuantity = currentStockQuantity + importQuantity;
+
+                String updateQuery = "UPDATE products SET stock_quantity = ? WHERE id = ?";
+                try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                    updateStatement.setInt(1, newStockQuantity);
+                    updateStatement.setLong(2, productId);
+                    updateStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void updateExportQuantity(Long productId, int exportQuantity) {
         try {
             String selectQuery = "SELECT stock_quantity FROM products WHERE id = ?";

@@ -40,6 +40,10 @@ public class ProductService {
 
     public int getWeeklyNewProduct() { return productDAO.getWeeklyNewProduct(); }
 
+    public void updateImportQuantity(Long productId, int importQuantity) {
+        productDAO.updateImportQuantity(productId, importQuantity);
+    }
+
     public void updateProductExportQuantity(Long productId, int exportQuantity) {
         productDAO.updateExportQuantity(productId, exportQuantity);
     }

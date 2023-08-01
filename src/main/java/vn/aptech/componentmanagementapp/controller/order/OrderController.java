@@ -31,8 +31,11 @@ import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.model.Order;
+import vn.aptech.componentmanagementapp.model.OrderDetail;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
+import vn.aptech.componentmanagementapp.service.OrderDetailService;
 import vn.aptech.componentmanagementapp.service.OrderService;
+import vn.aptech.componentmanagementapp.service.ProductService;
 import vn.aptech.componentmanagementapp.util.FormattedDoubleTableCell;
 import vn.aptech.componentmanagementapp.util.PaginationHelper;
 import vn.aptech.componentmanagementapp.util.SetImageAlert;
@@ -122,7 +125,9 @@ public class OrderController implements Initializable, OrderAddController.OrderA
 
     //  Service
     private final OrderService orderService = new OrderService();
+    private final OrderDetailService orderDetailService = new OrderDetailService();
     private final EmployeeService employeeService = new EmployeeService();
+    private final ProductService productService = new ProductService();
 
     // Cached views
     private AnchorPane addOrderView;
@@ -501,6 +506,12 @@ public class OrderController implements Initializable, OrderAddController.OrderA
         SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
         if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
             selectedOrderIds.forEach(orderService::cancelOrder);
+            selectedOrderIds.forEach(id -> {
+                List<OrderDetail> orderDetails = orderDetailService.getAllOrderDetailByOrderId(id);
+                for (OrderDetail od: orderDetails) {
+                    productService.updateImportQuantity(od.getProductId(), od.getQuantity());
+                }
+            });
             uncheckAllCheckboxes();
             resetFilterIconClicked();
 
@@ -524,7 +535,6 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             SetImageAlert.setIconAlert(error, SetImageAlert.ERROR);
             error.show();
         } else {
-
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Confirm");
             confirmation.setHeaderText(null);
@@ -533,6 +543,11 @@ public class OrderController implements Initializable, OrderAddController.OrderA
             SetImageAlert.setIconAlert(confirmation, SetImageAlert.CONFIRMATION);
             if (confirmation.showAndWait().orElse(null) == ButtonType.OK) {
                 orderService.cancelOrder(selectedOrder.getId());
+
+                List<OrderDetail> orderDetails = orderDetailService.getAllOrderDetailByOrderId(selectedOrder.getId());
+                for (OrderDetail od: orderDetails) {
+                    productService.updateImportQuantity(od.getProductId(), od.getQuantity());
+                }
                 resetFilterIconClicked();
 
                 hbox_noti.setVisible(true);
