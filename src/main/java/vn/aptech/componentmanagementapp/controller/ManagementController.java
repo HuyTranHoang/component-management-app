@@ -558,7 +558,7 @@ public class ManagementController implements Initializable {
 
         btn_subMenu_productQuantity.setId("button-custom-submenu-selected");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
-        btn_subMenu_employee.setId("button-custom-submenu");
+//        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu-selected");
@@ -603,7 +603,7 @@ public class ManagementController implements Initializable {
 
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu-selected");
-        btn_subMenu_employee.setId("button-custom-submenu");
+//        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu");
@@ -651,7 +651,7 @@ public class ManagementController implements Initializable {
 
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
-        btn_subMenu_employee.setId("button-custom-submenu");
+//        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu-selected");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu");
@@ -696,7 +696,7 @@ public class ManagementController implements Initializable {
 
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
-        btn_subMenu_employee.setId("button-custom-submenu-selected");
+//        btn_subMenu_employee.setId("button-custom-submenu-selected");
         btn_subMenu_order.setId("button-custom-submenu");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu");
@@ -759,8 +759,14 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#fff"));
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
-        btn_subMenu_employee.setId("button-custom-submenu");
+//        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
+
+        icon_reportDownHR.setFill(Paint.valueOf("#fff"));
+        btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productRevenueHR.setId("button-custom-submenu");
+        btn_subMenu_employeeHR.setId("button-custom-submenu");
+        btn_subMenu_orderHR.setId("button-custom-submenu");
     }
 
 
