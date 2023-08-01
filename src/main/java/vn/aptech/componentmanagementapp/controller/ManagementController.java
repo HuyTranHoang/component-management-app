@@ -25,10 +25,7 @@ import vn.aptech.componentmanagementapp.controller.dashboard.DashboardController
 import vn.aptech.componentmanagementapp.controller.employee.EmployeeController;
 import vn.aptech.componentmanagementapp.controller.order.OrderController;
 import vn.aptech.componentmanagementapp.controller.product.ProductController;
-import vn.aptech.componentmanagementapp.controller.report.EmployeeSalaryController;
-import vn.aptech.componentmanagementapp.controller.report.OrderStatisticController;
-import vn.aptech.componentmanagementapp.controller.report.ProductQuantityController;
-import vn.aptech.componentmanagementapp.controller.report.ProductRevenueController;
+import vn.aptech.componentmanagementapp.controller.report.*;
 import vn.aptech.componentmanagementapp.model.Employee;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 import vn.aptech.componentmanagementapp.util.SetImageAlert;
@@ -86,6 +83,9 @@ public class ManagementController implements Initializable {
     private MFXButton btn_subMenu_productQuantity;
 
     @FXML
+    private MFXButton btn_subMenu_productImportExport;
+
+    @FXML
     private MFXButton btn_subMenu_productRevenue;
 
     @FXML
@@ -96,6 +96,9 @@ public class ManagementController implements Initializable {
 
     @FXML
     private MFXButton btn_subMenu_productQuantityHR;
+
+    @FXML
+    private MFXButton btn_subMenu_productImportExportHR;
 
     @FXML
     private MFXButton btn_subMenu_productRevenueHR;
@@ -152,6 +155,7 @@ public class ManagementController implements Initializable {
     private AnchorPane reportProductRevenueView;
     private AnchorPane reportOrderView;
     private AnchorPane reportEmployeeView;
+    private AnchorPane reportProductImportExportView;
 
     @FXML
     private AnchorPane anchor_reportArrowSales;
@@ -176,6 +180,7 @@ public class ManagementController implements Initializable {
     private ProductRevenueController productRevenueController;
     private EmployeeSalaryController employeeSalaryController;
     private OrderStatisticController orderStatisticController;
+    private ProductImportExportController productImportExportController;
 
 
     //    Variable
@@ -566,11 +571,13 @@ public class ManagementController implements Initializable {
         icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
 
         btn_subMenu_productQuantity.setId("button-custom-submenu-selected");
+        btn_subMenu_productImportExport.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
 //        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu-selected");
+        btn_subMenu_productImportExportHR.setId("button-custom-submenu");
         btn_subMenu_productRevenueHR.setId("button-custom-submenu");
         btn_subMenu_employeeHR.setId("button-custom-submenu");
         btn_subMenu_orderHR.setId("button-custom-submenu");
@@ -606,6 +613,58 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
+    void reportProductImportExportButtonOnClick() {
+        icon_reportRight.setVisible(true);
+        icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
+
+        icon_reportRightHR.setVisible(true);
+        icon_reportDownHR.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
+
+        btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productImportExport.setId("button-custom-submenu-selected");
+        btn_subMenu_productRevenue.setId("button-custom-submenu");
+//        btn_subMenu_employee.setId("button-custom-submenu");
+        btn_subMenu_order.setId("button-custom-submenu");
+
+        btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productImportExportHR.setId("button-custom-submenu-selected");
+        btn_subMenu_productRevenueHR.setId("button-custom-submenu");
+        btn_subMenu_employeeHR.setId("button-custom-submenu");
+        btn_subMenu_orderHR.setId("button-custom-submenu");
+
+        if (reportProductImportExportView == null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(ComponentManagementApplication.class.getResource("fxml_1920/report/report-product-import-export.fxml"));
+                reportProductImportExportView = fxmlLoader.load();
+                productImportExportController = fxmlLoader.getController();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        setMenuImage("images/report.png");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+        btn_leftPanel_productList.setId("button-custom-mainPanel");
+        btn_leftPanel_employeeList.setId("button-custom-mainPanel");
+        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
+
+        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+
+        anchor_main_rightPanel.getChildren().clear();
+        anchor_main_rightPanel.getChildren().add(reportProductImportExportView);
+
+        productImportExportController.viewButtonOnClick(); // reset data
+    }
+
+    @FXML
     void reportProductRevenueButtonOnClick() {
         icon_reportRight.setVisible(true);
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
@@ -616,11 +675,13 @@ public class ManagementController implements Initializable {
         icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
 
         btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productImportExport.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu-selected");
 //        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productImportExportHR.setId("button-custom-submenu");
         btn_subMenu_productRevenueHR.setId("button-custom-submenu-selected");
         btn_subMenu_employeeHR.setId("button-custom-submenu");
         btn_subMenu_orderHR.setId("button-custom-submenu");
@@ -667,11 +728,13 @@ public class ManagementController implements Initializable {
         icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
 
         btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productImportExport.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
 //        btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu-selected");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productImportExportHR.setId("button-custom-submenu");
         btn_subMenu_productRevenueHR.setId("button-custom-submenu");
         btn_subMenu_employeeHR.setId("button-custom-submenu");
         btn_subMenu_orderHR.setId("button-custom-submenu-selected");
@@ -714,11 +777,13 @@ public class ManagementController implements Initializable {
         icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
 
         btn_subMenu_productQuantity.setId("button-custom-submenu");
+        btn_subMenu_productImportExport.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
 //        btn_subMenu_employee.setId("button-custom-submenu-selected");
         btn_subMenu_order.setId("button-custom-submenu");
 
         btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productImportExportHR.setId("button-custom-submenu");
         btn_subMenu_productRevenueHR.setId("button-custom-submenu");
         btn_subMenu_employeeHR.setId("button-custom-submenu-selected");
         btn_subMenu_orderHR.setId("button-custom-submenu");

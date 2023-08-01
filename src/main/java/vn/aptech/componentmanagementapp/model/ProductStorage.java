@@ -7,14 +7,12 @@ import java.time.LocalDate;
 
 public class ProductStorage {
     private long id;
-    private int ImportQuantity;
-    private int ExportQuantity;
-    private LocalDate DateOfStorage;
-    private long ProductId;
-
+    private int importQuantity;
+    private int exportQuantity;
+    private LocalDate dateOfStorage;
+    private long productId;
     private Product product;
 
-    private long productId;
 
     public long getId() {
         return id;
@@ -25,35 +23,35 @@ public class ProductStorage {
     }
 
     public int getImportQuantity() {
-        return ImportQuantity;
+        return importQuantity;
     }
 
     public void setImportQuantity(int importQuantity) {
-        ImportQuantity = importQuantity;
+        this.importQuantity = importQuantity;
     }
 
     public int getExportQuantity() {
-        return ExportQuantity;
+        return exportQuantity;
     }
 
     public void setExportQuantity(int exportQuantity) {
-        ExportQuantity = exportQuantity;
+        this.exportQuantity = exportQuantity;
     }
 
     public LocalDate getDateOfStorage() {
-        return DateOfStorage;
+        return dateOfStorage;
     }
 
-    public void setDateOfStorage(LocalDate date) {
-        DateOfStorage = date;
+    public void setDateOfStorage(LocalDate dateOfStorage) {
+        this.dateOfStorage = dateOfStorage;
     }
 
     public long getProductId() {
-        return ProductId;
+        return productId;
     }
 
     public void setProductId(long productId) {
-        ProductId = productId;
+        this.productId = productId;
     }
 
     public Product getProduct() {
@@ -65,16 +63,4 @@ public class ProductStorage {
         return product;
     }
 
-    @Override
-    public String toString() {
-        return "ProductStorage{" +
-                "id=" + id +
-                ", ImportQuantity=" + ImportQuantity +
-                ", ExportQuantity=" + ExportQuantity +
-                ", Date=" + DateOfStorage +
-                ", ProductId=" + ProductId +
-                ", product=" + product +
-                ", productId=" + productId +
-                '}';
-    }
 }

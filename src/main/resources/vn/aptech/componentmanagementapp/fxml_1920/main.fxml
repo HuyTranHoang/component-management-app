@@ -218,6 +218,14 @@
                   <Insets left="30.0" />
                </padding>
             </MFXButton>
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_productImportExport" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductImportExportButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product import/export">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </MFXButton>
             <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_productRevenue" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductRevenueButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product revenue">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -238,6 +246,14 @@
       <VBox fx:id="vbox_report_subMenuHR" layoutX="250.0" layoutY="405.0" onMouseExited="#hideReportSubMenuHR" prefWidth="200.0" visible="false">
          <children>
             <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_productQuantityHR" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductQuantityButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product quantity">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </MFXButton>
+            <MFXButton id="button-custom-submenu" fx:id="btn_subMenu_productImportExportHR" alignment="BASELINE_LEFT" graphicTextGap="16.0" onAction="#reportProductImportExportButtonOnClick" prefHeight="40.0" prefWidth="300.0" rippleAnimateBackground="false" rippleColor="#4a55a2" text="Product import/export">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

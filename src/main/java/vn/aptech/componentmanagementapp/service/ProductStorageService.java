@@ -4,6 +4,7 @@ import vn.aptech.componentmanagementapp.dao.ProductStorageDAO;
 import vn.aptech.componentmanagementapp.dao.ProductStorageImpl;
 import vn.aptech.componentmanagementapp.model.ProductStorage;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductStorageService {
@@ -31,6 +32,9 @@ public class ProductStorageService {
 
     public void deleteProductStorage(int productStorageId) {
         productStorageDAO.delete(productStorageId);
+    }
+    public List<ProductStorage> getAllProductStorageFromTo(LocalDate fromDate, LocalDate toDate) {
+        return productStorageDAO.getAllFromTo(fromDate, toDate);
     }
 
 }

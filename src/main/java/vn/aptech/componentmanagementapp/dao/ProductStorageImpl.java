@@ -4,6 +4,7 @@ import vn.aptech.componentmanagementapp.model.ProductStorage;
 import vn.aptech.componentmanagementapp.util.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,5 +98,28 @@ public class ProductStorageImpl implements ProductStorageDAO{
         productStorage.setImportQuantity(resultSet.getInt("import_quantity"));
         productStorage.setExportQuantity(resultSet.getInt("export_quantity"));
         productStorage.setProductId(resultSet.getLong("product_id"));
+        productStorage.setDateOfStorage(resultSet.getDate("created_at").toLocalDate());
+    }
+
+    @Override
+    public List<ProductStorage> getAllFromTo(LocalDate fromDate, LocalDate toDate) {
+        String query = "SELECT * FROM products_storage WHERE created_at BETWEEN ? AND ? ORDER BY id";
+        ArrayList<ProductStorage> productStorages = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(fromDate));
+            statement.setDate(2, java.sql.Date.valueOf(toDate));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    ProductStorage productStorage = new ProductStorage();
+                    setProductStorage(productStorage, resultSet);
+                    productStorages.add(productStorage);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productStorages;
     }
 }

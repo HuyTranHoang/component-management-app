@@ -94,6 +94,18 @@ public class ProductRevenueController implements Initializable {
     @FXML
     private Label lbl_fromTo;
 
+    @FXML
+    private Label lbl_mostExportName;
+
+    @FXML
+    private Label lbl_mostExportQuantity;
+
+    @FXML
+    private Label lbl_mostImportName;
+
+    @FXML
+    private Label lbl_mostImportQuantity;
+
     private PaginationHelper<Product> paginationHelper;
 
     // Service
@@ -197,11 +209,8 @@ public class ProductRevenueController implements Initializable {
             LocalDate fromDate = txt_fromDate.getValue();
             LocalDate toDate = txt_toDate.getValue();
 
-
-
             RadioButton selectedRadio = (RadioButton) tgg_type.getSelectedToggle();
             String selectedType = selectedRadio.getText();
-
 
             products.clear();
             if (selectedType.equals("By revenue")) {
