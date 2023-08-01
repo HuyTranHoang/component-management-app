@@ -69,6 +69,9 @@ public class ManagementController implements Initializable {
     private MFXButton btn_leftPanel_reportList;
 
     @FXML
+    private MFXButton btn_leftPanel_reportListHR;
+
+    @FXML
     private MFXButton btn_subMenu_employee;
 
     @FXML
@@ -79,6 +82,18 @@ public class ManagementController implements Initializable {
 
     @FXML
     private MFXButton btn_subMenu_productRevenue;
+
+    @FXML
+    private MFXButton btn_subMenu_employeeHR;
+
+    @FXML
+    private MFXButton btn_subMenu_orderHR;
+
+    @FXML
+    private MFXButton btn_subMenu_productQuantityHR;
+
+    @FXML
+    private MFXButton btn_subMenu_productRevenueHR;
 
     @FXML
     private HBox hbox_employeeInfo;
@@ -309,6 +324,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(dashboardView);
@@ -369,14 +385,19 @@ public class ManagementController implements Initializable {
 
         resetSubmenu();
 
+//        btn_leftPanel_dashboard.setId("button-custom-mainPanel");
+//        btn_leftPanel_productList.setId("button-custom-mainPanel");
+//        btn_leftPanel_employeeList.setId("button-custom-mainPanel-selected");
+//        btn_leftPanel_customerList.setId("button-custom-mainPanel");
+//        btn_leftPanel_orderList.setId("button-custom-mainPanel");
+//        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
+//        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
+//        btn_leftPanel_reportList.setId("button-custom-mainPanel");
+
         btn_leftPanel_dashboard.setId("button-custom-mainPanel");
-        btn_leftPanel_productList.setId("button-custom-mainPanel");
         btn_leftPanel_employeeList.setId("button-custom-mainPanel-selected");
-        btn_leftPanel_customerList.setId("button-custom-mainPanel");
-        btn_leftPanel_orderList.setId("button-custom-mainPanel");
-        btn_leftPanel_supplierList.setId("button-custom-mainPanel");
-        btn_leftPanel_categoryList.setId("button-custom-mainPanel");
-        btn_leftPanel_reportList.setId("button-custom-mainPanel");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel");
+
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(employeeView);
@@ -531,10 +552,19 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
+        icon_reportRightHR.setVisible(true);
+        icon_reportDownHR.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
+
         btn_subMenu_productQuantity.setId("button-custom-submenu-selected");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
         btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
+
+        btn_subMenu_productQuantityHR.setId("button-custom-submenu-selected");
+        btn_subMenu_productRevenueHR.setId("button-custom-submenu");
+        btn_subMenu_employeeHR.setId("button-custom-submenu");
+        btn_subMenu_orderHR.setId("button-custom-submenu");
 
         if (reportProductQuantityView == null) {
             try {
@@ -555,6 +585,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportProductQuantityView);
@@ -566,10 +597,19 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
+        icon_reportRightHR.setVisible(true);
+        icon_reportDownHR.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
+
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu-selected");
         btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu");
+
+        btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productRevenueHR.setId("button-custom-submenu-selected");
+        btn_subMenu_employeeHR.setId("button-custom-submenu");
+        btn_subMenu_orderHR.setId("button-custom-submenu");
 
         if (reportProductRevenueView == null) {
             try {
@@ -591,6 +631,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportProductRevenueView);
@@ -604,10 +645,19 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
+        icon_reportRightHR.setVisible(true);
+        icon_reportDownHR.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
+
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
         btn_subMenu_employee.setId("button-custom-submenu");
         btn_subMenu_order.setId("button-custom-submenu-selected");
+
+        btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productRevenueHR.setId("button-custom-submenu");
+        btn_subMenu_employeeHR.setId("button-custom-submenu");
+        btn_subMenu_orderHR.setId("button-custom-submenu-selected");
 
         if (reportOrderView == null) {
             try {
@@ -628,6 +678,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
 
         anchor_main_rightPanel.getChildren().clear();
         anchor_main_rightPanel.getChildren().add(reportOrderView);
@@ -639,10 +690,19 @@ public class ManagementController implements Initializable {
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
         icon_reportRight.setFill(Paint.valueOf("#4A55A2"));
 
+        icon_reportRightHR.setVisible(true);
+        icon_reportDownHR.setFill(Paint.valueOf("#4A55A2"));
+        icon_reportRightHR.setFill(Paint.valueOf("#4A55A2"));
+
         btn_subMenu_productQuantity.setId("button-custom-submenu");
         btn_subMenu_productRevenue.setId("button-custom-submenu");
         btn_subMenu_employee.setId("button-custom-submenu-selected");
         btn_subMenu_order.setId("button-custom-submenu");
+
+        btn_subMenu_productQuantityHR.setId("button-custom-submenu");
+        btn_subMenu_productRevenueHR.setId("button-custom-submenu");
+        btn_subMenu_employeeHR.setId("button-custom-submenu-selected");
+        btn_subMenu_orderHR.setId("button-custom-submenu");
 
         if (reportEmployeeView == null) {
             try {
@@ -664,6 +724,7 @@ public class ManagementController implements Initializable {
         btn_leftPanel_supplierList.setId("button-custom-mainPanel");
         btn_leftPanel_categoryList.setId("button-custom-mainPanel");
         btn_leftPanel_reportList.setId("button-custom-mainPanel-selected");
+        btn_leftPanel_reportListHR.setId("button-custom-mainPanel-selected");
 
         employeeSalaryController.reloadEmployee();
 

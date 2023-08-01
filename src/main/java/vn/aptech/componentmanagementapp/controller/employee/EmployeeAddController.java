@@ -2,10 +2,7 @@ package vn.aptech.componentmanagementapp.controller.employee;
 
 import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeOutRight;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
-import io.github.palexdev.materialfx.controls.MFXPasswordField;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.utils.others.dates.DateStringConverter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -37,6 +34,9 @@ import vn.aptech.componentmanagementapp.service.DepartmentService;
 import vn.aptech.componentmanagementapp.service.EmployeeService;
 import vn.aptech.componentmanagementapp.service.PositionService;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -46,6 +46,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -119,6 +120,12 @@ public class EmployeeAddController implements Initializable {
     private Label lbl_error_confirmPassword;
 
     @FXML
+    private Label lbl_newResetPassword;
+
+    @FXML
+    private MFXButton btn_resetPassword;
+
+    @FXML
     private Label lbl_title;
 
     @FXML
@@ -141,6 +148,8 @@ public class EmployeeAddController implements Initializable {
 
     @FXML
     private MFXPasswordField txt_password;
+
+    private String newPassword;
 
     @FXML
     private MFXPasswordField txt_newPassword;
@@ -543,6 +552,8 @@ public class EmployeeAddController implements Initializable {
         setImage("defaultImg.jpg");
 
         clearValidateError();
+
+        lbl_newResetPassword.setVisible(false);
     }
     private void clearValidateError() {
         lbl_error_name.setVisible(false);
@@ -656,8 +667,8 @@ public class EmployeeAddController implements Initializable {
             currentEmployee.setEmail(txt_email.getText());
             currentEmployee.setSalary(Double.parseDouble(txt_salary.getText()));
             currentEmployee.setCitizenID(txt_citizenId.getText());
-            if (!txt_password.getText().isEmpty())
-                currentEmployee.setPassword(hashSHA256(txt_password.getText()));
+//            if (!txt_password.getText().isEmpty())
+//                currentEmployee.setPassword(hashSHA256(txt_password.getText()));
 
             Department selectedDepartment = cbb_department.getSelectionModel().getSelectedItem();
             if (selectedDepartment != null) {
@@ -695,6 +706,55 @@ public class EmployeeAddController implements Initializable {
         }
     }
 
+    @FXML
+    void resetPasswordOnClick() {
+        int passwordLength = 8;
+        newPassword = generateRandomPassword(passwordLength);
+        lbl_newResetPassword.setVisible(true);
+        lbl_newResetPassword.setText("New password: " + newPassword + " - Click to copy password to clipboard");
+
+        employeeService.updateEmployeePassword(currentEmployee.getId(), hashSHA256(newPassword));
+        currentEmployee.setPassword(hashSHA256(newPassword));
+
+        lbl_successMessage.setText("Reset password successfully!!");
+        hbox_noti.setVisible(true);
+        new FadeInRight(hbox_noti).play();
+        timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOutRight(hbox_noti).play()));
+        timeline.play();
+    }
+
+    @FXML
+    void copyPasswordOnClick() {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        StringSelection selection = new StringSelection(newPassword);
+        clipboard.setContents(selection, null);
+
+        lbl_successMessage.setText("Copy new password to clipboard!!");
+        hbox_noti.setVisible(true);
+        new FadeInRight(hbox_noti).play();
+        timeline = new Timeline(new KeyFrame(Duration.seconds(3), event -> new FadeOutRight(hbox_noti).play()));
+        timeline.play();
+    }
+
+    private String generateRandomPassword(int length) {
+        String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String allCharacters = upperCaseLetters + lowerCaseLetters + numbers;
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(allCharacters.length());
+            char randomChar = allCharacters.charAt(randomIndex);
+            password.append(randomChar);
+        }
+
+        return password.toString();
+    }
+
     void updateMode() {
         isUpdate = true;
         hbox_addButtonGroup.setVisible(false);
@@ -702,6 +762,7 @@ public class EmployeeAddController implements Initializable {
 
         txt_password.setVisible(false);
         txt_confirmPassword.setVisible(false);
+        btn_resetPassword.setVisible(true);
 
         lbl_title.setText("UPDATE EMPLOYEE");
     }
@@ -713,6 +774,7 @@ public class EmployeeAddController implements Initializable {
 
         txt_password.setVisible(true);
         txt_confirmPassword.setVisible(true);
+        btn_resetPassword.setVisible(false);
 
         lbl_title.setText("ADD NEW EMPLOYEE");
     }

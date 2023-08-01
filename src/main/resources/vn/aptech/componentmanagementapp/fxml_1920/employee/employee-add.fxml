@@ -161,7 +161,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox layoutX="484.0" layoutY="34.0" prefHeight="471.0" prefWidth="380.0" spacing="12.0">
+                  <VBox layoutX="484.0" layoutY="34.0" prefHeight="437.0" prefWidth="380.0" spacing="12.0">
                      <children>
                         <MFXFilterComboBox fx:id="cbb_department" animated="false" borderGap="0.0" floatMode="ABOVE" floatingText="Department (*)" prefHeight="48.0" prefWidth="380.0">
                            <font>
@@ -276,6 +276,16 @@
                         </ImageView>
                      </children>
                   </VBox>
+                  <MFXButton id="button-custom-clear" fx:id="btn_resetPassword" layoutX="484.0" layoutY="270.0" onAction="#resetPasswordOnClick" prefHeight="38.0" prefWidth="200.0" text="RESET PASSWORD">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <Label fx:id="lbl_newResetPassword" alignment="TOP_LEFT" layoutX="484.0" layoutY="310.0" onMouseClicked="#copyPasswordOnClick" prefHeight="40.0" prefWidth="380.0" text="New reset password" textFill="#86ff35" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
