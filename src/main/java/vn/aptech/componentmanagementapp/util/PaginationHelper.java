@@ -7,7 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 
 public class PaginationHelper<T> {
-    private static final int ITEMS_PER_PAGE = 26;
+    private static final int ITEMS_PER_PAGE = 36;
     private int currentPageIndex = 0;
 
     public int getCurrentPageIndex() {

@@ -269,7 +269,9 @@ public class LoginController implements Initializable {
                     controller.setCurrentEmployee(employeeService.getEmployeeById(loginInfo.getId()));
 
                     if (loginInfo.getDepartmentId() != 1)
-                        controller.disableEmployee();
+                        controller.isSales();
+                    else
+                        controller.isHR();
 
                     clearLogin();
 

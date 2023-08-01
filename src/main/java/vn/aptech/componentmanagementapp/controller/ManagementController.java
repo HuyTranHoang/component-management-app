@@ -93,6 +93,15 @@ public class ManagementController implements Initializable {
     private FontIcon icon_reportRight;
 
     @FXML
+    private VBox vbox_report_subMenuHR;
+
+    @FXML
+    private FontIcon icon_reportDownHR;
+
+    @FXML
+    private FontIcon icon_reportRightHR;
+
+    @FXML
     private Circle circle_avatar;
 
     @FXML
@@ -123,6 +132,16 @@ public class ManagementController implements Initializable {
     private AnchorPane reportProductRevenueView;
     private AnchorPane reportOrderView;
     private AnchorPane reportEmployeeView;
+
+    @FXML
+    private AnchorPane anchor_reportArrowSales;
+    @FXML
+    private AnchorPane anchor_reportArrowHR;
+
+    @FXML
+    private VBox vbox_sales;
+    @FXML
+    private VBox vbox_HR;
 
     // Change Password Panel
     private Scene changePasswordScene;
@@ -164,6 +183,9 @@ public class ManagementController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        anchor_reportArrowSales.visibleProperty().bind(vbox_sales.visibleProperty());
+        anchor_reportArrowHR.visibleProperty().bind(vbox_HR.visibleProperty());
     }
 
     private void setAvatar(String filename) {
@@ -491,6 +513,19 @@ public class ManagementController implements Initializable {
     }
 
     @FXML
+    void hideReportSubMenuHR() {
+        icon_reportDownHR.setVisible(true);
+        icon_reportRightHR.setVisible(false);
+        vbox_report_subMenuHR.setVisible(false);
+    }
+    @FXML
+    void reportButtonOnClickHR() {
+        icon_reportDownHR.setVisible(false);
+        icon_reportRightHR.setVisible(true);
+        vbox_report_subMenuHR.setVisible(true);
+    }
+
+    @FXML
     void reportProductQuantityButtonOnClick() {
         icon_reportRight.setVisible(true);
         icon_reportDown.setFill(Paint.valueOf("#4A55A2"));
@@ -637,8 +672,14 @@ public class ManagementController implements Initializable {
 
     }
 
-    public void disableEmployee() {
-        btn_leftPanel_employeeList.setVisible(false);
+    public void isSales() {
+        vbox_sales.setVisible(true);
+        vbox_HR.setVisible(false);
+    }
+
+    public void isHR() {
+        vbox_sales.setVisible(false);
+        vbox_HR.setVisible(true);
     }
 
     private void setMenuImage(String imageUrl) {
