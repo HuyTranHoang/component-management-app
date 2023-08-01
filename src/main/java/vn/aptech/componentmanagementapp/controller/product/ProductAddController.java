@@ -25,6 +25,7 @@ import net.synedra.validatorfx.ValidationMessage;
 import net.synedra.validatorfx.Validator;
 import vn.aptech.componentmanagementapp.ComponentManagementApplication;
 import vn.aptech.componentmanagementapp.model.Category;
+import vn.aptech.componentmanagementapp.model.Customer;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.model.Supplier;
 import vn.aptech.componentmanagementapp.service.CategoryService;
@@ -57,6 +58,7 @@ public class ProductAddController implements Initializable {
 
     //  Validator
     Validator productValidator = new Validator();
+    private boolean isUpdate = false;
 
     @FXML
     private Label lbl_error_name;
@@ -156,6 +158,7 @@ public class ProductAddController implements Initializable {
                 .dependsOn("productCode", txt_productCode.textProperty())
                 .withMethod(context -> {
                     String productCode = context.get("productCode");
+                    List<Product> products = productService.getAllProduct();
                     if (productCode.isEmpty())
                         context.error("Product code can't be empty");
                     else if (!productCode.matches("([A-Za-z0-9])+"))
@@ -163,6 +166,8 @@ public class ProductAddController implements Initializable {
                     else if (productCode.length() > 255) {
                         context.error("Product code length exceeds the maximum limit of 255 characters");
                     }
+                    else if (isUpdate ? !isProductCodeUniqueUpdate(products, productCode) : !isProductCodeUnique(products, productCode))
+                        context.error("This product code is already in the database");
                 })
                 .decoratingWith(this::labelDecorator)
                 .decorates(lbl_error_productCode);
@@ -244,6 +249,18 @@ public class ProductAddController implements Initializable {
                 target.setVisible(false);
             }
         };
+    }
+
+    private boolean isProductCodeUnique(List<Product> products, String txt_productCode) {
+        return products.stream()
+                .noneMatch(product -> product.getProductCode() != null && product.getProductCode().equals(txt_productCode)) || txt_productCode.isEmpty();
+    }
+
+    private boolean isProductCodeUniqueUpdate(List<Product> products, String txt_productCode) {
+        String productCode = currentProduct.getProductCode();
+        return products.stream()
+                .noneMatch(product -> product.getProductCode() != null && product.getProductCode().equals(txt_productCode))
+                || txt_productCode.equals(productCode);
     }
 
     @FXML
@@ -377,6 +394,7 @@ public class ProductAddController implements Initializable {
     }
 
     void updateMode() {
+        isUpdate = true;
         hbox_addButtonGroup.setVisible(false);
         hbox_updateButtonGroup.setVisible(true);
 
@@ -384,6 +402,7 @@ public class ProductAddController implements Initializable {
     }
 
     void addMode() {
+        isUpdate = false;
         hbox_addButtonGroup.setVisible(true);
         hbox_updateButtonGroup.setVisible(false);
 
