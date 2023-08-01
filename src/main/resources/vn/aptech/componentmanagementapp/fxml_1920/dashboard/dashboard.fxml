@@ -127,7 +127,7 @@
                <children>
                   <BarChart fx:id="barChart_topSelling" alternativeRowFillVisible="false" animated="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" prefWidth="1166.0" verticalZeroLineVisible="false">
                      <xAxis>
-                        <NumberAxis animated="false" minorTickVisible="false" side="LEFT" tickLength="5.0" upperBound="500.0">
+                        <NumberAxis fx:id="axis_quantity" animated="false" minorTickVisible="false" side="LEFT" tickLength="5.0" upperBound="120.0">
                            <tickLabelFont>
                               <Font size="12.0" />
                            </tickLabelFont></NumberAxis>

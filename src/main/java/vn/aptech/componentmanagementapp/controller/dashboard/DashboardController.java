@@ -7,10 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.util.StringConverter;
 import org.kordamp.ikonli.javafx.FontIcon;
 import vn.aptech.componentmanagementapp.model.Product;
 import vn.aptech.componentmanagementapp.service.CustomerService;
@@ -66,6 +68,10 @@ public class DashboardController implements Initializable {
     @FXML
     private MFXComboBox<String> cbb_topSellingType;
 
+    @FXML
+    private NumberAxis axis_quantity;
+
+
     //  Service
     OrderService orderService = new OrderService();
     CustomerService customerService = new CustomerService();
@@ -81,6 +87,8 @@ public class DashboardController implements Initializable {
         Platform.runLater(this::updateBarChartTopSelling);
 
         updateTodayCompare();
+
+        axis_quantity.setTickLabelFormatter(axisFomatter);
     }
 
     public void updateBarChart() {
@@ -179,6 +187,26 @@ public class DashboardController implements Initializable {
             barChart_topSelling.getData().add(dataSeries);
         }
     }
+
+    StringConverter<Number> axisFomatter = new StringConverter<Number>() {
+        @Override
+        public String toString(Number axisValue) {
+            double value = axisValue.doubleValue();
+
+            if (value >= 1e9) {
+                return (value / 1e9) + " bn";
+            } else if (value >= 1e6) {
+                return (value / 1e6) + " M";
+            } else {
+                return axisValue.toString();
+            }
+        }
+
+        @Override
+        public Number fromString(String string) {
+            return null;
+        }
+    };
 
     public void updateTodayCompare() {
         DecimalFormat decimalFormat = new DecimalFormat("#,##0₫");
